@@ -1,0 +1,578 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta name="viewport" charset="UTF-8" content="width=device-width,initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+		<title></title>
+		<link rel="stylesheet" type="text/css" href="../../js/layui/css/layui.css" />
+		<link rel="stylesheet" href="css/addForm.css">
+		<style>
+			.xz_tb {
+				display: none;
+			}	
+			.content{
+				border: 0px solid silver; width: 95%;margin:0 auto;
+				overflow: hidden;
+			}
+			html{
+				padding-bottom:60px;
+				overflow: hidden;
+			}
+			body{
+				overflow-y: auto;
+				padding-bottom:50px;
+			}
+		</style>
+	</head>
+
+	<body>
+		<div class="content" style="">
+			<form class="layui-form" action="" lay-filter="formTest">
+				<table border="0" cellspacing="0" cellpadding="0">
+					<tr>
+						<td>
+							<div class="layui-form-item">
+								<label class="layui-form-label">调查单位</label>
+								<div class="layui-input-block">
+									<input type="text" name="BM" lay-verify="" placeholder="" autocomplete="off" class="layui-input DCDW layui-disabled"
+									 disabled="disabled">
+								</div>
+							</div>
+						</td>
+					</tr>
+					<tr>
+						<td>
+							<div class="layui-form-item">
+								<label class="layui-form-label">调查人</label>
+								<div class="layui-input-block">
+									<input type="text" name="RY" lay-verify="" placeholder="" autocomplete="off" class="layui-input DCR layui-disabled"
+									 disabled="disabled">
+								</div>
+							</div>
+						</td>
+					</tr>
+					<tr>
+						<td>
+							<div class="layui-form-item">
+								<label class="layui-form-label">监测编号</label>
+								<div class="layui-input-block">
+									<input type="text" name="BH" lay-verify="" placeholder="" autocomplete="off" class="layui-input BH layui-disabled"
+									 disabled="disabled">
+								</div>
+							</div>
+						</td>
+					</tr>
+					<tr>
+						<td>
+							<div class="layui-form-item">
+								<label class="layui-form-label">图斑类型</label>
+								<div class="layui-input-block">
+									<!--<input type="text" name="TBLX" lay-verify="" placeholder="" autocomplete="off" class="layui-input layui-disabled" disabled="disabled">-->
+									<select name="TBLX" lay-verify="" lay-filter="TBLX">
+										<option value="新增光伏用地">新增光伏用地</option>
+										<option value="新增建（构）筑物">新增建（构）筑物</option>
+										<option value="新增推填土">新增推填土</option>
+										<option value="新增线形地物">新增线形地物</option>
+									</select>
+								</div>
+							</div>
+						</td>
+					</tr>
+					<tr>
+						<td>
+							<div class="layui-form-item">
+								<label class="layui-form-label">一级地类名称</label>
+								<div class="layui-input-block">
+									<select name="TDFL1" lay-verify="" id="DL1" lay-filter="DL1">
+										<option value=""></option>
+									</select>
+								</div>
+							</div>
+						</td>
+					</tr>
+					<tr>
+						<td>
+							<div class="layui-form-item">
+								<label class="layui-form-label">二级地类名称</label>
+								<div class="layui-input-block">
+									<select name="TDFL2" lay-verify="" id="DL2" lay-filter="DL2">
+										<option value=""></option>
+									</select>
+								</div>
+							</div>
+						</td>
+					</tr>
+					<tr class="kz_tb">
+						<td>
+							<div class="layui-form-item">
+								<label class="layui-form-label">实地现状</label>
+								<div class="layui-input-block">
+									<input type="text" name="SDXZ" lay-verify="" placeholder="填写占地用地的详细情况" autocomplete="off" class="layui-input">
+								</div>
+							</div>
+						</td>
+					</tr>
+					<tr class="kz_tb">
+						<td>
+							<div class="layui-form-item">
+								<label class="layui-form-label">用地单位</label>
+								<div class="layui-input-block">
+									<input type="text" name="YDDW" placeholder="用地单位（个人）" autocomplete="off" class="layui-input">
+								</div>
+							</div>
+						</td>
+					</tr>
+					<tr class="kz_tb">
+						<td>
+							<div class="layui-form-item">
+								<label class="layui-form-label">项目名称</label>
+								<div class="layui-input-block">
+									<input type="text" name="XMMC" placeholder="项目名称" autocomplete="off" class="layui-input">
+								</div>
+							</div>
+						</td>
+					</tr>
+					<tr class="xz_tb">
+						<td>
+							<div class="layui-form-item">
+								<label class="layui-form-label">道路类型</label>
+								<div class="layui-input-block">
+									<select name="DLLX" lay-verify="">
+										<option value=""></option>
+										<option value="普通铁路">普通铁路</option>
+										<option value="企业铁路">企业铁路</option>
+										<option value="高速铁路">高速铁路</option>
+										<option value="城市公路">城市公路</option>
+										<option value="园区公路">园区公路</option>
+										<option value="企业公路">企业公路</option>
+										<option value="高速公路">高速公路</option>
+										<option value="国道">国道</option>
+										<option value="省道">省道</option>
+										<option value="县道">县道</option>
+										<option value="乡道">乡道</option>
+										<option value="护坡">护坡</option>
+									</select>
+								</div>
+							</div>
+						</td>
+					</tr>
+					<tr class="xz_tb">
+						<td>
+							<div class="layui-form-item">
+								<label class="layui-form-label">道路名称</label>
+								<div class="layui-input-block">
+									<input type="text" name="DLMC" placeholder="道路用地具体名称" autocomplete="off" class="layui-input">
+								</div>
+							</div>
+						</td>
+					</tr>
+					<tr class="xz_tb">
+						<td>
+							<div class="layui-form-item">
+								<label class="layui-form-label">道路宽度</label>
+								<div class="layui-input-block">
+									<input type="number" name="DLKD" placeholder="道路宽度（米）" autocomplete="off" class="layui-input">
+								</div>
+							</div>
+						</td>
+					</tr>
+					<tr>
+						<td>
+							<div class="layui-form-item">
+								<label class="layui-form-label">是否占用耕地</label>
+								<div class="layui-input-block">
+									<select name="SFZYGDJF" lay-verify="">
+										<option value="是">是</option>
+										<option value="否">否</option>
+									</select>
+								</div>
+							</div>
+						</td>
+					</tr>
+					<tr>
+						<td>
+							<div class="layui-form-item">
+								<label class="layui-form-label">是否违法</label>
+								<div class="layui-input-block">
+									<select name="SFWF" lay-verify="">
+										<option value="是">是</option>
+										<option value="否">否</option>
+									</select>
+								</div>
+							</div>
+						</td>
+					</tr>
+					<tr>
+						<td>
+							<div class="layui-form-item">
+								<label class="layui-form-label">核实方式</label>
+								<div class="layui-input-block">
+									<select name="HSFS" lay-verify="">
+										<option value="实地">实地</option>
+										<option value="其他">其他</option>
+									</select>
+								</div>
+							</div>
+						</td>
+					</tr>
+					<tr>
+						<td>
+							<div class="layui-form-item">
+								<label class="layui-form-label">备注</label>
+								<div class="layui-input-block" style="height:auto;">
+									<textarea name="BZ" placeholder="请输入内容" class="layui-textarea"></textarea>
+								</div>
+							</div>
+						</td>
+					</tr>
+					<tr>
+						<td>
+							<div class="layui-form-item">
+								<label class="layui-form-label">
+									<div id="" class="layui-btn layui-btn-primary layui-disabled">拍照</div>
+								</label>
+								<div class="layui-input-block mui-content" style="height:auto;">
+									<div class="photoBox mui-content-padded">
+										<!--<div class="imgBox">
+											<img src="../images/test.png" data-preview-src="" data-preview-group="1" />
+											<div class="removeImgBtn" onclick="removeImg('123')">删除</div>
+										</div>
+										<div class="imgBox">
+											<img src="../images/test.png" data-preview-src="" data-preview-group="1" />
+											<div class="removeImgBtn" onclick="removeImg('1234')">删除</div>
+										</div>-->
+									</div>
+								</div>
+							</div>
+						</td>
+					</tr>
+
+				</table>
+				<div class="submitBox">
+					<button type="button" class="layui-btn layui-btn-primary" id="close">取消</button>
+					<button class="layui-btn layui-btn-normal" id="btnOk" lay-submit lay-filter="btnOk">确定</button>
+				</div>
+			</form>
+		</div>
+	</body>
+	<!--样式-->
+	<!--layui弹出层-->
+	<script src="../../js/jquery1.9.0.js"></script>
+	<script src="../../js/config.js"></script>
+	<script src="../../js/common.js"></script>
+	<script src="../../js/layer/layer.js"></script>
+	<script src="../../js/layui/layui.js"></script>
+	<script src="../../js/scrollbar/jquery.nicescroll.min.js"></script>
+	<script src="../../js/modules/layui-config.js"></script>
+	<script src="js/util.js"></script>
+	<script>
+		var editData, BH, XZQDM;
+		var type;
+		var slider;
+        var ljfBase;
+		var userInfo = parent.userInfo;
+		var allPhotos;//完整的照片url链接
+		var dlArr = [{
+				name: "湿地（00）",
+				children: [
+					"红树林地（0303）", "森林沼泽（0304）", "灌丛沼泽（0306）", "沼泽草地（0402）", "盐田（0603）", "沿海滩涂（1105）", "内陆滩涂（1106）", "沼泽地（1108）"
+				]
+			},
+			{
+				name: "耕地（01）",
+				children: [
+					"水田（0101）", "水浇地（0102）", "旱地（0103）"
+				]
+			},
+			{
+				name: "种植园用地（02）",
+				children: [
+					"果园（0201）", "茶园（0202）", "橡胶园（0203）", "其他园地（0204）"
+				]
+			},
+			{
+				name: "林地（03）",
+				children: [
+					"乔木林地（0301）", "竹林地（0302）", "灌木林地（0305）", "其他林地（0307）"
+				]
+			},
+			{
+				name: "草地（04）",
+				children: [
+					"天然牧草地（0401）", "人工牧草地（0403）", "其他草地（0404）"
+				]
+			},
+			{
+				name: "商业服务业用地（05）",
+				children: [
+					"商业服务业设施用地(05H1)	", "物流仓储用地(0508)"
+				]
+			},
+			{
+				name: "工矿用地（06）",
+				children: [
+					"工业用地（0601）", "采矿用地（0602）"
+				]
+			},
+			{
+				name: "住宅用地（07）",
+				children: [
+					"城镇住宅用地（0701）", "农村宅基地（0702）"
+				]
+			},
+			{
+				name: "公共管理与公共服务用地（08）",
+				children: [
+					"机关团体新闻出版用地（08H1）", "科教文卫用地（08H2）", "公用设施用地（0809）", "公园与绿地（0810）"
+				]
+			},
+			{
+				name: "特殊用地（09）",
+				children: ["特殊用地（ 09）"]
+			}, {
+				name: "交通运输用地（10）",
+				children: [
+					"铁路用地（1001）", "轨道交通用地（1002）", "公路用地（1003）", "城镇村道路用地（1004）",
+					"交通服务场站用地（1005）", "农村道路（1006）", "机场用地（1007）", "港口码头用地（1008）", "管道运输用地（1009）"
+				]
+			},
+			{
+				name: "水域及水利设施用地（11）",
+				children: [
+					"河流水面（1101）", "湖泊水面（1102）", "水库水面（1103）", "坑塘水面（1104）", "沟渠（1107）", "水工建筑用地（1109）", "冰川及永久积雪（1110）"
+				]
+			},
+			{
+				name: "其他土地（12）",
+				children: [
+					"空闲地（1201）", "设施农用地（1202）", "田坎（1203）", "盐碱地（1204）", "沙地（1205）", "裸土地（1206）", "裸岩石砾地（1207）"
+				]
+			}
+		];
+
+		if (type == "show") {
+			$("input").attr("disabled", "disabled");
+			$("select").attr("disabled", "disabled");
+			$("textarea").attr("disabled", "disabled");
+			$("#btnOk").attr("disabled", "disabled");
+			$("#btnOk").addClass("layui-btn-disabled");
+			$("#uploadImg").addClass("layui-btn-disabled");
+		}
+
+		var vm = { //照片数组
+			uploadImgArr: [],
+			uploadImgUrlArr: []
+		};
+
+		var showPhotos = function() {
+			var imgStr = "";
+			$.each(vm.uploadImgArr, function(i, v) {
+				var url = v.url;
+				imgStr += '<div class="imgBox">' +
+					'<img src="' + url + '" data-preview-src="" data-preview-group="1" onerror="imgerrorfun(\'' + v.name +
+					'\');"/>';
+				imgStr += '</div>';
+			});
+			$('.photoBox').html(imgStr);
+		};
+
+		function imgerrorfun(name) {
+			var img = event.srcElement;
+			$.each(allPhotos,function(i,v){
+			   if(v.indexOf(name)>-1){
+                   img.src = v;
+                   img.onerror = function(img) {
+                       img.src = "images/File-Error.png";
+                       img.onerror = null;
+                   };
+			   }
+			});
+		}
+
+        layui.use(['form', 'layer', 'element', 'laydate', 'table', 'slider', 'ljfBase', 'serverCenter', 'LayerManager', 'NULayer', 'bluebird'], function () {
+            $("body").attr('class', $("body", parent.document).attr('class'));
+            $(".niceScroll").niceScroll({cursorborder: "", cursorcolor: "#297FBA", boxzoom: false});
+            slider = layui.slider;
+            ljfBase = layui.ljfBase;
+            var layer = layui.layer;
+			var form = layui.form;
+			var dwdw, dcr;
+
+            type = ljfBase.getParamByUrl("type"); //addPoint：新增点 、edit：编辑 LineString 新增线 Polygon 新增面
+			
+			function refreshDL1() {
+				var str = "";
+				$.each(dlArr, function(i, v) {
+					str += '<option value="' + v.name + '">' + v.name + '</option>';
+				});
+				$("#DL1").html(str);
+				refreshDL2(dlArr[0].name);
+			}
+			
+			function refreshDL2(DL1Name) {
+				var str = "";
+				$.each(dlArr, function(i, v) {
+					if (v.name == DL1Name) {
+						$.each(v.children, function(s, k) {
+							str += '<option value="' + k + '">' + k + '</option>';
+						})
+					}
+				});
+				$("#DL2").html(str);
+				form.render();
+			}
+
+			refreshDL1();
+			
+			form.on('select(DL1)', function(data) {
+				console.log(data);
+				if (data.value) {
+					refreshDL2(data.value);
+				}
+				return false;
+			});
+			
+			if (type == 'show' || type == 'edit') {
+				editData = top.editData;
+				editData.PHOTOS = editData.ZP;
+                if(editData.ZP){
+                    //先处理照片路径
+                    var url= "http://110.249.159.46:8089/gtkjghTest/JCTBManagerService.asmx/GetCluePhotoPath";
+                    var data = {
+                        bh:editData.BH,
+                        nd:editData.ND,
+                        jd:editData.JD,
+                    };
+                    $.ajax({
+                        type: 'post',
+                        url:url,
+						async:false,
+                        dataType: "text", //返回文本
+                        jsonp: "jsonp", //传递给请求处理程序或页面的，用以获得jsonp回调函数名的参数名(默认为:callback)
+                        data: data,
+                        success: function (xml) {
+                            var resjson = $(xml).text();
+                            allPhotos = JSON.parse(resjson);//获取照片的完整路径
+                        },
+                        error: function () {
+                            alert('查询失败');
+                        }
+                    });
+                }
+				XZQDM = editData.XZQDM;
+				var TBLX = editData.TBLX;
+				DCDW = editData.BM || userInfo.GZDW;
+				DCR = editData.RY || userInfo.USERNAME;
+
+				if (TBLX == "新增线形地物") {
+					$(".xz_tb").show();
+					$(".kz_tb").hide();
+				} else {
+					$(".xz_tb").hide();
+					$(".kz_tb").show();
+				}
+				BH = editData.BH;
+
+				form.val("formTest", {TDFL1:editData.TDFL1});
+				refreshDL2(editData.TDFL1);
+				
+				form.val("formTest", {
+					BH: editData.BH || "",
+					TBLX: editData.TBLX || "",
+					SDXZ: editData.SDXZ || "",
+					XMMC: editData.XMMC || "",
+					YDDW: editData.YDDW || "",
+					DLLX: editData.DLLX || "",
+					DLMC: editData.DLMC || "",
+					DLKD: editData.DLKD || "",
+					BM: DCDW || "",
+					RY: DCR || "",
+					BZ: editData.BZ || "",
+					HSFS: editData.HSFS,
+					SFWF: editData.SFWF,
+					TDFL2: editData.TDFL2,
+					SFZYGDJF: editData.SFZYGDJF || ""
+				});
+
+				if (editData.PHOTOS !== "") {
+					var PHOTOS = editData.PHOTOS.split(",");
+					var PHOTOINFO = editData.PHOTOINFO.split(";");
+					$.each(PHOTOS, function(i, v) {
+						vm.uploadImgArr.push({
+							status: 1,
+							url: v,
+							name: v,
+							info:PHOTOINFO[i]
+						})
+					});
+					showPhotos();
+				}
+			} else {
+				DCDW = userInfo.GZDW;
+				DCR = userInfo.USERNAME;
+				BH = ljfBase.newguid();
+				$(".BH").val(BH);
+				$(".DCDW").val(DCDW);
+				$(".DCR").val(DCR);
+			}
+			form.render();
+
+			form.on('select(TBLX)', function(data) {
+				console.log(data.value);
+				if (data.value == "新增线形地物") {
+					$(".xz_tb").show();
+					$(".kz_tb").hide();
+				} else {
+					$(".xz_tb").hide();
+					$(".kz_tb").show();
+				}
+			});
+
+			//监听提交
+			form.on('submit(btnOk)', function(data) {
+				var data = data.field;
+				var photosNameArr = [];
+				var photoInfoArr = [];
+				
+				$.each(vm.uploadImgArr, function(i, v) {
+					if (v.status == 1) {
+						photosNameArr.push(v.name);
+						photoInfoArr.push(v.info);
+					}
+				});
+				data.BH = BH;
+				data.BM = userInfo.GZDW;
+				data.RY = userInfo.USERNAME;
+				data.XCSJ = util.getNowTime();
+				if (type == "edit") { //编辑
+					//判断当前调查人是否是登录人员
+					if (editData.BM) {
+						if (editData.BM != userInfo.GZDW || editData.RY != userInfo.USERNAME) {
+							layer.alert("您没有权限编辑该图斑");
+							return false;
+						}
+					}
+
+					$.each(data, function(i, v) {
+						editData[i] = v;
+					});
+
+					if (photosNameArr.length > 0) {
+						editData.PHOTOS = photosNameArr.join(",");
+						data.PHOTOINFO = photoInfoArr.join(";");
+					} else {
+						editData.PHOTOS = "";
+						data.PHOTOINFO = "";
+					}
+					top.layerSubmit("editPoint", editData);
+				}
+				return false;
+			});
+		});
+
+		$('#close').click(function() {
+			top.layer.closeAll();
+			return false;
+		});
+	</script>
+</html>

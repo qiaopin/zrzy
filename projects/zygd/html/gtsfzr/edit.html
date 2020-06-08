@@ -1,0 +1,543 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>详情</title>
+    <link rel="stylesheet" type="text/css" href="../../js/layui/css/layui1.css"/>
+    <link rel="stylesheet" type="text/css" href="../../js/layer/theme/default/layer.css"/>
+    <!--<link rel="stylesheet" type="text/css" href="../../css/comstyle.css"/>-->
+    <link rel="stylesheet" type="text/css" href="../../css/style.css"/>
+    <style>
+        .main {
+            width: 100%;
+            height: calc(100vh - 60px);
+            position: relative;
+            overflow: auto;
+        }
+
+        .left {
+            width: 200px;
+            height: 100vh;
+            position: relative;
+            padding: 0px 5px;
+        }
+
+        .middle {
+            position: absolute;
+            left: 50px;
+            top: 0px;
+            width: 900px;
+            height: 100%;
+            overflow: auto;
+        }
+
+        .right {
+            position: absolute;
+            left: 960px;
+            top: 0px;
+            width: 700px;
+            height: 100%;
+            overflow: auto;
+        }
+
+        .bottom {
+            height: 59px;
+            text-align: center;
+            border-top: 1px solid silver;
+            line-height: 60px;
+        }
+
+        /*.bottom button{margin-top: 10px;}*/
+        .layui-table, .layui-table-view {
+            margin: 0px;
+            border: none;
+        }
+
+        .layui-table-view .layui-table td, .layui-table-view .layui-table th {
+            border-left: 1px solid #e6e6e6;
+            padding: 5px 0px;
+        }
+
+        .layui-table-view .layui-table th {
+            text-align: center;
+        }
+
+        .white .layui-table tbody tr:hover {
+            background: transparent !important;
+        }
+
+        .layui-table-page, .layui-table-total {
+            border-width: 1px 1px 0px;
+        }
+
+        .layui-table-body {
+            margin-bottom: 0px;
+            margin-right: 0px;
+        }
+
+        table tr td {
+            padding: 5px;
+            position: relative;
+        }
+
+        .layui-input, .layui-textarea, .layui-form {
+            width: 170px;
+            line-height: 28px;
+            height: 28px;
+        }
+
+        /*p{font-size: 20px; font-weight: bold;padding: 10px;}*/
+        .content {
+            margin-top: 10px;
+        }
+
+        .title {
+            font-size: 20px;
+            border-bottom: 1px solid #309DDB;
+            padding: 10px;
+        }
+
+        .download {
+            font-size: 16px;
+            margin-left: 10px;
+            color: #309DDB;
+        }
+
+        dl {
+            margin-top: 5px;
+        }
+
+        dl dd {
+            padding: 10px 0px;
+            width: 100%;
+            text-indent: 10px;
+        }
+
+        dl dd:hover {
+            background: #4BA1DA;
+        }
+
+        dl dd.active {
+            background: #4BA1DA;
+        }
+
+        .red {
+            color: red;
+            position: absolute;
+            left: 3px;
+        }
+
+        .xhx {
+            border: none;
+            border-bottom: 1px solid #4BA1DA;
+            width: 100%;
+        }
+
+        .xhx150 {
+            width: 80px;
+        }
+
+        .xhx100 {
+            width: 100%;
+        }
+
+        .hide {
+            display: none;
+        }
+
+        .layui-form-switch {
+            margin-top: 0px;
+        }
+
+        .layui-form-onswitch {
+            border-color: #0D7AFF;
+            background-color: #0D7AFF;
+        }
+
+        .imgList img {
+            width: 100px;
+            height: 100px;
+            border-radius: 5px;
+            border: 1px solid silver;
+            padding: 5px;
+            margin-right: 10px;
+            cursor: pointer;
+        }
+
+        .imgList img:hover {
+            background: rgba(0, 0, 0, 0.5);
+        }
+
+        #FJLR a {
+            list-style: none;
+            margin-right: 20px;
+        }
+    </style>
+</head>
+<body class="white">
+<div class="main">
+    <div id="middle" class="middle">
+        <!--1-->
+        <p id="index1" class="title">基本情况</p>
+        <div class="content">
+            <input type="text" name="ID" id="ID" placeholder="ID编码" style="display: none;">
+            <table class="layui-table" lay-size="sm" style="margin-top: 5px;">
+                <tr>
+                    <td><span class="red">*</span> 市名称</td>
+                    <td>
+                        <input class="xhx" type="text" disabled="disabled" name="" id="SMC" value=""/>
+                    </td>
+                    <td width="60px"><span class="red">*</span> 区县</td>
+                    <td>
+                        <input class="xhx" type="text" disabled="disabled" name="" id="XMC" value=""/>
+                    </td>
+                    <td width="60px"><span class="red">*</span> 乡镇</td>
+                    <td>
+                        <input class="xhx" type="text" disabled="disabled" name="" id="XZMC" value=""/>
+                    </td>
+                    <td width="60px"><span class="red">*</span> 村（社区）</td>
+                    <td>
+                        <input class="xhx" type="text" disabled="disabled" name="" id="CSQMC" value=""/>
+                    </td>
+                    <!--<td width="60px"><span class="red">*</span> 乡镇</td>-->
+                    <!--<td>-->
+                        <!--&lt;!&ndash;<input class="" type="text" name="" id="XZMC" value=""/>&ndash;&gt;-->
+                        <!--<select id="XZMC">-->
+                            <!--<option></option>-->
+                        <!--</select>-->
+                    <!--</td>-->
+                    <!--<td width="60px"><span class="red">*</span> 村（社区）</td>-->
+                    <!--<td>-->
+                        <!--&lt;!&ndash;<input class="xhx" type="text" name="" id="CSQMC" value=""/>&ndash;&gt;-->
+                        <!--<select id="CSQMC">-->
+                            <!--<option></option>-->
+                        <!--</select>-->
+                    <!--</td>-->
+                </tr>
+
+                <tr>
+                    <td><span class="red">*</span>房屋建筑编号</td>
+                    <td colspan="7">
+                        <input class="xhx xhx100" disabled="disabled" type="text" name="" id="FWBH" value=""/>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td width="150px"><span class="red">*</span>房屋建设主体名称</td>
+                    <td colspan="2">
+                        <input class="xhx" type="text" name="" id="FWJSZTMC" value=""/>
+                    </td>
+                    <td colspan="2">
+                        <span class="red">*</span>
+                        建设主体类型：
+                        <select id="JSQYSHTYDM">
+                            <option>个人/身份证号</option>
+                            <option>企业/社会统一信用代码</option>
+                        </select>
+                    </td>
+                    <td colspan="3">
+                        <span class="red">*</span>
+                        <!--<input class="xhx" type="text" name="" id="JSQYSFZDM" maxLength="18"-->
+                               <!--onkeyup="this.value=this.value.replace(/[^\d]/g,'')" value=""/>-->
+                        <input class="xhx" type="text" name="" id="JSQYSFZDM" maxLength="18" value=""/>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>房屋性质</td>
+                    <td colspan="3">
+                        <span class="red">*</span>
+                        <select id="FWXZ">
+                            <option value="居住用房">居住用房</option>
+                            <option value="工矿厂房">工矿厂房</option>
+                            <option value="经营用房">经营用房</option>
+                            <option value="设施农业用房">设施农业用房</option>
+                        </select>
+                    </td>
+                    <td>房屋位置</td>
+                    <td colspan="3">
+                        <span class="red">*</span>
+                        <select id="FWWZ">
+                            <option value="村庄周围">村庄周围</option>
+                            <option value="公路两侧">公路两侧</option>
+                            <option value="城市郊区">城市郊区</option>
+                            <option value="农田中">农田中</option>
+                            <option value="其他">其他</option>
+                        </select>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td><span class="red">*</span>建筑面积(平方米)</td>
+                    <td colspan="2">
+                        <input class="xhx" type="text" name="" value="" id="JZMJ"
+                               onkeyup="this.value=this.value.replace(/[^\d.]/g,'')"/>
+                    </td>
+                    <td><span class="red">*</span>联系方式</td>
+                    <td colspan="2">
+                        <input class="xhx" type="text" name="" value="" id="LXFS" maxLength="18"
+                               onkeyup="this.value=this.value.replace(/[^\d]/g,'')"/>
+                    </td>
+                    <td>附件</td>
+                    <td>
+                        <a id="update" class="download" href="javascript:;">附件上传</a>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>附件信息</td>
+                    <td colspan="7">
+                        <input class="xhx hide" type="text" name="" id="FJLR" placeholder="附件内容" value=""/>
+                        <div id="fjList">
+
+                        </div>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>实际照片</td>
+                    <td colspan="7">
+                        <div class="imgList">
+
+                        </div>
+                    </td>
+                </tr>
+                <input class="xhx hide" type="text" name="" id="XZQDM" placeholder="行政区代码" value=""/>
+                <input class="xhx hide" type="text" name="" id="FWZB" placeholder="房屋坐标" value=""/>
+                <input class="xhx hide" type="text" name="" id="TBRQ" placeholder="填表日期" value=""/>
+
+
+            </table>
+        </div>
+        <!--2-->
+        <p id="index2" class="title">占用耕地信息</p>
+        <div class="content">
+
+            <table class="layui-table" lay-size="sm" style="margin-top: 5px;">
+                <tr>
+                    <td>建房时间</td>
+                    <td>
+                        <input class="xhx" type="text" name="" id="JFSJ" autocomplete="off" value=""/>
+                    </td>
+                    <td>建房状态</td>
+                    <td>
+                        <select id="JFZT">
+                            <option value="建成">建成</option>
+                            <option value="在建">在建</option>
+                            <option value="闲置">闲置</option>
+                        </select>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>占用耕地总面积(亩)</td>
+                    <td>
+                        <input class="xhx" type="text" name="" id="ZYGDMJ" value=""/>
+                    </td>
+                    <td>是否已经依法办理土地审批手续</td>
+                    <td>
+                        <select id="SFYFBL">
+                            <option value="是">是</option>
+                            <option value="否">否</option>
+                        </select>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td colspan="2" align="center" style="font-weight:bold ;color: #000000;">已办理土地审批手续</td>
+                    <td style="font-weight:bold ;color: #000000;" colspan="2" align="center">未办理土地审批手续</td>
+                </tr>
+
+                <tr>
+                    <td>原耕地面积(亩)</td>
+                    <td>
+                        <input class="xhx" type="text" name="" id="YGDMJ" value=""
+                               onkeyup="this.value=this.value.replace(/[^\d.]/g,'')"/>
+                    </td>
+                    <td rowspan="4">占用耕地面积(亩)</td>
+                    <td rowspan="4">
+                        <input class="xhx" type="text" name="" id="WBLZYGDMJ"
+                               onkeyup="this.value=this.value.replace(/[^\d.]/g,'')" value=""/>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>批准用地单位</td>
+                    <td>
+                        <input class="xhx" type="text" name="" id="PZYDDW" value=""/>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>批准文号</td>
+                    <td>
+                        <input class="xhx" type="text" name="" id="PZWH"
+                               value=""/>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>批准时间</td>
+                    <td>
+                        <input class="xhx" type="text" name="" id="PZRQ" autocomplete="off" value=""/>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td style="font-weight:bold ;color: #000000;" colspan="4" align="center">所占地类</td>
+                </tr>
+                <tr>
+                    <td>基本农田(亩)</td>
+                    <td>
+                        <input class="xhx" type="text" name="" id="JBNT" value=""
+                               onkeyup="this.value=this.value.replace(/[^\d.]/g,'')"/>
+                    </td>
+                    <td>一般耕地(亩)</td>
+                    <td>
+                        <input class="xhx" type="text" name="" id="YBGD" value=""
+                               onkeyup="this.value=this.value.replace(/[^\d.]/g,'')"/>
+                    </td>
+                </tr>
+
+            </table>
+        </div>
+    </div>
+    <div class="right">
+        <p id="index3" class="title">房屋使用信息</p>
+        <div class="content">
+
+            <table class="layui-table" lay-size="sm" style="margin-top: 5px;">
+                <tr>
+                    <td>房屋使用方式</td>
+                    <td>
+                        <select id="ZZORXS">
+                            <option value="自住">自住</option>
+                            <option value="销售">销售(住宅楼)</option>
+                        </select>
+                    </td>
+                    <td>是否本村村民建房</td>
+                    <td>
+                        <select id="SFBCJF">
+                            <option value="是">是</option>
+                            <option value="否">否</option>
+                        </select>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td> 本村村民建房是否符合“一户一宅”条件</td>
+                    <td>
+                        <select id="SFFHTJ">
+                            <option value=""></option>
+                            <option value="是">是</option>
+                            <option value="否">否</option>
+                        </select>
+                    </td>
+                    <td> 符合“一户一宅”条件宅基地是否超面积</td>
+                    <td>
+
+                        <select id="SFCMJ" lay-verify="" lay-filter="">
+                            <option value=""></option>
+                            <option value="是">是</option>
+                            <option value="否">否</option>
+                        </select>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td> 超出面积(平方米)</td>
+                    <td>
+                        <input class="xhx" type="text" name="" id="CCMJ"
+                               onkeyup="this.value=this.value.replace(/[^\d.]/g,'')" value=""/>
+                    </td>
+                    <td> 住宅套数</td>
+                    <td>
+                        <input class="xhx" type="text" name="" id="ZATS"
+                               onkeyup="this.value=this.value.replace(/[^\d]/g,'')" value=""/>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td> 销售套数</td>
+                    <td>
+                        <input class="xhx" type="text" name="" id="XSTS"
+                               onkeyup="this.value=this.value.replace(/[^\d]/g,'')" value=""/>
+                    </td>
+                    <td>销售给本村村民套数</td>
+                    <td>
+                        <input class="xhx" type="text" name="" id="XSBCMS"
+                               onkeyup="this.value=this.value.replace(/[^\d]/g,'')" value=""/>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td> 销售给外村村民套数</td>
+                    <td>
+                        <input class="xhx" type="text" name="" id="XSWCMS"
+                               onkeyup="this.value=this.value.replace(/[^\d]/g,'')" value=""/>
+                    </td>
+                    <td> 销售给城镇居民套数</td>
+                    <td>
+                        <input class="xhx" type="text" name="" id="XSCZJMS"
+                               onkeyup="this.value=this.value.replace(/[^\d]/g,'')" value=""/>
+                    </td>
+                </tr>
+                <input class="xhx hide" type="text" name="" id="TBR" value="" placeholder="填报人,用户id"/>
+            </table>
+        </div>
+
+        <p id="index4" class="title hide">负责人信息</p>
+        <div class="content hide">
+
+            <table class="layui-table" lay-size="sm" style="margin-top: 5px;">
+                <tr>
+                    <td>两委主要负责人</td>
+                    <td>
+                        <input class="xhx" type="text" name="" id="FZR" value=""/>
+                    </td>
+                    <td>乡镇党政主要负责人</td>
+                    <td>
+                        <input class="xhx" type="text" name="" id="XZFZR" value=""/>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td> 所在地国土管理所主要负责人</td>
+                    <td>
+                        <input class="xhx" type="text" name="" id="SZDGTFZR" value=""/>
+                    </td>
+                    <td></td>
+                    <td>
+
+                    </td>
+                </tr>
+                <input class="xhx hide" type="text" name="" id="DCR" value="" placeholder="填报人"/>
+                <input class="xhx hide" type="text" name="" id="PHOTOS" value="" placeholder="实际照片"/>
+                <input class="xhx hide" type="text" name="" id="PHOTOINFO" value="" placeholder="实际照片信息"/>
+            </table>
+        </div>
+
+    </div>
+</div>
+
+<div class="bottom">
+    <!--<button class="layui-btn layui-btn-normal layui-btn-sm"><i class="layui-icon layui-icon-download-circle"></i>坐标下载</button>-->
+    <button id="ok" class="layui-btn layui-btn-normal layui-btn-sm">确定</button>
+    <button id="return" class="layui-btn layui-btn-normal layui-btn-sm"><i class="layui-icon layui-icon-return"></i>返回
+    </button>
+    <!--<button id="" class="layui-btn layui-btn-normal layui-btn-sm"><i class="layui-icon layui-icon-app"></i>导出Word</button>-->
+</div>
+
+</body>
+<script src="../../js/jquery1.9.0.js"></script>
+<script src="../../js/config.js"></script>
+<script src="../../js/common.js"></script>
+<script src="../../js/layer/layer.js"></script>
+<script src="../../js/layui/layui.js"></script>
+<script src="../../js/scrollbar/jquery.nicescroll.min.js"></script>
+<script src="../../js/editBase.js"></script>
+<script src="../../js/editAddInput.js"></script>
+<script>
+
+</script>
+</html>

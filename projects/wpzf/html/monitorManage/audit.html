@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>添加专题</title>
+		<link rel="stylesheet" type="text/css" href="../../js/layui/css/layui.css"/>
+        <link rel="stylesheet" type="text/css" href="../../js/layer/theme/default/layer.css"/>
+        <link rel="stylesheet" type="text/css" href="../../css/comstyle.css"/>
+        <style>
+        	
+        	.white table{color: #000;}
+        	.white .btndiv{border: 1px solid #DDDDDD;}
+        	/*.layui-input, .layui-textarea{display: inline-block;}*/
+        	/*.layui-input{color: #fff;  background: #354658;border: none;padding: 10px;width: 230px;}*/
+        	table{color: #fff; width: 100%;margin: 10px 20px;}
+        	table tr td{padding: 5px;}
+        	.layui-input,.layui-textarea,.layui-form{width: 200px;}
+        	
+        </style>
+	</head>
+	<body class="white">
+		
+		<div  style="width: 340px;">
+			<table  border="0" cellspacing="0" cellpadding="0">
+				<tr>
+					<td><span>行政区代码</span></td>
+					<td>
+						<input id="xzqdm" type="text" disabled="disabled"  class="layui-input layui-disabled" placeholder="">
+					</td>
+				</tr>
+				<tr>
+					<td><span>审核人名称</span></td>
+					<td>
+						<input id="ry" type="text"  disabled="disabled" class="layui-input layui-disabled" placeholder="">
+					</td>
+				</tr>
+				
+				
+				<tr>
+					<td><span>审核图斑编号</span></td>
+					<td>
+						<input id="bh" type="text" disabled="disabled"  class="layui-input layui-disabled" placeholder="">
+					</td>
+				</tr>
+				<tr>
+					<td><span>图斑年度</span></td>
+					<td>
+						<input id="nd" type="text" disabled="disabled"  class="layui-input layui-disabled" placeholder="">
+					</td>
+				</tr>
+				<tr>
+					<td><span>图斑季度</span></td>
+					<td>
+						<input id="jd" type="text" disabled="disabled"  class="layui-input layui-disabled" placeholder="">
+					</td>
+				</tr>
+				<tr>
+					<td><span>审核结果</span></td>
+					<td style="text-align: left;">
+						 <div class="layui-form" >
+					        <select id="shjg" lay-search lay-filter="sex">
+					           <option selected="selected">通过</option>
+					           <option>不通过</option>
+					        </select>
+					    </div>
+					</td>
+				</tr>
+				<tr>
+					<td><span>审核意见</span></td>
+					<td>
+						<textarea id="shyj" class="layui-textarea" ></textarea>
+					</td>
+				</tr>
+				<!--<tr>
+					<td><span>备注</span></td>
+					<td>
+						<textarea id="bz" class="layui-textarea" ></textarea>
+					</td>
+				</tr>-->
+			</table>
+			<div style="padding: 10px;text-align: right;">
+	       	    <!--<i class="layui-icon layui-icon-close"></i>--> 
+	       	    <button class="layui-btn layui-btn-normal" id="btnOk">确定</button>
+				<button class="layui-btn layui-btn-normal" id="close" style="margin-right: 1px;" id="close">取消</button>
+	        </div>
+       </div>
+		
+		
+		
+       
+       
+	</body>
+	<script src="../../js/jquery1.9.0.js"></script>
+	<script src="../../js/config.js"></script>
+	<script src="../../js/common.js"></script>
+	<script src="../../js/layer/layer.js"></script>
+	<script src="../../js/layui/layui.js"></script>
+	<script src="../../js/md5.js"></script>
+	<script>
+	    layui.use(['form', 'element', 'laydate', 'table', 'slider'], function () {
+	//  	$(".niceScroll").niceScroll({cursorborder: "",cursorcolor: "#297FBA",boxzoom: false});
+	    	layuitable = layui.table;
+	    	
+			var userInfo = $.parseJSON(sessionStorage.userInfo);
+			$("#xzqdm").val(sessionStorage.userXZQDM);
+			$("#ry").val(userInfo.USERNAME);
+			$("#bh").val(parent.layer.data.BH);
+			$("#nd").val(parent.layer.data.ND);
+			$("#jd").val(parent.layer.data.JD);
+	    });
+	    $("#close").click(function(){
+	    	parent.layer.close(parent.layer.openIndex)
+	    });
+		
+		$("#btnOk").click(function(){
+
+		    var data = {
+		    	xzqdm:$("#xzqdm").val(),
+		    	ry:$("#ry").val(),
+		    	shjg:$("#shjg").val(),
+		    	shyj:$("#shyj").val(),
+		    	bh:$("#bh").val(),
+		    	nd:$("#nd").val(),
+		    	jd:$("#jd").val()
+		    }
+			JCTBManagerService("/JCTBAudit",data,true,function(resjson){
+				if(resjson.indexOf("true")>-1){
+	            	parent.layer.alert("审核成功!");
+	            	parent.layer.close(parent.layer.openIndex);
+	            	parent.layer.window.StatisticTBInfoRecords(parent.layer.window.smc, parent.layer.window.xmc);
+	            }else{
+	            	parent.layer.alert("审核成功!");
+	            }
+	            
+			});
+		})
+		
+	</script>
+</html>

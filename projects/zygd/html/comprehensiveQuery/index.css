@@ -1,0 +1,144 @@
+body {
+    overflow: hidden;
+}
+
+.top, .bottom {
+    width: calc(100vw - 400px);
+    margin-left: 400px;
+    /*height: 50vh;*/
+    background: #F8F8F8;
+    position: relative;
+}
+
+.top {
+    height: 60vh;
+}
+
+.bottom {
+    height: 40vh;
+}
+
+.topQuery {
+    box-sizing: border-box;
+    padding-top: 8px;
+    top: 48px;
+    position: absolute;
+    width: 400px;
+    height: calc(100% - 105px);
+    background: #fff;
+    z-index: 11;
+    border-top: 1px solid #eee;
+    overflow: auto;
+}
+
+.changeZX {
+    box-sizing: border-box;
+    padding-top: 8px;
+    top: 0;
+    position: absolute;
+    width: 400px;
+    height: 40px;
+    background: #fff;
+    z-index: 12;
+}
+
+#map {
+    width: 100%;
+    height: 100%;
+}
+
+.niceScroll {
+    height: calc(100% - 30px);
+    padding: 0px 10px;
+}
+
+.title_div {
+    height: 30px;
+    color: #3A6992;
+    line-height: 30px;
+    padding: 0px 10px;
+    position: relative;
+}
+
+.topQuery > div.layui-form-item {
+    border-bottom: 1px solid #aaa;
+    background-color: white;
+    padding-bottom: 5px;
+}
+
+.layui-form-label {
+    width: 125px;
+    text-align: left;
+}
+
+.layui-form-item .layui-input-inline {
+    width: 205px;
+}
+
+.layui-form-item {
+    margin-bottom: 5px;
+}
+
+.layui-input, .layui-select, .layui-textarea {
+    height: 32px;
+}
+
+.item-line {
+    padding-bottom: 5px;
+    border-bottom: 1px solid #eee;
+}
+
+.f-right {
+    position: absolute;
+    right: 10px;
+}
+
+.xzqArea {
+    position: fixed;
+    left: 440px;
+    display: none;
+    border: none;
+}
+
+.xzqArea .layui-input-inline {
+    /*width: 24%;*/
+    margin: 0;
+}
+
+.xzqArea .layui-form-select .layui-input {
+    padding-right: 0;
+}
+
+.xzqArea > div:first-child .layui-select-disabled .layui-edge, .xzqArea > div:nth-child(2) .layui-select-disabled .layui-edge {
+    display: none;
+}
+
+.attrItem {
+    padding: 2px 0;
+    margin: 0 5px;
+    background-color: #eee;
+}
+
+.layui-form-item .layui-inline, .layui-form-item .layui-input-inline {
+    margin-right: 0;
+}
+
+.layui-form-mid {
+    margin-left: 10px;
+}
+
+.mouseTitle {
+    position: absolute;
+    padding: 5px 10px;
+    font-size: 14px;
+    background: rgba(0, 0, 0, 0.5);
+    color: #fff;
+}
+
+.layui-table, .layui-table-view {
+    margin-bottom: 0;
+}
+
+.tjsjBox {
+    display: none;
+}

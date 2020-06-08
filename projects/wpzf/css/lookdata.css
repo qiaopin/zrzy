@@ -1,0 +1,177 @@
+.left {
+    width: 320px;
+    height: 100vh;
+    background: #F8F8F8;
+    padding: 0px 10px 0px 10px;
+    overflow: hidden;
+}
+
+.left .top {
+    height: calc(100% - 20px);
+    width: calc(100% - 20px);
+    background: white;
+    margin-top: 10px;
+}
+
+/*.left .middle{height: calc(50% - 15px);width:calc(100% - 20px); background: white;margin-top: 10px;}*/
+/*.left .bottom{height: calc(33% - 10px);width:calc(100% - 20px);background:white;margin-top: 10px;}*/
+.right {
+    width: calc(100% - 320px);
+    height: 100vh;
+    background: #F8F8F8;
+    position: absolute;
+    top: 0px;
+    left: 320px;
+}
+
+.right .top {
+    height: calc(100% - 20px);
+    width: calc(100% - 10px);
+    background: white;
+    margin-top: 10px;
+    position: relative;
+}
+
+#map {
+    width: 100%;
+    height: 100%;
+}
+
+.ztree {
+    padding: 10px 0px 0px 10px;
+}
+
+.city-inner-title {
+    height: 31px;
+    line-height: 31px;
+    border-bottom: 5px solid #EFEFF4;
+}
+
+.city-inner-title .current {
+    float: left;
+    display: inline-block;
+    padding-left: 15px;
+}
+
+.city-inner-title a {
+    color: #4285f4;
+}
+
+.city-inner-title a:hover {
+    color: #1890FF;
+}
+
+.every-city {
+    width: 100%;
+    border-bottom: 5px solid #EFEFF4;
+    overflow: hidden;
+}
+
+.every-city li {
+    float: left;
+    margin-left: 18px;
+}
+
+.every-city li.active a {
+    color: #1890FF;
+}
+
+.every-city li a:hover {
+    color: #1890FF;
+}
+
+.every-city li a {
+    display: block;
+    height: 30px;
+}
+
+.city-list {
+    margin-bottom: 10px;
+    clear: both;
+}
+
+.list-XZ {
+    padding: 5px 13px;
+    text-align: left;
+}
+
+.list-XZ p {
+    padding: 5px;
+    cursor: pointer;
+    float: left;
+}
+
+.list-XZ p:hover {
+    color: #4285f4;
+}
+
+.list-XZ p.active {
+    color: #4285f4;
+}
+
+.list-TB {
+    width: 100%;
+    height: calc(100% - 30px);
+    padding: 0px 0px;
+}
+
+.list-TB a {
+    display: inline-block;
+    padding: 5px 3px;
+    margin-left: 12px;
+}
+
+.list-TB a:hover {
+    color: #4285f4;
+}
+
+.list-TB a.active {
+    color: #4285f4;
+}
+
+.search-div {
+    position: absolute;
+    height: 45px;
+    bottom: 0px;
+    width: 100%;
+    border-top: 5px solid #EFEFF4;
+    padding: 5px 0px 0px 10px;
+}
+
+.layui-table tr.active {
+    background: #F2F2F2;
+}
+
+.layui-btn-normal {
+    padding: 0px 10px;
+    margin-left: 5px;
+}
+
+.tool-bar li:first-child {
+    width: 50px;
+    text-align: center;
+    line-height: 40px;
+}
+
+.tool-bar li:first-child:hover a {
+    color: #fff;
+}
+
+.tool-bar li:first-child a {
+    background: none;
+    width: 50px;
+    text-decoration: underline;
+}
+
+.xzqSearchBox {
+    position: absolute;
+    width: 100%;
+    top: 50px;
+    height: auto;
+    max-height: 500px;
+    overflow: auto;
+    background: #fff;
+    padding: 10px;
+    display: none;
+}
+

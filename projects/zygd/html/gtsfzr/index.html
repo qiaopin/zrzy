@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html xmlns:v-bind="http://www.w3.org/1999/xhtml">
+
+<head>
+    <meta charset="UTF-8">
+    <title>河北省自然资源动态监管平台</title>
+    <link rel="stylesheet" type="text/css" href="../../js/layui/css/layui.css"/>
+    <link rel="stylesheet" type="text/css" href="../../js/layer/theme/default/layer.css"/>
+    <!--<link rel="stylesheet" type="text/css" href="css/style.css"/>-->
+    <!--<link rel="shortcut icon" href="images/logo.png">-->
+    <style>
+        * { font-family: "微软雅黑";}
+        header {
+            height: 50px;
+            width: 100%;
+            /*background: #354658;*/
+            /*background:linear-gradient(90deg,rgba(24,144,255,1) 0%,rgba(30,44,199,1) 100%);*/
+            background: linear-gradient(90deg, rgba(47, 64, 86, 1) 0%, rgba(1, 91, 147, 1) 100%);
+            background: url(../../images/head_bg.jpg) repeat;
+        }
+
+        .logo {float: left;line-height: 50px;color: white;font-size: 25px;font-weight: bold;}
+        .logo img {display: inline-block;margin: -10px 15px 0px 15px;}
+        header .nav {height: 50px;float: right;margin-right: 10px;}
+        header .nav ul {height: 50px;}
+        .layui-nav {background: transparent;}
+        header .nav ul li {float: left;position: relative;}
+        header .nav ul li a {font-weight: bold;}
+        .layui-nav .layui-nav-item {line-height: 50px;}
+        .main {height: calc(100vh - 50px);width: 100%;position: absolute;top: 50px;left: 0px;overflow: hidden;}
+        .user {height: 50px;position: absolute;right: 40px;top: 0px;}
+        .user .layui-icon {color: #fff;font-size: 40px;line-height: 54px;position: relative;}
+        .user .layui-icon .layui-bg-blue {right: -10px;top: -2px;}
+
+        /*.layui-nav-child{ position: absolute; background: transparent;font-size: 14px; top: 50px; left: -30px;}
+        .layui-nav-child dd a{display: block;padding: 0px 20px; font-size: 14px; color: #fff; transition:all .3s;}
+        .layui-nav-child dd a:hover{background: #F2F2F2; color: #000000;}*/
+
+        .tools {margin-right: 3px;}
+        .show {display: block !important;}
+        .hide{display: none !important;}
+        .layui-nav{padding:0;}
+        #movePort{z-index: 9999;}
+    </style>
+</head>
+
+<body style="overflow: hidden;">
+<header>
+			<span class="logo" style="padding-left: 20px;">
+				整治农村耕地建房
+				<!--<img src="images/logo.png"/>-->
+				</span>
+    <div class="nav">
+        <ul class="layui-nav">
+            <!--<li name="首页" class="lly layui-nav-item layui-this layui-nav-item1" id="homepage">
+               
+                <a class="active" href="javascript:;">总体情况</a>
+            </li>-->
+            <li name="统计输出" class="lly layui-nav-item layui-this layui-nav-item1" id="dataExamine">
+                <a href="javascript:;">统计输出</a>
+            </li>
+            <li name="数据浏览" class="lly layui-nav-item layui-nav-item1" id="dataBrowse">
+                <a href="javascript:;">数据浏览</a>
+            </li>
+            <li name="人员管理" class="lly layui-nav-item layui-nav-item1" id="personnelManage">
+                <a href="javascript:;">人员管理</a>
+            </li>
+            <li name="使用帮助" class="lly layui-nav-item layui-nav-item1" id="videoShow">
+                <a href="javascript:;">使用帮助</a>
+            </li>
+            <!--<li name="数据中心" class="lly layui-nav-item layui-nav-item1 hide" id="Apicture">
+                <a href="javascript:;">数据中心</a>
+            </li>
+            <li name="专题数据" class="lly layui-nav-item layui-nav-item1 hide" id="ThemeByIndustry">
+                <a href="javascript:;">专题数据</a>
+            </li>
+            <li name="任务管理" class="lly layui-nav-item layui-nav-item1 hide" id="monitorManage">
+                <a href="javascript:;">任务管理</a>
+            </li>
+
+            <li name="实时监测" class="lly layui-nav-item layui-nav-item1 hide" id="monitor">
+                <a href="javascript:;">实时监测</a>
+            </li>
+            <li name="统计分析" class="lly layui-nav-item layui-nav-item1 hide" id="monitorAnalysis">
+                <a href="javascript:;">统计分析</a>
+            </li>
+            <li name="实施监管" class="lly layui-nav-item layui-nav-item1 hide" id="supervise">
+                <a href="javascript:;">实施监管</a>
+            </li>
+            <li name="技术支持" class="lly layui-nav-item layui-nav-item1 hide" id="support">
+                <a href="javascript:;">技术支持</a>
+            </li>
+            <li name="内业处理" class="dcy layui-nav-item layui-nav-item1" id="nycl">
+                <a href="javascript:;">内业处理</a>
+            </li>-->
+            <li class="layui-nav-item">
+                <!--<span class="layui-badge-dot layui-bg-white"></span>-->
+                <a href="javascript:;">当前用户：<span id="sprid"></span></a>
+                <dl id="navlist" class="layui-nav-child">
+                    <!--<dd><a id="quit" href="javascript:;">退出登录</a></dd>-->
+                    <dd><a id="return" href="javascript:;">返回导航页</a></dd>
+                </dl>
+            </li>
+        </ul>
+    </div>
+    <!--<div class="user">
+        <i id="sprid" class="layui-icon layui-icon-login-qq"><span class="layui-badge layui-bg-blue">4</span></i>
+        <dl class="layui-nav-child layui-anim">
+
+            <dd><a onclick="setstyle('black')" href="javascript:;">风格：黑</a></dd>
+            <dd><a onclick="setstyle('white')" href="javascript:;">风格：白</a></dd>
+            <dd><a href="login.html">退出登录</a></dd>
+        </dl>
+    </div>-->
+    <div id="movePort" class="layui-layer layui-layer-dialog" style="max-width: 500px;display: none;">/monitorManage/jcxx.html
+		<div class="layui-layer-title">公告</div>
+		<div class="layui-layer-content">
+			<p style="text-align: center;font-size: 22px;line-height: 50px;">关于系统平台用户注册规范化的提示</p>
+			 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;系统手机端APP软件首次投入使用，受初次使用对具体操作流程、步骤需要熟悉因素影响，已完成平台注册的用户中存在部分用户注册信息不规范、不完整情况，主要包括：<br />
+			（1）	重复注册：同一单位、同一姓名使用不同手机号重复注册。易造成流程中各级审核、提交签注混乱;<br />
+			（2）	用户姓名填写不规范，使用了字母缩写或非实名的代称。因核实作业的数据采集、审核流程中相关签注均根据注册实名信息自动生成，造成无法追溯；<br />
+			（3）	注册单位未填写，因不能确定行政区划，无法接受任务数据；<br />
+			（4）	用户身份（联络员、核查员）错误。因用户身份不同，登录权限不同，造成工作无法进行；<br />
+			（5）	手机号码不真实。后期升级功能中拟推出“工作圈”、“系统及时通信”、“工作信息推送”、“违法信息属地接受”等均与手机号码相关，用户无法接受。<br />
+			（6）	用户注册时单位名称不规范，请使用所属县级以上官方单位名称。类似“xxxt土地所”情况，请填写所属区县单位官方名称。<br />
+			
+			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;以上情况，已注册用户请采用以下方式核实、更正、完善注册信息。<br />
+			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;核查作业人员注册信息的更正，请各级联络员登录平台进行核实，并联系技术支持人员进行修改操作，或者删除错误的注册用户后，要求核查员重新提交注册审核，确保信息真实无误。<br />
+			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;联络员注册信息的更正，请联系上级联络员通过删除用户后重新注册方式更新信息或联系技术支持人员进行操作。<br />
+			
+			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;对于同一人同时注册“联络员”、“核查员”双重身份情况，请自行确定属“工作实际需要”还是“注册误操作”，属后者情况请联系技术支持人员删除“注册误操作”用户。
+
+		</div>
+	</div>
+	<!--<div style="position: fixed;bottom: 0px;left: 0px;width: 100%;z-index: 99999;">
+		 <marquee style="width: 100%;color: #fff; background:rgba(0,0,0,0.7); line-height: 30px;">我是移动的,我有话要说,鼠标放上可关闭</marquee>
+	</div>-->
+</header>
+<div class="main">
+    <iframe id="iframes" name="iframes" src="dataExamine.html" width="100%" height="100%"
+            style="border: 0px;"></iframe>
+</div>
+
+</body>
+
+<script src="../../js/jquery1.9.0.min.js"></script>
+
+<script src="../../js/config.js"></script>
+
+<script src="../../js/common.js"></script>
+<!--layui弹出层-->
+<script src="../../js/layer/layer.js"></script>
+<script src="../../js/layui/layui.js"></script>
+<script src="../../js/scrollbar/jquery.nicescroll.min.js"></script>
+<script src="../../js/move_port/move_port.js"></script>
+<!--树-->
+<script>
+    reGetUserInfo();
+    // move_obj("#movePort",'','',10,10,0,0,100);//公告栏
+    var JFZD = null;
+    layui.use(['form', 'element', 'laydate', 'table'], function () {
+        JFZD = JSON.parse(sessionStorage.JFZD)[0];
+        $("#sprid").html(JFZD.USERNAME);
+    });
+    $("#return").click(function(){
+        window.location.href = sessionStorage.rootPath + "login.html";
+    });
+
+    //数据审批
+    $("#dataExamine").click(function () {
+        $("#iframes").attr('src', 'dataExamine.html');
+    });
+    //数据浏览
+    $("#dataBrowse").click(function () {
+        $("#iframes").attr('src', 'dataBrowse.html');
+    });
+    //人员管理
+    $("#personnelManage").click(function () {
+        $("#iframes").attr('src', 'personnelManage.html');
+    });
+    
+
+
+</script>
+</html>

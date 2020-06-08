@@ -1,0 +1,256 @@
+.left {
+    width: 30%;
+    height: 100vh;
+    background: #F8F8F8;
+    padding: 0px 10px 0px 10px;
+}
+
+.left .top {
+    height: calc(50% - 10px);
+    width: calc(100% - 20px);
+    background: white;
+}
+
+.left .middle {
+    height: calc(50% - 50px);
+    width: calc(100% - 20px);
+    background: white;
+    margin-top: 10px;
+}
+
+/*.left .bottom{height: calc(33% - 10px);width:calc(100% - 20px);background:white;margin-top: 10px;}*/
+
+.right {
+    width: 70%;
+    height: 100vh;
+    background: #F8F8F8;
+    position: absolute;
+    top: 0px;
+    left: 30%;
+}
+
+.right .top {
+    height: calc(100%);
+    width: calc(100% - 10px);
+    background: white;
+}
+
+.right .bottom {
+    height: calc(40% - 10px);
+    width: calc(100% - 10px);
+    margin-top: 10px;
+    position: relative;
+}
+
+.right .bottom .bottom_left {
+    width: calc(50% - 5px);
+    background: white;
+    height: 100%;
+}
+
+.right .bottom .bottom_right {
+    width: calc(50% - 5px);
+    background: white;
+    height: 100%;
+    position: absolute;
+    left: calc(50% + 5px);
+    top: 0px;
+}
+
+.title_div {
+    height: 40px;
+    color: #3A6992;
+    line-height: 40px;
+    padding: 0px 10px;
+    position: relative;
+}
+
+.strong {
+    font-weight: 900;
+}
+
+.year {
+    color: #07323B;
+}
+
+.quarter {
+    color: #07323B;
+    margin-left: 10px;
+}
+
+.f-right {
+    position: absolute;
+    right: 10px;
+}
+
+.f-right select {
+    height: 20px;
+}
+
+.f-right a {
+    text-decoration: underline;
+    cursor: pointer;
+    color: #1890FF;
+}
+
+.niceScroll {
+    height: calc(100% - 30px);
+    padding: 0px 10px;
+}
+
+.layui-table, .layui-table-view {
+    margin: 0px;
+    border: none;
+}
+
+.layui-table-view .layui-table td, .layui-table-view .layui-table th {
+    border-left: 1px solid #e6e6e6;
+    padding: 5px 0px;
+}
+
+.layui-table-view .layui-table th {
+    text-align: center;
+}
+
+.layui-table-page, .layui-table-total {
+    border-width: 1px 1px 0px;
+}
+
+.layui-table-body {
+    margin-bottom: 0px;
+    margin-right: 0px;
+}
+
+.layui-table-cell {
+    padding: 0px 10px;
+}
+
+.layui-form-radio > i:hover, .layui-form-radioed > i {
+    color: #187fcc;
+}
+
+.layui-table tbody tr:hover {
+    background: rgba(0, 0, 0, 0);
+}
+
+.layui-btn-skyblue {
+    background: #1890FF;
+}
+
+.layui-btn-sm {
+    height: 20px;
+    line-height: 20px;
+}
+
+.changeMapTable > div {
+    float: left;
+    padding: 5px 15px;
+    border: 1px solid #eee;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+/*.tbMap {*/
+/*padding-top: 35px;*/
+/*}*/
+
+.changeMapTable {
+    position: absolute;
+    z-index: 11;
+    left:10px;
+    background: #fff;
+}
+
+#map {
+    width: 100%;
+    height: 100%;
+}
+
+.maptool {
+    top: 50px;
+}
+
+.changeMapTable > div.active {
+    color: #fff;
+    background: #177BD0;
+}
+
+.layui-form-item .layui-inline {
+    width: calc(100% - 20px);
+}
+
+.layui-form-item {
+    margin-bottom: 0;
+}
+
+/*县级联络员登录后样式*/
+.xj .left {
+    position: absolute;
+    z-index: 11;
+    height: 40px;
+    overflow: visible;
+    width: 300px;
+}
+
+.xj .left > div:first-child {
+    height: 40px;
+    position: absolute;
+    left: 300px;
+    width: 200px;
+    top: 0;
+    background: #eee
+}
+
+.xj .left .top {
+    background: transparent;
+}
+
+.xj .left .top .table1_div {
+    display: none;
+}
+
+.xj .left .layui-form-item .layui-inline {
+    width: 100%;
+}
+
+.xj .left .middle {
+    display: none;
+}
+
+.xj .right {
+    left: 0;
+    width: 100%;
+    top: 50px;
+    height: calc(100% - 50px)
+}
+
+/*表示图斑颜色*/
+.colorTitle {
+    position: absolute;
+    top: 7px;
+    right: 27px;
+}
+
+.colorRedRgb {
+    color: rgb(255, 0, 0)
+}
+
+.colorGreenRgb {
+    color: rgb(26, 250, 41)
+}
+
+.colorYellowRgb {
+    color: rgb(244, 234, 42)
+}
+
+.colorBlueRgb {
+    color: rgb(18, 150, 219)
+}
+
+.colorDarkBlueRgb {
+    color: rgb(18, 150, 219)
+}
+
+.colorPinkRgb {
+    color: rgb(159, 0, 154)
+}

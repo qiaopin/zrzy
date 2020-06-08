@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <link rel="stylesheet" type="text/css" href="../../js/layui/css/layui1.css"/>
+    <link rel="stylesheet" type="text/css" href="../../js/layer/theme/default/layer.css"/>
+    <!--<link rel="stylesheet" type="text/css" href="../../css/comstyle.css"/>-->
+    <link rel="stylesheet" type="text/css" href="../../css/style.css"/>
+    <style>
+        .main {
+            width: 100%;
+            height: 100%;
+            padding-top: 20px;
+        }
+
+        .bottom {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .layui-form-item .layui-form-checkbox[lay-skin=primary] {
+            width: 150px;
+        }
+    </style>
+</head>
+<body class="white">
+<div class="main">
+    <form class="layui-form">
+        <div class="layui-form-item">
+            <div class="layui-inline">
+                <label class="layui-form-label">建设时间</label>
+                <div class="layui-input-inline" style="width: 130px;">
+                    <input id="jfsj_min" type="text" name="jfsj_min" placeholder="年" class="layui-input">
+                </div>
+                <div class="layui-form-mid">-</div>
+                <div class="layui-input-inline" style="width: 130px;">
+                    <input id="jfsj_max" name="jfsj_max" type="text" placeholder="年"  class="layui-input">
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+
+<div class="bottom">
+    <button id="ok" class="layui-btn layui-btn-normal layui-btn-sm">确定</button>
+    <button id="return" class="layui-btn layui-btn-normal layui-btn-sm"><i class="layui-icon layui-icon-return"></i>取消
+    </button>
+</div>
+
+</body>
+<script src="../../js/jquery1.9.0.js"></script>
+<script src="../../js/config.js"></script>
+<script src="../../js/common.js"></script>
+<script src="../../js/layer/layer.js"></script>
+<script src="../../js/layui/layui.js"></script>
+<script src="../../js/scrollbar/jquery.nicescroll.min.js"></script>
+<script>
+    var form;
+    var layuidate;
+    layui.use(['form', 'layer', 'laydate', 'table', 'slider', 'jquery'], function () {
+        form = layui.form;
+        layuitable = layui.table;
+        layuidate = layui.laydate;
+        slider = layui.slider;
+        var $ = layui.jquery;
+
+        // layuidate.render({
+        //     elem: '#jfsj_min'
+        //     , type: 'year'
+        // });
+        // layuidate.render({
+        //     elem: '#jfsj_max'
+        //     , type: 'year'
+        // });
+
+    });
+    $("#ok").click(function () {
+        parent.exportByYearRes($("#jfsj_min").val(),$("#jfsj_max").val());
+    });
+    //返回
+    $("#return").click(function () {
+        parent.layer.close(parent.exportByYearIndex);
+    });
+</script>
+</html>

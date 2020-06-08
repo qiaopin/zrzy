@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>要导出的列</title>
+    <link rel="stylesheet" type="text/css" href="../../js/layui/css/layui1.css"/>
+    <link rel="stylesheet" type="text/css" href="../../js/layer/theme/default/layer.css"/>
+    <!--<link rel="stylesheet" type="text/css" href="../../css/comstyle.css"/>-->
+    <link rel="stylesheet" type="text/css" href="../../css/style.css"/>
+    <style>
+        .main {
+            width: 100%;
+            height: 100%;
+            padding-top: 20px;
+        }
+
+        .bottom {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .layui-form-item .layui-form-checkbox[lay-skin=primary] {
+            width: 150px;
+        }
+    </style>
+</head>
+<body class="white">
+<div class="main">
+    <form class="layui-form">
+        <div class="layui-form-item">
+            <label class="layui-form-label">选择导出项</label>
+            <div class="layui-input-block colsBox">
+
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">汇总统计</label>
+            <div class="layui-input-block tjBox">
+                <input class="tjBox" type="checkbox" name="cols" title="" value="tj" lay-skin="primary">
+            </div>
+        </div>
+    </form>
+</div>
+
+<div class="bottom">
+    <button id="ok" class="layui-btn layui-btn-normal layui-btn-sm">确定</button>
+    <button id="return" class="layui-btn layui-btn-normal layui-btn-sm"><i class="layui-icon layui-icon-return"></i>取消
+    </button>
+</div>
+
+</body>
+<script src="../../js/jquery1.9.0.js"></script>
+<script src="../../js/config.js"></script>
+<script src="../../js/common.js"></script>
+<script src="../../js/layer/layer.js"></script>
+<script src="../../js/layui/layui.js"></script>
+<script src="../../js/scrollbar/jquery.nicescroll.min.js"></script>
+<script>
+    var form;
+    layui.use(['form', 'layer', 'table', 'slider', 'jquery'], function () {
+        form = layui.form;
+        layuitable = layui.table;
+        slider = layui.slider;
+        var $ = layui.jquery;
+        var colsArr = [
+            {text: "smc", name: "市名称", checked: "checked", disabled: ""},
+            {text: "xmc", name: "县名称", checked: "checked", disabled: ""},
+            {text: "xzmc", name: "乡镇名称", checked: "checked", disabled: ""},
+            {text: "csqmc", name: "村社区名称", checked: "checked", disabled: ""},
+            {text: "fwjsztmc", name: "房屋建设主体名称", checked: "checked", disabled: "disabled"},
+            {text: "jsqysfzdm", name: "身份证号码", checked: "", disabled: ""},
+            {text: "lxfs", name: "联系方式", checked: "", disabled: ""},
+            {text: "fwxz", name: "房屋性质", checked: "", disabled: ""},
+            {text: "fwwz", name: "房屋位置", checked: "", disabled: ""},
+            {text: "jfzt", name: "建房状态", checked: "", disabled: ""},
+            {text: "jfsj", name: "建房时间", checked: "", disabled: ""},
+            {text: "sfyfbl", name: "是否有手续", checked: "", disabled: ""},
+            {text: "shzt", name: "审核状态", checked: "", disabled: ""},
+            {text: "pzrq", name: "批准时间", checked: "", disabled: ""},
+            {text: "zygdmj", name: "占用耕地总面积", checked: "checked", disabled: ""},
+            {text: "wblzygdmj", name: "违法占用耕地面积", checked: "checked", disabled: ""},
+            {text: "ygdmj", name: "合法占用耕地面积", checked: "checked", disabled: ""},
+            {text: "ybgd", name: "占用一般耕地", checked: "checked", disabled: ""},
+            {text: "jbnt", name: "占用基本农田", checked: "checked", disabled: ""},
+            {text: "jzmj", name: "建筑面积", checked: "", disabled: ""},
+            {text: "fjlr", name: "房屋使用方式", checked: "", disabled: ""},
+            {text: "sffhtj", name: "符合一户一宅", checked: "", disabled: ""},
+            {text: "ccmj", name: "超出面积", checked: "", disabled: ""},
+            {text: "fwbh", name: "房屋编号", checked: "", disabled: ""},
+            {text: "tbr", name: "填报人", checked: "", disabled: ""},
+            {text: "tbrq", name: "填报日期", checked: "", disabled: ""},
+            {text: "fwzb", name: "房屋坐标", checked: "", disabled: ""}
+        ];
+        var str = "";
+        $.each(colsArr, function (i, v) {
+            str += '<input lay-filter="cols" type="checkbox" name="cols" title="' + v.name + '" value="' + v.text + '" lay-skin="primary" ' + v.checked + ' ' + v.disabled + '>';
+        });
+        $('.colsBox').html(str);
+        form.render();
+
+        form.on('checkbox(cols)', function (data) {
+            var disabled = true;
+            var numberArray = ["zygdmj", "wblzygdmj", "ygdmj", "ybgd", "jbnt", "jzmj", "fjlr", "sffhtj", "ccmj"];//可以统计的字段
+            $("input:checkbox[name='cols']:checked").each(function (i) {
+                var value = $(this).val();
+                $.each(numberArray,function(s,k){
+                    if(k==value){
+                        disabled = false;
+                    }
+                })
+            });
+            if(disabled){
+                $(".tjBox").removeAttr("checked");
+            }
+            $(".tjBox").attr("disabled",disabled);
+            form.render();
+        })
+    });
+    $("#ok").click(function () {
+        var okBtn = $(this);
+        okBtn.attr("disabled", true);
+        var cols = [];
+        $("input:checkbox[name='cols']:checked").each(function (i) {
+            cols[i] = $(this).val();
+        });
+        parent.exportRes(cols);
+    });
+    //返回
+    $("#return").click(function () {
+        parent.layer.close(parent.exportIndex);
+    });
+</script>
+</html>

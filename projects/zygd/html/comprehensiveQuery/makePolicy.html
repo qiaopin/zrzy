@@ -1,0 +1,480 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <link rel="stylesheet" type="text/css" href="../../js/layui/css/layui.css"/>
+    <link rel="stylesheet" type="text/css" href="../../js/layer/theme/default/layer.css"/>
+    <!--<link rel="stylesheet" href="../../css/jquery.mCustomScrollbar.min.css" />-->
+    <link rel="stylesheet" href="../../css/index.css"/>
+    <link rel="stylesheet" type="text/css" href="../../js/openlayers/ol.css"/>
+    <style>
+        html, body {
+            height: 100%;
+            overflow: hidden;
+        }
+
+        .panle-menu {
+            height: 100%;
+        }
+
+        thead.hide {
+            display: none;
+        }
+
+        .item1:hover {
+            background: #21262E;
+            color: #9EA8BA;
+            cursor: pointer;
+            border-left: 2px solid #1890FF;
+        }
+
+        .layui-form-label {
+            text-align: left;
+            padding: 8px;
+            width: 70px;
+        }
+
+        .layui-form-item .layui-input-inline {
+            width: 155px;
+        }
+
+        .layui-form-radio * {
+            font-size: 13px;
+        }
+
+        .layui-form-radio > i {
+            font-size: 20px;
+        }
+
+        .layui-form-radio > i:hover, .layui-form-radioed > i {
+            color: #4BB2FF;
+        }
+
+        .mapdraw li {
+            float: left;
+            background: #F9F9F9;
+            width: 54px;
+            height: 50px;
+            padding: 10px 5px;
+        }
+
+        .mapdraw li img {
+            width: 43px;
+            height: 31px;
+        }
+
+        .mapdraw li:hover {
+            background: #EBEFF3;
+            cursor: pointer;
+        }
+
+        .mapdraw li.active {
+            background: #EBEFF3;
+        }
+
+        .result-find-box1 {
+            position: absolute;
+            z-index: 2;
+            width: 550px;
+            height: 45px;
+            top: 60px;
+            right: 10px;
+            box-shadow: 2px 2px 3px rgba(0, 0, 0, .2);
+            background: #fff;
+        }
+
+        .result-title {
+            margin-top: 10px;
+            border-left: 4px solid #347CA9;
+            margin: 10px 25px;
+            padding-left: 5px;
+            line-height: 25px;
+            float: left;
+            font-size: 14px;
+        }
+
+        .result-find-box1 .layui-form-radio > i {
+            margin-top: 3px;
+            font-size: 20px;
+        }
+
+        .result-find-box1 .layui-form-radio * {
+            font-size: 14px;
+        }
+
+        .result-find-box2 {
+            position: absolute;
+            z-index: 2;
+            width: 550px;
+            top: 110px;
+            right: 10px;
+            box-shadow: 2px 2px 3px rgba(0, 0, 0, .2);
+            background: #fff;
+        }
+
+        .projectArea {
+            padding: 10px 30px;
+            border-bottom: 1px dotted #AAAAAA;
+            font-size: 14px;
+            text-align: left;
+            color: #ff9228;
+        }
+
+        .result-find-box2 .layui-table th {
+            font-weight: 900;
+        }
+
+        .result-find-box2 .layui-table {
+            table-layout: fixed;
+        }
+
+        .result-find-box2 .layui-table td, .result-find-box2 .layui-table th {
+            padding: 9px 7px;
+            text-align: center;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .info {
+            font-weight: 900;
+            color: #666;
+            font-size: 14px;
+            text-decoration: underline;
+        }
+
+        div[cid='fzxz'] .layui-input-inline {
+            margin-left: 20px;
+        }
+
+        div[cid='fzxz'] .layui-form-label {
+            width: 50px;
+            padding-left: 0px;
+        }
+
+        .legend1 {
+            width: 100%;
+            height: 23px;
+            display: block;
+            background: #FFFF00;
+        }
+
+        .result-fzxz-ul li {
+            padding: 10px 15px;
+            border-bottom: 1px solid #F5F5F5;
+            margin-top: 10px;
+        }
+
+        .result-fzxz-ul li:hover {
+            background: #F5F5F5;
+        }
+
+        .result-fzxz-ul li.active {
+            background: #F5F5F5;
+        }
+
+        .result-fzxz-ul p {
+            font-size: 16px;
+            line-height: 28px;
+        }
+
+        .result-fzxz-ul p.order {
+            font-weight: 900;
+            color: #000;
+        }
+
+        .result-fzxz-ul .recommend {
+            background: #FF9228;
+            margin-left: 5px;
+            text-align: center;
+            color: white;
+            width: 40px;
+            border-radius: 4px;
+            display: inline-block;
+        }
+
+        .result-fzxz-ul .right5 {
+            margin-right: 5px;
+            font-size: 16px;
+        }
+
+        .layui-tab-content {
+            padding: 10px;
+        }
+
+        /*.map-cont {*/
+        /*position: absolute;*/
+        /*}*/
+    </style>
+</head>
+<body>
+
+<div class="main-box" style="height: 100%;">
+    <div class="panle-menu" style="width: 252px;">
+        <div cid="fzxz" class="msg-tab-box" style="display: block;">
+            <div class="layui-form-item">
+                <div class="layui-input-inline" style="">
+                    <div class="layui-form">
+                        <select lay-search lay-filter="">
+                            <option value="1">武邑县</option>
+                            <option value="1">武强县</option>
+                        </select>
+                    </div>
+                </div>
+                <label class="layui-form-label">区/县</label>
+            </div>
+            <div class="layui-form-item">
+                <div class="layui-input-inline" style="">
+                    <div class="layui-form">
+                        <select lay-search lay-filter="">
+                            <option value="1">选址区域限制</option>
+                            <option value="1">武强县</option>
+                        </select>
+                    </div>
+                </div>
+                <label class="layui-form-label">乡</label>
+            </div>
+            <div class="layui-form-item">
+                <div class="layui-input-inline">
+                    <input type="text" class="layui-input" name="" placeholder="项目名称"/>
+                </div>
+                <!--<label class="layui-form-label">乡</label>-->
+            </div>
+            <div class="layui-form-item">
+                <div class="layui-input-inline">
+                    <input type="text" class="layui-input" name="" placeholder="建设单位"/>
+                </div>
+                <label class="layui-form-label">单位</label>
+            </div>
+            <div class="layui-form-item">
+                <div class="layui-input-inline">
+                    <input type="text" class="layui-input" name="" id="minArea" placeholder="项目用地面积"/>
+                </div>
+                <label class="layui-form-label">平方米</label>
+            </div>
+            <div class="layui-form-item">
+                <div class="layui-input-inline">
+                    <input type="text" class="layui-input" name="" id="maxArea" placeholder="最大项目用地面积"/>
+                </div>
+                <label class="layui-form-label">平方米</label>
+            </div>
+            <div class="layui-form-item">
+                <div class="layui-input-inline" style="">
+                    <div class="layui-form">
+                        <select id="TDXZDL" lay-search lay-filter="TDXZDL">
+
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <div class="layui-input-inline" style="">
+                    <div class="layui-form">
+                        <select id="TDXZZL" lay-search lay-filter="TDXZZL">
+
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="layui-form-item" style=" text-align: center;padding:0px 20px 15px 20px;font-size:14px ;">
+                <button onclick="assistSiteSelection.siteSelection()"
+                        class="layui-btn layui-btn-fluid layui-btn-normal">开始选址
+                </button>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="map-cont" style="height: 100%;">
+        <div id="map" style="position: absolute; left: 260px;top: 0;width: calc(100vw - 260px); height: 100%;">
+
+        </div>
+
+        <div class="scaling-box" style="right: 10px; bottom: 10px;">
+            <button class="add" onclick="mapsizi('add')"></button>
+            <span class="gray-line"></span>
+            <button class="less" onclick="mapsizi('less')"></button>
+        </div>
+        <div class="map-type">
+            <button name="sl" class="sl active">
+                <span class="">矢量</span>
+            </button>
+            <button name="yx" class="yx">
+                <span>影像</span>
+            </button>
+        </div>
+
+        <div class="add-layer-msg" style="display: none;">
+            <ul class="add-layer-bar">
+                <li>
+                    <i id="hssl" class="layer-radio active"></i>
+                    <button class="layer-map-add"></button>
+                    <span>衡水矢量图层</span>
+                </li>
+                <li>
+                    <i id="hsyx" class="layer-radio"></i>
+                    <button class="layer-map-add"></button>
+                    <span>衡水影像图层</span>
+                </li>
+                <li>
+                    <i id="gcsl" class="layer-radio active"></i>
+                    <button class="layer-map-add"></button>
+                    <span>故城矢量图层</span>
+                </li>
+                <li>
+                    <i id="gcyx" class="layer-radio"></i>
+                    <button class="layer-map-add"></button>
+                    <span>故城影像图层</span>
+                </li>
+            </ul>
+        </div>
+
+        <div class="tools-box" style="display: block;">
+            <ul class="tool-bar">
+                <li>
+                    <a onclick="exportImg()" href="javascript:;" class="tool-case2"></a>
+                    <span class="explan">
+							<i class="tool-arrow"></i>
+							<!--<i>截图</i>-->
+						</span>
+                </li>
+                <li id="quanfu">
+                    <a href="javascript:;" class="tool-case9"></a>
+                    <span class="explan">
+							<i class="tool-arrow"></i>
+							<!--<i>全幅</i>-->
+						</span>
+                </li>
+                <li id="distance" onclick="measure(this)" title="测距">
+                    <a href="javascript:;" class="tool-case3"></a>
+                    <span class="explan">
+							<i class="tool-arrow"></i>
+							<!--<i>测距</i>-->
+						</span>
+                </li>
+                <li id="area" onclick="measure(this)" title="测面">
+                    <a href="javascript:;" class="tool-case4"></a>
+                    <span class="explan">
+							<i class="tool-arrow"></i>
+							<!--<i>测面</i>-->
+						</span>
+                </li>
+                <li onclick="mapclear()">
+                    <a href="javascript:;" class="tool-case6"></a>
+                    <span class="explan">
+							<i class="tool-arrow"></i>
+							<!--<i>清除</i>-->
+						</span>
+                </li>
+                <li>
+                    <a href="javascript:;" class="tool-case7"></a>
+                    <span class="explan full-txt-box">
+							<i class="tool-arrow"></i>
+							<!--<i class="full-txt">全屏</i>-->
+						</span>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+
+    <div class="legend" style="display: none;">
+        <p class="title">耕地面积</p>
+        <table border="0" cellspacing="0" cellpadding="0">
+            <tr>
+                <td><i></i></td>
+                <td>134.44.55555555</td>
+            </tr>
+            <tr>
+                <td><i style="background: #0D20FA;"></i></td>
+                <td>235555.444444</td>
+            </tr>
+        </table>
+    </div>
+    <!--查询结果-->
+    <div class="result-find-box" style="display: none; width: 750px;">
+        <div class="main-box-tilte">
+            <i class="color-blue"></i>
+            <span class="tilte-txt">查询结果</span>
+            <div class="remov-close">
+                <!--<button>清除</button>-->
+                <button class="close-btn"></button>
+            </div>
+        </div>
+
+        <div class="find-scroll-box" style="top: 50px;">
+
+            <div class="niceScroll" style="height: calc(100% - 400px); width: 750px;border-bottom:1px solid silver ;">
+                <table id="table" class="layui-table">
+                    <thead value='0'>
+                    <tr>
+                        <td>行政区</td>
+                        <td>农用地面积</td>
+                        <td>建设用地面积</td>
+                        <td>未利用地面积</td>
+                    </tr>
+                    </thead>
+                    <thead value='1' class="hide">
+                    <tr>
+                        <td>行政区</td>
+                        <td>耕地</td>
+                        <td>园地</td>
+                        <td>林地</td>
+                        <td>草地</td>
+                        <td>城镇村及工矿用地</td>
+                        <td>交通运输用地</td>
+                        <td>水域及水利设施用地</td>
+                        <td>其他土地</td>
+                    </tr>
+                    </thead>
+                    <tbody id="tbody1">
+
+                    </tbody>
+                </table>
+            </div>
+            <div id="container" style="position: absolute; bottom: 0px; height: 400px; width: 750px;">
+
+            </div>
+        </div>
+    </div>
+
+
+    <div class="result-find-box2" style="display: none;">
+        <p class="projectArea ctfxfwmj">项目范围面积</p>
+        <div class="layui-form-item" style="padding:10px 10px;">
+            <div id="result-fzxz" style="display: none;">
+                <ul id="result-fzxz-ul" class="result-fzxz-ul niceScroll" style="max-height: 300px;">
+                    <li>
+                        <p class="order">1.<span class="recommend">推荐</span></p>
+                        <p><span class="right5">土地面积:</span>281233.44平方米</p>
+                        <p><span class="right5">规划利用类型:</span>一类居住用地</p>
+                    </li>
+                    <li>
+                        <p class="order">2.</p>
+                        <p><span class="right5">土地面积:</span>281233.44平方米</p>
+                        <p><span class="right5">规划利用类型:</span>一类居住用地</p>
+                    </li>
+                </ul>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
+<script src="../../js/jquery1.9.0.js"></script>
+<script src="../../js/config.js"></script>
+<script src="../../js/common.js"></script>
+<script src="../../js/layer/layer.js"></script>
+<script src="../../js/layui/layui.js"></script>
+<script src="../../js/modules/layui-config.js"></script>
+<script src="../../js/scrollbar/jquery.nicescroll.min.js"></script>
+<!--openlayers-->
+<script src="../../js/openlayers/ol-debug.js"></script>
+<script src="../../js/openlayers/kkcommons.js"></script>
+<script src="../../js/openlayers/initTileLayers.js"></script>
+<script src="makePolicy.js"></script>
+
+</body>
+</html>

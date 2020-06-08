@@ -1,0 +1,769 @@
+<!DOCTYPE html>
+<html class="ui-page-login">
+
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<title></title>
+		<!--<link href="css/mui.min.css" rel="stylesheet" />-->
+		<!--<link href="css/style.css" rel="stylesheet" />-->
+		<!--<link href="css/mui.picker.css" rel="stylesheet" />-->
+		<!--<link href="css/mui.poppicker.css" rel="stylesheet" />-->
+
+
+		<link href="../../js/mui/css/mui.min.css" rel="stylesheet"/>
+		<link href="../../js/mui/css/style.css" rel="stylesheet"/>
+		<link href="../../js/mui/css/mui.picker.css" rel="stylesheet"/>
+		<link href="../../js/mui/css/mui.poppicker.css" rel="stylesheet"/>
+		<link href="css/reg.css" rel="stylesheet" />
+		<style>
+			.xzmc,.cmc{
+				display: none;
+			}
+			#div{
+				width: 0px;
+				height: 0px;
+				background: red;
+				position: fixed;
+				top: 70%;
+				left: 50%;
+			}
+			#checkBox{
+				width:80%; 
+				height:60%;
+				top:30%;
+				left:10%; 
+				overflow: hidden;
+ 				background: #fff;
+				border:1px solid #aaa;
+				padding-bottom:50px;
+			}
+			
+			#checkBox .checkContent{
+				height:calc(100% - 50px);
+				padding:10px;
+			}
+		
+						
+			#checkBox .checkBottom{
+				width:100%;
+				position:absolute;
+				bottom:0;
+				height:45px;
+				line-height: 45px;
+				padding:0 10px;
+			}
+		</style>
+	</head>
+
+	<body>
+		<header class="mui-bar mui-bar-nav">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+			<h1 class="mui-title zcTitle">注册</h1>
+		</header>
+		<div id="div"></div>
+		<div id="checkBox" class="mui-popover">
+			<div class="checkContent mui-scroll-wrapper">
+				<div class="testSroll mui-scroll">
+
+				</div>
+			</div>
+			<div class="checkBottom">
+				<button class="mui-btn checkCanel">取消</button>
+				<button class="mui-btn mui-btn-success checkSure" style="float:right;">确定</button>
+			</div>
+		</div>
+		<div class="mui-content">
+			<form class="mui-input-group">
+				<div class="mui-input-row notEmpty">
+					<label>用户类型</label>
+					<select id="userType" name="" lay-filter="userType">
+						<option value="">点击选择用户类型</option>
+						<option value="调查员">调查员</option>
+						<option value="村两委负责人">村两委负责人</option>
+						<option value="乡镇党政负责人">乡镇党政负责人</option>
+						<option value="国土所负责人">国土所负责人</option>
+						<option value="县局负责人">县局负责人</option>
+						<option value="市局负责人">市局负责人</option>
+						<option value="省厅负责人">省厅负责人</option>
+					</select>
+				</div>
+				<div class="mui-input-row notEmpty">
+					<label>行政级别</label>
+					<select id="xzjb" name="" lay-filter="xzjb" disabled="disabled">
+						<option value="">点击选择行政级别</option>
+						<option value="省级">省级</option>
+						<option value="市级">市级</option>
+						<option value="县级">县级</option>
+						<option value="乡镇">乡镇</option>
+						<option value="行政村">行政村</option>
+					</select>
+				</div>
+				<div class="mui-input-row notEmpty" id="xzqhBox">
+					<label>行政区划</label>
+					<input id='xzqhInput' type="text" class="mui-input-clear mui-input" value="" disabled="disabled" placeholder="点击选择行政区划">
+					<input id="xzqhCode" type="text" disabled="disabled" style="display: none;" />
+					<button id='showCityPicker3' type="button" class="mui-btn mui-btn-block mui-btn-mini mui-btn-green">选择</button>
+				</div>
+				<div class="xzmc mui-input-row notEmpty">
+					<label>乡镇名称</label>
+					<input id='xzmc' name="" type="text" class="mui-input-clear mui-input" disabled="disabled" placeholder="请选择所属乡镇">
+					<button id='xzmcPicker' type="button" class="mui-btn mui-btn-block mui-btn-mini mui-btn-green">选择</button>
+				</div>
+				<div class="cmc mui-input-row notEmpty">
+					<label>村名称</label>
+					<input id='cmc' name="" value="" type="text" class="mui-input-clear mui-input" disabled="disabled" placeholder="请选择所属行政村">
+					<button id='cmcPicker' type="button" class="mui-btn mui-btn-block mui-btn-mini mui-btn-green">选择</button>
+				</div>
+				<div class="mui-input-row notEmpty">
+					<label>身份证号码</label>
+					<input id='sfz' name="" value="" type="text" class="mui-input-clear mui-input" placeholder="请输入身份证号码">
+				</div>
+				<div class="mui-input-row notEmpty">
+					<label>用户姓名</label>
+					<input id='account' type="text" class="mui-input-clear mui-input" placeholder="请输入用户姓名">
+				</div>
+				<div class="mui-input-row notEmpty">
+					<label>用户电话(账户)</label>
+					<input id='phone' type="number" class="mui-input-clear mui-input" placeholder="请输入手机号">
+				</div>
+				<div class="mui-input-row notEmpty">
+					<label>用户密码</label>
+					<input id='password' type="password" class="mui-input-clear mui-input" placeholder="请输入密码">
+				</div>
+				<div class="mui-input-row notEmpty">
+					<label>确认密码</label>
+					<input id='password_confirm' type="password" class="mui-input-clear mui-input" placeholder="请确认密码">
+				</div>
+			</form>
+			<div class="mui-content-padded">
+				<button id='reg' class="mui-btn mui-btn-block mui-btn-primary">注册</button>
+			</div>
+		</div>
+
+		<script src="../../js/mui/js/mui.min.js"></script>
+		<script src="../../js/mui/js/app.js"></script>
+		<script src="../../js/mui/js/mui.picker.js"></script>
+		<script src="../../js/mui/js/mui.poppicker.js"></script>
+		<script src="../../js/mui/js/city.data.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../../js/mui/js/city.data-3.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../../js/mui/js/xml2json.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../../js/mui/js/jquery1.9.0.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../../js/mui/js/md5.js" type="text/javascript" charset="utf-8"></script>
+		<script>
+			var jquery = $;
+			var sfzErrorMsg = "身份证号码不正确";
+			var checkType = ""; //当前选择的 xzradio乡镇单选 xzcheckBox乡镇多选 cradio行政村
+			(function(mui, doc) {
+				mui.init({
+					beforeback: function() {
+						var list = plus.webview.currentWebview().opener();
+						//refresh是A页面自定义事件
+						mui.fire(list, 'refresh');
+						//返回true,继续页面关闭逻辑
+						return true;
+					}
+				});
+
+				mui('.mui-scroll-wrapper').scroll({
+					deceleration: 0.0005 //flick 减速系数，系数越大，滚动速度越慢，滚动距离越小，默认值0.0006 
+				});
+
+				var cityData;
+				var getCityUrl = "http://110.249.159.46:8089/gtkjghTest/ConfigManagerService.asmx/GetCityData2";
+				$.ajax(getCityUrl, {
+					data: {},
+					dataType: "text", //返回文本
+					jsonp: "jsonp",
+					async: false,
+					type: 'post', //HTTP请求类型  
+					timeout: 10000, //超时时间设置为10秒；  
+					success: function(xml) {
+						var resjosn = $(xml).text();
+						cityData = JSON.parse(resjosn);
+					},
+					error: function(xhr, type, errorThrown) {
+						//异常处理；  
+						console.log(type);
+					}
+				});
+
+				//获取乡镇列表	
+				function getXZListByDM(xzqdm, type) {
+					var str = "";
+					var url = "http://110.249.159.46:8089/gtkjghTest/ConfigManagerService.asmx/GetXZNamesbyXZQDM";
+					$.ajax(url, {
+						data: {
+							xzqdm: xzqdm
+						},
+						dataType: "text", //返回文本
+						jsonp: "jsonp",
+						async: false,
+						type: 'post', //HTTP请求类型  
+						timeout: 10000, //超时时间设置为10秒；  
+						success: function(xml) {
+							var resStr = $(xml).text();
+							var resArr = JSON.parse(resStr);
+							$.each(resArr, function(i, v) {
+								if (type == "checkBox") {
+									str += '<div class="mui-input-row mui-checkbox">';
+									str += '<label>' + v + '</label>';
+									str += '<input name="checkboxXZ" value="' + v + '" type="checkbox">';
+									str += '</div>';
+								} else {
+									str += '<div class="mui-input-row mui-radio">';
+									str += '<label>' + v + '</label>';
+									str += '<input name="radioXZ" value="' + v + '" type="radio">';
+									str += '</div>';
+								}
+							})
+							$(".testSroll").html(str);
+							mui('.mui-scroll-wrapper').scroll().scrollTo(0, 0, 100);
+						},
+						error: function(xhr, type, errorThrown) {
+							//异常处理；  
+							console.log(type);
+						}
+					});
+				}
+
+				//获取村列表
+				function getCList(xzqdm, xzmc, res) {
+					var str = "";
+					var url = "http://110.249.159.46:8089/gtkjghTest/ConfigManagerService.asmx/GetCMCNamesbyXZQDM";
+					$.ajax(url, {
+						data: {
+							xzqdm: xzqdm,
+							xzmc: xzmc
+						},
+						dataType: "text", //返回文本
+						jsonp: "jsonp",
+						async: false,
+						type: 'post', //HTTP请求类型  
+						timeout: 10000, //超时时间设置为10秒；  
+						success: function(xml) {
+							var resStr = $(xml).text();
+							var resArr = JSON.parse(resStr);
+							$.each(resArr, function(i, v) {
+								str += '<div class="mui-input-row mui-radio">';
+								str += '<label>' + v + '</label>';
+								str += '<input name="radioC" value="' + v + '" type="radio">';
+								str += '</div>';
+							})
+							$(".testSroll").html(str);
+							mui('.mui-scroll-wrapper').scroll().scrollTo(0, 0, 100);
+							return res && res(resArr);
+						},
+						error: function(xhr, type, errorThrown) {
+							//异常处理；  
+							console.log(type);
+						}
+					});
+				}
+
+				// //选择乡镇
+				// document.getElementById("xzmcPicker").addEventListener("tap", function() {
+				// 	getXZListByDM("130121", "radio");
+				// 	doc.getElementById('cmc').value = "";
+				// 	checkType = "xzradio";
+				// 	mui("#checkBox").popover('toggle', document.getElementById("div"));
+				// })
+
+				mui.plusReady(function() {
+					var regButton = doc.getElementById('reg');
+					var accountBox = doc.getElementById('account');
+					var passwordBox = doc.getElementById('password');
+					var passwordConfirmBox = doc.getElementById('password_confirm');
+					var phoneBox = doc.getElementById('phone');
+					var showCityPickerButton = doc.getElementById('showCityPicker3');
+					var cityResult3 = doc.getElementById('xzqhInput');
+					var xzqhCode = doc.getElementById('xzqhCode');
+
+					//监听用户类型下拉框change事件 切换字体加深/显示对应的行政级别/判断是否显示乡镇村
+					mui(".mui-content").on("change", "#userType", function() {
+						var value = this.value;
+						doc.getElementById("userType").style.color = "#999";
+						doc.getElementById('xzjb').style.color = "#999";
+						$(".cmc,.xzmc").hide();
+						doc.getElementById('xzjb').value = "";
+						doc.getElementById('xzqhInput').value = "";
+						doc.getElementById('xzmc').value = "";
+						doc.getElementById('cmc').value = "";
+						xzqhCode.value = "";
+						if (value) {
+							doc.getElementById("userType").style.color = "#000";
+							doc.getElementById('xzjb').style.color = "#000";
+							if (value == "调查员" || value == "村两委负责人") {
+								doc.getElementById('xzjb').value = "行政村";
+								$(".cmc,.xzmc").show();
+							} else if (value == "乡镇党政负责人" || value == "国土所负责人") {
+								doc.getElementById('xzjb').value = "乡镇";
+								$(".xzmc").show();
+							} else if (value == ("县局负责人")) {
+								doc.getElementById('xzjb').value = "县级";
+							} else if (value == ("市局负责人")) {
+								doc.getElementById('xzjb').value = "市级";
+							} else if (value == ("省厅负责人")) {
+								doc.getElementById('xzjb').value = "省级";
+							}
+						}
+					})
+
+					/**
+					 * 省市区 三级联动
+					 * @param {Object} layer 级
+					 */
+					var getCityPickerByLayer = function(layer) {
+						var cityPicker = new mui.PopPicker({
+							layer: layer
+						});
+						cityPicker.setData(cityData);
+						return cityPicker;
+					}
+					var _getParam = function(obj, param) {
+						return obj[param] || '';
+					};
+					showCityPickerButton.addEventListener('tap', function(event) {
+						var layerNum;
+						if (!doc.getElementById('xzjb').value) {
+							plus.nativeUI.toast('请先选择行政级别');
+							return false;
+						}
+						if (doc.getElementById('xzjb').value == "省级") {
+							layerNum = 1;
+						} else if (doc.getElementById('xzjb').value == "市级") {
+							layerNum = 2;
+						} else if (doc.getElementById('xzjb').value == "县级") {
+							layerNum = 3;
+						} else {
+							layerNum = 3;
+						}
+
+						//级联示例
+						var cityPicker3 = getCityPickerByLayer(layerNum);
+						// //设置默认值
+						// cityPicker3.pickers[0].setSelectedIndex(2);
+						// cityPicker3.pickers[1].setSelectedIndex(0);
+						cityPicker3.show(function(items) {
+							if (layerNum == 3) {
+								cityResult3.value = _getParam(items[0], 'text') + " " + _getParam(items[1], 'text') + " " + _getParam(
+									items[2], 'text');
+								//返回 false 可以阻止选择框的关闭
+								//return false;
+								xzqhCode.value = _getParam(items[2], 'value');
+							} else if (layerNum == 2) {
+								cityResult3.value = _getParam(items[0], 'text') + " " + _getParam(items[1], 'text');
+								//返回 false 可以阻止选择框的关闭
+								//return false;
+								xzqhCode.value = _getParam(items[1], 'value');
+							} else if (layerNum == 1) {
+								cityResult3.value = _getParam(items[0], 'text');
+								//返回 false 可以阻止选择框的关闭
+								//return false;
+								xzqhCode.value = _getParam(items[0], 'value');
+							}
+						});
+						document.getElementById("xzmc").value = "";
+						document.getElementById("cmc").value = "";
+					}, false);
+
+					//选择乡镇
+					document.getElementById("xzmcPicker").addEventListener("tap", function() {
+						if (!doc.getElementById('userType').value) {
+							mui.toast('请先选择用户类型');
+							return;
+						}
+						if (!xzqhCode.value) {
+							mui.toast('请先选择行政区');
+							return;
+						}
+						var type = "radio";
+						if (doc.getElementById('userType').value == "国土所负责人") {
+							type = "checkBox";
+						}
+						getXZListByDM(xzqhCode.value, type);
+						doc.getElementById('cmc').value = "";
+						checkType = "xz" + type;
+						mui("#checkBox").popover('toggle', document.getElementById("div"));
+					})
+
+					//选择村
+					document.getElementById("cmcPicker").addEventListener("tap", function() {
+						//调用隐藏/显示弹出层
+						if (!doc.getElementById('userType').value) {
+							plus.nativeUI.toast('请先选择用户类型');
+							return;
+						}
+						if (!xzqhCode.value) {
+							plus.nativeUI.toast('请先选择行政区');
+							return;
+						}
+
+						if (!doc.getElementById('xzmc').value) {
+							plus.nativeUI.toast('请先选择乡镇');
+							return;
+						}
+						//先判断有没有村数据，如果有就弹窗选择没有就让用户自己输入						
+						getCList(xzqhCode.value, doc.getElementById('xzmc').value, function(resArr) {
+							if (resArr.length > 0) {
+								checkType = "cradio";
+								mui("#checkBox").popover('toggle', document.getElementById("div"));
+							} else {
+								mui.prompt('请输入村名', '', '', new Array('取消', '确定'), function(Reason) {
+									if (Reason.index == 1) {
+										var cmc = Reason.value;
+										doc.getElementById('cmc').value = cmc;
+									}
+								});
+							}
+						});
+					})
+
+					$(".checkCanel").click(function() { //取消选择
+						mui("#checkBox").popover('toggle');
+					})
+
+					//根据name属性获取radio 值	
+					function getRadioRes(name) {
+						var rdsObj = document.getElementsByName(name);
+						var checkVal = null;
+						for (i = 0; i < rdsObj.length; i++) {
+							if (rdsObj[i].checked) {
+								checkVal = rdsObj[i].value;
+							}
+						}
+						return checkVal;
+					}
+
+					//根据name属性获取checkbox 值	
+					function getCheckBoxRes(name) {
+						var rdsObj = document.getElementsByName(name);
+						var checkVal = new Array();
+						var k = 0;
+						for (i = 0; i < rdsObj.length; i++) {
+							if (rdsObj[i].checked) {
+								checkVal[k] = rdsObj[i].value;
+								k++;
+							}
+						}
+						return checkVal;
+					}
+
+					$(".checkSure").click(function() { //确定选择
+						if (checkType == "xzradio") { //单选乡镇
+							//获取单选乡镇的值							
+							var res = getRadioRes('radioXZ');
+							if (res == null) {
+								mui.toast("请选择乡镇");
+								return;
+							}
+							doc.getElementById('xzmc').value = res;
+						} else if (checkType == "xzcheckBox") { //多选乡镇
+							var res = getCheckBoxRes('checkboxXZ');
+							if (res.length == 0) {
+								mui.toast("请选择乡镇");
+								return;
+							}
+							doc.getElementById('xzmc').value = res.join(",");
+						} else if (checkType == "cradio") { //单选村
+							var res = getRadioRes('radioC');
+							if (res == null) {
+								mui.toast("请选择村");
+								return;
+							}
+							doc.getElementById('cmc').value = res;
+						}
+						mui("#checkBox").popover('toggle');
+					});
+
+					var initData = function() {
+						if (sessionStorage.regType == "bcxx") { //补充信息
+							$(".zcTitle").html("补充信息");
+							var activeUserInfo = JSON.parse(sessionStorage.activeUserInfo);
+							//初始化赋值
+							var userType = "";
+
+							if (activeUserInfo.XZJB == "省级") {
+								userType = "省厅负责人";
+							} else if (activeUserInfo.XZJB == "市级") {
+								userType = "市局负责人";
+							} else if (activeUserInfo.XZJB == "县级") {
+								if (activeUserInfo.SFLLY == "是") {
+									userType = "县局负责人";
+								} else {
+									userType = "国土所负责人";
+								}
+							}
+							doc.getElementById('userType').value = userType;
+							doc.getElementById('userType').style.color = "#333";
+							// doc.getElementById('userType').disabled = true;
+
+							doc.getElementById('xzjb').value = activeUserInfo.XZJB || "";
+							if (activeUserInfo.XZJB == "县级") {
+								if (activeUserInfo.SFLLY == "否") {
+									doc.getElementById('xzjb').value = "乡镇";
+									$(".xzmc").show();
+								}
+							}
+							// doc.getElementById('xzjb').style.color = "#333";
+							if (activeUserInfo.XZJB != "县级") {
+								doc.getElementById('xzqhInput').value = activeUserInfo.XZQ || "";
+								xzqhCode.value = activeUserInfo.XZQDM || "";
+							}
+							// showCityPickerButton.disabled = true;
+
+							// xzqhCode.value = activeUserInfo.XZQDM || "";
+							
+							// doc.getElementById('xzmc').value = activeUserInfo.XZMC || "";
+							// doc.getElementById('cmc').value = activeUserInfo.CMC || "";
+							// doc.getElementById('sfz').value = activeUserInfo.SFZ || "";
+							accountBox.value = activeUserInfo.USERNAME || "";
+							accountBox.disabled = true;
+							accountBox.style.color = "#333";
+							passwordBox.value = sessionStorage.mm;
+							passwordBox.disabled = true;
+							passwordBox.style.color = "#333";
+							passwordConfirmBox.value = sessionStorage.mm;
+							passwordConfirmBox.disabled = true;
+							passwordConfirmBox.style.color = "#333";
+							phoneBox.value = sessionStorage.phone;
+							phoneBox.disabled = true;
+							phoneBox.style.color = "#333";
+						}
+					}();
+
+					//转换xml2json
+					function getStrByXml(xml) {
+						var x2js = new X2JS();
+						var jsonObj = x2js.xml_str2json(xml);
+						var resStr = "";
+						for (var key in jsonObj) {
+							resStr = jsonObj[key]["__text"];
+						}
+						return resStr;
+					}
+					
+					/**
+					* 从当前页面pop到目标页面
+					* @param {String} targetId 目标页面ID
+					*/
+					function popToTarget(targetId){
+					    //获取目标页面
+					    var target = plus.webview.getWebviewById(targetId);
+					    if (!target) {
+					        console.log("目标页面不存在！");
+					        return;
+					    }
+					    //获取当前页面
+					    var current = plus.webview.currentWebview();
+					    if (current === target) {
+					        console.log("目标页面是当前页面！");
+					        return;
+					    }
+					    //将要关闭的页面
+					    var pages = new Array(current);
+					    //父级页面
+					    var opener = current.opener();
+					    while (opener){
+					        if (opener === target) {//找到了目标页面
+					            //关闭目标页面的所有子级页面pages
+					            pages.map(function(page){
+					                page.close();
+					            });
+					            return;
+					        }
+					        pages.push(opener);
+					        opener = opener.opener();
+					    }
+					    //没有找到目标页面
+					    console.log("目标页面不是当前页面的祖先页面！");
+					}
+
+					/**
+					 * 点击了注册
+					 * @param {Object} event
+					 */
+					regButton.addEventListener('tap', function(event) {
+						// 测试用
+						var regInfo = {
+							usertype: doc.getElementById('userType').value,
+							xzjb: doc.getElementById('xzjb').value,
+							xzq: doc.getElementById('xzqhInput').value,
+							xzqdm: xzqhCode.value,
+							xzmc: doc.getElementById('xzmc').value,
+							cmc: doc.getElementById('cmc').value,
+							sfz: doc.getElementById('sfz').value,
+							username: accountBox.value,
+							password: $.md5(passwordBox.value),
+							phone: phoneBox.value
+						};
+						console.log(JSON.stringify(regInfo))
+
+						if (!regInfo.phone) {
+							plus.nativeUI.toast('请输入手机号');
+							return;
+						}
+
+						//判断手机号是否正确
+						var reg = /^0?1[3|4|5|7|8|9][0-9]\d{8}$/;
+						//验证规则 
+						if (!reg.test(regInfo.phone)) {
+							plus.nativeUI.toast("手机号错误!");
+							return;
+						}
+
+						if (!regInfo.usertype) {
+							plus.nativeUI.toast('请选择用户类型');
+							return;
+						}
+
+						if (!regInfo.xzjb) {
+							plus.nativeUI.toast('请选择行政级别');
+							return;
+						}
+
+						if (!regInfo.xzq) {
+							plus.nativeUI.toast('请选择行政区');
+							return;
+						}
+
+						if (regInfo.xzjb == "乡镇" && !regInfo.xzmc) {
+							plus.nativeUI.toast('请输入乡镇名称');
+							return;
+						}
+
+						if (regInfo.xzjb == "行政村") {
+							if (!regInfo.xzmc) {
+								plus.nativeUI.toast('请输入乡镇名称');
+								return;
+							}
+							if (!regInfo.cmc) {
+								plus.nativeUI.toast('请输入村名称');
+								return;
+							}
+						}
+
+						if (!regInfo.sfz) {
+							plus.nativeUI.toast('请输入身份证号');
+							return;
+						}
+
+						//验证身份证号是否合法
+						var regSFZ = /(^\d{15}$)|(^\d{18}$)|(^\d{17}(\d|X|x)$)/;
+						if (!regSFZ.test(regInfo.sfz)) {
+							plus.nativeUI.toast('身份证号不正确');
+							return;
+						}
+
+						if (!regInfo.username) {
+							plus.nativeUI.toast('请输入用户名');
+							return;
+						}
+
+						//判断用户姓名是否合法
+						var regName = /^[\u4e00-\u9fa5]{2,4}$/;
+						if (!regName.test(regInfo.username)) {
+							plus.nativeUI.toast('用户名不合法');
+							return;
+						}
+
+						if (!regInfo.password) {
+							plus.nativeUI.toast('请输入密码');
+							return;
+						}
+
+						var passwordConfirm = $.md5(passwordConfirmBox.value);
+						if (passwordConfirm != regInfo.password) {
+							plus.nativeUI.toast('密码两次输入不一致');
+							return;
+						}
+
+						if (sessionStorage.regType == "bcxx") { //补充信息
+							// var nowUserType = regInfo.usertype;
+							// var oldUserType = activeUserInfo.XZJB;
+							// var isSureReg = false;
+							// // 时判断是否匹配之前的用户类型
+							// if (oldUserType == "县级") {
+							// 	if (nowUserType == "市局负责人" || nowUserType == "省厅负责人") {
+							// 		muiconfirm = mui.confirm('您确定注册为' + nowUserType + '吗?', '', ['取消', '确定'], function(e) {
+							// 			if (e.index == 0) {
+							// 				isSureReg = false;
+							// 			} else if (e.index == 1) { //继续注册
+							// 				isSureReg = true;
+							// 			}
+							// 			muiconfirm = false;
+							// 		}, 'div')
+							// 	}
+							// } else if (oldUserType == "市级") {
+							// 	if (nowUserType == "省厅负责人") {
+							// 		muiconfirm = mui.confirm('您确定注册为' + nowUserType + '吗?', '', ['取消', '确定'], function(e) {
+							// 			if (e.index == 0) {
+							// 				isSureReg = false;
+							// 			} else if (e.index == 1) { //继续注册
+							// 				isSureReg = true;
+							// 			}
+							// 			muiconfirm = false;
+							// 		}, 'div')
+							// 	}
+							// }
+							// //判断区县
+							// var oldXZQ = activeUserInfo.XZQ;
+							// var newXZQ = regInfo.xzq;
+							// if (oldXZQ != newXZQ) {
+							// 	muiconfirm = mui.confirm('您当前注册的行政区划和之前不符', '继续注册', ['取消', '确定'], function(e) {
+							// 		if (e.index == 0) {
+							// 			isSureReg = false;
+							// 		} else if (e.index == 1) { //继续注册
+							// 			isSureReg = true;
+							// 		}
+							// 		muiconfirm = false;
+							// 	}, 'div')
+							// }
+							// if (!isSureReg) {
+							// 	return;
+							// }
+						}
+						
+						var url = "http://110.249.159.46:8089/gtkjghTest/SurveyUserManagerService3.asmx/RegisterUser";
+						console.log(JSON.stringify(regInfo));
+						$.ajax(url, {
+							data: regInfo,
+							dataType: "text", //返回文本
+							jsonp: "jsonp",
+							type: 'post', //HTTP请求类型  
+							timeout: 10000, //超时时间设置为10秒；  
+							success: function(xml) {
+								var resStr = getStrByXml(xml);
+								if (resStr == "ok") {
+									if (sessionStorage.regType == "bcxx") { //补充信息
+										plus.nativeUI.alert('注册成功！');
+										// mui.openWindow({
+										// 	url: 'login.html',
+										// 	id: 'login',
+										// 	preload: false,
+										// });
+									} else {
+										plus.nativeUI.alert('注册成功，等待上级负责人审核通过！');
+										// mui.openWindow({
+										// 	url: 'login.html',
+										// 	id: 'login',
+										// 	preload: false,
+										// });
+									}
+									popToTarget(plus.webview.getLaunchWebview().id);//退回登录页
+								} else {
+									plus.nativeUI.alert(resStr);
+								}
+							},
+							error: function(xhr, type, errorThrown) {
+								//异常处理；  
+								console.log(type);
+							}
+						});
+					});
+				}, false);
+			}(mui, document));
+		</script>
+	</body>
+
+</html>

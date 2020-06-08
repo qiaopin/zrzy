@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html xmlns:v-bind="http://www.w3.org/1999/xhtml">
+
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <link rel="stylesheet" type="text/css" href="../../js/layui-v2.4.5/css/layui.css"/>
+    <link rel="stylesheet" type="text/css" href="../../js/layer/theme/default/layer.css"/>
+    <link rel="stylesheet" type="text/css" href="../../css/comstyle.css"/>
+    <link rel="stylesheet" type="text/css" href="../../js/openlayers/ol.css"/>
+    <link rel="stylesheet" type="text/css" href="../../css/monitorAnalysis.css"/>
+    <link rel="stylesheet" type="text/css" href="../../css/style.css"/>
+    <style type="text/css">
+        .left {
+            width: 60px;
+        }
+
+        .right {
+            left: 60px;
+            width: calc(100vw - 61px);
+            border-left: 1px solid #F2F2F2;
+        }
+
+        .layui-form-item {
+            margin-bottom: 0;
+            margin-left: 10px;
+        }
+
+        #iframes {
+            height: calc(100%);
+        }
+
+        .layui-form-select .layui-input {
+            width: 260px;
+        }
+
+        .layui-btn.layui-btn-primary.active {
+            color: #fff;
+            background: #177BD0;
+        }
+    </style>
+</head>
+
+<body class="white">
+<div id="alertinfodiv">
+
+</div>
+<div class="left">
+    <div class="nav">
+        <ul>
+            <li name="startReview" class="active"><i class="layui-icon layui-icon-app"></i><a
+                    href="javascript:">发起整改</a></li>
+            <li name="myReview"><i class="layui-icon layui-icon-app"></i><a href="javascript:">审核管理</a></li>
+        </ul>
+    </div>
+</div>
+<div class="right">
+    <!--<div class="layui-btn-group changeDataType">-->
+    <!--<button type="button" class="layui-btn layui-btn-primary active">违法监察图斑</button>-->
+    <!--</div>-->
+    <iframe id="iframes" name="iframes" src="" width="100%" height="100%"
+            style="border: 0px;"></iframe>
+</div>
+</body>
+<script src="../../js/jquery1.9.0.min.js"></script>
+<script src="../../js/config.js"></script>
+<script src="../../js/common.js"></script>
+<script src="../../js/layer/layer.js"></script>
+<script src="../../js/layui/layui.js"></script>
+<script>
+    var layuiform;
+    layui.use(['form', 'element', 'laydate', 'table', 'slider', 'jquery'], function () {
+        layuiform = layui.form;
+    });
+
+    parent.JFZD = JSON.parse(sessionStorage.JFZD)[0];
+
+    if (parent.JFZD.USERTYPE == "省厅负责人" || parent.JFZD.USERTYPE == "市局负责人" || parent.JFZD.USERTYPE == "县局负责人") {
+        $("#iframes").attr("src", "startReview.html");
+    } else {
+        $("#iframes").attr("src", "myReview.html");
+        $("li[name=startReview]").hide();
+    }
+
+    $(".nav ul li").click(function () {
+        $(".nav ul li").removeClass('active');
+        $(this).addClass('active');
+        var name = $(this).attr('name');
+        $(".tab-container").addClass('hide');
+        $(".tab-container[name='" + name + "']").removeClass('hide');
+        $("#collect").addClass('hide');
+        if (name == "startReview") {
+            $("#iframes").attr("src", "startReview.html");
+        } else if (name == "myReview") {
+            $("#iframes").attr("src", "myReview.html");
+        }
+    });
+</script>
+
+</html>

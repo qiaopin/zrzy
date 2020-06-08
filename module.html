@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html xmlns:v-bind="http://www.w3.org/1999/xhtml">
+
+<head>
+    <meta charset="UTF-8">
+    <title>河北省自然资源动态监管平台</title>
+    <link rel="stylesheet" type="text/css" href="js/layui/css/layui.css"/>
+    <link rel="stylesheet" type="text/css" href="js/layer/theme/default/layer.css"/>
+    <link rel="stylesheet" href="css/iconfont/iconfont.css">
+    <link rel="stylesheet" type="text/css" href="css/style.css"/>
+    <link rel="stylesheet" href="css/login.css">
+    <style>
+
+    </style>
+</head>
+
+<body style="overflow: hidden;">
+
+<div class="bg"></div>
+<div class="general">
+    <!--<div class="mainTitle">-->
+    <!--河北省自然资源动态监管-->
+    <!--</div>-->
+    <ul class="generalMoudle">
+        <li data-type="zyjgyzt" class="active">
+            <div class="ghcg" data-index="4">
+                <img class="nav-icon" src="images/general/yzt.png"/>
+                <div class="bottomTitle">资源监管一张图</div>
+            </div>
+        </li>
+        <li data-type="hzfx">
+            <div class="ghcg" data-index="4">
+                <img class="nav-icon" src="images/general/hzfx.png"/>
+                <div class="bottomTitle">汇总分析</div>
+            </div>
+        </li>
+        <li data-type="dtjc">
+            <div class="ghcg" data-index="4">
+                <img class="nav-icon" src="images/general/dtjc.png"/>
+                <div class="bottomTitle">动态监测</div>
+            </div>
+        </li>
+        <li data-type="wfxs">
+            <div class="ghcg" data-index="4">
+                <img class="nav-icon" src="images/general/wfxs.png"/>
+                <div class="bottomTitle">违法线索</div>
+            </div>
+        </li>
+        <li data-type="yhgl">
+            <div class="ghcg" data-index="4">
+                <img class="nav-icon" src="images/general/yhgl.png"/>
+                <div class="bottomTitle">用户管理</div>
+            </div>
+        </li>
+        <li data-type="zzzy">
+            <div class="ghcg" data-index="4">
+                <img class="nav-icon" src="images/general/zzzy.png"/>
+                <div class="bottomTitle">在线状态</div>
+            </div>
+        </li>
+        <li data-type="xzgl">
+            <div class="xzgl" data-index="4">
+                <img class="nav-icon" src="images/general/zzzy.png"/>
+                <div class="bottomTitle">销账管理</div>
+            </div>
+        </li>
+    </ul>
+    <div class="generalImgBox">
+        <img src="images/navicon/wphc.png" alt="">
+    </div>
+</div>
+<div class="special">
+    <div class="indexBody">
+        <div class="menuBox">
+            <ul>
+                <li data-type="wphc">
+                    <div id="JCFX" class="menuInfoBox">
+                        <i class="centerImg iconfont icon-map">
+                            <img class="nav-icon" src="images/navicon/wphc.png"/>
+                        </i>
+                        <div class="bottomTitle">卫片核查</div>
+                    </div>
+                </li>
+                <li data-type="gdbh">
+                    <div id="JFZD" class="menuItem shopCenter" data-index="0">
+                        <i class="centerImg iconfont icon-map-">
+                            <img class="nav-icon" src="images/navicon/gdbh.png"/>
+                        </i>
+                        <div class="bottomTitle">耕地保护</div>
+                    </div>
+                </li>
+                <li data-type="phjg">
+                    <div class="menuItem glxt" data-index="6">
+                        <i class="centerImg iconfont icon-neironggengxin">
+                            <img class="nav-icon" src="images/navicon/phjg.png"/>
+                        </i>
+                        <div class="bottomTitle">批后监管</div>
+                    </div>
+                </li>
+                <li data-type="tdly">
+                    <div class="updateInfoBox">
+                        <i class="centerImg iconfont icon-map-">
+                            <img class="nav-icon" src="images/navicon/tdly.png"/>
+                        </i>
+                        <div class="bottomTitle">土地利用</div>
+                    </div>
+                </li>
+                <li data-type="lczy">
+                    <div class="menuItem zttz" data-index="3">
+                        <i class="centerImg iconfont icon-taizhang">
+                            <img class="nav-icon" src="images/navicon/lczy.png"/>
+                        </i>
+                        <div class="bottomTitle">林草资源</div>
+                    </div>
+                </li>
+                <li data-type="qtzy">
+                    <div class="menuItem scxt" data-index="5">
+                        <i class="centerImg iconfont icon-xitongguanli">
+                            <img class="nav-icon" src="images/navicon/hyzy.png"/>
+                        </i>
+                        <div class="bottomTitle">其他资源</div>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
+</body>
+
+<script src="js/jquery1.9.0.min.js"></script>
+<script src="js/config.js"></script>
+<script src="js/common.js"></script>
+<script src="js/md5.js"></script>
+<!--layui弹出层-->
+<script src="js/layer/layer.js"></script>
+<script src="js/layui/layui.js"></script>
+<script>
+    layui.use(['form', 'element', 'jquery', 'table'], function () {
+        var $ = layui.jquery;
+
+        $(".generalMoudle,.special").on("click", "li", function () {
+            sessionStorage.clickMoudle = $(this).attr("data-type");
+            if (!sessionStorage.userInfo) {
+                parent.showLoginLayer();
+            } else {
+                parent.goToMoudle();
+            }
+        });
+
+        $(".generalMoudle li").hover(function () {
+            sessionStorage.clickMoudle = $(this).attr("data-type");
+            $(".generalMoudle li").removeClass("active");
+            $(this).addClass("active");
+            var clickMoudle = sessionStorage.clickMoudle;
+            if(clickMoudle=="zyjgyzt"){
+                $(".generalImgBox img").attr("src","images/navicon/wphc.png");
+            }else if(clickMoudle=="hzfx"){
+                $(".generalImgBox img").attr("src","images/navicon/hzfx.png");
+            }else if(clickMoudle=="dtjc"){
+                $(".generalImgBox img").attr("src","images/navicon/wgjk.png");
+            }else if(clickMoudle=="wfxs"){
+                $(".generalImgBox img").attr("src","images/navicon/wfxs.png");
+            }else if(clickMoudle=="yhgl"){
+                $(".generalImgBox img").attr("src","images/navicon/rygl.png");
+            }else if(clickMoudle=="zzzy"){
+                $(".generalImgBox img").attr("src","images/navicon/zzzy.png");
+            }
+        });
+    });
+</script>
+</html>

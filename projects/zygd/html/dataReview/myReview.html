@@ -1,0 +1,751 @@
+<!DOCTYPE html>
+<html xmlns:v-bind="http://www.w3.org/1999/xhtml">
+
+<head>
+    <meta charset="UTF-8">
+    <title>综合查询</title>
+    <link rel="stylesheet" type="text/css" href="../../js/layui-v2.4.5/css/layui.css"/>
+    <link rel="stylesheet" type="text/css" href="../../js/layer/theme/default/layer.css"/>
+    <link rel="stylesheet" type="text/css" href="../../js/openlayers/ol.css"/>
+    <!--<link rel="stylesheet" type="text/css" href="../../css/style.css"/>-->
+    <style>
+        body {
+            overflow: hidden;
+        }
+
+        .top {
+            width: calc(100% - 350px);
+            margin-left: 350px;
+            /*height: 50vh;*/
+            background: #F8F8F8;
+            position: relative;
+        }
+
+        .top {
+            height: 100vh;
+        }
+
+        .topQuery {
+            box-sizing: border-box;
+            padding-top: 8px;
+            top: 0;
+            position: absolute;
+            width: 350px;
+            height: 100%;
+            background: #fff;
+            z-index: 11;
+            overflow-y: auto;
+            overflow-x: hidden;
+        }
+
+        #map {
+            width: 100%;
+            height: 100%;
+        }
+
+        .niceScroll {
+            height: calc(100% - 145px);
+            padding: 0px;
+        }
+
+        .title_div {
+            height: 30px;
+            color: #3A6992;
+            line-height: 30px;
+            padding: 0px 10px;
+            position: relative;
+        }
+
+        .topQuery > div.layui-form-item {
+            border-bottom: 1px solid #aaa;
+            background-color: white;
+            padding-bottom: 5px;
+        }
+
+        .layui-form-label {
+            text-align: left;
+        }
+
+        .layui-form-item .layui-input-inline {
+            width: 205px;
+        }
+
+        .layui-form-item {
+            margin-bottom: 5px;
+            float: left;
+            width: 315px;
+            clear: none;
+        }
+
+        .layui-input, .layui-select, .layui-textarea {
+            height: 32px;
+        }
+
+        .item-line {
+            padding-bottom: 5px;
+            border-bottom: 1px solid #eee;
+        }
+
+        .f-right {
+            position: absolute;
+            right: 10px;
+        }
+
+        .xzqArea {
+            position: fixed;
+            left: 440px;
+            display: none;
+            border: none;
+        }
+
+        .xzqArea .layui-input-inline {
+            /*width: 24%;*/
+            margin: 0;
+        }
+
+        .xzqArea .layui-form-select .layui-input {
+            padding-right: 0;
+        }
+
+        .xzqArea > div:first-child .layui-select-disabled .layui-edge, .xzqArea > div:nth-child(2) .layui-select-disabled .layui-edge {
+            display: none;
+        }
+
+        .attrItem {
+            padding: 2px 0;
+            margin: 0 5px;
+            background-color: #eee;
+        }
+
+        .layui-form-item .layui-inline, .layui-form-item .layui-input-inline {
+            margin-right: 0;
+        }
+
+        .layui-form-mid {
+            margin-left: 10px;
+        }
+
+        .mouseTitle {
+            position: absolute;
+            padding: 5px 10px;
+            font-size: 14px;
+            background: rgba(0, 0, 0, 0.5);
+            color: #fff;
+        }
+
+        .layui-table, .layui-table-view {
+            margin-bottom: 0;
+        }
+    </style>
+</head>
+
+<body class="white">
+<div class="topQuery">
+    <form class="layui-form" style="display: inline-block;">
+        <div class="layui-form-item item-line xzqArea">
+            <div class="layui-input-inline layui-hide">
+                <select id="city" name="city" lay-filter="city" disabled="disabled">
+                    <option value="">请选择市</option>
+                </select>
+            </div>
+            <div class="layui-input-inline layui-hide">
+                <select id="area" name="area" lay-filter="area" disabled="disabled">
+                    <option value="">请选择县/区</option>
+                </select>
+            </div>
+            <div class="layui-input-inline">
+                <select id="xzmc" name="xzmc" lay-filter="xzmc">
+                    <option value="">请选择乡镇</option>
+                </select>
+            </div>
+            <div class="layui-input-inline">
+                <select id="cmc" name="cmc" lay-filter="cmc">
+                    <option value="">请选择村</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="layui-form-item others">
+            <label class="layui-form-label">发起人</label>
+            <div class="layui-input-inline">
+                <input type="text" name="initiatorName" placeholder="发起人" autocomplete="off" class="layui-input">
+            </div>
+        </div>
+
+        <div class="layui-form-item others">
+            <label class="layui-form-label">修订状态</label>
+            <div class="layui-input-inline">
+                <select id="" name="queryState" lay-filter="">
+                    <option value="">全部</option>
+                    <option value="已完成">已完成</option>
+                    <option value="未完成">未完成</option>
+                </select>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <div class="layui-inline">
+                <label class="layui-form-label">修订时间</label>
+                <div class="layui-input-inline" style="width: 90px;">
+                    <input type="text" id="createtime_min" name="createtime_min" placeholder="年-月-日" autocomplete="off"
+                           class="layui-input">
+                </div>
+                <div class="layui-form-mid">-</div>
+                <div class="layui-input-inline" style="width: 90px;">
+                    <input type="text" id="createtime_max" name="createtime_max" placeholder="年-月-日" autocomplete="off"
+                           class="layui-input">
+                </div>
+            </div>
+        </div>
+
+        <div class="layui-form-item" style="width:100%;padding:0 15px;clear:both;text-align: center;">
+            <div class="layui-inline">
+                <div id="reSearch" class="layui-btn layui-btn-warm" lay-submit lay-filter="reSearch">
+                    <i class="layui-icon">&#xe669;</i>重置
+                </div>
+            </div>
+            <div class="layui-inline">
+                <div id="search" class="layui-btn layui-btn-normal" lay-submit lay-filter="search">
+                    <i class="layui-icon">&#xe615;</i>查询
+                </div>
+            </div>
+        </div>
+    </form>
+
+    <div class="niceScroll table1_div">
+        <table id="table1" lay-filter="table1"></table>
+        <div id="laypage"></div>
+    </div>
+</div>
+<div class="top">
+    <div id="map">
+
+    </div>
+    <div class="mouseTitle">鼠标提示</div>
+</div>
+
+</body>
+<script src="../../js/jquery-2.1.0.js"></script>
+<script src="../../js/config.js"></script>
+<script src="../../js/common.js"></script>
+<script src="../../js/scrollbar/jquery.nicescroll.min.js"></script>
+<script src="../../js/layer/layer.js"></script>
+<script src="../../js/layui/layui.js"></script>
+<script src="../../js/modules/layui-config.js"></script>
+<script src="../../js/openlayers/ol-debug.js"></script>
+<script src="../../js/openlayers/maptool.js"></script>
+<script>
+    var ljfBase = null;
+    var slider = null;
+    var form = null;
+    var layerManager = null;
+    var _mapObject = null;
+    var _mapView = null;
+    var layuitable = null;
+    var laypage = null;
+    var activationClick = null;
+    var cityData;
+    var searchData;
+    var exportIndex;//选择导出列页面
+    //分页
+    var pageIndex = 1;//当前是第几页
+    var pageNum = 100;//一页几条数据
+    var count = 0;//数据总条数
+
+    // var layer;
+    var isExport;//是否执行导出
+
+    parent.JFZD = JSON.parse(sessionStorage.JFZD)[0];
+    sessionStorage.userXZQDM = parent.JFZD.XZQDM;
+
+    var loading;
+    $(".mouseTitle").hide();
+    $(document).ready(function () {
+        $(document).bind('mousemove', function (ev) {
+            var lastx = ev.pageX - $(".top").offset().left + 10;
+            var lasty = ev.pageY;
+            $(".mouseTitle").css("left", lastx + "px");
+            $(".mouseTitle").css("top", lasty + "px");
+        })
+    });
+
+    function fullScreen() {//全屏显示地图
+        if ($("#fullBtn").hasClass("active")) {//取消全屏
+            $(".top").attr("style", "");
+        } else {//全屏
+            $(".top").attr("style", "height:100vh");
+        }
+        layerManager._mapObject.updateSize();
+        $("#fullBtn").toggleClass("active");
+    }
+
+    layui.use(['form', 'element', 'laydate', 'table', 'laypage', 'slider', 'ljfBase', 'serverCenter', 'LayerManager', 'NULayer', 'bluebird'], function () {
+        form = layui.form;
+        layuitable = layui.table;
+        laypage = layui.laypage;
+        slider = layui.slider;
+        var layuidate = layui.laydate;
+        // layer = layui.layer;
+
+        layuidate.render({
+            elem: '#createtime_min'
+        });
+        layuidate.render({
+            elem: '#createtime_max'
+        });
+
+        ljfBase = layui.ljfBase;
+        var LayerManager = layui.LayerManager;
+        var center = [114.48, 38.03];
+        layerManager = new LayerManager("map", center, 12);
+        _mapObject = layerManager._mapObject;
+        showBJByUserXZQ(layerManager._mapObject);
+        ljfBase.post(ljfBase.https.BaseMapManagerService + "/GetAllBaseMap", {sprid: sessionStorage.sprid}, function (xml) {
+            var resArr = $.parseJSON(xml);
+            if (resArr.length == 0) {
+                location.reload();
+            }
+            layerManager.loadBaseMap(resArr, "矢量");
+            $('.maptab ul li').click(function () {
+                $('.maptab ul li').removeClass("active");
+                $(this).addClass("active");
+                var type = $(this).find('a').attr('type');
+                layerManager.hideBaseMap();
+                layerManager.loadBaseMap(resArr, type);
+            });
+        });
+        initMapQuery();
+        addPointZB();
+        init();
+
+        // form.on('select(city)', function (res) {//切换市
+        //     var shiValue = res.value;
+        //     var smc = $("#city option:selected").text();
+        //     showCityZB(smc);
+        //     getXianList(shiValue);
+        // });
+
+        // form.on('select(area)', function (res) {//切换县
+        //     var xzqdm = res.value;
+        //     var smc = $("#city option:selected").text();
+        //     var xmc = $("#area option:selected").text();
+        //     showAreaZB(smc,xmc);
+        //     getXZListByDM(xzqdm);
+        // });
+
+        form.on('select(xzmc)', function (res) {//切换乡镇
+            var xzqdm = $("#area").val();
+            var xzmc = res.value;
+            getCList(xzqdm, xzmc);
+        });
+
+        form.on('select(fwxz)', function (res) {//切换房屋性质
+            if (res.value != "居住用房" && res.value != "") {
+                $(".fwsyfs").hide();
+                $("#fwsyfs").val("");
+                $(".fhtj").hide();
+                $("#sffhtj").val("");
+            } else {
+                $(".fwsyfs").show();
+                $(".fhtj").show();
+            }
+            form.render();
+        });
+
+        form.on('select(sfysx)', function (res) {//切换是否有手续
+            if (res.value == "否") {
+                $(".spsj").hide();
+                $("#spsj_min").val("");
+                $("#spsj_max").val("");
+            } else {
+                $(".spsj").show();
+            }
+            form.render();
+        });
+
+        form.on('select(fwsyfs)', function (res) {//切换房屋使用方式
+            if (res.value == "销售") {
+                $(".fhtj").hide();
+                $("#sffhtj").val("");
+            } else {
+                $(".fhtj").show();
+            }
+            form.render();
+        });
+
+        form.on("submit(search)", function (data) {
+            loading = layer.load(0, {shade: 0.1});
+            var data = data.field;
+            data.cityName = $("#city").val() == "" ? "" : $("#city option:selected").text();
+            data.areaName = $("#area").val() == "" ? "" : $("#area option:selected").text();
+            searchData = data;
+
+            pageIndex = 1;
+            count = 0;
+            GetRurallandn();
+
+            return false;
+        });
+    });
+
+    function init() {//初始化赋值搜索条件
+        getCityList();
+        if (parent.JFZD.USERTYPE == "省厅负责人") {
+
+        } else if (parent.JFZD.USERTYPE == "市局负责人") {
+            var shi = parent.JFZD.XZQ.split(" ")[1];
+            $.each(cityData[0].children, function (i, v) {
+                if (v.text == shi) {
+                    $("#city").html("<option value='" + v.value + "'>" + v.text + "</option>").attr("disabled", true);
+                    getXianList(v.value);
+                    form.render();
+                    return;
+                }
+            });
+        } else if (parent.JFZD.USERTYPE == "县局负责人") {
+            var shi = parent.JFZD.XZQ.split(" ")[1];
+            var xian = parent.JFZD.XZQ.split(" ")[2];
+            var xzqdm = parent.JFZD.XZQDM;
+            $.each(cityData[0].children, function (i, v) {
+                if (v.text == shi) {
+                    $("#city").html("<option value='" + v.value + "'>" + v.text + "</option>").attr("disabled", true);
+                    getXianList(v.value);
+                    return;
+                }
+            });
+            $('#area').html("<option value='" + xzqdm + "'>" + xian + "</option>").attr("disabled", true);
+            getXZListByDM(xzqdm);
+            $(".xzqArea").show();
+        } else if (parent.JFZD.USERTYPE == "县局负责人") {
+            var shi = parent.JFZD.XZQ.split(" ")[1];
+            var xian = parent.JFZD.XZQ.split(" ")[2];
+            var xzqdm = parent.JFZD.XZQDM;
+            $.each(cityData[0].children, function (i, v) {
+                if (v.text == shi) {
+                    $("#city").html("<option value='" + v.value + "'>" + v.text + "</option>").attr("disabled", true);
+                    getXianList(v.value);
+                    return;
+                }
+            });
+            $('#area').html("<option value='" + xzqdm + "'>" + xian + "</option>").attr("disabled", true);
+            getXZListByDM(xzqdm);
+            $(".xzqArea").show();
+        }
+    }
+
+    function getCityList() {
+        var getCityUrl = "http://110.249.159.46:8089/gtkjghTest/ConfigManagerService.asmx/GetCityData2";
+        $.ajax(getCityUrl, {
+            data: {},
+            dataType: "text", //返回文本
+            jsonp: "jsonp",
+            async: false,
+            type: 'post', //HTTP请求类型
+            timeout: 10000, //超时时间设置为10秒；
+            success: function (xml) {
+                var resjosn = $(xml).text();
+                cityData = JSON.parse(resjosn);
+                // debugger
+                var str = '<option value="">选择市</option>';
+                if (!cityData[0]) {
+                    getCityList();
+                }
+                var list = cityData[0].children;
+                $.each(list, function (i, v) {
+                    str += '<option value="' + v.value + '">' + v.text + '</option>';
+                });
+                $("#city").html(str);
+                var shiValue = list[0].text;
+                getXianList(shiValue);
+                form.render();
+            },
+            error: function (xhr, type, errorThrown) {
+                //异常处理；
+                console.log(type);
+            }
+        });
+    }
+
+    function getXianList(shiValue) {
+        var list = cityData[0].children;
+        var str = '<option value="">选择区/县</option>';
+        if (shiValue) {
+            $.each(list, function (i, v) {
+                if (v.value == shiValue) {
+                    $.each(v.children, function (s, k) {
+                        str += '<option value="' + k.value + '">' + k.text + '</option>';
+                    });
+                    return;
+                }
+            })
+        }
+        $("#area").html(str);
+        form.render();
+        getXZListByDM($("#area").val());
+    }
+
+    //获取乡镇列表
+    function getXZListByDM(xzqdm) {
+        var str = '<option value="">选择乡镇</option>';
+        var url = "http://110.249.159.46:8089/gtkjghTest/ConfigManagerService.asmx/GetXZNamesbyXZQDM";
+        $.ajax(url, {
+            data: {
+                xzqdm: xzqdm
+            },
+            dataType: "text", //返回文本
+            jsonp: "jsonp",
+            async: false,
+            type: 'post', //HTTP请求类型
+            timeout: 10000, //超时时间设置为10秒；
+            success: function (xml) {
+                var resStr = $(xml).text();
+                var resArr = JSON.parse(resStr);
+                $.each(resArr, function (i, v) {
+                    str += '<option value="' + v + '">' + v + '</option>';
+                });
+                $("#xzmc").html(str);
+                form.render();
+            },
+            error: function (xhr, type, errorThrown) {
+                //异常处理；
+                console.log(type);
+            }
+        });
+        getCList($("#area").val(), $("#xzmc").val());
+    }
+
+    //获取村列表
+    function getCList(xzqdm, xzmc) {
+        var str = '<option value="">选择村</option>';
+        var url = "http://110.249.159.46:8089/gtkjghTest/ConfigManagerService.asmx/GetCMCNamesbyXZQDM";
+        $.ajax(url, {
+            data: {
+                xzqdm: xzqdm,
+                xzmc: xzmc
+            },
+            dataType: "text", //返回文本
+            jsonp: "jsonp",
+            async: false,
+            type: 'post', //HTTP请求类型
+            timeout: 10000, //超时时间设置为10秒；
+            success: function (xml) {
+                var resStr = $(xml).text();
+                var resArr = JSON.parse(resStr);
+                $.each(resArr, function (i, v) {
+                    str += '<option value="' + v + '">' + v + '</option>';
+                });
+                $("#cmc").html(str);
+                form.render();
+            },
+            error: function (xhr, type, errorThrown) {
+                //异常处理；
+                console.log(type);
+            }
+        });
+    }
+
+    $("#reSearch").click(function () {//重置
+        $(".layui-form input,.layui-form select").val("");
+        showBJByUserXZQ(layerManager._mapObject);
+        init();
+        form.render();
+    });
+
+    function GetRurallandn() {
+        searchData.pageIndex = pageIndex;
+        searchData.pageNum = pageNum;
+        var url = "http://110.249.159.46:8082/zygd2/RurallandEditController/findRurallandEdit";
+        $.ajax(url, {
+            data: JSON.stringify(searchData),
+            dataType: "json", //返回文本
+            // async: false,
+            contentType: "application/json",
+            type: 'post', //HTTP请求类型
+            // timeout: 10000, //超时时间设置为10秒；
+            success: function (xml) {
+                var resjosn = JSON.parse(xml);
+                var code = resjosn.code;
+                if (code == 0) {
+                    count = resjosn.count;
+                    showTable(resjosn.data);
+                } else {
+                    layer.alert(resjosn.error);
+                }
+            },
+            error: function (xhr, type, errorThrown) {
+                //异常处理；
+                layer.alert(type);
+                layer.close(loading);
+            }
+        });
+    }
+
+    //getListData
+    function findRurallandEdit() {
+        var queryCondition = new Object();
+
+        $.each(searchData, function (i, v) {
+            queryCondition[i] = v;
+        });
+
+        // queryCondition.initiatorName = "王瑾";
+        // queryCondition.queryState = "";
+        // queryCondition.createtime_min = "";
+        // queryCondition.createtime_max = "";
+        // queryCondition.cityName = "石家庄市";
+        // queryCondition.areaName = "深泽县";//让前端传递一个分割字符串
+        // queryCondition.xzmc = "桥头乡";
+        // queryCondition.cmc = "";
+
+        queryCondition.userid = parent.JFZD.ID;//当前用户名
+        queryCondition.username = parent.JFZD.USERNAME;//当前用户id
+        queryCondition.usertype = parent.JFZD.USERTYPE;//当前用户类型
+
+        var pram = JSON.stringify(queryCondition);
+        return pram;
+    }
+
+    function showTable(resjosn) {
+        var allSearchAttr = [];
+        showFWFeature(resjosn);
+        var searchXZQ = searchData.cityName + searchData.areaName + searchData.xzmc + searchData.cmc;
+        if (searchXZQ) {
+            allSearchAttr.push(searchXZQ);
+        } else {
+            allSearchAttr.push("全省");
+        }
+
+        var height = $(".table1_div").height();
+
+        var cols = [{type: 'numbers', title: '序号', width: '80'}];
+
+        var obj = {field: 'tbr', title: '发起人', width: 90};
+        cols.push(obj);
+
+        if (!searchData.cmc) {
+            if (searchData.xzmc) {
+                cols.push({
+                    title: '行政区', templet: function (d) {
+                        return d.csqmc;
+                    }, width: 120
+                });
+            } else {
+                if (searchData.areaName) {
+                    cols.push({
+                        title: '行政区', templet: function (d) {
+                            return d.xzmc + d.csqmc;
+                        }, width: 120
+                    });
+                } else {
+                    if (searchData.cityName) {
+                        cols.push({
+                            title: '行政区', templet: function (d) {
+                                return d.xmc + d.xzmc + d.csqmc;
+                            }, width: 120
+                        });
+                    }
+                }
+            }
+        }
+
+        cols.push({field: 'fwjsztmc', title: '主体名称', width: 120});
+
+        if (searchData.fwxz) {
+            allSearchAttr.push(searchData.fwxz);
+        } else {
+            cols.push({field: 'fwxz', title: '房屋性质', width: 110});
+        }
+
+        cols.push({
+            title: '操作', align: 'center', width: 120, templet: function (d) {
+                var str = "";
+                str += '<a class="layui-btn layui-btn-xs layui-btn-skyblue" lay-event="">下发</a>';
+                str += '<a class="layui-btn layui-btn-skyblue layui-btn-xs"  lay-event="">编辑</a>';
+                str += '<a class="layui-btn layui-btn-skyblue layui-btn-xs"  lay-event="">提交</a>';
+                return str
+            }
+        });
+        var attrStr = "";
+        $.each(allSearchAttr, function (i, v) {
+            attrStr += "<span class='attrItem'>" + v + "</span>";
+        });
+        $("#searchAttr").html(attrStr);
+        layuitable.render({
+            elem: '#table1',
+            height: height - 60,
+            page: false, //开启分页
+            limit: resjosn.length,
+            // limits: [10, 50, 100],
+            cols: [cols],
+            data: resjosn,
+            done: function () {
+                layer.close(loading);
+            }
+        });
+        laypage.render({
+            elem: 'laypage'
+            , layout: ['count', 'prev', 'page', 'next', 'limit', 'refresh', 'skip']
+            , count: count //数据总数
+            , curr: pageIndex
+            , limit: pageNum
+            , limits: [100, 500, 1000]
+            , jump: function (obj, first) {
+                console.log(obj);
+                if (!first) {
+                    pageIndex = obj.curr;
+                    pageNum = obj.limit;
+                    GetRurallandn();
+                }
+            }
+        });
+        layuitable.on('tool(table1)', function (obj) {
+            activationClick = null;
+            var data = obj.data;
+            var el = $(obj.tr).find("a[lay-event='" + obj.event + "']").attr('disabled');
+            if (el) {
+                return;
+            }
+            if (obj.event === 'location') {//定位
+                var NUSource1 = NUSourceLayer1.getSource();  //获取Source
+                NUSource1.clear();
+                var FWZB = data.fwzb;
+                var lon = FWZB.split(',')[0];
+                var lat = FWZB.split(',')[1];
+                lon = Number(lon);
+                lat = Number(lat);
+                _mapView.setCenter([lon, lat]);//单点定位
+                _mapView.setZoom(17);//设置级别
+
+                var feature = new ol.Feature(new ol.geom.Point([lon, lat]));
+                var Style = new ol.style.Style({
+                    image: new ol.style.Icon(({
+                        src: "../../images/maplable/blueIcon.png",
+                    })),
+                });
+                feature.setStyle(Style);
+                feature.set("FWBH", data.FWBH);
+                NUSource1.addFeature(feature);
+            } else if (obj.event === 'look') {
+                layer.look = true;
+                layer.data = {};
+                var littleData = data;
+                $.each(littleData, function (i, v) {
+                    layer.data[i.toUpperCase()] = v;
+                });
+                layer.openIndex = layer.open({
+                    type: 2,
+                    title: false,
+                    closeBtn: 0, //不显示关闭按钮
+                    shade: [0],
+                    skin: 'layui-layer-lan',
+                    area: ['100%', '100%'],
+                    anim: 2,//弹出动画
+                    shade: 0.2,//遮盖层
+                    content: ['edit.html', 'no'], //这里content是一个普通的String
+                });
+            }
+        });
+    }
+
+</script>
+
+</html>

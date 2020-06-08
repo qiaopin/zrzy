@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<link rel="stylesheet" type="text/css" href="css/layui.css"/>
+		<style>
+			.layui-table-view [lay-size=sm].layui-table .layui-table-cell{
+        	height: auto;
+        	line-height: 22px;
+        }
+        .layui-table-cell, .layui-table-tool-panel li{
+        	padding: 0px 0px;
+        	overflow: auto;
+        	white-space:normal;
+        }
+        .layui-table-cell {
+           height: auto;
+        }
+		</style>
+	</head>
+	<body>
+		<table id="table1" lay-filter="table1">
+	
+	    </table>
+	</body>
+	<script src="layui.js"></script>
+	<script>
+		layui.use(['form', 'element', 'laydate', 'table'], function () {
+	        var layuielement = layui.element;
+	        var layuiform = layui.form;
+	        var layuitable = layui.table;
+	         
+	        var resjosn = [{
+	         	"field1":"1","field2":"2","field3":"3","field4":"4","field5":"5","field6":"6",
+	         	"field7":"7","field8":"8","field9":"9","field10":"10","field11":"11","field12":"12",
+	         	"field13":"13","field14":"14","field15":"15","field16":"16","field17":"17","field18":"18",
+	         	"field19":"19","field20":"20","field22":"22","field23":"23","field24":"24","field25":"25",
+	         	"field26":"26","field27":"27","field28":"28","field29":"29","field30":"30","field20":"20","field21":"21"
+	         }]
+	         layuitable.render({
+	            elem: '#table1',
+	            page: false, //开启分页
+	            limit: resjosn.length,
+                size:'sm',
+//              totalRow: true,
+	            cols: [
+	            [
+	                {type: 'radio',width:55,rowspan:4},//
+	                {field: 'field1', title: '所属单位',rowspan:4,width:60},//
+	                {field: '', title: '总体情况',colspan:5},
+	                {field: '', title: '居住用房',colspan:12},
+	                {field: '', title: '工矿厂房',colspan:4},
+	                {field: '', title: '经营用房',colspan:4},
+	                {field: '', title: '设施农业用房',colspan:4},
+	            ],
+	            [
+	                {field: '', title: '占用耕地建房个数',rowspan:2,colspan:2,},
+	                {field: '', title: '占用耕地总面积(亩)',rowspan:2,colspan:2},
+	                {field: 'field2', title: '占用基本农田面积(亩)',rowspan:3,},
+	                {field: '', title: '自住',colspan:5},
+	                {field: '', title: '销售',colspan:7},
+	                {field: '', title: '占用耕地建房个数',rowspan:2,colspan:2},
+	                {field: '', title: '占用耕地总面积(亩)',rowspan:2,colspan:2},
+	                {field: '', title: '占用耕地建房个数',rowspan:2,colspan:2},
+	                {field: '', title: '占用耕地总面积(亩)',rowspan:2,colspan:2},
+	                {field: '', title: '占用耕地建房个数',rowspan:2,colspan:2},
+	                {field: '', title: '占用耕地总面积(亩)',rowspan:2,colspan:2},
+	            ],
+	            [
+	                {field: '', title: '占用耕地建房个数',colspan:2},
+	                {field: '', title: '占用耕地总面积(亩)',colspan:2},
+	                {field: 'field8', title: '本村村民建房符合“一户一宅”条件个数',rowspan:2},
+	                {field: '', title: '占用耕地建房个数',colspan:2},
+	                {field: '', title: '占用耕地总面积(亩)',colspan:2},
+	                {field: '', title: '销售套数',colspan:3},
+	            ],
+	            [
+	                {field: 'field4', title: '有手续',},//4
+	                {field: 'field5', title: '无手续',},
+	                {field: 'field6', title: '有手续',},
+	                {field: 'field7', title: '无手续',},
+	                
+	                {field: 'field9', title: '有手续'},
+	                {field: 'field10', title: '无手续'},
+	                {field: 'field11', title: '有手续'},
+	                {field: 'field3', title: '无手续'},
+	                
+	                {field: 'field12', title: '有手续'},
+	                {field: 'field13', title: '无手续'},
+	                {field: 'field14', title: '有手续'},
+	                {field: 'field15', title: '无手续'},
+	                
+	                {field: 'field16', title: '本村村民',rowspan:2},
+	                {field: 'field17', title: '外村村民',rowspan:2},
+	                {field: 'field18', title: '城镇居民',rowspan:2},
+	                {field: 'field19', title: '有手续'},
+	                {field: 'field20', title: '无手续'},
+	                {field: 'field21', title: '有手续'},
+	                {field: 'field22', title: '无手续'},
+	                {field: 'field23', title: '有手续'},
+	                {field: 'field24', title: '无手续'},
+	                {field: 'field25', title: '有手续'},
+	                {field: 'field26', title: '无手续'},
+	                {field: 'field27', title: '有手续'},
+	                {field: 'field28', title: '无手续'},
+	                {field: 'field29', title: '有手续'},
+	                {field: 'field30', title: '无手续'},
+	            ]
+	            ],
+	            data: resjosn,
+	        });
+	    });
+	</script>
+</html>

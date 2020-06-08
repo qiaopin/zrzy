@@ -1,0 +1,461 @@
+<!DOCTYPE html>
+<html xmlns:v-bind="http://www.w3.org/1999/xhtml">
+
+<head>
+    <meta charset="UTF-8">
+    <title>实时动态</title>
+    <link rel="stylesheet" type="text/css" href="../../js/layui-v2.4.5/css/layui.css"/>
+    <link rel="stylesheet" type="text/css" href="../../js/layer/theme/default/layer.css"/>
+    <link rel="stylesheet" type="text/css" href="../../css/comstyle.css"/>
+    <link rel="stylesheet" type="text/css" href="../../js/openlayers/ol.css"/>
+    <link rel="stylesheet" type="text/css" href="../../css/monitorAnalysis.css"/>
+    <link rel="stylesheet" type="text/css" href="../../js/zTreeStyle/zTreeStyle.css"/>
+    <style>
+        .left {
+            width: 300px;
+            height: 100vh;
+            background: #F8F8F8;
+            padding: 0px 10px 0px 10px;
+            overflow: auto;
+        }
+
+        .left .top {
+            height: calc(100% - 20px);
+            width: calc(100% - 20px);
+            background: white;
+            margin-top: 10px;
+        }
+
+        /*.left .middle{height: calc(50% - 15px);width:calc(100% - 20px); background: white;margin-top: 10px;}*/
+        /*.left .bottom{height: calc(33% - 10px);width:calc(100% - 20px);background:white;margin-top: 10px;}*/
+        .right {
+            width: calc(100% - 300px);
+            height: 100vh;
+            background: #F8F8F8;
+            position: absolute;
+            top: 0px;
+            left: 300px;
+        }
+
+        .right .top {
+            height: calc(100% - 20px);
+            width: calc(100% - 10px);
+            background: white;
+            margin-top: 10px;
+            position: relative;
+        }
+
+        #map {
+            width: 100%;
+            height: 100%;
+        }
+
+        .ztree {
+            padding: 10px 0px 0px 10px;
+        }
+
+        .ztree li span.camera {
+            background-color: transparent;
+            background: url(../../images/camera.png) no-repeat;
+            background-position: -2px 0px;
+            width: 20px;
+            height: 18px;
+        }
+    </style>
+</head>
+
+<body class="white">
+<div class="left">
+    <div class="top" style="height:auto;">
+        <ul id="treeDemo" class="ztree"></ul>
+    </div>
+</div>
+<div class="right">
+    <div class="top">
+        <div id="map">
+
+        </div>
+        <div class="maptool">
+            <ul class="tool-bar">
+                <li id="collect" class="hide" title="收藏"><a onclick="" href="javascript:" class="tool-case1"></a></li>
+                <li title="全屏" class="" id="fullBtn" onclick="fullScreen()"><a href="javascript:"
+                                                                               class="tool-case7"></a></li>
+                <li title="测距" onclick="maptool.measure('distance')"><a href="javascript:" class="tool-case3"></a></li>
+                <li title="测面" onclick="maptool.measure('area')"><a href="javascript:" class="tool-case4"></a></li>
+                <li id="query" title="查询"><a href="javascript:" class="tool-case5"></a></li>
+                <li title="清除" onclick="maptool.clear()"><a href="javascript:" class="tool-case6"></a></li>
+                <!--<li title="全屏"><a href="javascript:;" class="tool-case7"></a></li>-->
+            </ul>
+        </div>
+        <div class="maptab">
+            <ul>
+                <li class="active"
+                    style="background:url(../../images/maptab/ditu.jpg) no-repeat 2px 2px;background-size: 45px 45px;">
+                    <a
+                            type='矢量' href="javascript:">矢量</a></li>
+                <li style="background:url(../../images/maptab/yingxiang.jpg) no-repeat 2px 2px;background-size: 45px 45px;">
+                    <a type='影像' href="javascript:">影像</a></li>
+                <li style="background:url(../../images/maptab/dixing.jpg) no-repeat 2px 2px;background-size: 45px 45px;">
+                    <a
+                            type='地形' href="javascript:">地形</a></li>
+                <li style="background:#fff;"><a type='' href="javascript:">无</a></li>
+            </ul>
+        </div>
+    </div>
+</div>
+</body>
+<script type="text/html" id="barDemo">
+    <a class="layui-btn layui-btn-xs layui-btn-skyblue" lay-event="detail"></i>分配</a>
+</script>
+<script src="../../js/jquery1.9.0.min.js"></script>
+<script src="../../js/config.js"></script>
+<script src="../../js/common.js"></script>
+<script src="../../js/scrollbar/jquery.nicescroll.min.js"></script>
+<script src="../../js/layui/layui.js"></script>
+<script src="../../js/modules/layui-config.js"></script>
+<script src="../../js/openlayers/ol-debug.js"></script>
+<script src="../../js/openlayers/maptool.js"></script>
+<script src="../../js/zTreeStyle/jquery.ztree.js"></script>
+<script src="../../js/analysis.js"></script>
+<script src="../../js/analysis/analysislayer.js"></script>
+<script src="../../js/analysis/initlayer.js"></script>
+<script type="text/javascript" src="http://sjz.zcxy.xyz:3000/socket.io/socket.io.js"></script>
+<script>
+    var ljfBase = null;
+    var slider = null;
+    var layuiform = null;
+    var layerManager = null;
+    var Industryresjosn = [];//专题图层数组
+    var sourceClues = null;//采集的面信息
+    var vectorClues = null;//采集的面图层
+    var ztreeObj = null;
+    var vector, source = null;
+    var _mapObject = null;
+    var _mapView = null;
+    var IDMark_Switch = "_switch",
+        IDMark_Icon = "_ico",
+        IDMark_Span = "_span",
+        IDMark_Input = "_input",
+        IDMark_Check = "_check",
+        IDMark_Edit = "_edit",
+        IDMark_Remove = "_remove",
+        IDMark_Ul = "_ul",
+        IDMark_A = "_a";
+
+    function fullScreen() {//全屏显示地图
+        if ($("#fullBtn").hasClass("active")) {//取消全屏
+            $(".left").show();
+            $(".right").attr("style", "");
+        } else {//全屏
+            $(".left").hide();
+            $(".right").attr("style", "width:100%;left:0;");
+        }
+        _mapObject.updateSize();
+        $("#fullBtn").toggleClass("active");
+    }
+
+    layui.use(['form', 'element', 'laydate', 'table', 'slider', 'ljfBase', 'serverCenter', 'LayerManager', 'NULayer', 'bluebird'], function () {
+        $("body").attr('class', $("body", parent.document).attr('class'));
+        $(".niceScroll").niceScroll({cursorborder: "", cursorcolor: "#297FBA", boxzoom: false});
+        var layuielement = layui.element;
+        layuiform = layui.form;
+        slider = layui.slider;
+        ljfBase = layui.ljfBase;
+        var xml2json = layui.xml2json;
+        var serverCenter = layui.serverCenter;
+        var LayerManager = layui.LayerManager;
+        var NULayer = layui.NULayer;
+        var url = ljfBase.https.BaseMapConfigManagerService + "/GetAllBaseMapConfig";
+
+        var pageNum = 10;//每一页显示多少条记录
+        var totalLength;//数据的总条数
+        var currentPage = 1;//当前是第几页
+        ljfBase.post(url, {userid: sessionStorage.sprid}, function (res) {
+            var baseMapConfig = JSON.parse(res)[0];
+            var center = [];
+            center.push(baseMapConfig.CENTERX);
+            center.push(baseMapConfig.CENTERY);
+            layerManager = new LayerManager("map", center, 12);
+            source = new ol.source.Vector({
+                features: []
+            });
+            vector = new ol.layer.Vector({
+                name: "地图标注",
+                source: source,
+                style: function (feature, resolution) {
+                    var name = feature.get("name");
+                    return new ol.style.Style({
+                        stroke: new ol.style.Stroke({
+                            color: "#4384DB",
+                            width: 5
+                        }),
+                        image: new ol.style.Icon(({
+                            anchor: [0.5, 50],
+                            anchorOrigin: 'top-right',
+                            anchorXUnits: 'fraction',
+                            anchorYUnits: 'pixels',
+                            offsetOrigin: 'top-right',
+                            src: "../../images/maplable/blueIcon.png",
+                        })),
+                        text: new ol.style.Text({
+                            text: name,
+                            textAlign: 'center', //位置
+                            textBaseline: 'middle', //基准线
+                            font: 'normal 14px 微软雅黑',  //文字样式
+                            text: name,  //文本内容
+                            fill: new ol.style.Fill({color: '#aa3300'}), //文本填充样式（即文字颜色）
+                            stroke: new ol.style.Stroke({color: '#ffcc33', width: 2})
+                        })
+                    });
+                }
+            });
+            _mapObject = layerManager._mapObject;
+            ljfBase.post(ljfBase.https.BaseMapManagerService + "/GetAllBaseMap", {sprid: sessionStorage.sprid}, function (xml) {
+                var resArr = $.parseJSON(xml);
+                layerManager.loadBaseMap(resArr, "矢量");
+                $('.maptab ul li').click(function () {
+                    $('.maptab ul li').removeClass("active");
+                    $(this).addClass("active");
+                    var type = $(this).find('a').attr('type');
+                    layerManager.hideBaseMap();
+                    layerManager.loadBaseMap(resArr, type);
+                });
+                maptool.init(layerManager);
+                GetUserlist();
+                _mapObject.addLayer(vector);
+            });
+
+
+            pointLayer = initPointLayer(_mapObject);
+
+            function showCameras() {
+                pointLayer.getSource().clear();
+                ljfBase.post("http://110.249.159.46:8089/gtkjghTest/TestCamera.asmx/TextGetCamerInfo", {}, function (xml) {
+                    var resArr = $.parseJSON(xml);
+                    console.log(resArr);
+                    $.each(resArr, function (i, v) {
+                        var point = [v.XZB, v.YZB];
+                        var name = v.QY;
+                        var feature = new ol.Feature(new ol.geom.Point(point));
+                        feature.set("name", name);
+
+                        feature.setStyle(function (feature, resolution) {
+                            var featureText = feature.get("name");
+                            var opacity = 1;
+                            var color = 'rgba(182, 82, 82,' + opacity + ')';
+                            return _districtRegionStyle = [
+                                new ol.style.Style({
+                                    image: new ol.style.Icon(({
+                                        src: "../../../../images/general/dtjc.png",
+                                        scale:0.05,
+                                        // size:"50px"
+                                    }))
+                                }),
+                                new ol.style.Style({
+                                    text: new ol.style.Text({
+                                        // text: featureText,
+                                        textAlign: 'center', //位置
+                                        textBaseline: 'bottom', //基准线
+                                        font: 'normal 12px 微软雅黑',  //文字样式
+//						            fill: new ol.style.Fill({ color: '#aa3300' }), //文本填充样式（即文字颜色）
+                                        stroke: new ol.style.Stroke({color: '#0DD5BB', width: 2})
+                                    })
+                                }),
+                            ];
+                        });
+                        pointLayer.getSource().addFeature(feature);
+                    })
+                });
+            }
+
+            showCameras();
+
+            //初始化点图层
+            function initPointLayer(map) {
+                var pointLayer = new ol.layer.Vector({
+                    source: new ol.source.Vector({
+                        features: [],
+                    }),
+                    name: "pointLayer",
+                    zIndex: 11
+                });
+                map.addLayer(pointLayer);
+                return pointLayer;
+            }
+
+        });
+    });
+
+    //获取人员列表
+    function GetUserlist() {
+        parent.layer.loadIndex = parent.layer.load(0, {shade: 0.1});
+        var setting = {
+            view: {
+                fontCss: function (treeId, treeNode) {
+                    var aObj = $("#" + treeNode.tId + IDMark_A);
+                    if (treeNode.state == 1) {
+                        if (aObj.parent("li").find('.demoIcon').length == 0) {
+                            var editStr = "<span class='demoIcon' id='" + treeNode._id + "'  title='" + treeNode.name + "' ORGANIZATION='" + treeNode.ORGANIZATION + "' onfocus='this.blur();'><span class='button camera'></span></span>";
+                            aObj.after(editStr);
+                            $("#" + treeNode._id).click(function () {
+                                var name = $(this).attr("title").split("(")[0];
+                                var ORGANIZATION = $(this).attr("ORGANIZATION");
+
+                                parent.layer.confirm("确定要进行视频通话？", function (index) {
+                                    parent.layer.close(index);
+                                    var socket = io.connect('http://sjz.zcxy.xyz:3000');
+                                    var value = ORGANIZATION + "," + name;
+                                    socket.emit("pcToPhone", value);
+                                    parent.layer.loadIndex = parent.layer.load(0, {shade: 0.1});
+                                    socket.on("fromPhone", function (msg) {
+                                        parent.layer.close(parent.layer.loadIndex);
+                                        if (msg == "ok") {//对面同意连接
+                                            var url = "https://sjz.zcxy.xyz:443/sptx/index.html";
+                                            window.open(url);
+                                        } else {
+                                            console.log("连接失败");
+                                            alert("对方拒绝了您的通话请求");
+                                        }
+                                    })
+                                });
+                            });
+                        }
+                        return {color: "#0D7AFF"};
+                    } else if (treeNode.state == 0) {
+                        aObj.parent("li").find('.demoIcon').remove();
+                        return {color: "#C9C9C9"};
+                    }
+                },
+            },
+            check: {
+                enable: true
+            },
+            data: {
+                simpleData: {
+                    enable: true
+                }
+            },
+            callback: {
+                onClick: function (event, treeId, node) {
+                    var ry = node.name.split("(")[0];
+                    var dw = node.ORGANIZATION;
+                    LocationMonitorManager("/GetUserLocation", {dw: dw, ry: ry}, true, function (resjson) {
+                        if (resjson.indexOf("false") > -1) {
+                            parent.layer.close(parent.layer.loadIndex);
+                        } else {
+                            var resjosn = $.parseJSON(resjson);
+                        }
+                        if (resjosn.length > 0) {
+                            var lon = resjosn[0].L;
+                            var lat = resjosn[0].B;
+                            _mapView.setCenter([lon, lat]);//单点定位
+                            _mapView.setZoom(17);
+                        }
+
+                    });
+                },
+                onRightClick: function (event, treeId, node) {
+                    var node1 = node;
+                },
+                onDblClick: function (event, treeId, node) {
+                    var node1 = node;
+                },
+                onCheck: function (event, treeId, node) {
+                    GetUserLocation();
+                },
+            }
+        };
+        // SurveyUserManagerService2("/GetMonitorUserlist", {xzqdm: sessionStorage.userXZQDM}, false, function (resjson) {
+        SurveyUserManagerService2("/GetMonitorUserlist", {xzqdm: 130100}, false, function (resjson) {
+            if (resjson.indexOf("false") > -1) {
+                parent.layer.alert("未获取到人员列表!");
+                parent.layer.close(parent.layer.loadIndex);
+            } else {
+                var resjosn = $.parseJSON(resjson);
+            }
+            var nodes = [];
+            // for (var i = 0; i < resjosn.length; i++) {
+            //测试只显示前5个
+            for (var i = 0; i < 10; i++) {
+                var ORGANIZATION = resjosn[i].ORGANIZATION;
+                var UserRecords = resjosn[i].UserRecords;
+                var node = {
+                    name: ORGANIZATION,
+                    checked: true,
+                    open: true,
+                    icon: "../../js/zTreeStyle/img/diy/node2.png",
+                    children: []
+                };
+                for (var j = 0; j < UserRecords.length; j++) {
+                    var yhsf = "";
+                    if (UserRecords[j].SFLLY == "是") {
+                        yhsf = "联络员";
+                    } else {
+                        yhsf = "调查员";
+                    }
+                    node.children.push({
+                        name: UserRecords[j].USERNAME + "(" + yhsf + ")",
+                        ORGANIZATION: ORGANIZATION,
+                        _id: UserRecords[j].ID,
+                        state: 2,
+                        checked: true,
+                        color: "#ff0011",
+                        icon: "../../js/zTreeStyle/img/diy/node1.png",
+                    })
+                }
+                nodes.push(node);
+            }
+            ztreeObj = $.fn.zTree.init($("#treeDemo"), setting, nodes);
+            GetUserLocation();
+            // var interValTime = 1000 * (resjosn.length);
+            var interValTime = 1000 * 5;
+            if (resjosn.length > 100) {
+                interValTime = 1000 * 20;
+            }
+            setInterval("GetUserLocation()", interValTime);
+            parent.layer.close(parent.layer.loadIndex);
+        });
+    }
+
+    //获取人员位置
+    function GetUserLocation() {
+        source.clear();
+        var nodes = ztreeObj.getNodesByParam("level", "1", null);
+        if (nodes.length > 0) {
+            var features = [];
+            LocationMonitorManager("/GetAllUserLocation", {}, false, function (resjson) {
+                if (resjson.indexOf("false") > -1) {
+                    parent.layer.close(parent.layer.loadIndex);
+                } else {
+                    var resjosn = $.parseJSON(resjson);
+                }
+                if (resjosn.length > 0) {
+                    for (var j = 0; j < resjosn.length; j++) {
+                        var lon = resjosn[j].Location.L;
+                        var lat = resjosn[j].Location.B;
+                        var name = resjosn[j].USERNAME;
+                        var feature = new ol.Feature(new ol.geom.Point([lon, lat]));
+                        feature.set("name", name);
+                        features.push(feature);
+
+                        for (var i = 0; i < nodes.length; i++) {
+                            if (nodes[i].checked) {
+                                var ry = nodes[i].name.split("(")[0];
+                                var dw = nodes[i].ORGANIZATION;
+                                if (ry == name) {
+                                    nodes[i].state = 1;
+                                } else {
+                                    nodes[i].state = 0;
+                                }
+                            }
+                            ztreeObj.updateNode(nodes[i]);
+                        }
+                    }
+                }
+            });
+            source.addFeatures(features);
+        }
+    }
+</script>
+
+</html>

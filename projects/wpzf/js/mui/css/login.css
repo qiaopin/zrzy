@@ -1,0 +1,188 @@
+html,
+body,
+.mui-content {
+	height: 100%;
+	overflow: hidden;
+}
+
+.mui-btn {
+	font-size: 16px;
+	padding: 8px;
+}
+
+h5.mui-content-padded {
+	margin-left: 3px;
+	margin-top: 20px !important;
+}
+
+h5.mui-content-padded:first-child {
+	margin-top: 12px !important;
+}
+
+.ui-alert {
+	text-align: center;
+	padding: 20px 10px;
+	font-size: 16px;
+}
+
+.mui-poppicker-body>div.mui-picker:first-child {
+	width: 0 !important;
+}
+
+.mui-poppicker-body>div.mui-picker:nth-child(2) {
+	width: 50% !important;
+}
+
+.mui-poppicker-body>div.mui-picker:nth-child(3) {
+	width: 50% !important;
+}
+
+.area {
+	margin: 20px auto 0px auto;
+}
+
+.mui-input-group {
+	margin-top: 10px;
+}
+
+.mui-input-group:first-child {
+	margin-top: 20px;
+}
+
+.mui-input-group label {
+	width: 35%;
+	padding-right: 0;
+}
+
+.mui-input-row label~input,
+.mui-input-row label~select,
+.mui-input-row label~textarea {
+	width: 65%;
+}
+
+.mui-checkbox input[type=checkbox],
+.mui-radio input[type=radio] {
+	top: 6px;
+}
+
+.mui-content-padded {
+	margin-top: 25px;
+}
+
+.mui-btn {
+	padding: 10px;
+}
+
+.link-area {
+	display: block;
+	margin-top: 25px;
+	text-align: center;
+}
+
+.spliter {
+	color: #bbb;
+	padding: 0px 8px;
+}
+
+.oauth-area {
+	position: absolute;
+	bottom: 20px;
+	left: 0px;
+	text-align: center;
+	width: 100%;
+	padding: 0px;
+	margin: 0px;
+}
+
+.oauth-area .oauth-btn {
+	display: inline-block;
+	width: 50px;
+	height: 50px;
+	background-size: 30px 30px;
+	background-position: center center;
+	background-repeat: no-repeat;
+	margin: 0px 20px;
+	/*-webkit-filter: grayscale(100%); */
+	border: solid 1px #ddd;
+	border-radius: 25px;
+}
+
+.oauth-area .oauth-btn:active {
+	border: solid 1px #aaa;
+}
+
+.oauth-area .oauth-btn.disabled {
+	background-color: #ddd;
+}
+
+#dcdwInput {
+	padding: 10px 75px 10px 0;
+}
+
+#showCityPicker3 {
+	position: absolute;
+	right: 5px;
+	padding: 8px 0;
+	top: 3px;
+}
+
+input[type=text] {
+	line-height: 40px;
+}
+
+#new_grade_content {
+	padding-left: 10px;
+}
+
+#getNewApp:disabled {
+	background-color: #aaa;
+	color: #333;
+}
+
+body {
+	background: url(../images/bg.png);
+	background-size: 100% 100%;
+	background-repeat: no-repeat;
+}
+
+.logoImg {
+	position: absolute;
+	top: 35px;
+	height: 120px;
+	width: 120px;
+	left:calc(50% - 60px);
+}
+
+.logoTitle {
+	position: absolute;
+	top: 130px;
+	text-align: center;
+	width: 100%;
+	color: #fff;
+}
+
+.mui-content {
+	width: 70%;
+	margin-left: 15%;
+	height: auto;
+	margin-top: 50%;
+	background-color: transparent;
+}
+
+
+a {
+	color: #eee;
+}
+
+.mui-input-group {
+	background-color: transparent;
+	color: #fff;
+}
+
+.mui-input-group:before {
+	height: 0px;
+}
+
+.mui-input-group .mui-input-row:after {
+	left: 0px;
+}

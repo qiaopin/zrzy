@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html xmlns:v-bind="http://www.w3.org/1999/xhtml">
+
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <link rel="stylesheet" type="text/css" href="../js/layui-v2.4.5/css/layui.css"/>
+    <link rel="stylesheet" type="text/css" href="../js/layer/theme/default/layer.css"/>
+    <link rel="stylesheet" type="text/css" href="../css/comstyle.css"/>
+    <link rel="stylesheet" type="text/css" href="../js/openlayers/ol.css"/>
+    <link rel="stylesheet" type="text/css" href="../css/supervise.css"/>
+
+    <link rel="stylesheet" type="text/css" href="../js/shapeTool/popup/popup.css"/>
+    <script src="../js/shapeTool/popup/popup.js"></script>
+    <style>
+        .popImg {
+            width: 50%;
+            float: left;
+        }
+    </style>
+</head>
+
+<body class="white">
+
+<div class="main">
+    <div class="left">
+        <div class="nav">
+            <ul>
+                <li class="active1">
+                    <i class="layui-icon layui-icon-engine"></i>
+                    线索管理
+                </li>
+                <li>新增线索</li>
+                <li>审核线索</li>
+                <li>生成任务</li>
+                <li>已生成任务</li>
+                <li>无效线索</li>
+                <li class="active1" style="margin-top: 4px;">
+                    <i class="layui-icon layui-icon-survey"></i>
+                    任务管理
+                </li>
+                <li>任务下发</li>
+                <li>执行撤回</li>
+                <li>任务回收</li>
+                <li>已生成任务</li>
+            </ul>
+        </div>
+    </div>
+    <div class="right">
+        <div class="search">
+            <div class="xsly">
+                <span>线索来源:</span>
+                <a href="javascript:;">全部</a>
+                <a class="active" href="javascript:;">实名举报</a>
+                <a href="javascript:;">匿名举报</a>
+                <a href="javascript:;">巡查发现</a>
+                <a href="javascript:;">影像核查</a>
+            </div>
+        </div>
+        <div class="tablediv">
+            <table id="table" style="width: 100%;" lay-filter="test">
+
+            </table>
+        </div>
+        <div id="map">
+
+        </div>
+    </div>
+</div>
+
+
+</body>
+<script src="../js/jquery1.9.0.min.js"></script>
+<!--<script src="../js/config.js"></script>-->
+<!--<script src="../js/common.js"></script>-->
+<script src="../js/scrollbar/jquery.nicescroll.min.js"></script>
+<script src="../js/layui/layui.js"></script>
+<script src="../js/modules/layui-config.js"></script>
+<script src="../js/openlayers/ol-debug.js"></script>
+<script src="../js/openlayers/maptool.js"></script>
+<script src="../js/analysis/initlayer.js"></script>
+<script src="../js/analysis/analysislayer.js"></script>
+<script>
+    var ljfBase = null;
+    var slider = null;
+    var layuiform = null;
+    var layerManager = null;
+    var Industryresjosn = [];//专题图层数组
+    var _mapObject = null;
+    layui.use(['form', 'element', 'laydate', 'table', 'slider', 'ljfBase', 'serverCenter', 'LayerManager', 'NULayer', 'bluebird'], function () {
+        $(".niceScroll").niceScroll({cursorborder: "", cursorcolor: "#297FBA", boxzoom: false});
+        var layuitable = layui.table;
+
+        ljfBase = layui.ljfBase;
+        var LayerManager = layui.LayerManager;
+        var center = [114.48, 38.03];
+        layerManager = new LayerManager("map", center, 12);
+        _mapObject = layerManager._mapObject;
+        popup = new Popup(_mapObject);
+        var pointLayer = new ol.layer.Vector({
+            source: new ol.source.Vector({
+                features: [],
+            }),
+            name: "pointLayer",
+            zIndex: 11
+        });
+        _mapObject.addLayer(pointLayer);
+
+        $(".xsly").on("click","a",function(){
+            $(".xsly a").removeClass("active");
+            $(this).addClass("active");
+        });
+
+        ljfBase.post(ljfBase.https.BaseMapManagerService + "/GetAllBaseMap", {sprid: "sysadmin"}, function (xml) {
+            var resArr = $.parseJSON(xml);
+            if (resArr.length == 0) {
+                location.reload();
+            }
+            layerManager.loadBaseMap(resArr, "矢量");
+            $('.maptab ul li').click(function () {
+                $('.maptab ul li').removeClass("active");
+                $(this).addClass("active");
+                var type = $(this).find('a').attr('type');
+                layerManager.hideBaseMap();
+                layerManager.loadBaseMap(resArr, type);
+            });
+        });
+
+        _mapObject.on('singleclick', function (evt) {
+            var feature = _mapObject.forEachFeatureAtPixel(evt.pixel,
+                function (feature) {
+                    return feature;
+                }, {
+                    layerFilter: function (layer) {
+                        return layer.get('name');
+                    }
+                }
+            );
+            if (feature) {
+                var str = '<table style="background: white;color: black;z-index: 1000000; font-size: 12px;">';
+                var f_properties = feature.getProperties();
+                for (var key in f_properties) {
+                    if (key == "geometry") {
+                        continue;
+                    }
+                    str += '<tr>' +
+                        '<td style="width:80px;">' + key + '&nbsp;:&nbsp; </td>' +
+                        '<td> ' + f_properties[key] + '</td>' +
+                        '</tr>';
+                }
+                str += '<tr>' +
+                    '<td colspan="2"><img class="popImg" src="../../../images/general/dtjc.png" alt=""></td>' +
+                    '</tr>';
+                str += '</table>';
+
+                var position = _mapObject.getEventCoordinate(evt.originalEvent);
+                popup.tooltip(str, position);
+            }
+        });
+
+        function showCameras() {
+            pointLayer.getSource().clear();
+
+            var url = "http://110.249.159.46:8083/pt/ClueController/findClue";
+            $.ajax(url, {
+                dataType: "json", //返回文本
+                contentType: "application/json",
+                type: 'get', //HTTP请求类型
+                success: function (res) {
+                    var result = res.resDate;
+                    if (result.length > 0) {
+                        tableRender(result);
+
+                        $.each(result, function (i, v) {
+                            var point = v.coordinate.split(",");
+                            var id = v.id;
+                            var feature = new ol.Feature(new ol.geom.Point(point));
+                            $.each(v,function(s,k){
+                                feature.set(s,k);
+                            });
+                            feature.setStyle(function (feature, resolution) {
+                                var featureText = feature.get("id");
+                                var opacity = 1;
+                                return _districtRegionStyle = [
+                                    new ol.style.Style({
+                                        image: new ol.style.Icon(({
+                                            src: "../../../images/general/dtjc.png",
+                                            scale: 0.05,
+                                        }))
+                                    }),
+                                    new ol.style.Style({
+                                        text: new ol.style.Text({
+                                            text: featureText,
+                                            textAlign: 'center', //位置
+                                            textBaseline: 'bottom', //基准线
+                                            font: 'normal 12px 微软雅黑',  //文字样式
+                                            stroke: new ol.style.Stroke({color: '#0DD5BB', width: 2})
+                                        })
+                                    }),
+                                ];
+                            });
+                            pointLayer.getSource().addFeature(feature);
+                        });
+                        _mapObject.getView().fit(pointLayer.getSource().getExtent(), _mapObject.getSize());
+                        var zoom = _mapObject.getView().getZoom();
+                        if (zoom > 17) {
+                            layerManager.setZoom(17);
+                        }
+                    }
+                },
+                error: function (xhr, type, errorThrown) {
+                    //异常处理；
+                    alert(type);
+                }
+            });
+        }
+
+        showCameras();
+
+        function tableRender(resjosn) {
+            var layuielement = layui.element;
+            var height = $(".tablediv").height();
+            layuitable.render({
+                elem: '#table',
+                height: height,
+                page: true, //开启分页
+                limit: 10,
+                limits: [10, 20, 30],
+                cols: [[ //表头
+                    {field: 'type', title: '线索类型', sort: true},
+                    {field: 'creatorName', title: '线索发现人'},
+                    {field: 'describe', title: '举报内容', sort: true},
+                    {
+                        fixed: 'right', title: '操作', align: 'center', width: 160, templet: function (d) {
+                            var str = "";
+                            str += '<a class="layui-btn layui-btn-xs layui-btn-skyblue" lay-event="detail">详情</a>';
+                            str += '<a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="cl">处理</a>';
+                            str += '<a class="layui-btn layui-btn-warm layui-btn-xs" lay-event="sb">上报</a>';
+                            return str;
+                        }
+                    }
+                ]],
+                data: resjosn
+            });
+
+            layuitable.on('tool(table)', function (obj) {
+                var data = obj.data;
+                if (obj.event === 'detail') {//详情
+
+                } else if (obj.event === 'cl') {//审核
+
+                } else if (obj.event === 'sb') {
+
+                }
+            });
+        }
+    });
+</script>
+</html>

@@ -1,0 +1,129 @@
+* {
+	box-sizing: border-box;
+}
+
+.layui-input,
+.layui-textarea {
+	display: inline-block;
+}
+
+html,
+body {
+	width: 100%;
+	height: 100%;
+	overflow: hidden;
+}
+
+table {
+	width: 100%;
+	margin: 10px;
+}
+
+table tr td {
+	padding: 5px;
+	padding-right: 15px;
+	padding-bottom: 0;
+}
+
+.layui-form-item {
+	margin-bottom: 0;
+}
+
+.notEmpty:after {
+	content: "*";
+	color: red;
+}
+
+td .rightBtn {
+	position: absolute;
+	right: 0;
+	height: 28px;
+	background-color: #aaa;
+	cursor: pointer;
+	color: #fff;
+	top: 0;
+}
+
+.layui-form-label {
+	text-align: left;
+	padding: 0;
+	height: 28px;
+	line-height: 28px;
+}
+
+.layui-input-block {
+	height: 28px;
+	min-height: 28px;
+	margin-left: 90px;
+}
+
+.layui-input {
+	height: 28px;
+}
+
+td .rightBtn .layui-btn {
+	height: 28px;
+	line-height: 28px;
+	border-radius: 0;
+	background-color: rgb(0, 150, 136);
+}
+
+.submitBox {
+	text-align: center;
+	width: 100%;
+	position: absolute;
+	bottom: 5px;
+}
+
+.submitBox>button {
+	width: 47%;
+	margin-left: 0;
+	float: left;
+}
+
+.submitBox .layui-btn+.layui-btn {
+	margin-left: 0;
+}
+
+.layui-upload-list {
+	margin: 0;
+}
+
+.photoBox {
+	width: 100%;
+}
+
+.photoBox .imgBox {
+	width: 30%;
+	margin: 0 5px 5px 0;
+	position: relative;
+	display: inline-block;
+}
+
+.photoBox .imgBox img {
+	width: 100%;
+	margin: 0 5px 5px 0;
+	border:1px solid #eee;
+}
+
+.photoBox .imgBox .removeImgBtn {
+	padding: 2px 5px;
+	position: absolute;
+	background: #eee;
+	right: 0;
+	top: 0;
+	display: inline-block;
+}
+
+.layui-form-label {
+	width: 90px;
+}
+
+.layui-input-block {
+	margin-left: 90px;
+}
+
+#uploadImg {
+	padding: 0 10px;
+	line-height: 30px;
+}

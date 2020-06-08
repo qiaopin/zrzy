@@ -1,0 +1,738 @@
+<!DOCTYPE html>
+<html xmlns:v-bind="http://www.w3.org/1999/xhtml">
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<link rel="stylesheet" type="text/css" href="../js/layui-v2.4.5/css/layui.css" />
+		<link rel="stylesheet" type="text/css" href="../js/layer/theme/default/layer.css" />
+		<link rel="stylesheet" type="text/css" href="../css/comstyle.css" />
+		<link rel="stylesheet" type="text/css" href="../js/openlayers/ol.css" />
+		<style>
+			.custom-mouse-position{display: none;}
+			.ol-attribution{display: none;}
+			a{text-decoration: none;}
+			*{font-family: "微软雅黑";}
+			body{width: 100%;height: 100%;}
+			#map{width: 100%; height: 100%;}
+			.black #map{background: #313347;}
+			.black .ol-scale-line{background: transparent;}
+			.hide{display: none;}
+            .left{width: 400px;height:calc(100vh); position: relative; overflow: hidden;}
+            .right{width: calc(100vw - 400px); height:calc(100vh);position: absolute; overflow: hidden; top: 0px;left: 400px;}
+            .black .left{background: #313347;}
+            .white .left{background: #fff;}
+            .nav{height: 100%; width: 60px;border-right:1px solid #EEEEF3; }
+            .black .nav{background: #313347;}
+            .white .nav{background: #FFFFFF;}
+            
+            .nav-content{width: 338px;position: absolute;left: 61px; border-right:1px solid #EEEEF3; top: 0px; height: 100%;}
+            .nav ul{width: 60px;}
+            .nav li{text-align: center;border-bottom: 1px solid #EEEEF3;}
+            .nav li .layui-icon{display: inline-block;width: 60px;margin:5px 0px 0px 0px; color: #FFC701; font-size:25px ;}
+            .nav li a{font-size:12px;line-height: 25px;font-weight:500 ;}
+            .nav li.active{background: #0D7AFF;}
+            .nav li.active .layui-icon{color: #fff;}
+            .nav li.active a{color: #fff;}
+            .nav li:hover{background:#0D7AFF;cursor: pointer;}
+            .nav li:hover .layui-icon{color: #fff;}
+            .nav li:hover a{color: #fff;}
+            
+            .black .nav li a{color: #fff;}
+            .black .nav li.active{background: #0D7AFF;}
+            .black .nav li.active .layui-icon{color: #fff;}
+            .black .nav li.active a{color: #fff;}
+            .black .nav li:hover{background:#0D7AFF;cursor: pointer;}
+            .black .nav li:hover .layui-icon{color: #fff;}
+            .black .nav li:hover a{color: #fff;}
+            .white .nav li.active{background: #0D7AFF;}
+            .white .nav li.active .layui-icon{color: #fff;}
+            .white .nav li.active a{color: #fff;}
+            .white .nav li:hover{background:#0D7AFF;cursor: pointer;}
+            .white .nav li:hover .layui-icon{color: #fff;}
+            .white .nav li:hover a{color: #fff;}
+            .layui-form-item{margin-top: 10px;}
+            .mapdraw{margin-left: 30px;}
+            .mapdraw li{float: left; width: 54px;padding: 10px 5px;}
+            .black .mapdraw li{background: transparent;}
+            .white .mapdraw li{background: #F9F9F9;}
+			.mapdraw li img{width: 43px; height: 31px; margin-left: 5px;}
+			.mapdraw li:hover{ border: 1px solid #8B8989; cursor: pointer;}
+			.mapdraw li.active{border: 1px solid #8B8989;}
+            
+            
+            .map-div{height: 100%;width: 100%; position: relative;}
+            .maptool{position:absolute; right: 130px; top: 20px; border-radius: 5px;box-shadow: 0 4px 5px rgba(0, 0, 0, 0.2);}
+            .black .maptool{background: transparent;}
+            .white .maptool{background: #fff;}
+            
+            .special-item{margin-bottom: 10px;}
+            .special-item p{ padding: 6px 0px; text-indent: 30px; font-size:12px; position: relative; font-weight:500 ; border-bottom: 1px solid #EFEFF4;}
+            .black .special-item p{background: #1F2428;color: #fff;}
+            .white .special-item p{background: #fff;}
+            
+            .special-item p .layui-icon{color: #0D7AFF; margin-right: 5px; position: absolute; left: -21px; top: 5px;}
+            .special-item div{text-align: center;padding: 4px 0px;}
+            .black .special-item div{background: #1F2428;}
+            .white .special-item div{background: #fff;}
+            
+            .layui-badge{border-radius:30px;margin-left: 3px; background: #9E9E9E; cursor: pointer;}
+            .layui-badge.active{background: #0D7AFF;}
+            .layui-badge:hover{background: #0D7AFF;}
+            .tool-bar li {float: left;width: 40px;height: 40px;position: relative;}
+			.tool-bar li a {display: block;width: 40px;height: 40px;background: url(../images/tool_icon.png) no-repeat;}
+			.tool-bar li:hover {background: #4384db;}
+			
+			.tool-bar li:first-child {border-radius: 5px 0px 0 5px;}
+			.tool-bar li:last-child {border-radius: 0 5px 5px 0;}
+			.tool-bar li a.tool-case1 {background-position: 0 0;}
+			.tool-bar li a.tool-case2 {background-position: 0 -40px;}
+			.tool-bar li a.tool-case3 {background-position: 0 -80px;}
+			.tool-bar li a.tool-case4 {background-position: 0 -120px;}
+			.tool-bar li a.tool-case5 {background-position: 0 -160px;}
+			.tool-bar li a.tool-case6 {background-position: 0 -200px;}
+			.tool-bar li a.tool-case7 {background-position: 0 -240px;}
+			.tool-bar li a.tool-case8 {background-position: 0 -280px;}
+			.tool-bar li a.tool-case9 {background-position: 0 -320px;}
+			.tool-bar li:hover a.tool-case1 {background-position: -40px 0;}
+			.tool-bar li:hover a.tool-case2 {background-position: -40px -40px;}
+			.tool-bar li:hover a.tool-case3 {background-position: -40px -80px;}
+			.tool-bar li:hover a.tool-case4 {background-position: -40px -120px;}
+			.tool-bar li:hover a.tool-case5 {background-position: -40px -160px;}
+			.tool-bar li:hover a.tool-case6 {background-position: -40px -200px;}
+			.tool-bar li:hover a.tool-case7 {background-position: -40px -240px;}
+			.tool-bar li:hover a.tool-case8 {background-position: -40px -280px;}
+			.tool-bar li:hover a.tool-case9 {background-position: -40px -320px;}
+			.maptab{position:absolute; right: 5px; top: 150px;}
+			.maptab li{width: 49px; text-align: center;height: 49px;   border: 1px solid #AAAAAA; margin-bottom: 3px;}
+			.maptab li a{ display: inline-block; width: 45px; height: 20px;  line-height: 20px; font-size: 12px; color: #fff; margin-top: 28px; background: url(../images/maptab/black_bg.png);}
+			.maptab li a:hover{background: #83a1ff;}
+			.maptab li a.active{background: #83a1ff;}
+            
+            .result-find-box1{position: absolute; z-index: 2; color: #666; width: 550px; height: 45px; top: 70px; right: 65px; box-shadow: 2px 2px 3px rgba(0, 0, 0, .2);  background: #fff;}
+			
+			.result-title{margin-top: 10px; border-left: 4px solid #347CA9; margin:10px 25px; padding-left: 5px;line-height: 25px; float: left;font-size:14px ;}
+			.result-find-box1 .layui-form-radio > i{margin-top: 3px;font-size:20px ;}
+			.result-find-box1 .layui-form-radio *{font-size:14px ;}
+			.result-find-box2{position: absolute; z-index: 2; width: 550px; top: 120px; right: 65px; box-shadow: 2px 2px 3px rgba(0, 0, 0, .2);  background: #fff;}
+			
+			.result-find-box2 {color: #666;}
+			.result-find-box2 .layui-table{color: #666;}
+			.result-find-box2 .layui-table thead tr{background: #f2f2f2!important;}
+			/*.result-find-box2 .layui-table thead tr:hover{background: transparent!important;}*/
+			.result-find-box2 .layui-table tbody tr:hover{background: transparent !important;}
+			.result-find-box2 .layui-table thead tr td{border: 1px solid #e6e6e6;}
+			.result-find-box2 .layui-table td, .result-find-box2.layui-table th{border: 1px solid #e6e6e6!important; color: #666!important;}
+			.projectArea{padding: 10px 30px;border-bottom:  1px  dotted #AAAAAA; font-size: 14px; text-align: left; color: #ff9228;}
+			.result-find-box2 .layui-table th{font-weight:900 ;}
+			.result-find-box2 .layui-table{table-layout: fixed;}
+			.result-find-box2 .layui-table td, .result-find-box2 .layui-table th{padding: 9px 7px;text-align: center;
+			white-space:nowrap;overflow:hidden;text-overflow:ellipsis; border-color: #e6e6e6;
+			}
+			.info{font-weight:900; color: #666;font-size: 14px; text-decoration: underline;}
+			div[cid='fzxz'] .layui-input-inline{margin-left: 20px;}
+			div[cid='fzxz'] .layui-form-label{width: 50px;padding-left: 0px;}
+			.legend1{width: 100%; height: 23px; display: block; background: #FFFF00;}
+			.result-fzxz-ul li{padding: 10px 15px;border-bottom: 1px solid #F5F5F5; margin-top: 10px;} 	
+			.result-fzxz-ul li:hover{background: #F5F5F5;}
+			.result-fzxz-ul li.active{background: #F5F5F5;}
+			.result-fzxz-ul p{font-size: 16px;line-height: 28px;}
+			.result-fzxz-ul p.order{font-weight:900; color: #000;}
+			.result-fzxz-ul .recommend{background: #FF9228; margin-left: 5px; text-align: center; color: white; width: 40px; border-radius:4px; display: inline-block;}	
+			.result-fzxz-ul .right5{margin-right: 5px;font-size:16px ;}		
+			.layui-tab-content{padding:10px;}	
+            .tips{background: rgba(50, 50, 50, 0.7); text-align: center; color: #fff; padding: 10px; font-size:16px ; margin: 20px; font-family:"微软雅黑"; border-radius:4px ; position: absolute; z-index: 9999; left: 0px; top: 0px;}
+		</style>
+	</head>
+
+	<body class="black">
+		<div class="tips hide">
+			
+		</div>
+		<div class="left">
+			<div class="nav">
+				<ul>
+					<li name="合规审查" class="active"><i class="layui-icon layui-icon-template-1"></i><a href="javascript:;">合规审查</a></li>
+					<li name="冲突分析"><i class="layui-icon layui-icon-read"></i><a href="javascript:;">冲突分析</a></li>
+					<li name="辅助选址" ><i class="layui-icon layui-icon-file"></i><a href="javascript:;">辅助选址</a></li>
+					<li name="绿化指标" ><i class="layui-icon layui-icon-file"></i><a href="javascript:;">绿化指标</a></li>
+				</ul>
+			</div>
+			<div class="nav-content">
+				<div class="tab-container"  name="合规审查">
+					
+					<div class="layui-form-item">
+						<label class="layui-form-label">用地类型</label>
+						<div class="layui-input-inline">
+							<div class="layui-form">
+							    <select id="YDLX" lay-search lay-filter="YDLX">
+		                            <option value="113">113-居住用地</option><option value="112">112-商业服务业设施用地</option>
+							        <option value="114">114-工业用地</option><option value="115">115-物流仓储用地</option>
+							        <option value="116">116-道路与交通设施用地</option><option value="117">117-公用设施用地</option>
+							        <option value="118">118-广场用地</option><option value="121">121-交通运输用地</option>
+							        <option value="122">122-水利设施用地</option><option value="141">141-军事设施用地</option>
+							        <option value="142">142-监教安保场所用地</option><option value="143">143-宗教用地</option>
+							        <option value="144">144-殡葬用地</option><option value="123">123-其它基础设施</option>
+							        <option value="152">152-自然保护区服务设置</option><option value="153">153-盐地</option>
+							        <option value="221">221-果园</option><option value="151">151-风景名胜区服务设施</option>
+							        <option value="212">212-水浇地</option><option value="213">213-旱地</option>
+							        <option value="222">222-茶园</option><option value="211">211-水田</option>
+							        <option value="232">232-农耕路</option><option value="233">233-坑塘水面</option>
+							        <option value="234">234-农用水利</option><option value="223">223-其它园地</option>
+							        <option value="242">242-人工灌木林地</option><option value="231">231-设施农用地</option>
+							        <option value="241">241-人工用林地</option><option value="244">244-其它人工林地</option>
+							        <option value="252">252-其它人工草地</option><option value="243">243-宜林地</option>
+							        <option value="311">311-天然有林地</option><option value="251">251-人工牧草地</option>
+							        <option value="312">312-天然灌木林地</option>
+							        <option value="351">351-盐碱地</option><option value="322">322-其它天然牧草地</option>
+							        <option value="313">313-其它天然林地</option><option value="332">332-湖泊水面</option>
+							        <option value="333">333-冰川及永久积雪</option><option value="334">334-水库水面</option>
+							        <option value="321">321-天然牧草地</option><option value="342">342-沼泽地</option>
+							        <option value="331">331-河流水面</option><option value="352">352-沙地</option>
+							        <option value="353">353-裸地</option><option value="361">361-公园绿地</option>
+							        <option value="341">341-滩涂</option><option value="362">362-其它景观绿地</option>
+							        <option value="354">354-荒漠苔原</option><option value="111">111-公共管理与公共服务用地</option>
+							    </select>
+		                    </div>
+						</div>
+					</div>
+					
+					<div class="layui-form-item">
+						<label class="layui-form-label" style="width: 137px;">选择项目用地范围</label>
+						<div class="layui-form">
+							<input type="radio" lay-filter="radio1" name="radio1" value="导入文件" title="导入文件" />
+							<input type="radio" lay-filter="radio1" name="radio1" value="地图绘制" title="地图绘制" checked/>
+						</div>
+					</div>
+					<div id="mapdraw" class="layui-form-item" style="padding: 0px 14px 0px 10px; ">
+						<ul class="mapdraw">
+							<!--<li title="矩形" ><img src="../images/map/4.png"/></li>
+							<li title="多边形"><img src="../images/map/1.png"/></li>
+							<li title="修改" ><img src="../images/map/2.png"/></li>
+							<li title="取消" ><img src="../images/map/3.png"/></li>-->
+							
+							<li title="矩形" onclick="drawGraphical('Box')"><img src="../images/map/4.png"/></li>
+							<li title="多边形" onclick="drawGraphical('Polygon')"><img src="../images/map/1.png"/></li>
+							<li title="修改" onclick="initModify1()" ><img src="../images/map/2.png"/></li>
+							<li title="取消" onclick="delModify()" ><img src="../images/map/3.png"/></li>
+						</ul>
+					</div>
+					<div id="leading-in" class="layui-form-item" style="padding: 0px 14px 0px 50px; display: none;">
+						<div class="layui-input-inline" style="width: 130px;">
+							<input type="text" class="layui-input" name="" id="FiledPath" style="height: 30px;" />
+						</div>
+						<input type="file" name="file" onchange="SelectFiled()" id="SelectFiled" value="" style="display: none;" />
+						<div class="layui-input-inline" style="width: 55px;">
+							<button id="selectFile" class="layui-btn layui-btn-sm layui-btn-normal">选择文件</button>
+						</div>
+						
+					</div>
+					<div class="layui-form-item ctfxfwmj" style="padding: 0px 14px 0px 10px;display: none; border-bottom:1px dotted #BFBFBF; text-align: center;padding:0px 20px 15px 20px;font-size:14px ;color: #FF9228;">
+						项目范围面积4.62km²
+					</div>
+					<div class="layui-form-item" style=" text-align: center;padding:0px 20px 15px 20px;font-size:14px ;">
+						<button onclick="complianceExamine.hgscCheck()" class="layui-btn layui-btn-fluid layui-btn-normal">开始检查</button>
+					</div>
+					
+					
+				</div>
+                
+                <div class="tab-container hide"  name="冲突分析">
+					<div class="layui-form-item">
+						<label class="layui-form-label" style="width: 120px;">选择项目用地范围</label>
+						<div class="layui-form">
+							<input type="radio" lay-filter="radio2" name="radio2" value="导入文件"  title="导入文件"  />
+							<input type="radio" lay-filter="radio2" name="radio2" value="地图绘制"  title="地图绘制" checked="checked"/>
+						</div>
+					</div>
+					<div id="mapdraw2" class="layui-form-item" style="padding: 0px 14px 0px 10px; ">
+						<ul class="mapdraw">
+							<!--<option value="Polygon">多边形</option>
+					        <option value="Circle">圆形</option>
+					        <option value="Box">矩形</option>
+					        <option value="Square">正方形</option>-->
+							<li title="矩形" onclick="drawGraphical('Box')"><img src="../images/map/4.png"/></li>
+							<li title="多边形" onclick="drawGraphical('Polygon')"><img src="../images/map/1.png"/></li>
+							<li title="修改" onclick="initModify1()" ><img src="../images/map/2.png"/></li>
+							<li title="取消" onclick="delModify()" ><img src="../images/map/3.png"/></li>
+						</ul>
+					</div>
+					<div id="leading-in2" class="layui-form-item" style="padding: 0px 14px 0px 50px; display: none;">
+						<div class="layui-input-inline" style="width: 130px;">
+							<input type="text" class="layui-input" name="" id="FiledPath1"  style="height: 30px;" />
+						</div>
+						<input type="file" name="" onchange="SelectFiled1()" id="SelectFiled1" value="" style="display: none;" />
+						<div class="layui-input-inline" style="width: 55px;">
+							<button id="selectFile1" class="layui-btn layui-btn-sm layui-btn-normal">选择文件</button>
+							
+						</div>
+						
+					</div>
+					<div class="layui-form-item ctfxfwmj" style="padding: 0px 14px 0px 10px;display: none; border-bottom:1px dotted #BFBFBF; text-align: center;padding:0px 20px 15px 20px;font-size:14px ;color: #FF9228;">
+						项目范围面积4.62km²
+					</div>
+					<div class="layui-form-item" style=" text-align: center;padding:0px 20px 15px 20px;font-size:14px ;">
+						<button id="ctfx-check" class="layui-btn layui-btn-fluid layui-btn-normal">开始检查</button>
+					</div>
+				</div>
+				
+				<div class="tab-container hide"  name="辅助选址">
+					
+					<div class="layui-form-item">
+						<label class="layui-form-label">平方米</label>
+						<div class="layui-input-inline">
+							<input type="text" class="layui-input" name="" id="minArea" placeholder="项目用地面积" />
+						</div>
+						
+					</div>
+					<div class="layui-form-item">
+						<label class="layui-form-label">平方米</label>
+						<div class="layui-input-inline">
+							<input type="text" class="layui-input" name="" id="maxArea" placeholder="最大项目用地面积" />
+						</div>
+						
+					</div>
+					<div class="layui-form-item">
+						<label class="layui-form-label">用地类型</label>
+						<div class="layui-input-inline" style="">
+							<div class="layui-form">
+							    <select id="TDXZDL"  lay-search lay-filter="TDXZDL">
+		                           
+							    </select>
+		                    </div>
+						</div>
+					</div>
+					<div class="layui-form-item">
+						<label class="layui-form-label">用地类型</label>
+						<div class="layui-input-inline" style="">
+							<div class="layui-form">
+							    <select id="TDXZZL"  lay-search lay-filter="TDXZZL">
+		                            
+							    </select>
+		                    </div>
+						</div>
+					</div>
+					<div class="layui-form-item" style=" text-align: center;padding:0px 20px 15px 20px;font-size:14px ;">
+						<button onclick="assistSiteSelection.siteSelection()" class="layui-btn layui-btn-fluid layui-btn-normal">开始选址</button>
+					</div>
+				</div>
+				
+				<div class="tab-container hide"  name="绿化指标">
+					<table  class="layui-table" style="margin: 0px;">
+						<thead>
+							<tr>
+								<th>序号</th>
+								<th>行政区名称</th>
+								<th>绿地率</th>
+							</tr>
+						</thead>
+						<tbody id="greenstaticTbody">
+							
+						</tbody>
+					</table>
+					
+				</div>
+				
+
+				
+			</div>
+		</div>
+		<div class="right">
+			<div class="map-div">
+				<div id="map">
+	
+				</div>
+				
+				<div class="maptool">
+	                <ul class="tool-bar">
+						<li id="collect" class="hide" title="收藏"><a onclick="" href="javascript:;" class="tool-case1"></a></li>
+						<li title="全幅"  onclick="maptool.allover()" ><a href="javascript:;" class="tool-case9"></a></li>
+						<li title="测距"  onclick="maptool.measure('distance')" ><a href="javascript:;" class="tool-case3"></a></li>
+						<li title="测面"  onclick="maptool.measure('area')" ><a href="javascript:;" class="tool-case4"></a></li>
+						<!--<li id="query" title="查询" ><a href="javascript:;" class="tool-case5"></a></li>-->
+						<li title="清除" onclick="maptool.clear()"><a href="javascript:;" class="tool-case6"></a></li>
+						<!--<li title="全屏"><a href="javascript:;" class="tool-case7"></a></li>-->
+					</ul>
+				</div>
+				<div class="maptab">
+	                <ul>
+						<li style="background:url(../images/maptab/ditu.jpg) no-repeat 2px 2px;background-size: 45px 45px;"><a class="active" type='矢量' href="javascript:;">矢量</a></li>
+						<li style="background:url(../images/maptab/yingxiang.jpg) no-repeat 2px 2px;background-size: 45px 45px;"><a type='影像' href="javascript:;">影像</a></li>
+						<li style="background:url(../images/maptab/dixing.jpg) no-repeat 2px 2px;background-size: 45px 45px;"><a type='地形' href="javascript:;">地形</a></li>
+						<li style="background:#fff;"><a type='' href="javascript:;">无</a></li>
+					</ul>
+				</div>
+				
+				
+				<div id="result-title" class="result-find-box1" style="display: none;">
+				 	 <span id="result-title-text" class="result-title">项目合规性审查结果</span>
+				 	 <div class="layui-form">
+						<input type="radio" name="radio2" value="统计表" checked="checked"  title="统计表"  />
+						<!--<input type="radio" name="radio2" value="饼状图"  title="饼状图" />-->
+					</div>
+					<!--<button style="float: right; margin-top: -30px; margin-right: 40px;" id="export" class="layui-btn layui-btn-sm layui-btn-normal">导出</button>-->
+					<i id="up" style="position: absolute;padding: 5px; cursor: pointer; right: 5px; top:9px;font-size: 18px;color: #000;" class="layui-icon layui-icon-close"></i>
+				 </div>
+				 
+				 
+				 
+				 <div  class="result-find-box2" style="display: none;">
+				 	<p class="projectArea ctfxfwmj">项目范围面积</p>
+				 	<div class="layui-form-item" style="padding:10px 10px;">
+				 		
+				 		<div id="result-hgsc" style="display: none;">
+				 			<div id="resnav1" style="padding-left: 20px;color: #666;margin-bottom: 10px;">
+				    		   分析结果
+					    	</div>
+					    	<div id="tbody2-div" class="layui-tab layui-tab-card" lay-filter="tbody2-div">
+							  <ul class="layui-tab-title">
+							    <li class="layui-this">城规</li>
+							    <li>土规</li>
+							  </ul>
+							  <div class="layui-tab-content">
+							    <div class="layui-tab-item layui-show">
+								    <div>
+							    		<table id="table2" class="layui-table" style="margin: 0px;">
+								    		<thead>
+								    			<tr>
+								    				<th style="width: 70px;">图例</th>
+								    				<th style="width: 90px;">用地类型</th>
+								    				<th>占地面积(m²)</th>
+								    				<th>面积占比(m²)</th>
+								    				<th>操作</th>
+								    			</tr>
+								    		</thead>
+								    		<tbody id="tbody2">
+								    			
+								    		</tbody>
+								    	</table>
+							        </div>
+							    </div>
+							    <div class="layui-tab-item">
+							    	<div>
+							    		<table id="table2_TG" class="layui-table" style="margin: 0px;">
+								    		<thead>
+								    			<tr>
+								    				<th style="width: 70px;">图例</th>
+								    				<th style="width: 90px;">用地类型</th>
+								    				<th>占地面积(m²)</th>
+								    				<th>面积占比(m²)</th>
+								    				<th>操作</th>
+								    			</tr>
+								    		</thead>
+								    		<tbody id="tbody2_TG">
+								    			
+								    		</tbody>
+								    	</table>
+							        </div>
+							    </div>
+							    
+							  </div>
+							</div>
+					    	
+					    	
+					    	
+					    	<div id="tbody2-detailed-div" class="niceScroll" style="max-height: 300px;display: none;">
+					    		<table  class="layui-table" style="margin: 0px;">
+						    		<thead>
+						    			<tr>
+						    				<th style='width:50px;'>序号</th>
+						    				<th style='width:240px;'>冲突面积(m²)</th>
+						    				<th>地块面积(m²)</th>
+						    			</tr>
+						    		</thead>
+						    	</table>
+						    	<div class="niceScroll" style="max-height: 250px;">
+						    		<table id="table2-detailed" class="layui-table" style="margin: 0px;">
+							    		<tbody id="tbody2-detailed">
+							    			 
+							    		</tbody>
+							    	</table>
+						    	</div>
+					    		
+					    	</div>
+				 		</div>
+				 		
+				 		
+				 		
+				 		<div id="result-ctfx" style="display: none;">
+				 			<div id="resnav" style="padding-left: 20px;color: #666;margin-bottom: 10px;">
+				    		
+					    	</div>
+					    	<div id="tbody3-div" class="niceScroll">
+					    		<table id="" class="layui-table" style="margin: 0px;">
+						    		<thead>
+						    			<tr>
+						    				<th style='width:50px;'>图例</th>
+						    				<th>内容</th>
+						    				<th style='width:75px;'>地块数量</th>
+						    				<th style='width:95px;'>面积(m²)</th>
+						    				<th style='width:75px;'>面积占比</th>
+						    				<th style='width:75px;'>操作</th>
+						    			</tr>
+						    		</thead>
+						    		<tbody id="tbody3">
+						    			
+						    		</tbody>
+						    	</table>
+					        </div>
+					    	
+					    	
+					    	<div id="tbody3-detailed-div" class="niceScroll" style="max-height: 300px;display: none;">
+					    		<table class="layui-table" style="margin: 0px;">
+						    		<thead>
+						    			<tr>
+						    				<th style='width:50px;'>序号</th>
+						    				<th style='width:90px;'>冲突面积(m²)</th>
+						    				<th style='width:90px;'>地块面积(m²)</th>
+						    				<th style='width:90px;'>土规用地类型</th>
+						    				<th>城规用地类型</th>
+						    			</tr>
+						    		</thead>
+						    	</table>
+						    	<div class="niceScroll" style="max-height: 250px;">
+						    		<table class="layui-table" style="margin: 0px;">
+							    		<tbody id="tbody3-detailed">
+							    			 
+							    		</tbody>
+							    	</table>
+						    	</div>
+						    	
+					    	</div>
+					    	
+					    	
+					    	
+					    	
+					    	
+					    	
+				 		</div>
+				 		
+				 		<div id="result-fzxz" style="display: none;">
+				 			<ul id="result-fzxz-ul" class="result-fzxz-ul niceScroll" style="max-height: 300px;">
+				 				<li>
+				 					<p class="order">1.<span class="recommend">推荐</span></p>
+				 					<p><span class="right5">土地面积:</span>281233.44平方米</p>
+				 					<p><span class="right5">规划利用类型:</span>一类居住用地</p>
+				 				</li>
+				 				<li>
+				 					<p class="order">2.</p>
+				 					<p><span class="right5">土地面积:</span>281233.44平方米</p>
+				 					<p><span class="right5">规划利用类型:</span>一类居住用地</p>
+				 				</li>
+				 			</ul>
+				 		</div>
+				    	
+				 	</div>
+				 </div>
+				
+				
+				
+			</div>
+		</div>
+	</body>
+	<!--<script src="../js/jquery1.9.0.min.js"></script>
+	<script src="../js/config.js"></script>
+	<script src="../js/common.js"></script>
+	<script src="../js/layer/layer.js"></script>
+	<script src="../js/layui/layui.js"></script>-->
+
+	<script src="../js/jquery1.9.0.min.js"></script>
+	<script src="../js/config.js"></script>
+	<script src="../js/common.js"></script>
+	<script src="../js/scrollbar/jquery.nicescroll.min.js"></script>
+	<script src="../js/layui/layui.js"></script>
+	<script src="../js/modules/layui-config.js"></script>
+	<script src="../js/openlayers/ol-debug.js"></script>
+	<script src="../js/openlayers/maptool.js"></script>
+	<script src="../js/analysis/initlayer.js"></script>
+	<script src="../js/analysis/analysislayer.js"></script>
+	<script src="../js/analysis/analysis.js"></script>
+	<!--<script src="../js/openlayers/map.js"></script>-->
+    <script>
+    	 var ljfBase = null;
+    	 var slider = null;
+    	 var layuiform = null;
+    	 var layerManager = null;
+    	 var Industryresjosn = [];//专题图层数组
+    	 var _mapObject = null;
+    	 layui.use(['form', 'element', 'laydate', 'table','slider','ljfBase','serverCenter','LayerManager','NULayer','bluebird'], function () {
+    	 	
+    	 	$(".niceScroll").niceScroll({cursorborder:"",cursorcolor:"#297FBA",boxzoom:false});
+	        var layuielement = layui.element;
+	        layuiform = layui.form;
+	        slider = layui.slider;
+	        ljfBase = layui.ljfBase;
+	        var xml2json = layui.xml2json;
+	        var serverCenter = layui.serverCenter;
+	        var LayerManager = layui.LayerManager;
+	        var NULayer = layui.NULayer;
+	        var url = ljfBase.https.BaseMapConfigManagerService + "/GetAllBaseMapConfig";
+//	        $("body").attr('class',"white");
+	        ljfBase.post(url, {userid: sessionStorage.sprid}, function (res) {
+			    var baseMapConfig = JSON.parse(res)[0];
+			    var center = [];
+			    center.push(baseMapConfig.CENTERX);
+			    center.push(baseMapConfig.CENTERY);
+			    layerManager = new LayerManager("map",center,baseMapConfig.LEVEL);
+			    _mapObject = layerManager._mapObject;
+			    ljfBase.post(ljfBase.https.BaseMapManagerService + "/GetAllBaseMap", {sprid: sessionStorage.sprid}, function (xml) {
+	                var resArr = $.parseJSON(xml);
+	                layerManager.loadBaseMap(resArr,"矢量");
+	                $('.maptab ul li a').click(function () {
+		                $('.maptab ul li a').removeClass("active");
+		                $(this).addClass("active");
+		                var type = $(this).attr('type');
+		                layerManager.hideBaseMap();
+		                layerManager.loadBaseMap(resArr,type);
+		            });
+		            
+		            //加载分析图层
+			        initTileLayers(_mapObject);
+			        initModify();
+//			        GetGreenLandDatas();
+			        layuielement = layui.element;
+				    layuielement.on('tab(tbody2-div)', function(data){
+			            baseCTJC1.setVisible(false);
+			            baseCTJC2.setVisible(false);
+			            
+					    if(data.index==0){
+					   	    baseCTJC2.setVisible(true);
+					    }else if(data.index==1){
+					   	    baseCTJC1.setVisible(true);
+					    }
+					});
+			        
+			        $("#TDXZDL").change(function(){
+						var TDXZDL = $(this).val();
+						var str = "";
+					    for (var i=0;i<config.item1.length;i++) {
+					    	if(config.item1[i].name==TDXZDL){
+					    		for (var j=0;j<config.item1[i].items.length;j++) {
+					    			str+="<option>"+config.item1[i].items[j].name+"</option>";
+					    			
+					    		}
+					    	}
+					    	
+					    }
+					    $("#TDXZZL").html(str);
+					    layuiform.render('select');
+					})
+			        
+			        var str = "";
+				    for (var i=0;i<config.item1.length;i++) {
+				    	str+="<option>"+config.item1[i].name+"</option>";
+				    }
+				    $("#TDXZDL").html(str).change();
+				    layuiform.render('select')
+				    layuiform.on('select(TDXZDL)', function(data){
+					  	$("#TDXZDL").val(data.value).change();
+					});
+					layuiform.render('radio');
+					layuiform.on('radio(radio1)', function(data){
+					   if(data.value=="导入文件"){
+					   	    $("#leading-in").show();
+					   	    $("#mapdraw").hide();
+					   }else{
+					   	    $("#leading-in").hide();
+					   	    $("#mapdraw").show();
+					   }
+					});
+					layuiform.on('radio(radio2)', function(data){
+					   if(data.value=="导入文件"){
+					   	    $("#leading-in2").show();
+					   	    $("#mapdraw2").hide();
+					   }else{
+					   	    $("#leading-in2").hide();
+					   	    $("#mapdraw2").show();
+					   }
+					});
+			        //
+			        
+	            });
+			    
+			    var isquery = false;
+			    $("#query").click(function(){
+			    	if(isquery){
+			    		$("#map").css('cursor','default');
+			    		$(this).attr("title","查询")
+			    		isquery = false;
+			    	}else{
+			    		$("#map").css('cursor','pointer');
+			    		$(this).attr("title","取消查询")
+			    		isquery = true;
+			    	}
+			    })
+			    _mapObject.on('singleclick',function (evt){
+			    	
+			    });
+			    _mapObject.on('pointermove',function (evt){
+			    	if(LDL.get('visible')){
+			    		var feature = _mapObject.forEachFeatureAtPixel(evt.pixel,function (feature) {
+			                return feature;
+				            },{
+				                layerFilter: function (layer) {
+				                    if(layer.get('name')=="LDL"){
+				                		return layer.get('name') === 'LDL';
+				                	}
+				                	
+				                }
+				            }
+				        );
+				      
+				        if(feature){
+				        	var XZQMC = feature.get('XZQMC');
+				        	var LDL1 = feature.get('LDL');
+				        	$(".tips").removeClass('hide');
+				        	$(".tips").html(XZQMC+"<br>"+"绿地率:&nbsp;&nbsp;"+LDL1);
+				        	$(".tips").css({'left':window.event.clientX+"px",'top':window.event.clientY+"px"})
+				        	$("#map").css('cursor','pointer');
+				        	sourceXZQ1.clear();
+				        	var Style = new ol.style.Style({
+					            stroke: new ol.style.Stroke({
+					                color: 'rgba(212, 181, 12,1)',
+					                width: 1
+					            }),
+					            fill: new ol.style.Fill({
+					                color: 'rgba(212, 181, 12,1)',
+					            }),
+					            
+					        });
+				        	
+							feature.setStyle(Style);
+				            sourceXZQ1.addFeature(feature);
+				        }else{
+				        	$("#map").css('cursor','default');
+				        	$(".tips").addClass('hide');
+				        	sourceXZQ1.clear();
+				        }
+			    	}
+			    	
+			        
+			    })
+	            maptool.init(layerManager);
+	            
+	        });    
+	    });
+    	$(".nav ul li").click(function(){
+    		$(".nav ul li").removeClass('active');
+    		$(this).addClass('active');
+    		var name = $(this).attr('name');
+    		$(".tab-container").addClass('hide');
+    		$(".tab-container[name='"+name+"']").removeClass('hide');
+    		$("#collect").addClass('hide');
+    		baseCTJC0.setVisible(false);
+			baseCTJC1.setVisible(false);
+		    baseCTJC2.setVisible(false);
+			mapclear();
+			if(name=="绿化指标"){
+				vectorXZQ.setVisible(true);
+                LDL.setVisible(true);
+			}else{
+				vectorXZQ.setVisible(false);
+                LDL.setVisible(false);
+			}
+    	});
+    	
+     </script>
+
+</html>

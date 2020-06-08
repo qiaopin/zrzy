@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <link rel="stylesheet" type="text/css" href="../js/layui/css/layui.css"/>
+    <link rel="stylesheet" type="text/css" href="../js/layer/theme/default/layer.css"/>
+    <link rel="stylesheet" type="text/css" href="../css/comstyle.css"/>
+    <style>
+        .black table {
+            color: #fff;
+        }
+
+        .black .btndiv {
+            border: 1px solid #5C5D6D;
+        }
+
+        .white table {
+            color: #000;
+        }
+
+        .white .btndiv {
+            border: 1px solid #DDDDDD;
+        }
+
+        table {
+            color: #fff;
+            width: 100%;
+            margin: 10px;
+        }
+
+        table tr td {
+            padding: 5px;
+        }
+
+        .layui-input-block {
+            width: 100%;
+            margin-left: 0;
+        }
+    </style>
+</head>
+<body class="white">
+<div style="width:95%">
+    <form class="layui-form" action="">
+        <table border="0" cellspacing="0" cellpadding="0">
+            <tr>
+                <td><span>数据类型</span></td>
+                <td>
+                    <select name="datatype" required lay-verify="required" class="datatype"
+                            lay-filter="datatype">
+                        <option value=""></option>
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <td><span>数据分类</span></td>
+                <td>
+                    <select id="industry" lay-search lay-filter="industry" class="industry">
+                    </select>
+                </td>
+            </tr>
+            <tr class="tdwfjc">
+                <td><span>数据年度</span></td>
+                <td>
+                    <input type="text" id="year" class="layui-input-block" placeholder="">
+                </td>
+            </tr>
+            <tr class="tdwfjc">
+                <td><span>数据名称</span></td>
+                <td>
+                    <input type="text" id="name" class="layui-input-block" placeholder="">
+                </td>
+            </tr>
+            <!--<tr class="tdwfjc">-->
+                <!--<td><span>坐标系</span></td>-->
+                <!--<td>-->
+                    <!--<select lay-search>-->
+                        <!--<option value="">wgs84</option>-->
+                        <!--<option value="">2000坐标系</option>-->
+                        <!--<option value="">北京54</option>-->
+                        <!--<option value="">西安80</option>-->
+                    <!--</select>-->
+                <!--</td>-->
+            <!--</tr>-->
+        </table>
+    </form>
+    <div style="padding: 10px;position: absolute;right:0;bottom:0;">
+        <button class="layui-btn layui-btn-normal" id="btnOk">确定</button>
+        <button class="layui-btn layui-btn-normal" style="margin-right: 27px;" id="close">取消</button>
+    </div>
+</div>
+</body>
+<script src="../js/jquery1.9.0.min.js"></script>
+<script src="../js/config.js"></script>
+<script src="../js/common.js"></script>
+<script src="../js/layui/layui.js"></script>
+<script src="../js/modules/layui-config.js"></script>
+<script src="../js/openlayers/ol-debug.js"></script>
+<script>
+    var layuiform = null;
+    layui.use(['form','upload', 'ljfBase', 'LayerManager', 'NULayer',], function () {
+        var ljfBase = layui.ljfBase;
+        layuiform = layui.form;
+
+        layuiupload = layui.upload;
+        layuiupload.render({//上传
+            elem: '#upload'
+            , auto: false
+            , accept: 'file' //普通文件
+            // , exts: 'jpg|png' //只允许上传压缩文件
+            , choose: function (obj) {
+                var files = obj.pushFile();
+                obj.preview(function (index, file, result) {
+                    delete files[index];
+                    parent.layer.loadIndex = parent.layer.load(0, {shade: 0.1});
+                    // RurallandService("/AddRuralFJLR", {
+                    //     xzqdm: userInfo.XZQDM,
+                    //     fwbh: fwbh,
+                    //     content: result,
+                    //     fjlrname: file.name
+                    // }, true, function (resjson) {
+                    //     if (resjson.indexOf("ok") > -1) {
+                    //         parent.layer.alert("上传成功!");
+                    //         GetRuralFJLRPath();
+                    //     } else {
+                    //         parent.layer.alert("上传失败!")
+                    //     }
+                    //     parent.layer.close(parent.layer.loadIndex);
+                    // });
+
+                });
+            }
+        });
+
+        //获取所有数据类型
+        ljfBase.refreshSelect('.datatype', ljfBase.configJson.dataClass);
+        //获取所有行业信息
+        ljfBase.GetAllIndustryInfo(false);
+
+        //监听切换数据类型时 关联行业信息
+        layuiform.on("select(datatype)", function (data) {
+            ljfBase.GetAllIndustryInfo(false);
+            // if(data.value=="专项数据"){
+            //     $(".tdwfjc").show();
+            // }else{
+            //     $(".tdwfjc").hide();
+            // }
+        });
+
+        //监听切换数据分类
+        layuiform.on("select(industry)", function (data) {
+            // if(data.value=="违法监测图斑"){
+            //     $(".tdwfjc").show();
+            // }else{
+            //     $(".tdwfjc").hide();
+            // }
+        });
+
+        ConfigManagerServices("/GetAllIndustryInfo", {}, false, function (resjson) {
+            if (resjson.indexOf("false") > -1) {
+                parent.layer.alert("未查询到结果!");
+                parent.layer.close(parent.layer.loadIndex);
+                var resjosn = [];
+            } else {
+                var resjosn = $.parseJSON(resjson);
+            }
+            var str = "";
+            for (var i = 0; i < resjosn.length; i++) {
+                str += "<option>" + resjosn[i].NAME + "</option>"
+            }
+            $("#industry").html(str);
+            layuiform.render();
+        });
+
+        $("#btnOk").click(function () {
+            var industry = $("#industry").val();//行业
+            var data = {
+                industry: "违法监测图斑",
+                themename: special,
+                describe: "",
+                themtype: "",
+                year: $("#year").val(),
+                month:  $('input[name="month"]:checked ').val()
+            };
+            if (parent.layer.openIndex) {
+                parent.layer.close(parent.layer.openIndex);
+            }
+        });
+        $("#close").click(function () {
+            if (parent.layer.openIndex) {
+                parent.layer.close(parent.layer.openIndex);
+            }
+        });
+    });
+</script>
+</html>

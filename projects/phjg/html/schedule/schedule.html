@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html xmlns:v-bind="http://www.w3.org/1999/xhtml">
+
+<head>
+    <meta charset="UTF-8">
+    <title>实时进度</title>
+    <link rel="stylesheet" type="text/css" href="../../js/layui-v2.4.5/css/layui.css"/>
+    <link rel="stylesheet" type="text/css" href="../../js/layer/theme/default/layer.css"/>
+    <link rel="stylesheet" type="text/css" href="../../js/openlayers/ol.css"/>
+    <style>
+    	header{
+    		padding: 10px 10px 0px 10px;
+    		background: #F4F6F9;
+    		height: 55px;
+    	}
+    	.nav{
+    		background: white;
+    		width: 100%;
+    		height: 45px;
+    		overflow: hidden;
+    	}
+    	.nav-item{
+    		list-style: none;
+    	}
+    	.nav-item  li{
+    		float: left;
+    		padding: 5px 10px;
+    		
+    	}
+    	.nav-item  li a{
+    		display: inline-block;
+    		padding: 8px 0px;
+    		text-decoration: none;
+    		font-size: 13px;
+    		font-weight:900;
+            color: #323944;
+            border-bottom: 3px solid white;
+            transition:border-bottom 1s;
+            -webkit-transition:border-bottom 1s; 
+    	}
+    	.nav-item  li a:hover{
+    		color: #1890FF;
+    		border-bottom: 3px solid #1890FF;
+    	
+    	}
+    	.nav-item  li .active{
+    		color: #1890FF;
+    		border-bottom: 3px solid #1890FF;
+    	}
+    </style>
+</head>
+
+<body>
+<header>
+	<div class="nav">
+		<ul class="nav-item">
+			<li  id="ztjd"><a href="javascript:;" class="active" >总体进度</a></li>
+			<li  id="grjd"><a href="javascript:;" >个人进度</a></li>
+			
+		</ul>
+	</div>
+</header>
+<div  style="width: 100%;height: calc(100vh - 65px);overflow:hidden;">
+	<iframe id="iframes" name="iframes" src="ztjd.html" width="100%" height="100%" style="border: 0px;"></iframe>
+</div>
+
+</body>
+<script src="../../js/jquery1.9.0.min.js"></script>
+<script src="../../js/config.js"></script>
+<script src="../../js/common.js"></script>
+<script src="../../js/layer/layer.js"></script>
+<script src="../../js/layui/layui.js"></script>
+
+
+<script>
+	$(".nav-item li").click(function(){
+		$(".nav-item li a").removeClass('active');
+		$(this).find('a').addClass('active');
+		
+	})
+    $("#ztjd").click(function(){
+		$("#iframes").attr('src','ztjd.html');
+	});
+	$("#grjd").click(function(){
+		$("#iframes").attr('src','grjd.html');
+	});
+</script>
+
+</html>

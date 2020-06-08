@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html xmlns:v-bind="http://www.w3.org/1999/xhtml">
+
+<head>
+    <meta charset="UTF-8">
+    <title>基础信息</title>
+    <link rel="stylesheet" type="text/css" href="../../js/layui-v2.4.5/css/layui.css"/>
+    <link rel="stylesheet" type="text/css" href="../../js/layer/theme/default/layer.css"/>
+    <!--<link rel="stylesheet" type="text/css" href="../../css/comstyle.css"/>-->
+    <link rel="stylesheet" type="text/css" href="../../css/comstyle.css"/>
+    <link rel="stylesheet" type="text/css" href="../../js/openlayers/ol.css"/>
+    <link rel="stylesheet" type="text/css" href="../../css/monitorAnalysis.css"/>
+    <link rel="stylesheet" type="text/css" href="../../css/jcxx.css?v=0315"/>
+    <style>
+
+    </style>
+</head>
+
+<body class="white">
+<div id="alertinfodiv">
+
+</div>
+<div class="left">
+    <div>
+        <form class="layui-form" action="">
+            <div class="layui-form-item">
+                <div class="layui-inline">
+                    <select class="themeSelect selectTheme" name="" lay-verify="required" lay-filter="selectTheme">
+                    </select>
+                </div>
+            </div>
+        </form>
+    </div>
+
+    <div class="top">
+        <div class="title_div">
+            <span class="strong">河北省<span class="smc"></span><span class="xmc"></span></span>
+        </div>
+        <div class="niceScroll table1_div">
+            <table id="table1" lay-filter="table1">
+
+            </table>
+        </div>
+    </div>
+    <div class="middle">
+        <div class="title_div">
+            <span class="strong">河北省<span class="smc"></span><span class="xmc"></span></span>
+        </div>
+        <div class="niceScroll table2_div">
+            <table id="table2" lay-filter="table2">
+
+            </table>
+        </div>
+    </div>
+</div>
+<div class="right">
+    <div class="changeMapTable">
+        <div class="showMap active">地图</div>
+        <div class="showTable">表格</div>
+    </div>
+    <div class="top tbMap">
+        <div id="map"></div>
+        <div class="maptool">
+            <ul class="tool-bar">
+                <li id="collect" class="hide" title="收藏"><a onclick="" href="javascript:" class="tool-case1"></a></li>
+                <li title="全屏" class="" id="fullBtn" onclick="fullScreen()"><a href="javascript:" class="tool-case7"></a></li>
+                <li title="测距" onclick="maptool.measure('distance')"><a href="javascript:" class="tool-case3"></a></li>
+                <li title="测面" onclick="maptool.measure('area')"><a href="javascript:" class="tool-case4"></a></li>
+                <li id="query" title="查询"><a href="javascript:" class="tool-case5"></a></li>
+                <li title="清除" onclick="maptool.clear()"><a href="javascript:" class="tool-case6"></a></li>
+            </ul>
+        </div>
+        <div class="maptab">
+            <ul>
+                <li class="active"
+                    style="background:url(../../images/maptab/ditu.jpg) no-repeat 2px 2px;background-size: 45px 45px;">
+                    <a
+                            type='矢量' href="javascript:">矢量</a></li>
+                <li style="background:url(../../images/maptab/yingxiang.jpg) no-repeat 2px 2px;background-size: 45px 45px;">
+                    <a type='影像' href="javascript:">影像</a></li>
+                <li style="background:url(../../images/maptab/dixing.jpg) no-repeat 2px 2px;background-size: 45px 45px;">
+                    <a
+                            type='地形' href="javascript:">地形</a></li>
+                <li style="background:#fff;"><a type='' href="javascript:">无</a></li>
+            </ul>
+        </div>
+    </div>
+    <div class="top tbTable">
+        <div class="title_div" style="clear:both">
+            <span class="strong hide">河北省<span class="smc"></span><span class="xmc"></span><span class="_year"></span>年<span
+                    class="_quart"></span>下发监测图斑基本信息明细</span>
+            <span class="f-right">
+				<!--<button id="update" class="layui-btn layui-btn-sm layui-btn-normal">外业数据更新基础信息</button>-->
+				
+				<button id="export" disabled="disabled"
+                        class="layui-btn layui-btn-sm layui-btn-normal layui-btn-disabled">导出全部</button>
+				<button id="export3" disabled="disabled"
+                        class="layui-btn layui-btn-sm layui-btn-normal layui-btn-disabled">导出全部已调查</button>
+				<button id="export1" disabled="disabled"
+                        class="layui-btn layui-btn-sm layui-btn-normal layui-btn-disabled">导出区县</button>
+				<button id="export2" disabled="disabled"
+                        class="layui-btn layui-btn-sm layui-btn-normal layui-btn-disabled">导出区县已调查</button>
+				
+				<button id="leading-in" class="layui-btn layui-btn-sm layui-btn-normal">导入信息表</button>
+			</span>
+        </div>
+        <div class="niceScroll table3_div">
+            <table id="table3" lay-filter="table3">
+
+            </table>
+        </div>
+    </div>
+
+</div>
+</body>
+<script type="text/html" id="barDemo">
+    <a class="layui-btn layui-btn-xs layui-btn-skyblue" lay-event="detail"></i>上传</a>
+</script>
+<script type="text/html" id="barDemo1">
+    <a class="layui-btn layui-btn-xs layui-btn-skyblue" lay-event="details"></i>详情</a>
+    <a class="layui-btn layui-btn-xs layui-btn-danger" lay-event="audit"></i>审核</a>
+    <a class="layui-btn layui-btn-xs layui-btn-skyblue" lay-event="auditDetails"></i>审核详情</a>
+</script>
+<script src="../../js/jquery1.9.0.js"></script>
+<script src="../../js/config.js"></script>
+<script src="../../js/common.js"></script>
+<script src="../../js/layer/layer.js"></script>
+<script src="../../js/layui/layui.js"></script>
+<script src="../../js/scrollbar/jquery.nicescroll.min.js"></script>
+<script src="../../js/modules/layui-config.js"></script>
+<script src="../../js/openlayers/ol-debug.js"></script>
+<script src="../../js/openlayers/maptool.js"></script>
+<script src="../../js/analysis1.js"></script>
+<script src="../../js/analysis/analysislayer.js"></script>
+<script src="../../js/analysis/initlayer.js?v=0315"></script>
+<script src="../../js/showWFTBSJGL.js?v=0315"></script>
+<script>
+    $(".changeMapTable").on('click', 'div', function () {
+        $('.changeMapTable div').removeClass('active');
+        $(this).addClass('active');
+        if ($(this).hasClass('showMap')) {
+            $('.tbMap').show();
+        } else {
+            $('.tbMap').hide();
+        }
+        layuitable.render();
+    });
+
+    //导出全部
+    $("#export").click(function () {
+        var year = top.year;
+        var quert = top.quart;
+        parent.layer.loadIndex = parent.layer.load(0, {shade: 0.1});
+        JKTBSummaryManagerService("/DownBaseinfosXls", {
+            year: year,
+            quert: quert,
+            xzqdm: sessionStorage.userXZQDM
+        }, true, function (resjson) {
+            if (resjson.indexOf("false") > -1) {
+                parent.layer.alert("未查询到结果!");
+                parent.layer.close(parent.layer.loadIndex);
+
+            } else {
+                window.open(resjson.trim());
+                parent.layer.close(parent.layer.loadIndex);
+            }
+        });
+    });
+    //导出全部已调查
+    $("#export3").click(function () {
+        var year = top.year;
+        var quert = top.quart;
+        parent.layer.loadIndex = parent.layer.load(0, {shade: 0.1});
+        JKTBSummaryManagerService("/DownBaseinfosXls5", {
+            year: year,
+            quert: quert,
+            xzqdm: sessionStorage.userXZQDM
+        }, true, function (resjson) {
+            if (resjson.indexOf("false") > -1) {
+                parent.layer.alert("未查询到结果!");
+                parent.layer.close(parent.layer.loadIndex);
+
+            } else {
+                window.open(resjson.trim());
+                parent.layer.close(parent.layer.loadIndex);
+            }
+        });
+    });
+    //导出区县
+    $("#export1").click(function () {
+        var year = top.year;
+        var quert = top.quart;
+        parent.layer.loadIndex = parent.layer.load(0, {shade: 0.1});
+        JKTBSummaryManagerService("/DownBaseinfosXls4", {
+            year: year,
+            quert: quert,
+            smc: smc,
+            xmc: xmc,
+        }, true, function (resjson) {
+            if (resjson.indexOf("false") > -1) {
+                parent.layer.alert("未查询到结果!");
+                parent.layer.close(parent.layer.loadIndex);
+
+            } else {
+                window.open(resjson.trim());
+                parent.layer.close(parent.layer.loadIndex);
+            }
+        });
+    });
+    //导出已调查
+    $("#export2").click(function () {
+        var year = top.year;
+        var quert = top.quart;
+        parent.layer.loadIndex = parent.layer.load(0, {shade: 0.1});
+        JKTBSummaryManagerService("/DownBaseinfosXls3", {
+            year: year,
+            quert: quert,
+            smc: smc,
+            xmc: xmc,
+        }, true, function (resjson) {
+            if (resjson.indexOf("false") > -1) {
+                parent.layer.alert("未查询到结果!");
+                parent.layer.close(parent.layer.loadIndex);
+
+            } else {
+                window.open(resjson.trim());
+                parent.layer.close(parent.layer.loadIndex);
+            }
+        });
+    });
+    //更新
+    $("#update").click(function () {
+        parent.layer.loadIndex = parent.layer.load(0, {shade: 0.1});
+        JKTBSummaryManagerService("/UpdateJKTBSummary", {}, true, function (resjson) {
+            if (resjson.indexOf("false") > -1) {
+                parent.layer.alert("更新失败!");
+            } else {
+                parent.layer.alert("更新成功!");
+            }
+            parent.layer.close(parent.layer.loadIndex);
+
+        });
+    });
+
+    $(function () {
+        var userInfo = JSON.parse(sessionStorage.userInfo);
+        if (userInfo.XZJB != "省级") {
+            $("#update").addClass('hide');
+        }
+    })
+</script>
+
+</html>

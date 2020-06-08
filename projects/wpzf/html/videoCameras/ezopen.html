@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <meta http-equiv="X-UA-Compatible" content="ie=edge"/>
+    <style>
+        button {
+            padding: 3px 10px;
+        }
+    </style>
+    <script>
+        var ezuikitTalkData = parent.ezuikitTalkData;
+        var url, accessToken, deviceSerial, channelNo;
+        url = ezuikitTalkData.ezopen;
+        // 加载js
+        function addJs(filepath, callback) {
+            var oJs = document.createElement("script");
+            oJs.setAttribute("src", filepath);
+            oJs.onload = callback;
+            document.getElementsByTagName("head")[0].appendChild(oJs);
+        }
+
+        // 加载css
+        function addCss(filepath, callback) {
+            var oJs = document.createElement('link');
+            oJs.rel = 'stylesheet';
+            oJs.type = 'text/css';
+            oJs.href = filepath;
+            oJs.onload = callback;
+            document.getElementsByTagName("head")[0].appendChild(oJs);
+        }
+
+        console.log("ezuikitTalkData------", ezuikitTalkData)
+        var layerPath = ezuikitTalkData.decoderPath + '/js/layer/layer.js';
+        var ezuikitPath = ezuikitTalkData.decoderPath + '/ezuikit.js';
+        var ezuikitTalkPath = ezuikitTalkData.decoderPath + '/ezuikit-talk.js';
+        addJs(ezuikitPath, function () {
+        });
+        addJs(layerPath, function () {
+        });
+    </script>
+
+    <title>Title</title>
+</head>
+<body>
+<div class="btnList">
+    <button data-index="0">上</button>
+    <button data-index="1">下</button>
+    <button data-index="2">左</button>
+    <button data-index="3">右</button>
+    <button data-index="4">左上</button>
+    <button data-index="5">左下</button>
+    <button data-index="6">右上</button>
+    <button data-index="7">右下</button>
+    <button data-index="8">放大</button>
+    <button data-index="9">缩小</button>
+    <button data-index="10">近焦距</button>
+    <button data-index="11">远焦距</button>
+    <button id="stop">停止转动</button>
+    <button id="hd">高清</button>
+</div>
+<div id="playWind"></div>
+<script src="../../js/jquery-2.1.0.js"></script>
+<script>
+    function init() {
+        accessToken = ezuikitTalkData.accessToken;
+        deviceSerial = url.split('/')[3];
+        channelNo = url.split('/')[4].split('.')[0];
+
+        addJs(ezuikitTalkPath, function () {
+            EZUITalk = new EZUITalk({
+                accessToken: ezuikitTalkData.accessToken,
+                url: url,
+                filePath: ezuikitTalkData.decoderPath + '/js/talk/',
+                handleError: function (err) {
+                    layer.msg("网络错误，请稍后再试");
+                }
+            });
+        });
+
+        addJs(ezuikitPath, function () {
+            var autoplay = 1;
+            var audioId = 0;
+            var templete = 2;
+
+            var width = document.documentElement.clientWidth;
+            var height = document.documentElement.clientHeight;
+
+            function handleError(e) {
+                console.log("捕获到错误", e);
+            }
+
+            function handleSuccess() {
+                console.log("播放成功回调函数，此处可执行播放成功后续动作");
+                playing = true;
+                console.log("默认开启声音");
+                decoder.openSound(0);
+            }
+
+            decoder = new EZUIKit.EZUIPlayer({
+                id: "playWind",
+                autoplay: true,
+                audioId: audioId,
+                url: url,
+                accessToken: ezuikitTalkData.accessToken,
+                decoderPath: ezuikitTalkData.decoderPath,
+                width: width,
+                height: height - 50,
+                handleError: handleError,
+                handleSuccess: handleSuccess,
+            });
+        });
+    }
+
+    init();
+</script>
+<script>
+    var accessToken = accessToken;
+    var carameId = deviceSerial;
+    var speed = 0;
+    var direction;
+
+    // 0-上，1-下，2-左，3-右，4-左上，5-左下，6-右上，7-右下，8-放大，9-缩小，10-近焦距，11-远焦距
+    $(".btnList button").click(function () {
+        direction = $(this).attr("data-index");
+        if (direction) {
+            changeBlur(direction);
+        } else {
+            var id = $(this).attr("id");
+            if (id == "stop") {
+                stop();
+            } else if (id == "hd") {
+                var baseUrl = url.split("/1.")[0] + "/1.";
+                if ($("#hd").html() == "标清") {
+                    $("#hd").html("高清");
+                    url = baseUrl + "live";
+                } else {
+                    $("#hd").html("标清");
+                    url = baseUrl + "hd.live";
+                }
+                init();
+            }
+
+        }
+    });
+
+    function changeBlur(direction) {
+        var url = "https://open.ys7.com/api/lapp/device/ptz/start";
+        var data = {
+            accessToken: accessToken,
+            deviceSerial: carameId,
+            channelNo: 1,
+            direction: direction,
+            speed: speed
+        };
+        $.ajax(url, {
+            data: data,
+            dataType: "json", //返回文本
+            async: false,
+            type: 'post', //HTTP请求类型
+            timeout: 10000, //超时时间设置为10秒；
+            success: function (res) {
+                console.log(res);
+            },
+            error: function (xhr, type, errorThrown) {
+                //异常处理；
+                console.log(type);
+            }
+        });
+    }
+
+    function stop() {
+        var url = "https://open.ys7.com/api/lapp/device/ptz/stop";
+        var data = {
+            accessToken: accessToken,
+            deviceSerial: carameId,
+            channelNo: 1,
+            direction: direction
+        };
+        $.ajax(url, {
+            data: data,
+            dataType: "json", //返回文本
+            type: 'post', //HTTP请求类型
+            timeout: 10000, //超时时间设置为10秒；
+            success: function (res) {
+                console.log(res);
+            },
+            error: function (xhr, type, errorThrown) {
+                //异常处理；
+                console.log(type);
+            }
+        });
+    }
+</script>
+</body>
+</html>

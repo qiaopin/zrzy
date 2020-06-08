@@ -1,0 +1,1425 @@
+<!DOCTYPE html>
+<html xmlns:v-bind="http://www.w3.org/1999/xhtml">
+
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <link rel="stylesheet" type="text/css" href="../js/layui-v2.4.5/css/layui.css"/>
+    <link rel="stylesheet" type="text/css" href="../js/layer/theme/default/layer.css"/>
+    <link rel="stylesheet" type="text/css" href="../css/comstyle.css"/>
+    <link rel="stylesheet" type="text/css" href="../js/openlayers/ol.css"/>
+    <style>
+
+        body #alertinfo:before {
+            top: -25px;
+            left: 21px;
+            content: " ";
+            height: 0;
+            width: 0;
+            position: absolute;
+            pointer-events: none;
+            z-index: 9999;
+            border-left: 15px solid transparent;
+            border-right: 15px solid transparent;
+            border-bottom: 25px solid rgba(22, 31, 38, 0.87);
+        }
+
+        body #alertinfo {
+            position: relative;
+            width: auto;
+            min-width: 200px;
+            height: auto;
+            box-shadow: 0px 2px 3px rgba(0, 0, 0, 0.2);
+        }
+
+        body #alertinfo .layui-icon-close {
+            position: absolute;
+            right: 10px;
+            top: 10px;
+            color: #fff;
+            z-index: 99999;
+            cursor: pointer;
+        }
+
+        body #alertinfo .layersel {
+            padding: 8px 13px 0px 10px;
+            color: #fff;
+            background: rgba(22, 31, 38, 0.9);
+        }
+
+        body #alertinfo .layersel select {
+            width: calc(100% - 40px);
+            text-indent: 5px;
+            color: #fff;
+            margin-left: 5px;
+            border: none;
+            background: rgba(22, 31, 38, 0.5);
+        }
+
+        body #alertinfo .layui-layer-title {
+            height: 30px;
+            background: rgba(22, 31, 38, 0.9);
+            line-height: 30px;
+            color: #fff;
+            border: none;
+            padding-left: 10px;
+        }
+
+        body #alertinfo .layui-layer-content {
+            color: #fff;
+            padding: 10px;
+            height: auto !important;
+            background: rgba(22, 31, 38, 0.9);
+        }
+
+        body #alertinfo .layui-layer-content table tr td {
+            padding: 2px 3px;
+        }
+
+        .custom-mouse-position {
+            display: none;
+        }
+
+        .ol-attribution {
+            display: none;
+        }
+
+        a {
+            text-decoration: none;
+        }
+
+        * {
+            font-family: "微软雅黑";
+        }
+
+        body {
+            width: 100%;
+            height: 100%;
+        }
+
+        #map {
+            width: 100%;
+            height: 100%;
+        }
+
+        .black #map {
+            background: #313347;
+        }
+
+        .black .ol-scale-line {
+            background: transparent;
+        }
+
+        .hide {
+            display: none;
+        }
+
+        .left {
+            width: 400px;
+            height: calc(100vh);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .black .left {
+            background: #313347;
+        }
+
+        .white .left {
+            background: #EFEFF4;
+        }
+
+        .nav {
+            height: 100%;
+            width: 60px;
+            border-right: 1px solid #EEEEF3;
+        }
+
+        .black .nav {
+            background: #313347;
+        }
+
+        .white .nav {
+            background: #FFFFFF;
+        }
+
+        .nav-content {
+            width: 338px;
+            position: absolute;
+            left: 61px;
+            border-right: 1px solid #EEEEF3;
+            top: 0px;
+            height: 100%;
+        }
+
+        .nav ul {
+            width: 60px;
+        }
+
+        .nav li {
+            text-align: center;
+            border-bottom: 1px solid #EEEEEE;
+        }
+
+        .nav li .layui-icon {
+            display: inline-block;
+            width: 60px;
+            margin: 5px 0px 0px 0px;
+            color: #FFC701;
+            font-size: 25px;
+        }
+
+        .nav li a {
+            font-size: 12px;
+            line-height: 25px;
+            font-weight: 500;
+        }
+
+        .nav li.active {
+            background: #0D7AFF;
+        }
+
+        .nav li.active .layui-icon {
+            color: #fff;
+        }
+
+        .nav li.active a {
+            color: #fff;
+        }
+
+        .nav li:hover {
+            background: #0D7AFF;
+            cursor: pointer;
+        }
+
+        .nav li:hover .layui-icon {
+            color: #fff;
+        }
+
+        .nav li:hover a {
+            color: #fff;
+        }
+
+        .black .nav li a {
+            color: #fff;
+        }
+
+        .black .nav li.active {
+            background: #0D7AFF;
+        }
+
+        .black .nav li.active .layui-icon {
+            color: #fff;
+        }
+
+        .black .nav li.active a {
+            color: #fff;
+        }
+
+        .black .nav li:hover {
+            background: #0D7AFF;
+            cursor: pointer;
+        }
+
+        .black .nav li:hover .layui-icon {
+            color: #fff;
+        }
+
+        .black .nav li:hover a {
+            color: #fff;
+        }
+
+        .white .nav li.active {
+            background: #0D7AFF;
+        }
+
+        .white .nav li.active .layui-icon {
+            color: #fff;
+        }
+
+        .white .nav li.active a {
+            color: #fff;
+        }
+
+        .white .nav li:hover {
+            background: #0D7AFF;
+            cursor: pointer;
+        }
+
+        .white .nav li:hover .layui-icon {
+            color: #fff;
+        }
+
+        .white .nav li:hover a {
+            color: #fff;
+        }
+
+        .right {
+            width: calc(100vw - 400px);
+            height: calc(100vh);
+            position: absolute;
+            overflow: hidden;
+            top: 0px;
+            left: 400px;
+        }
+
+        .tab-container {
+            height: 100%;
+            width: 100%;
+        }
+
+        .search {
+            background: #D7D7D7;
+            padding: 5px 0px 5px 10px;
+            position: relative;
+        }
+
+        .search .layui-icon {
+            position: absolute;
+            left: 14px;
+            top: 9px;
+            color: #6C6C6C;
+        }
+
+        .search input {
+            padding: 3px 3px 3px 23px;
+            width: 250px;
+            border: none;
+            color: #6C6C6C;
+        }
+
+        .search button {
+            background: #FFFFFF;
+            color: #6C6C6C;
+            border: none;
+            position: absolute;
+            right: 8px;
+            top: 5px;
+            width: 40px;
+            height: 24px;
+            line-height: 24px;
+            font-size: 12px;
+        }
+
+        .service-item {
+            width: 100%;
+            height: calc(100%);
+        }
+
+        .item-index {
+            font-size: 12px;
+            font-weight: 500;
+        }
+
+        .black .item-index {
+            background: #2A2B3C;
+            color: #fff;
+        }
+
+        .white .item-index {
+            background: #fff;
+        }
+
+        .item-top {
+            padding: 7px 0px;
+            text-indent: 15px;
+            border-bottom: 1px solid #F8F8FA;
+        }
+
+        .item-top .layui-icon {
+            cursor: pointer;
+        }
+
+        .item-top span {
+            font-size: 12px;
+            font-weight: 500;
+        }
+
+        .item-row {
+            padding: 7px 0px;
+            text-indent: 70px;
+            /*border-bottom: 1px solid #F8F8FA;*/
+            position: relative;
+        }
+
+        .switch {
+            position: absolute;
+            right: 16px;
+            top: 0px;
+            overflow: hidden;
+        }
+
+        .layui-icon-delete {
+            position: absolute;
+            right: 67px;
+            top: 5px;
+            cursor: pointer;
+            color: #1e9fff;
+            font-size: 25px;
+        }
+
+        .layui-form-onswitch {
+            border-color: #1E9FFF;
+            background: #1E9FFF;
+        }
+
+        .layui-form-switch {
+            height: 20px;
+            line-height: 20px;
+            width: 30px;
+        }
+
+        .black .layui-form-switch {
+            background: transparent;
+        }
+
+        .black .layui-form-onswitch {
+            background: #1E9FFF !important;
+        }
+
+        .layui-form-switch i {
+            top: 2px;
+        }
+
+        .layui-form-onswitch i {
+            top: 2px;
+        }
+
+        .slideTest {
+            left: 50px;
+            margin: 15px 0px 5px;
+            position: relative;
+            width: 240px;
+            text-indent: 0px;
+        }
+
+        .item-top-2 {
+            text-indent: 30px;
+            position: relative;
+        }
+
+        .item-top-3 {
+            padding-left: 35px;
+            border-bottom: none;
+        }
+
+        ._title {
+            padding: 7px 0px;
+            text-indent: 10px;
+            font-size: 12px;
+            font-weight: 500;
+        }
+
+        .black ._title {
+            background: #2A2B3C;
+            color: #fff;
+        }
+
+        .white ._title {
+            background: #EFEFF4;
+        }
+
+        .splitscreen {
+            height: 115px;
+        }
+
+        .black .splitscreen {
+            background: #313347;
+        }
+
+        .white .splitscreen {
+            background: #fff;
+        }
+
+        .splitscreen table {
+            width: 100%;
+        }
+
+        .splitscreen table td {
+            padding: 10px 22px;
+        }
+
+        .splitscreen .layout {
+            width: 70px;
+            height: 35px;
+            border: 1px solid #EFEFF4;
+            cursor: pointer;
+        }
+
+        .splitscreen .layout1 {
+            background: url(../images/maplayout/1.png) no-repeat;
+        }
+
+        .splitscreen .layout1.active {
+            background: url(../images/maplayout/1-1.png) no-repeat;
+        }
+
+        .splitscreen .layout1:hover {
+            background: url(../images/maplayout/1-1.png) no-repeat;
+        }
+
+        .splitscreen .layout2 {
+            background: url(../images/maplayout/2.png) no-repeat;
+        }
+
+        .splitscreen .layout2.active {
+            background: url(../images/maplayout/2-1.png) no-repeat;
+        }
+
+        .splitscreen .layout2:hover {
+            background: url(../images/maplayout/2-1.png) no-repeat;
+        }
+
+        .splitscreen .layout3 {
+            background: url(../images/maplayout/3.png) no-repeat;
+        }
+
+        .splitscreen .layout3.active {
+            background: url(../images/maplayout/3-1.png) no-repeat;
+        }
+
+        .splitscreen .layout3:hover {
+            background: url(../images/maplayout/3-1.png) no-repeat;
+        }
+
+        .splitscreen .layout4 {
+            background: url(../images/maplayout/4.png) no-repeat;
+        }
+
+        .splitscreen .layout4.active {
+            background: url(../images/maplayout/4-1.png) no-repeat;
+        }
+
+        .splitscreen .layout4:hover {
+            background: url(../images/maplayout/4-1.png) no-repeat;
+        }
+
+        .splitscreen .layout5 {
+            background: url(../images/maplayout/5.png) no-repeat;
+        }
+
+        .splitscreen .layout5.active {
+            background: url(../images/maplayout/5-1.png) no-repeat;
+        }
+
+        .splitscreen .layout5:hover {
+            background: url(../images/maplayout/5-1.png) no-repeat;
+        }
+
+        .splitscreen .layout6 {
+            background: url(../images/maplayout/6.png) no-repeat;
+        }
+
+        .splitscreen .layout6.active {
+            background: url(../images/maplayout/6-1.png) no-repeat;
+        }
+
+        .splitscreen .layout6:hover {
+            background: url(../images/maplayout/6-1.png) no-repeat;
+        }
+
+        .map-div {
+            height: 100%;
+            width: 100%;
+            position: relative;
+        }
+
+        .maptool {
+            position: absolute;
+            right: 130px;
+            top: 20px;
+            border-radius: 5px;
+            box-shadow: 0 4px 5px rgba(0, 0, 0, 0.2);
+        }
+
+        .black .maptool {
+            background: transparent;
+        }
+
+        .white .maptool {
+            background: #fff;
+        }
+
+        .special-item {
+            margin-bottom: 10px;
+        }
+
+        .special-item p {
+            padding: 6px 0px;
+            text-indent: 30px;
+            font-size: 12px;
+            position: relative;
+            font-weight: 500;
+            border-bottom: 1px solid #EFEFF4;
+        }
+
+        .black .special-item p {
+            background: #1F2428;
+            color: #fff;
+        }
+
+        .white .special-item p {
+            background: #fff;
+        }
+
+        .special-item p .layui-icon {
+            color: #0D7AFF;
+            margin-right: 5px;
+            position: absolute;
+            left: -21px;
+            top: 5px;
+        }
+
+        .special-item div {
+            text-align: center;
+            padding: 4px 0px;
+        }
+
+        .black .special-item div {
+            background: #1F2428;
+        }
+
+        .white .special-item div {
+            background: #fff;
+        }
+
+        .layui-badge {
+            border-radius: 30px;
+            margin-left: 3px;
+            background: #9E9E9E;
+            cursor: pointer;
+        }
+
+        .layui-badge.active {
+            background: #0D7AFF;
+        }
+
+        .layui-badge:hover {
+            background: #0D7AFF;
+        }
+
+        .tool-bar li {
+            float: left;
+            width: 40px;
+            height: 40px;
+            position: relative;
+        }
+
+        .tool-bar li a {
+            display: block;
+            width: 40px;
+            height: 40px;
+            background: url(../images/tool_icon.png) no-repeat;
+        }
+
+        .tool-bar li:hover {
+            background: #4384db;
+        }
+
+        .tool-bar li:first-child {
+            border-radius: 5px 0px 0 5px;
+        }
+
+        .tool-bar li:last-child {
+            border-radius: 0 5px 5px 0;
+        }
+
+        .tool-bar li a.tool-case1 {
+            background-position: 0 0;
+        }
+
+        .tool-bar li a.tool-case2 {
+            background-position: 0 -40px;
+        }
+
+        .tool-bar li a.tool-case3 {
+            background-position: 0 -80px;
+        }
+
+        .tool-bar li a.tool-case4 {
+            background-position: 0 -120px;
+        }
+
+        .tool-bar li a.tool-case5 {
+            background-position: 0 -160px;
+        }
+
+        .tool-bar li a.tool-case6 {
+            background-position: 0 -200px;
+        }
+
+        .tool-bar li a.tool-case7 {
+            background-position: 0 -240px;
+        }
+
+        .tool-bar li a.tool-case8 {
+            background-position: 0 -280px;
+        }
+
+        .tool-bar li a.tool-case9 {
+            background-position: 0 -320px;
+        }
+
+        .tool-bar li:hover a.tool-case1 {
+            background-position: -40px 0;
+        }
+
+        .tool-bar li:hover a.tool-case2 {
+            background-position: -40px -40px;
+        }
+
+        .tool-bar li:hover a.tool-case3 {
+            background-position: -40px -80px;
+        }
+
+        .tool-bar li:hover a.tool-case4 {
+            background-position: -40px -120px;
+        }
+
+        .tool-bar li:hover a.tool-case5 {
+            background-position: -40px -160px;
+        }
+
+        .tool-bar li:hover a.tool-case6 {
+            background-position: -40px -200px;
+        }
+
+        .tool-bar li:hover a.tool-case7 {
+            background-position: -40px -240px;
+        }
+
+        .tool-bar li:hover a.tool-case8 {
+            background-position: -40px -280px;
+        }
+
+        .tool-bar li:hover a.tool-case9 {
+            background-position: -40px -320px;
+        }
+
+        .maptab {
+            position: absolute;
+            right: 5px;
+            top: 150px;
+        }
+
+        .maptab li {
+            width: 49px;
+            text-align: center;
+            height: 49px;
+            border: 1px solid #AAAAAA;
+            margin-bottom: 3px;
+        }
+
+        .maptab li a {
+            display: inline-block;
+            width: 45px;
+            height: 20px;
+            line-height: 20px;
+            font-size: 12px;
+            color: #fff;
+            margin-top: 28px;
+            background: url(../images/maptab/black_bg.png);
+        }
+
+        .maptab li:hover {
+            cursor: pointer;
+        }
+
+        .maptab li:hover a {
+            background: #83a1ff;
+        }
+
+        .maptab li.active a {
+            background: #83a1ff;
+        }
+
+        .jlxg {
+            margin-top: -50px;
+            margin-left: 282px;
+        }
+
+        .mapdraw {
+            margin-left: 30px;
+        }
+
+        .mapdraw li {
+            float: left;
+            width: 54px;
+            padding: 10px 5px;
+        }
+
+        .black .mapdraw li {
+            background: transparent;
+        }
+
+        .white .mapdraw li {
+            background: #F9F9F9;
+        }
+
+        .mapdraw li img {
+            width: 43px;
+            height: 31px;
+            margin-left: 5px;
+        }
+
+        .mapdraw li:hover {
+            border: 1px solid #8B8989;
+            cursor: pointer;
+        }
+
+        .mapdraw li.active {
+            border: 1px solid #8B8989;
+        }
+
+        .layui-table td, .layui-table th {
+            padding: 5px 5px;
+        }
+
+        .layui-table td .info {
+            color: #4292D7;
+        }
+
+        .layui-table, .layui-table-view {
+            margin: 0px;
+        }
+
+        #alertinfo table tr td a {
+            color: #0D7AFF;
+        }
+    </style>
+</head>
+
+<body class="white">
+<div id="alertinfodiv">
+
+</div>
+<div class="left">
+    <div class="nav">
+        <ul>
+            <li name="收藏夹" class="active"><i class="layui-icon layui-icon-template-1"></i><a
+                    href="javascript:">专题目录</a></li>
+            <li name="分屏对比"><i class="layui-icon layui-icon-template"></i><a href="javascript:">分屏对比</a></li>
+            <li name="历史演变"><i class="layui-icon layui-icon-template"></i><a href="javascript:">历史演变</a></li>
+        </ul>
+    </div>
+    <div class="nav-content">
+        <div class="tab-container hide" name="专题成果">
+            <div id="Industry" class="service-item niceScroll">
+            </div>
+        </div>
+        <div class="tab-container hide" name="地图服务">
+            <div id="mapServers" class="service-item niceScroll">
+            </div>
+        </div>
+        <div class="tab-container" name="收藏夹">
+            <div id="collectList" class="service-item niceScroll">
+
+            </div>
+        </div>
+        <div class="tab-container hide" name="分屏对比">
+            <p class="_title">分屏模式</p>
+            <div class="splitscreen">
+                <table border="0">
+                    <tr>
+                        <td>
+                            <div url='layout1' onclick="initSplitScreen(1)" class="layout layout1 active"></div>
+                        </td>
+                        <td>
+                            <div url='layout2' onclick="initSplitScreen(2)" class="layout layout2"></div>
+                        </td>
+                        <td>
+                            <div url='layout3' onclick="initSplitScreen(3)" class="layout layout3"></div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div url='layout4' onclick="initSplitScreen(4)" class="layout layout4"></div>
+                        </td>
+                        <td>
+                            <div url='layout5' onclick="initSplitScreen(5)" class="layout layout5"></div>
+                        </td>
+                        <td>
+                            <div url='layout6' onclick="initSplitScreen(6)" class="layout layout6"></div>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+            <p class="_title">分屏专题</p>
+            <!--<div class="layui-btn layui-btn-sm jlxg">卷帘</div>-->
+            <div id="speciallist">
+
+            </div>
+        </div>
+        <div class="tab-container hide" name="地类分析">
+            <div class="layui-form-item" style="background: #FFF;padding: 5px;margin-bottom: 10px;">
+                <label class="layui-form-label" style="width: auto; padding: 9px 3px;">地类编号:</label>
+                <div class="layui-input-inline">
+                    <div class="layui-form">
+                        <select id="DLBH" lay-search lay-filter="DLBH">
+
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <p style="padding: 7px 6px; background: #fff;">占地分析:</p>
+            <table class="layui-table">
+                <thead>
+                <tr style="background: #fff!important;">
+                    <th>用地类型</th>
+                    <th>总面积</th>
+                    <th>占用比例</th>
+                    <th>操作</th>
+                </tr>
+                </thead>
+                <tbody id="tbody_tb"></tbody>
+            </table>
+            <div class="detaileddiv">
+                <p style="padding: 7px 6px; background: #fff; margin-top: 10px;">详情信息:</p>
+                <div style="overflow: auto; height: calc(100vh - 230px);">
+                    <table class="layui-table">
+                        <thead>
+                        <tr style="background: #fff!important;">
+                            <th>序号</th>
+                            <th>占用面积</th>
+                            <th>地块面积</th>
+                            <th>地类名称</th>
+                        </tr>
+                        </thead>
+                        <tbody id="tb_detailed"></tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div class="detaileddiv hide">
+                <p style="padding: 7px 6px; background: #fff;margin-top: 10px;">汇总详情信息:</p>
+
+                <div style="overflow: auto; height: calc(100vh - 230px);">
+                    <table class="layui-table">
+                        <thead>
+                        <tr style="background: #fff!important;">
+                            <th>地类编号</th>
+                            <th>总面积</th>
+                            <th>占用比例</th>
+                        </tr>
+                        </thead>
+                        <tbody id="tbody_summarizing"></tbody>
+                    </table>
+                </div>
+            </div>
+            <div id="">
+                <div class="layui-form-item"
+                     style="position: absolute;bottom: 0px;text-align: right;width: 100%; z-index: 9777777;">
+                    <button id="analysis" class="layui-btn  layui-btn-normal">分析</button>
+                    <button id="summarizing" class="layui-btn  layui-btn-normal" style="margin-right: 10px;">汇总</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="right">
+    <div class="map-div">
+        <div id="map">
+
+        </div>
+        <div class="maptool">
+            <ul class="tool-bar">
+                <li id="collect" class="hide" title="收藏"><a onclick="" href="javascript:" class="tool-case1"></a></li>
+                <!--<li title="全幅" onclick="maptool.allover()"><a href="javascript:" class="tool-case9"></a></li>-->
+                <li title="全屏" class="" id="fullBtn" onclick="fullScreen()"><a href="javascript:" class="tool-case7"></a></li>
+                <li title="测距" onclick="maptool.measure('distance')"><a href="javascript:" class="tool-case3"></a></li>
+                <li title="测面" onclick="maptool.measure('area')"><a href="javascript:" class="tool-case4"></a></li>
+                <li id="query" title="查询"><a href="javascript:" class="tool-case5"></a></li>
+                <li title="清除" onclick="maptool.clear()"><a href="javascript:" class="tool-case6"></a></li>
+                <!--<li title="全屏"><a href="javascript:;" class="tool-case7"></a></li>-->
+            </ul>
+        </div>
+        <div class="maptab">
+            <ul>
+                <li class="active"
+                    style="background:url(../images/maptab/ditu.jpg) no-repeat 2px 2px;background-size: 45px 45px;"><a
+                        type='矢量' href="javascript:">矢量</a></li>
+                <li style="background:url(../images/maptab/yingxiang.jpg) no-repeat 2px 2px;background-size: 45px 45px;">
+                    <a type='影像' href="javascript:">影像</a></li>
+                <li style="background:url(../images/maptab/dixing.jpg) no-repeat 2px 2px;background-size: 45px 45px;"><a
+                        type='地形' href="javascript:">地形</a></li>
+                <li style="background:#fff;"><a type='' href="javascript:">无</a></li>
+            </ul>
+        </div>
+    </div>
+
+    <iframe id="iframes" name="iframes" class="hide" src="maplayout/layout1.html" style="border: 0px;" width="100%"
+            height="100%"></iframe>
+</div>
+</body>
+<script src="../js/jquery1.9.0.min.js"></script>
+<script src="../js/config.js"></script>
+<script src="../js/common.js"></script>
+<script src="../js/scrollbar/jquery.nicescroll.min.js"></script>
+<script src="../js/layui/layui.js"></script>
+<script src="../js/modules/layui-config.js"></script>
+<script src="../js/openlayers/ol-debug.js"></script>
+<script src="../js/openlayers/maptool.js"></script>
+<script>
+    var ljfBase = null;
+    var slider = null;
+    var layuiform = null;
+    var layerManager = null;
+    var Industryresjosn = [];//专题图层数组
+    var scjArr = [];//收藏夹图层数组
+    var sourceClues = null;//采集的面信息
+    var vectorClues = null;//采集的面图层
+    var showZTArr = [];//当前打开的专题
+
+    function fullScreen(){//全屏显示地图
+        if($("#fullBtn").hasClass("active")){//取消全屏
+            $(".left").show();
+            $(".right").attr("style","");
+        }else{//全屏
+            $(".left").hide();
+            $(".right").attr("style","width:100%;left:0;");
+        }
+        _mapObject.updateSize();
+        $("#fullBtn").toggleClass("active");
+    }
+
+    layui.use(['form', 'element', 'laydate', 'table', 'slider', 'ljfBase', 'serverCenter', 'LayerManager', 'NULayer', 'bluebird'], function () {
+        $("body").attr('class', $("body", parent.document).attr('class'));
+        $(".niceScroll").niceScroll({cursorborder: "", cursorcolor: "#297FBA", boxzoom: false});
+        var layuielement = layui.element;
+        layuiform = layui.form;
+        slider = layui.slider;
+        ljfBase = layui.ljfBase;
+        var xml2json = layui.xml2json;
+        var serverCenter = layui.serverCenter;
+        var LayerManager = layui.LayerManager;
+        var NULayer = layui.NULayer;
+
+        if (sessionStorage.showZTStr) {
+            showZTArr = sessionStorage.showZTStr.split(",");
+        } else {
+            showZTArr = [];
+        }
+
+        var url = ljfBase.https.BaseMapConfigManagerService + "/GetAllBaseMapConfig";
+        ljfBase.post(url, {userid: sessionStorage.sprid}, function (res) {
+            var baseMapConfig = JSON.parse(res)[0];
+            var center = [];
+            center.push(baseMapConfig.CENTERX);
+            center.push(baseMapConfig.CENTERY);
+            layerManager = new LayerManager("map", center, 12);
+            ljfBase.post(ljfBase.https.BaseMapManagerService + "/GetAllBaseMap", {sprid: sessionStorage.sprid}, function (xml) {
+                var resArr = $.parseJSON(xml);
+                layerManager.loadBaseMap(resArr, "矢量");
+                $('.maptab ul li').click(function () {
+                    $('.maptab ul li').removeClass("active");
+                    $(this).addClass("active");
+                    var type = $(this).find('a').attr('type');
+                    layerManager.hideBaseMap();
+                    layerManager.loadBaseMap(resArr, type);
+                });
+                $(".maptab ul li:last").click();//默认显示无底图
+            });
+            initMapQuery();
+            // GetThemeByIndustry("/GetThemeByIndustry", {'sprid': sessionStorage.sprid});
+            GetMyThemeByIndustry("/GetMyThemeByIndustry3", {'sprid': sessionStorage.sprid});
+        });
+    });
+
+    $(".nav ul li").click(function () {
+        $(".nav ul li").removeClass('active');
+        $(this).addClass('active');
+        var name = $(this).attr('name');
+        $(".tab-container").addClass('hide');
+        $(".tab-container[name='" + name + "']").removeClass('hide');
+        $("#collect").addClass('hide');
+        if (name == "分屏对比") {
+            $(".map-div").addClass('hide');
+            $("#iframes").removeClass('hide');
+        } else {
+            $(".map-div").removeClass('hide');
+            $("#iframes").addClass('hide');
+            layerManager.removeAllLayer();
+            if (vectorClues) {
+                _mapObject.removeLayer(vectorClues);
+            }
+            if (name == "专题成果") {
+                var children = $("input[lay-filter='switchTest1']:checked");
+                children.each(function (i, v) {
+                    var elem = children.eq(i);
+                    var length = elem.attr('length');
+                    for (var i = 0; i < Number(length); i++) {
+                        var MAPID = elem.attr("MAPID" + i);
+                        var MAPURL = elem.attr("MAPURL" + i);
+                        var INDEX = elem.attr("INDEX" + i);
+                        var LAYERNAME = elem.attr("LAYERNAME" + i);
+                        layerManager.addLayer({
+                            layerId: MAPID + "_" + INDEX,
+                            mapUrl: MAPURL,
+                            layers: INDEX,
+                            layerName: LAYERNAME
+                        });
+                    }
+                })
+            } else if (name == "地图服务") {
+                $("#collect").removeClass('hide');
+                var children = $("input[lay-filter='switchTest']:checked");
+                children.each(function (i, v) {
+                    var id = children.eq(i).attr('_ID');
+                    if (id != "-1") {
+                        var _PID = children.eq(i).attr('_PID');
+                        var _MAPURL = children.eq(i).attr('_MAPURL');
+                        var _NAME = children.eq(i).attr('_NAME');
+                        var opacity = $("#" + _PID + "_" + id + " .layui-slider-tips").html();
+                        layerManager.addLayer({
+                            layerId: _PID + "_" + id,
+                            mapUrl: _MAPURL,
+                            layers: id,
+                            opacity: Number(opacity) / 100,
+                            layerName: _NAME,
+                            mapId: _PID
+                        });
+                    }
+                })
+            } else if (name == "收藏夹") {
+                var children = $("input[lay-filter='switchTest2']:checked");
+                children.each(function (i, v) {
+                    var elem = children.eq(i);
+                    var length = elem.attr('length');
+                    for (var i = 0; i < Number(length); i++) {
+                        var MAPID = elem.attr("MAPID" + i);
+                        var MAPURL = elem.attr("MAPURL" + i);
+                        var INDEX = elem.attr("INDEX" + i);
+                        layerManager.addLayer({layerId: MAPID + "_" + INDEX, mapUrl: MAPURL, layers: INDEX});
+                    }
+                })
+            } else if (name == "历史演变") {
+                parent.layer.layerManager = layerManager;
+                parent.layer.Industryresjosn = Industryresjosn;
+
+                parent.layer.openIndex = parent.layer.open({
+                    type: 2,
+                    title: "历史演变",
+                    closeBtn: 1, //不显示关闭按钮
+                    skin: 'layui-layer-lan',
+                    area: ['1200px', '680px'],
+                    anim: 2,//弹出动画
+                    shade: 0.2,//遮盖层
+                    content: ['html/lsyb.html', 'no'], //这里content是一个普通的String
+                    end: function () {
+                        // GetMyThemeByIndustry("/GetMyThemeByIndustry", {'sprid': sessionStorage.sprid});
+                    }
+                });
+            }
+        }
+    });
+    $(".splitscreen .layout").click(function () {
+        $(".splitscreen .layout").removeClass('active');
+        $(this).addClass('active');
+    });
+    //地图服务
+
+    $(".splitscreen .layout").click(function () {
+        var url = $(this).attr('url');
+        $("#iframes").attr('src', "maplayout/" + url + ".html");
+    });
+
+    //初始化分屏专题
+    function initSplitScreen(index) {
+        if (index == 1) {
+            $(".jlxg").show();
+        } else {
+            $(".jlxg").hide();
+        }
+        var str = "<span index='0' class='layui-badge active'>0</span>";
+        for (var i = 0; i < Number(index); i++) {
+            str += "<span index='" + (i + 1) + "' class='layui-badge'>" + (i + 1) + "</span>"
+        }
+        var str2 = "";
+        var RESOURCES = Industryresjosn;
+        for (var j = 0; j < RESOURCES.length; j++) {
+            var THEMENAME = RESOURCES[j].THEMENAME;
+            var _RESOURCES = RESOURCES[j].THEMELAYERS;
+            if (_RESOURCES.length != 0) {
+                var str1 = "";
+                for (var k = 0; k < _RESOURCES.length; k++) {
+//                  var INDEX = _RESOURCES[_RESOURCES.length - 1 - k].LAYERINDEX;
+//                  var MAPID = _RESOURCES[_RESOURCES.length - 1 - k].LAYERID;
+//                  var MAPURL = _RESOURCES[_RESOURCES.length - 1 - k].MAPURL;
+                    var LAYERNAME =_RESOURCES[k].LAYERNAME;
+                    var INDEX = _RESOURCES[k].LAYERINDEX;
+                    var MAPID = _RESOURCES[k].LAYERID;
+                    var MAPURL = _RESOURCES[k].MAPURL;
+                    var MAPLAYERINDEX = _RESOURCES[k].MAPLAYERINDEX;
+                    
+                    str1 += "MAPID" + k + "='" + MAPID + "' MAPURL" + k + "='" + MAPURL + "' INDEX" + k + "='" + INDEX + "' LAYERNAME"+k+"='"+LAYERNAME+"' MAPLAYERINDEX"+k+"='"+MAPLAYERINDEX+"'";
+                }
+                str2 += "<div length='" + _RESOURCES.length + "' " + str1 + " class='special-item'><p><i class='layui-icon layui-icon-spread-left'></i>" + THEMENAME + "</p>";
+                str2 += "<div>" + str + "</div></div>";
+            }
+        }
+
+        $("#speciallist").html(str2);
+
+
+        $("#speciallist .layui-badge").click(function () {
+//  			$("#speciallist .layui-badge").removeClass('active');
+            $(this).parent().find('.layui-badge').removeClass('active');
+            $(this).addClass('active');
+            var _index = $(this).attr('index');
+            var elem = $(this).parent().parent();
+            var length = elem.attr('length');
+            if (_index == "0") {
+                for (var i = 0; i < Number(length); i++) {
+                    var MAPID = elem.attr('MAPID' + i);
+                    var MAPURL = elem.attr('MAPURL' + i);
+                    var INDEX = elem.attr('INDEX' + i);
+                    iframes.window.removeLayerById(MAPID + "_" + INDEX)
+                }
+            } else {
+                for (var i = 0; i < Number(length); i++) {
+                    var MAPID = elem.attr('MAPID' + i);
+                    var MAPURL = elem.attr('MAPURL' + i);
+                    var INDEX = elem.attr('INDEX' + i);
+                    iframes.window.removeLayerById(MAPID + "_" + INDEX)
+                }
+                for (var i = 0; i < Number(length); i++) {
+                    var MAPID = elem.attr('MAPID' + i);
+                    var MAPURL = elem.attr('MAPURL' + i);
+                    var INDEX = elem.attr('INDEX' + i);
+                    var LAYERNAME = elem.attr('LAYERNAME' + i);
+                    var MAPLAYERINDEX = elem.attr('MAPLAYERINDEX' + i);
+                    iframes.window.addlayer(_index, {layerId: MAPID + "_" + INDEX, mapUrl: MAPURL, layers: MAPLAYERINDEX,layerName: LAYERNAME, zIndex: INDEX})
+                }
+            }
+        })
+    }
+
+    //收藏夹
+    function GetMyThemeByIndustry(serveurl, data) {
+        data.sprid = "sysadmin";
+        parent.layer.loadIndex = parent.layer.load(0, {shade: 0.1});
+        ResourceManagerService(serveurl, data, true, function (resjson) {
+            if (resjson.indexOf("false") > -1) {
+                parent.layer.alert("未查询到结果!");
+                parent.layer.close(parent.layer.loadIndex);
+                var resjosn = [];
+            } else {
+                var resjosn = $.parseJSON(resjson);
+            }
+            Industryresjosn = resjosn;
+            var str = "";
+            if (showZTArr.length == 0) {
+                showZTArr.push(resjosn[resjosn.length - 1].THEMEID);//默认加载显示最后一个专题
+                sessionStorage.showZTStr = showZTArr.join(",");
+            }
+            for (var i = 0; i < resjosn.length; i++) {
+                var firstT = resjosn[i].THEMENAME;//第一层 专题名称
+                var secondTArr = resjosn[i].DATATYPENODES;//第二层数组 数据分类
+                var fourthTArr = resjosn[i].THEMELAYERS;//第四层数组 包含的图层
+                var THEMENAME = firstT;
+                var THEMEID = resjosn[i].THEMEID;
+                str += "<div class='item-row'>";
+                str += "<div class='item-top'><i class='layui-icon spread layui-icon-triangle-r'><span>" + firstT + "</span></i></div>";
+                str += "<div class='layui-form switch'>" +
+                    "<input type='checkbox' class='ZT_" + THEMEID + "' _TYPE='parent'  _PID='" + THEMEID + "' _ID='-1'   name='close' lay-skin='switch' lay-filter='switchTest' lay-text=''>" +
+                    "</div>";
+
+                var userInfo = JSON.parse(sessionStorage.userInfo);
+                if (sessionStorage.sprid == "sysadmin" || userInfo.XZJB == "省级") {//只有sysadmin 可以添加专题
+                    str += "<i THEMENAME='" + THEMENAME + "' THEMEID='" + THEMEID + "' onclick=delcollect(this)  class='layui-icon layui-icon-delete'></i>";
+                }
+                str += "<div class='item-list' style='display: none'>";
+                for (var j = 0; j < secondTArr.length; j++) {
+                    var secondT = secondTArr[j].DATANAME;//第二层 分类名称
+                    var _RESOURCES = secondTArr[j].DATANODES;//第三层数组 服务名称数组
+
+                    str += "<div class='item-row1'>";
+                    str += "<div class='item-top item-top-2'><i class='layui-icon spread layui-icon-triangle-r'><span>" + secondT + "</span></i>";
+                    str += "</div>";
+                    str += "<div class='item-list' style='display: none'>";
+
+                    for (var k = 0; k < _RESOURCES.length; k++) {
+                        var thirdT = _RESOURCES[k].DATATYPE;//第三层 服务名称
+                        var fourthBottom = _RESOURCES[k].LAYERNODES;
+                        str += "<div class='item-row2'>";
+                        str += "<div class='item-top item-top-3'><i class='layui-icon spread layui-icon-triangle-r'><span>" + thirdT + "</span></i>";
+                        str += "</div>";
+                        str += "<div class='item-list' style='display: none'>";
+
+                        for (var m = 0; m < fourthBottom.length; m++) {
+                            var INDEX, MAPID, MAPURL, LAYERNAME, MAPLAYERINDEX;
+                            $.each(fourthTArr, function (a, b) {
+                                if (b.LAYERID == fourthBottom[m].LAYERID) {
+                                    INDEX = b.LAYERINDEX;
+                                    MAPID = b.LAYERID;
+                                    MAPURL = b.MAPURL;
+                                    LAYERNAME = b.LAYERNAME;
+                                    MAPLAYERINDEX = b.MAPLAYERINDEX;
+                                }
+                            });
+                            // var SERVICETYPE = fourthTArr[m].LAYERNAME;
+                            var extent = [fourthTArr[m].XMIN, fourthTArr[m].YMIN, fourthTArr[m].XMAX, fourthTArr[m].YMAX];
+                            str += "<div class='item-row'>";
+                            str += "<span class='item-top item-top-4'>" + LAYERNAME + "</span>";
+                            str += "<div class='layui-form switch'>";
+                            str += "<input _NAME='" + LAYERNAME + "' MAPLAYERINDEX='" + MAPLAYERINDEX + "'  _TYPE='children' _extent='" + extent + "' _PID='" + THEMEID + "' MAPURL='" + MAPURL + "' MAPID='" + MAPID + "' INDEX='" + INDEX + "' type='checkbox'  name='open' lay-skin='switch' lay-filter='switchTest2' lay-text=''>";
+                            str += "</div>";
+                            str += "</div>";
+                        }
+                        str += "</div></div>";
+                    }
+                    str += "</div></div>"
+                }
+                str += "</div></div>"
+            }
+            $("#collectList").html(str);
+
+            $(".service-item .spread").click(function () {
+                if ($(this).hasClass('layui-icon-triangle-d')) {
+                    $(this).parent().parent().find('>.item-list').slideUp();
+                    $(this).removeClass('layui-icon-triangle-d').addClass('layui-icon-triangle-r');
+                } else {
+                    $(this).parent().parent().find('>.item-list').slideDown();
+                    $(this).removeClass('layui-icon-triangle-r').addClass('layui-icon-triangle-d');
+                }
+            });
+            layuiform.render();
+
+            //开关整个专题
+            layuiform.on('switch(switchTest)', function (data) {
+                var _PID = data.elem.getAttribute("_PID");
+                if (data.elem.checked) {
+                    if ($.inArray(_PID, showZTArr) == -1) {
+                        showZTArr.push(_PID);
+                    }
+                    $("input[_PID='" + _PID + "'][_TYPE='children']").attr('checked', true);
+                    var children = $("input[_PID='" + _PID + "'][_TYPE='children']");
+                    $.each(children, function (i, v) {
+                        var MAPID = $(this).attr("MAPID");
+                        var INDEX = $(this).attr("INDEX");
+                        var MAPLAYERINDEX = $(this).attr("MAPLAYERINDEX");
+                        var MAPURL = $(this).attr("MAPURL");
+                        var _NAME = $(this).attr("_NAME");
+
+                        layerManager.addLayer({
+                            layerId: MAPID + "_" + MAPLAYERINDEX,
+                            mapUrl: MAPURL,
+                            layers: MAPLAYERINDEX,
+                            layerName: _NAME,
+                            zIndex: INDEX
+                        });
+                        var _extent = $(this).attr("_extent").split(",");
+                        _mapObject.getView().fit(_extent, _mapObject.getSize());
+                    });
+                } else {
+                    showZTArr.splice($.inArray(_PID, showZTArr), 1);
+                    $("input[_PID='" + _PID + "'][_TYPE='children']").attr('checked', false);
+
+                    var children = $("input[_PID='" + _PID + "'][_TYPE='children']");
+                    $.each(children, function (i, v) {
+                        var MAPID = $(this).attr("MAPID");
+                        var INDEX = $(this).attr("INDEX");
+                        var MAPLAYERINDEX = $(this).attr("MAPLAYERINDEX");
+                        layerManager.removeLayerById(MAPID + "_" + MAPLAYERINDEX);
+                    });
+                }
+                sessionStorage.showZTStr = showZTArr.join(",");
+                console.log(sessionStorage.showZTStr);
+                layuiform.render();
+            });
+
+            //开关专题下的地图服务
+            layuiform.on('switch(switchTest2)', function (data) {
+                var MAPID = data.elem.getAttribute("MAPID");
+                var MAPURL = data.elem.getAttribute("MAPURL");
+                var INDEX = data.elem.getAttribute("INDEX");
+                var _NAME = data.elem.getAttribute("_NAME");
+                var MAPLAYERINDEX = data.elem.getAttribute("MAPLAYERINDEX");
+                if (data.elem.checked) {
+                    layerManager.addLayer({
+                        layerId: MAPID + "_" + MAPLAYERINDEX,
+                        mapUrl: MAPURL,
+                        layers: MAPLAYERINDEX,
+                        layerName: _NAME,
+                        zIndex: INDEX
+                    });
+                    var _extent = data.elem.getAttribute("_extent").split(",");
+                    _mapObject.getView().fit(_extent, _mapObject.getSize());
+                } else {
+                    layerManager.removeLayerById(MAPID + "_" + MAPLAYERINDEX);
+                }
+                var _PID = data.elem.getAttribute("_PID");
+                var children = $("input[_PID='" + _PID + "'][_TYPE='children']:checked");
+                if (children.length > 0) {
+                    $("input[_PID='" + _PID + "'][_TYPE='parent']").attr('checked', true);
+                } else {
+                    $("input[_PID='" + _PID + "'][_TYPE='parent']").attr('checked', false);
+                }
+                layuiform.render();
+            });
+
+            layuiform.render();
+
+            $.each(showZTArr, function (i, v) {//打开之前打开过的专题
+                $(".ZT_" + v).next(".layui-form-switch").click();
+            });
+            initSplitScreen(1);
+            parent.layer.close(parent.layer.loadIndex);
+        });
+    }
+
+    //收藏
+    $("#collect").click(function () {
+        var children = $("input[lay-filter='switchTest']:checked");
+        if (children.length > 0) {
+            parent.layer.confirm("确定要收藏选中的图层吗？", function (index) {
+                parent.layer.close(index);
+                parent.layer.layerManager = layerManager;
+                parent.layer.openIndex = parent.layer.open({
+                    type: 2,
+                    title: "收藏专题服务",
+                    closeBtn: 0, //不显示关闭按钮
+                    shade: [0],
+                    skin: 'layui-layer-lan',
+                    area: ['520px', '278px'],
+                    anim: 2,//弹出动画
+                    shade: 0.2,//遮盖层
+                    content: ['html/addcollect.html', 'no'], //这里content是一个普通的String
+                    end: function () {
+                        GetMyThemeByIndustry("/GetMyThemeByIndustry3", {'sprid': sessionStorage.sprid});
+                    }
+                });
+            });
+        } else {
+            parent.layer.alert('请选择要收藏的图层!');
+        }
+    });
+
+    //删除收藏夹
+    function delcollect(elem) {
+        var THEMENAME = elem.getAttribute("THEMENAME");
+        var THEMEID = elem.getAttribute("THEMEID");
+        parent.layer.confirm("确定要删除专题名称'" + THEMENAME + "'吗？", function (index) {
+//  			DeleteThemeLayer
+            ResourceManagerService("/DeleteThemeResource", {
+                'sprid': "sysadmin",
+                'themeid': THEMEID
+            }, true, function (resjson) {
+                if (resjson.trim() == "true") {
+                    var children = $("input[_PID='" + THEMEID + "'][_TYPE='children']:checked");
+                    $.each(children, function (i, v) {
+                        var MAPID = $(this).attr("MAPID");
+                        var INDEX = $(this).attr("INDEX");
+                        layerManager.removeLayerById(MAPID + "_" + INDEX);
+                    });
+                    GetMyThemeByIndustry("/GetMyThemeByIndustry3", {'sprid': sessionStorage.sprid});
+                    parent.layer.close(index);
+                }
+            });
+        });
+    }
+
+
+</script>
+
+</html>

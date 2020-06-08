@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html xmlns:v-bind="http://www.w3.org/1999/xhtml">
+
+<head>
+    <meta charset="UTF-8">
+    <title>实时动态</title>
+    <link rel="stylesheet" type="text/css" href="../../js/layui-v2.4.5/css/layui.css"/>
+    <link rel="stylesheet" type="text/css" href="../../js/layer/theme/default/layer.css"/>
+    <link rel="stylesheet" type="text/css" href="../../css/comstyle.css" />
+    <link rel="stylesheet" type="text/css" href="../../js/openlayers/ol.css"/>
+    <link rel="stylesheet" type="text/css" href="../../css/monitorAnalysis.css"/>
+    <link rel="stylesheet" type="text/css" href="../../js/zTreeStyle/zTreeStyle.css"/>
+    <link rel="stylesheet" type="text/css" href="../../css/style.css"/>
+    <link rel="stylesheet" type="text/css" href="../../css/lookdata.css"/>
+    <style>
+
+    </style>
+</head>
+
+<body class="white">
+<div id="alertinfodiv">
+
+</div>
+<div class="left">
+    <div class="top">
+        <div class="indexCity" style="font-size: 15px;padding: 5px;"></div>
+        <div class='list-TB'>
+            <table id="table1" lay-filter="table1" lay-size="sm">
+
+            </table>
+            <div class="search-div">
+                <div class="layui-input-inline" style="width: 230px;">
+                    <input type="text" id="keyword" placeholder="编号查询" name="name" autocomplete="off" class="layui-input">
+                </div>
+                <button id="search" class="layui-btn layui-btn-normal layui-btn-sm"><i class="layui-icon">&#xe615;</i></button>
+
+            </div>
+        </div>
+    </div>
+</div>
+<div class="right">
+    <div class="top">
+        <div id="map">
+
+        </div>
+        <div class="maptool">
+            <ul class="tool-bar">
+                <li id="xzqTool" title="行政区"><a href="javascript:" class="tool-case10">行政区</a></li>
+                <li id="collect" class="hide" title="收藏"><a onclick="" href="javascript:" class="tool-case1"></a></li>
+                <li title="全屏" class="" id="fullBtn" onclick="fullScreen()"><a href="javascript:" class="tool-case7"></a></li>
+                <li title="测距" onclick="maptool.measure('distance')"><a href="javascript:" class="tool-case3"></a></li>
+                <li title="测面" onclick="maptool.measure('area')"><a href="javascript:" class="tool-case4"></a></li>
+                <li id="query" title="查询"><a href="javascript:" class="tool-case5"></a></li>
+                <li title="清除" onclick="maptool.clear()"><a href="javascript:" class="tool-case6"></a></li>
+            </ul>
+            <div class="xzqSearchBox">
+                <div class="city-inner-title">
+                    <span class="current">当前城市：<a id="indexCity" class="active indexCity" href='javascript:;'></a></span>
+                    <span class="f-right" style="display: none;">
+                        <span class="year">年度:</span><select id="year"></select>
+                        <span class="quarter">季度:</span><select id="quart"></select>
+			        </span>
+                </div>
+                <ul id="every-city" class="every-city">
+                    <li><a href='javascript:;'></a></li>
+                </ul>
+                <div class='city-list'>
+                    <div class='list-XZ'>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="maptab">
+            <ul>
+                <li class="active"
+                    style="background:url(../../images/maptab/ditu.jpg) no-repeat 2px 2px;background-size: 45px 45px;">
+                    <a type='矢量' href="javascript:">矢量</a></li>
+                <li style="background:url(../../images/maptab/yingxiang.jpg) no-repeat 2px 2px;background-size: 45px 45px;">
+                    <a type='影像' href="javascript:">影像</a></li>
+                <li style="background:url(../../images/maptab/dixing.jpg) no-repeat 2px 2px;background-size: 45px 45px;">
+                    <a type='地形' href="javascript:">地形</a></li>
+                <li style="background:#fff;"><a type='' href="javascript:">无</a></li>
+            </ul>
+        </div>
+    </div>
+</div>
+</body>
+<script type="text/html" id="barDemo">
+    <a class="layui-btn layui-btn-xs layui-btn-skyblue" lay-event="detail"></i>分配</a>
+</script>
+<script src="../../js/jquery1.9.0.js"></script>
+<script src="../../js/config.js"></script>
+<script src="../../js/common.js"></script>
+<script src="../../js/scrollbar/jquery.nicescroll.min.js"></script>
+<script src="../../js/layui/layui.js"></script>
+<script src="../../js/modules/layui-config.js"></script>
+<script src="../../js/openlayers/ol-debug.js"></script>
+<script src="../../js/openlayers/maptool.js"></script>
+<script src="../../js/analysis1.js"></script>
+<script src="../../js/analysis/analysislayer.js"></script>
+<script src="../../js/analysis/initlayer.js?v=0315-1"></script>
+<script src="../../js/showWFTB.js"></script>
+<script>
+    var userInfo = JSON.parse(sessionStorage.userInfo);
+    if (userInfo.XZJB == "县级") {
+       $("#xzqTool").addClass("hide");
+    }
+</script>
+
+</html>

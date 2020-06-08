@@ -1,0 +1,626 @@
+<!DOCTYPE html>
+<html xmlns:v-bind="http://www.w3.org/1999/xhtml">
+
+<head>
+    <meta charset="UTF-8">
+    <title>个人进度</title>
+    <link rel="stylesheet" type="text/css" href="../../js/layui-v2.4.5/css/layui.css"/>
+    <link rel="stylesheet" type="text/css" href="../../js/layer/theme/default/layer.css"/>
+    <!--<link rel="stylesheet" type="text/css" href="../../css/comstyle.css"/>-->
+    <link rel="stylesheet" type="text/css" href="../../css/style.css"/>
+    <style>
+        .left {
+            width: 40%;
+            height: 100vh;
+            background: #F8F8F8;
+            padding: 0px 10px 0px 10px;
+        }
+
+        .left .top {
+            height: calc(100% - 20px);
+            width: calc(100% - 20px);
+            background: white;
+        }
+
+        .left .middle {
+            height: calc(50% - 10px);
+            width: calc(100% - 20px);
+            background: white;
+            margin-top: 10px;
+            display: none;
+            overflow: hidden;
+        }
+
+        /*.left .bottom{height: calc(33% - 10px);width:calc(100% - 20px);background:white;margin-top: 10px;}*/
+
+        .right {
+            width: 60%;
+            height: 100vh;
+            background: #F8F8F8;
+            position: absolute;
+            top: 0px;
+            left: 40%;
+        }
+
+        .right .top {
+            height: calc(50% - 10px);
+            width: calc(100% - 10px);
+            background: white;
+        }
+
+        .right .bottom {
+            height: calc(50% - 10px);
+            width: calc(100% - 10px);
+            background: white;
+            margin-top: 10px;
+        }
+
+        .title_div {
+            height: 30px;
+            color: #3A6992;
+            line-height: 30px;
+            padding: 0px 10px;
+            position: relative;
+        }
+
+        .strong {
+            font-weight: 900;
+        }
+
+        .year {
+            color: #07323B;
+        }
+
+        .quarter {
+            color: #07323B;
+            margin-left: 10px;
+        }
+
+        .f-right {
+            position: absolute;
+            right: 10px;
+        }
+
+        .f-right select {
+            height: 20px;
+        }
+
+        .f-right a {
+            cursor: pointer;
+            font-weight: 600;
+        }
+
+        .f-right a.active {
+            color: #1890FF;
+        }
+
+        .f-right a:hover {
+            color: #1890FF;
+        }
+
+        .niceScroll {
+            height: calc(100% - 30px);
+            padding: 0px 10px;
+        }
+
+        .layui-table, .layui-table-view {
+            margin: 0px;
+            border: none;
+        }
+
+        .layui-table-view .layui-table td, .layui-table-view .layui-table th {
+            border-left: 1px solid #e6e6e6;
+            padding: 5px 0px;
+        }
+
+        .layui-table-view .layui-table th {
+            text-align: center;
+        }
+
+        .layui-table-page, .layui-table-total {
+            border-width: 1px 1px 0px;
+        }
+
+        .layui-table-body {
+            margin-bottom: 0px;
+            margin-right: 0px;
+        }
+
+        .layui-table-cell {
+            padding: 0px 10px;
+        }
+
+        .layui-form-radio > i:hover, .layui-form-radioed > i {
+            color: #187fcc;
+        }
+
+        .layui-table tbody tr:hover {
+            background: rgba(0, 0, 0, 0);
+        }
+
+        .layui-btn-skyblue {
+            background: #1890FF;
+        }
+
+        .layui-form-select .layui-unselect {
+            height: 35px;
+        }
+
+        .select {
+            width: 70px;
+            position: absolute;
+            z-index: 333;
+            top: 43px;
+            right: 20px;
+        }
+    </style>
+</head>
+
+<body class="white">
+<div class="left">
+    <div class="top">
+        <div class="title_div">
+            <span class="strong">河北省<span class="_year"></span>年第<span class="_quart"></span>季度违法监测图斑个人进度情况</span>
+
+        </div>
+        <div class="niceScroll table1_div">
+            <table id="table1" lay-filter="table1">
+
+            </table>
+        </div>
+    </div>
+    <div class="middle">
+        <div class="title_div">
+            <span class="strong">河北省<span class="smc"></span><span class="_year"></span>年第<span class="_quart"></span>季度违法监测图斑个人进度情况</span>
+
+        </div>
+        <div class="niceScroll table2_div">
+            <table id="table2" lay-filter="table2">
+
+            </table>
+        </div>
+    </div>
+    <!--<div class="bottom">
+
+    </div>-->
+</div>
+<div class="right">
+    <div class="top">
+        <div class="title_div">
+            <span class="strong">河北省<span class="_year"></span>年第<span class="_quart"></span>季度违法监测图斑个人进度情况统计图</span>
+            <span class="f-right">
+				<a chart="charts1" type="Count" class="active" href="javascript:;"
+                   style="padding-right:8px;border-right:1px solid #48739B;">图斑个数</a>
+				<a chart="charts1" type="Area" href="javascript:;">图斑面积</a> 
+			</span>
+            <div class="layui-form layui-inline select" action="">
+                <select id="HighchartsType1" lay-filter="HighchartsType1">
+                    <option value="column">柱状</option>
+                    <option value="spline">线状</option>
+                    <!--<option value="pie">饼状</option>-->
+                </select>
+            </div>
+        </div>
+        <div id="charts1" class="niceScroll">
+
+        </div>
+    </div>
+    <div class="bottom">
+        <div class="title_div">
+            <span class="strong">河北省<span class="smc"></span><span class="_year"></span>年第<span class="_quart"></span>季度违法监测图斑个人进度情况统计图</span>
+            <span class="f-right">
+				<a chart="charts2" type="Count" class="active" href="javascript:;"
+                   style="padding-right:8px;border-right:1px solid #48739B;">图斑个数</a>
+				<a chart="charts2" type="Area" href="javascript:;">图斑面积</a> 
+			</span>
+            <div class="layui-form layui-inline select" action="">
+                <select id="HighchartsType2" lay-filter="HighchartsType2">
+                    <option value="column">柱状</option>
+                    <option value="spline">线状</option>
+
+                </select>
+            </div>
+        </div>
+        <div id="charts2" class="niceScroll">
+
+        </div>
+    </div>
+</div>
+</body>
+<script type="text/html" id="barDemo">
+    <a class="layui-btn layui-btn-xs layui-btn-skyblue" lay-event="detail"></i>上传</a>
+    <!-- <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="edit"></i>审核</a>-->
+</script>
+<script src="../../js/jquery1.9.0.js"></script>
+<script src="../../js/config.js"></script>
+<script src="../../js/common.js"></script>
+<script src="../../js/layer/layer.js"></script>
+<script src="../../js/layui/layui.js"></script>
+
+<script src="../../js/Highcharts-6.1.0/code/highcharts.js"></script>
+<script src="../../js/scrollbar/jquery.nicescroll.min.js"></script>
+
+<script>
+    var layuitable = null;
+    var resjosn_user = [];
+    layui.use(['form', 'element', 'laydate', 'table', 'slider'], function () {
+//  	$(".niceScroll").niceScroll({cursorborder: "",cursorcolor: "#297FBA",boxzoom: false});
+        layuitable = layui.table;
+        var form = layui.form;
+        WorkManagerService("/GetWorkTime", {}, false, function (resjson) {
+            if (resjson.indexOf("false") > -1) {
+                parent.layer.alert("未获取到年份季度!");
+                parent.layer.close(parent.layer.loadIndex);
+            } else {
+                parent.layer.close(parent.layer.loadIndex);
+                var time = resjson.trim();
+                time = time.split(',');
+                $("._year").html(time[0]);
+                $("._quart").html(time[1]);
+            }
+        });
+        form.on('select(HighchartsType1)', function (data) {
+            var HighchartsType = $("#HighchartsType1").val();
+            var type = $("a[chart='charts1'][class=active]").attr("type");
+            initcharts1("charts1", resjosn_user, HighchartsType, type);
+        });
+        form.on('select(HighchartsType2)', function (data) {
+            var HighchartsType = $("#HighchartsType2").val();
+            var type = $("a[chart='charts2'][class=active]").attr("type");
+            initcharts("charts2", layuitable.cache.table2, HighchartsType, type);
+        });
+        RealtimeUserStatisticTBbyCounty();
+    });
+
+    $(".f-right a").click(function () {
+        $(this).parent(".f-right").find("a").removeClass('active');
+        $(this).addClass('active');
+        var chartid = $(this).attr("chart");
+        var type = $(this).attr("type");
+        if (chartid == "charts1") {
+            var data = layuitable.cache.table1;
+            var HighchartsType = $("#HighchartsType1").val();
+            initcharts1(chartid, resjosn_user, HighchartsType, type);
+        } else {
+            var data = layuitable.cache.table2;
+            var HighchartsType = $("#HighchartsType2").val();
+            initcharts(chartid, data, HighchartsType, type);
+        }
+
+    })
+
+    function RealtimeUserStatisticTBbyCounty() {
+        parent.layer.loadIndex = parent.layer.load(0, {shade: 0.1});
+        JCTBStatisticsManagerService("/RealtimeUserStatisticTBbyCounty", {xzqdm: sessionStorage.userXZQDM}, true, function (resjson) {
+            if (resjson.indexOf("false") > -1) {
+                parent.layer.alert("未查询到结果!");
+                parent.layer.close(parent.layer.loadIndex);
+                var resjosn = [];
+            } else {
+                var resjosn = $.parseJSON(resjson);
+            }
+            if (resjosn.length > 0) {
+                resjosn[0].LAY_CHECKED = true;
+
+            }
+            var height = $(".table1_div").height();
+            layuitable.render({
+                elem: '#table1',
+                height: height - 5,
+                page: false, //开启分页
+                limit: resjosn.length,
+                //		    limits:[5,10,20],
+                cols: [[ //表头
+                    //		      {type:'numbers'},
+                    {type: 'radio'},
+                    {field: 'Name', title: '调查人员姓名'},
+//			      {field: 'BM', title: '工作单位'},
+                    {field: 'Count', title: '图斑个数'},
+                    {field: 'SurveyCount', title: '调查图斑个数'},
+                    {
+                        field: 'Area', title: '图斑面积', templet: function (d) {
+                            return d.Area.toFixed(1);
+                        }
+                    },
+                    {
+                        field: 'SurveyArea', title: '调查图斑面积', templet: function (d) {
+                            return d.SurveyArea.toFixed(1);
+                        }
+                    },
+                    {field: 'CountProportion', title: '完成比例'},
+
+                ]],
+                data: resjosn
+            });
+            layuitable.on('radio(table1)', function (obj) {
+                var data = obj.data;
+                var checkStatus = layuitable.checkStatus("table1");
+                RealWorktimeUserStatisticTBbyCounty(checkStatus.data[0].Name, checkStatus.data[0].BM);
+                RealtimeUserStatisticTBbyCounty2(checkStatus.data[0].Name, checkStatus.data[0].BM);
+            });
+            parent.layer.close(parent.layer.loadIndex);
+            var checkStatus = layuitable.checkStatus("table1");
+
+            if (resjosn.length > 0) {
+//				smc = checkStatus.data[0].Name;
+                RealWorktimeUserStatisticTBbyCounty(checkStatus.data[0].Name, checkStatus.data[0].BM);
+                RealtimeUserStatisticTBbyCounty2(checkStatus.data[0].Name, checkStatus.data[0].BM);
+            } else {
+                RealWorktimeUserStatisticTBbyCounty("", "");
+                RealtimeUserStatisticTBbyCounty2("", "");
+            }
+
+        });
+    }
+
+    function RealWorktimeUserStatisticTBbyCounty(user, dw) {
+        parent.layer.loadIndex = parent.layer.load(0, {shade: 0.1});
+        JCTBStatisticsManagerService("/RealWorktimeUserStatisticTBbyCounty", {
+            username: user,
+            dw: dw
+        }, true, function (resjson) {
+            if (resjson.indexOf("false") > -1) {
+                parent.layer.alert("未查询到结果!");
+                parent.layer.close(parent.layer.loadIndex);
+                resjosn_user = [];
+            } else {
+                resjosn_user = $.parseJSON(resjson);
+            }
+            var type = $("a[chart='charts1'][class=active]").attr("type");
+            var HighchartsType = $("#HighchartsType1").val();
+            initcharts1("charts1", resjosn_user, HighchartsType, type);
+            parent.layer.close(parent.layer.loadIndex);
+        });
+
+    }
+
+
+    function RealtimeUserStatisticTBbyCounty2(user, dw) {
+//  	$(".smc").html(smc);
+        parent.layer.loadIndex = parent.layer.load(0, {shade: 0.1});
+        JCTBStatisticsManagerService("/RealtimeUserStatisticTBbyCounty2", {
+            user: user,
+            dw: dw
+        }, true, function (resjson) {
+            if (resjson.indexOf("false") > -1) {
+                parent.layer.alert("未查询到结果!");
+                parent.layer.close(parent.layer.loadIndex);
+                var resjosn = [];
+            } else {
+                var resjosn = $.parseJSON(resjson);
+            }
+
+            var height = $(".table2_div").height();
+            layuitable.render({
+                elem: '#table2',
+                height: height - 5,
+                page: false, //开启分页
+                limit: resjosn.length,
+                //		    limits:[5,10,20],
+                cols: [[ //表头
+                    //		      {type:'numbers'},
+//			      {type:'radio'},
+                    {
+                        title: '行政区名称', templet: function (d) {
+                            return d.SMC + d.XMC;
+                        }
+                    },
+//			      {field: 'BM', title: '工作单位'},
+                    {field: 'Count', title: '图斑个数'},
+                    {field: 'SurveyCount', title: '调查图斑个数'},
+                    {
+                        field: 'Area', title: '图斑面积', templet: function (d) {
+                            return d.Area.toFixed(1);
+                        }
+                    },
+                    {
+                        field: 'SurveyArea', title: '调查图斑面积', templet: function (d) {
+                            return d.SurveyArea.toFixed(1);
+                        }
+                    },
+                    {field: 'CountProportion', title: '完成比例'},
+
+                ]],
+                data: resjosn
+            });
+            var type = $("a[chart='charts2'][class=active]").attr("type");
+            var HighchartsType = $("#HighchartsType2").val();
+            initcharts("charts2", resjosn, HighchartsType, type);
+            parent.layer.close(parent.layer.loadIndex);
+        });
+    }
+
+
+    function initcharts(chartsid, data, HighchartsType, type) {
+        var chartdata1 = [];
+        var chartdata2 = [];
+        var categories = [];
+        var marker = {
+            lineWidth: 0,
+            lineColor: 'red',
+            fillColor: 'red',
+            enabled: false,
+        }
+        var str = "";
+        if (type == "Count") {
+            for (var i = 0; i < data.length; i++) {
+                chartdata1.push({y: data[i].Count, marker: marker})
+                chartdata2.push({y: data[i].SurveyCount, marker: marker})
+                categories.push(data[i].Name);
+            }
+        } else {
+            for (var i = 0; i < data.length; i++) {
+                chartdata1.push({y: data[i].Area, marker: marker})
+                chartdata2.push({y: data[i].SurveyArea, marker: marker})
+                categories.push(data[i].Name);
+            }
+        }
+
+
+        Highcharts.chart(chartsid, {
+            exporting: {
+                enabled: false
+            },
+//			legend:{
+//				layout: 'vertical',
+//				align: 'right',
+//				verticalAlign: 'middle',
+//				borderWidth: 0,
+//				x: 0,
+//				y: 0,
+//				enabled:true
+//			},
+            credits: {
+                enabled: false
+            },
+            chart: {
+                type: HighchartsType
+            },
+            title: {
+                text: ""
+            },
+            subtitle: {
+                text: ''
+            },
+            xAxis: {
+                categories: categories
+            },
+            yAxis: {
+                title: {
+                    text: type == "Count" ? "数量" : "面积"
+                },
+                labels: {
+                    formatter: function () {
+                        return this.value;
+                    }
+                }
+            },
+            tooltip: {
+                headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
+                pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
+                '<td style="padding:0"><b>{point.y:.1f}</b></td></tr>',
+                footerFormat: '</table>',
+                shared: true,
+                useHTML: true
+//		        formatter: function () {
+//		        	var x  = this.x;
+//		        	var y  = this.y;
+//		        	var str = "";
+//		        	for (var i=0;i<statisticsArr.length;i++) {
+//		        		if(statisticsArr[i].name==x){
+//		        			str+="<table><span style='font-size:10px'>"+x+"</span><tr><td style='color:red;'>总量</td><td>"+y+"</td></tr>"
+//				        	str+="<tr><td style='color:#FFBF3C;'>工业</td><td>"+statisticsArr[i].GY+"</td></tr>"
+//				        	str+="<tr><td style='color:#63A9FB;'>生活</td><td>"+statisticsArr[i].SH+"</td></tr>"
+//				        	str+="<tr><td style='color:#30F1B7;'>农业</td><td>"+statisticsArr[i].NY+"</td></tr></table>"
+//			                return str;
+//		        		}
+//		        	}
+//		        	
+//	            },
+
+            },
+            plotOptions: {
+                series: {
+                    cursor: "pointer"
+                }
+            },
+            series:
+                [
+                    {
+                        name: type == "Count" ? "图斑数量" : "图斑面积",
+                        color: '#63A9FB',
+                        data: chartdata1
+                    },
+                    {
+                        name: type == "Count" ? "调查图斑个数" : "调查图斑面积",
+                        color: '#FF1963',
+                        data: chartdata2
+                    },
+
+                ]
+
+        });
+    }
+
+
+    function initcharts1(chartsid, data, HighchartsType, type) {
+        var chartdata = [];
+        var categories = [];
+        var marker = {
+            lineWidth: 0,
+            lineColor: 'red',
+            fillColor: 'red',
+            enabled: false,
+        };
+        var str = "";
+
+        if (type == "Count") {
+            for (var i = 0; i < data.length; i++) {
+                chartdata.push({y: data[i].SurveyCount, marker: marker})
+//				chartdata2.push({y:data[i].SurveyArea,marker:marker})
+                categories.push(data[i].XCSJ.split(" ")[0]);
+            }
+        } else {
+            for (var i = 0; i < data.length; i++) {
+//			    chartdata1.push({y:data[i].SurveyCount,marker:marker})
+                chartdata.push({y: data[i].SurveyArea, marker: marker})
+                categories.push(data[i].XCSJ.split(" ")[0]);
+            }
+        }
+
+        Highcharts.chart(chartsid, {
+            exporting: {
+                enabled: false
+            },
+            credits: {
+                enabled: false
+            },
+            chart: {
+                type: HighchartsType
+            },
+            title: {
+                text: ""
+            },
+            subtitle: {
+                text: ''
+            },
+            xAxis: {
+                categories: categories
+            },
+            yAxis: {
+                title: {
+                    text: type == "Count" ? "数量" : "面积"
+                },
+                labels: {
+                    formatter: function () {
+                        return this.value;
+                    }
+                }
+            },
+            tooltip: {
+                headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
+                pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
+                '<td style="padding:0"><b>{point.y:.1f}</b></td></tr>',
+                footerFormat: '</table>',
+                shared: true,
+                useHTML: true
+
+            },
+            plotOptions: {
+                series: {
+                    cursor: "pointer"
+                }
+            },
+            series:
+                [
+                    {
+                        name: type == "Count" ? "图斑数量" : "图斑面积",
+                        color: '#63A9FB',
+                        data: chartdata
+                    },
+                ]
+        });
+    }
+</script>
+
+</html>

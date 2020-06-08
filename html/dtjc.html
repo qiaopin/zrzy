@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html xmlns:v-bind="http://www.w3.org/1999/xhtml">
+
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <link rel="stylesheet" type="text/css" href="../js/layui/css/layui.css"/>
+    <link rel="stylesheet" type="text/css" href="../js/layer/theme/default/layer.css"/>
+    <link rel="stylesheet" type="text/css" href="../css/comstyle.css"/>
+    <link rel="stylesheet" type="text/css" href="../projects/wpzf/js/openlayers/ol.css"/>
+    <style>
+
+        html, body, .right, .map-div, #map {
+            width: 100%;
+            height: 100%;
+        }
+    </style>
+</head>
+
+<body class="white">
+<div id="alertinfodiv">
+
+</div>
+<div class="left">
+
+</div>
+<div class="right">
+    <div class="map-div">
+        <div id="map">
+
+        </div>
+        <!--<div class="maptab">-->
+        <!--<ul>-->
+        <!--<li class="active"-->
+        <!--style="background:url(../images/maptab/ditu.jpg) no-repeat 2px 2px;background-size: 45px 45px;"><a-->
+        <!--type='矢量' href="javascript:">矢量</a></li>-->
+        <!--<li style="background:url(../images/maptab/yingxiang.jpg) no-repeat 2px 2px;background-size: 45px 45px;">-->
+        <!--<a type='影像' href="javascript:">影像</a></li>-->
+        <!--<li style="background:url(../images/maptab/dixing.jpg) no-repeat 2px 2px;background-size: 45px 45px;"><a-->
+        <!--type='地形' href="javascript:">地形</a></li>-->
+        <!--<li style="background:#fff;"><a type='' href="javascript:">无</a></li>-->
+        <!--</ul>-->
+        <!--</div>-->
+    </div>
+</div>
+</body>
+<script src="../js/jquery1.9.0.min.js"></script>
+<script src="../js/config.js"></script>
+<script src="../js/common.js"></script>
+<script src="../js/layui/layui.js"></script>
+<script src="../js/modules/layui-config.js"></script>
+<script src="../projects/wpzf/js/openlayers/ol-debug.js"></script>
+<script src="../projects/wpzf/js/openlayers/maptool.js"></script>
+<script>
+    var ljfBase = null;
+    var slider = null;
+    var layuiform = null;
+    var layerManager = null;
+    var showZTArr = [];//当前打开的专题
+    var pointLayer;
+    var ezuikitTalkData;
+
+    layui.use(['form', 'element', 'laydate', 'table', 'slider', 'ljfBase', 'serverCenter', 'LayerManager', 'NULayer', 'bluebird'], function () {
+        $("body").attr('class', $("body", parent.document).attr('class'));
+        var layuielement = layui.element;
+        layuiform = layui.form;
+        slider = layui.slider;
+        ljfBase = layui.ljfBase;
+
+        var LayerManager = layui.LayerManager;
+        var NULayer = layui.NULayer;
+
+        var url = ljfBase.https.BaseMapConfigManagerService + "/GetAllBaseMapConfig";
+        ljfBase.post(url, {userid: "sysadmin"}, function (res) {
+            var baseMapConfig = JSON.parse(res)[0];
+            var center = [];
+            center.push(baseMapConfig.CENTERX);
+            center.push(baseMapConfig.CENTERY);
+            layerManager = new LayerManager("map", center, 12);
+            _mapObject = layerManager._mapObject;
+            ljfBase.post(ljfBase.https.BaseMapManagerService + "/GetAllBaseMap", {sprid: "sysadmin"}, function (xml) {
+                var resArr = $.parseJSON(xml);
+                layerManager.loadBaseMap(resArr, "矢量");
+                $('.maptab ul li').click(function () {
+                    $('.maptab ul li').removeClass("active");
+                    $(this).addClass("active");
+                    var type = $(this).find('a').attr('type');
+                    layerManager.hideBaseMap();
+                    layerManager.loadBaseMap(resArr, type);
+                });
+            });
+
+            _mapObject.on('singleclick', function (evt) {
+                var feature = _mapObject.forEachFeatureAtPixel(evt.pixel,
+                    function (feature) {
+                        return feature;
+                    }, {
+                        layerFilter: function (layer) {
+                            // console.log(layer);
+                            // if (layer.get('name') == "采集的面信息") {
+                            //     //layername = "采集的面信息";
+                            //     return layer.get('name') === '采集的面信息';
+                            // }
+                            return layer.get('name');
+                        }
+                    }
+                );
+                if (feature) {
+                    var carameId = "E24285530";
+                    // data-ezopenUrl="ezopen://open.ys7.com/E24285530/1.live"
+                    // var GQ = ".hd";
+                    var GQ = "";
+                    var accessToken;
+                    $.ajax("https://open.ys7.com/api/lapp/token/get", {
+                        data: {
+                            appKey: "ce50f31fe1aa47d68c65036463c3480d",
+                            appSecret: "5ee83b2280e74a6f45229b058fbaf200",
+                        },
+                        dataType: "json", //返回文本
+                        // async: false,
+                        type: 'post', //HTTP请求类型
+                        timeout: 10000, //超时时间设置为10秒；
+                        success: function (res) {
+                            accessToken = res.data.accessToken;
+                            console.log(accessToken);
+                            var url = "ezopen://open.ys7.com/" + carameId + "/1" + GQ + ".live";
+                            ezuikitTalkData = {
+                                accessToken: accessToken,
+                                ezopen: url,
+                                decoderPath: 'EZUIKit-JavaScript'
+                            };
+                            // $("iframe").attr("src", "ezopen.html");
+
+                            layer.openIndex = layer.open({
+                                type: 2,
+                                title: feature.get("name"),
+                                closeBtn: 1, //不显示关闭按钮
+                                skin: 'layui-layer-lan',
+                                area: ['60%', '80%'],
+                                anim: 2,//弹出动画
+                                shade: 0.2,//遮盖层
+                                content: ['../html/videoCameras/ezopen.html', 'no'], //这里content是一个普通的String
+                            });
+                        },
+                        error: function (xhr, type, errorThrown) {
+                            //异常处理；
+                            console.log(type);
+                        }
+                    });
+
+
+                }
+            });
+
+            pointLayer = initPointLayer(_mapObject);
+
+            function showCameras() {
+                pointLayer.getSource().clear();
+                ljfBase.post("http://110.249.159.46:8089/gtkjghTest/TestCamera.asmx/TextGetCamerInfo", {}, function (xml) {
+                    var resArr = $.parseJSON(xml);
+                    console.log(resArr);
+                    $.each(resArr, function (i, v) {
+                        var point = [v.XZB, v.YZB];
+                        var name = v.QY;
+                        var feature = new ol.Feature(new ol.geom.Point(point));
+                        feature.set("name", name);
+
+                        feature.setStyle(function (feature, resolution) {
+                            var featureText = feature.get("name");
+                            var opacity = 1;
+                            var color = 'rgba(182, 82, 82,' + opacity + ')';
+                            return _districtRegionStyle = [
+                                new ol.style.Style({
+                                    image: new ol.style.Icon(({
+                                        src: "../images/camera.png",
+                                    })),
+                                }),
+                                new ol.style.Style({
+                                    text: new ol.style.Text({
+                                        text: featureText,
+                                        textAlign: 'center', //位置
+                                        textBaseline: 'bottom', //基准线
+                                        font: 'normal 12px 微软雅黑',  //文字样式
+//						            fill: new ol.style.Fill({ color: '#aa3300' }), //文本填充样式（即文字颜色）
+                                        stroke: new ol.style.Stroke({color: '#0DD5BB', width: 2})
+                                    })
+                                }),
+                            ];
+                        });
+                        pointLayer.getSource().addFeature(feature);
+                    })
+                });
+            }
+
+            showCameras();
+        });
+
+        //初始化点图层
+        function initPointLayer(map) {
+            var pointLayer = new ol.layer.Vector({
+                source: new ol.source.Vector({
+                    features: [],
+                }),
+                name: "pointLayer",
+                zIndex: 11
+            });
+            map.addLayer(pointLayer);
+            return pointLayer;
+        }
+
+    });
+
+    function fullScreen() {//全屏显示地图
+        if ($("#fullBtn").hasClass("active")) {//取消全屏
+            $(".left").show();
+            $(".right").attr("style", "");
+        } else {//全屏
+            $(".left").hide();
+            $(".right").attr("style", "width:100%;left:0;");
+        }
+        _mapObject.updateSize();
+        $("#fullBtn").toggleClass("active");
+    }
+</script>
+
+</html>

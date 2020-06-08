@@ -1,0 +1,1115 @@
+<!DOCTYPE html>
+<html xmlns:v-bind="http://www.w3.org/1999/xhtml">
+
+<head>
+    <meta charset="UTF-8">
+    <title>首页</title>
+    <link rel="stylesheet" type="text/css" href="../../js/layui/css/layui.css"/>
+    <link rel="stylesheet" type="text/css" href="../../js/layer/theme/default/layer.css"/>
+    <link rel="stylesheet" type="text/css" href="../../css/comstyle.css"/>
+    <link rel="stylesheet" type="text/css" href="../../js/openlayers/ol.css"/>
+    <!--<link rel="stylesheet" type="text/css" href="../../css/apicture.css"/>-->
+    <style>
+        body {
+            overflow: hidden;
+        }
+
+        .title {
+            height: 30px;
+            color: #3A6992;
+            font-size: 16px;
+            font-weight: bold;
+            line-height: 30px;
+            padding: 0px 10px;
+            position: relative;
+            background: #fff;
+        }
+
+        .top1 {
+            height: 300px;
+            background: #F8F8F8;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .top1-item1 {
+            width: calc(100% - 20px);
+            height: 250px;
+            background: #fff;
+            position: absolute;
+            left: 10px;
+            top: 40px;
+        }
+
+        .top {
+            height: 210px;
+            background: #F8F8F8;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .top-item1 {
+            width: 350px;
+            height: 160px;
+            background: #fff;
+            position: absolute;
+            left: 10px;
+            top: 40px;
+        }
+
+        .top-item2 {
+            width: calc((100% - 380px));
+            height: 160px;
+            background: #F8F8F8;
+            position: absolute;
+            left: 370px;
+            top: 40px;
+        }
+
+        .top-item2-1 {
+            width: calc((20% - 8px));
+            height: 160px;
+            background: #fff;
+        }
+
+        .top-item2-2 {
+            width: calc((20% - 8px));
+            height: 160px;
+            background: #fff;
+            position: absolute;
+            left: calc(20% + 2px);
+            top: 0px;
+        }
+
+        .top-item2-3 {
+            width: calc((20% - 8px));
+            height: 160px;
+            background: #fff;
+            position: absolute;
+            left: calc(40% + 4px);
+            top: 0px;
+        }
+
+        .top-item2-4 {
+            width: calc((20% - 8px));
+            height: 160px;
+            background: #fff;
+            position: absolute;
+            left: calc(60% + 6px);
+            top: 0px;
+        }
+
+        .top-item2-5 {
+            width: calc((20% - 8px));
+            height: 160px;
+            background: #fff;
+            position: absolute;
+            left: calc(80% + 8px);
+            top: 0px;
+        }
+
+        .bottom {
+            height: calc(100vh - 510px);
+            background: #F8F8F8;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .left {
+            width: 100%;
+            background: #F8F8F8;
+            height: 100%;
+            position: relative;
+            padding: 10px 0px;
+        }
+
+        .left-item1 {
+            height: calc(100% - 50px);
+            width: calc(100% - 20px);
+            background: #fff;
+            margin-left: 10px;
+        }
+
+        #map {
+            width: 100%;
+            height: 100%;
+        }
+
+        .title_div {
+            height: 30px;
+            color: #3A6992;
+            line-height: 30px;
+            padding: 0px 10px;
+            position: relative;
+        }
+
+        .strong {
+            font-weight: 900;
+        }
+
+        .year {
+            color: #07323B;
+        }
+
+        .quarter {
+            color: #07323B;
+            margin-left: 10px;
+        }
+
+        .f-right {
+            position: absolute;
+            right: 10px;
+        }
+
+        .f-right select {
+            height: 20px;
+        }
+
+        .f-right a {
+            cursor: pointer;
+            font-weight: 600;
+        }
+
+        .f-right a.active {
+            color: #1890FF;
+        }
+
+        .f-right a:hover {
+            color: #1890FF;
+        }
+
+        .niceScroll {
+            height: calc(100% - 30px);
+            padding: 0px 10px;
+        }
+
+        .hide {
+            display: none;
+        }
+
+        .jj {
+            width: 100%;
+        }
+
+        .jj tr td {
+            padding: 5px;
+            text-align: center;
+            position: relative;
+        }
+
+        .jj tr td a {
+            display: inline-block;
+            border-radius: 100%;
+            font-size: 20px;
+            border: 10px solid #FCC100;
+            line-height: 70px;
+            width: 70px;
+            height: 70px;
+        }
+
+        .jj tr td a:hover {
+            opacity: 0.8;
+        }
+
+        .circle {
+            width: 90px;
+            height: 90px;
+            position: relative;
+            border-radius: 100%;
+            background: #F64E58;
+            overflow: hidden;
+            /*z-index: 9999;*/
+            /*border: 10px solid red;*/
+        }
+
+        .pie_left, .pie_right {
+            width: 90px;
+            height: 90px;
+            position: absolute;
+            top: 0;
+            left: 0;
+        }
+
+        ._left, ._right {
+            width: 90px;
+            height: 90px;
+            background: #C3C3C3;
+            border-radius: 50%;
+            position: absolute;
+            top: 0;
+            left: 0;
+        }
+
+        .pie_right, ._right {
+            clip: rect(0, auto, auto, 45px);
+        }
+
+        .pie_left, ._left {
+            clip: rect(0, 45px, auto, 0);
+        }
+
+        .theValue {
+            width: 70px;
+            height: 70px;
+            border-radius: 50%;
+            top: 10px;
+            left: 10px;
+            background: white;
+            position: absolute;
+            text-align: center;
+            line-height: 70px;
+            font-size: 20px;
+            color: #F64E58;
+        }
+
+        .span {
+            line-height: 20px;
+            font-size: 16px;
+            color: #333333;
+            font-family: "微软雅黑";
+        }
+
+        .p {
+            line-height: 30px;
+            font-size: 25px;
+            color: #6AB7FF;
+            font-family: "微软雅黑";
+            padding: 10px;
+        }
+
+        .tab {
+            font-size: 14px;
+        }
+
+        .tab:hover {
+            cursor: pointer;
+            color: #1890FF;
+        }
+
+        .tab.active {
+            cursor: pointer;
+            color: #1890FF;
+        }
+
+        .f14 {
+            font-size: 14px;
+        }
+    </style>
+</head>
+
+<body class="white">
+
+<div class="top">
+    <div class="title">
+        <p><span class="XMC"></span>整治农村耕地建房动态进展情况</p>
+    </div>
+    <div class="top-item1">
+        <div class="title_div">
+            <span class="strong">建房个数</span>
+            <span class="f-right">
+		        	
+		        </span>
+        </div>
+        <div class="niceScroll">
+            <table class="jj" border="0" cellspacing="0" cellpadding="0">
+                <tr>
+                    <td><a id="jfgs" href="#" style="border-color:#E21918; color: #E21918;"></a></td>
+
+                    <td>
+                        <div id="jfgsy" class="circle" style="background: #1890FF;" value="95.65">
+                            <div class="pie_left">
+                                <div class="_left"></div>
+                            </div>
+                            <div class="pie_right">
+                                <div class="_right"></div>
+                            </div>
+                            <div class="theValue"><span class="vauNum" style="color:#1890FF;"></span></div>
+                        </div>
+                    </td>
+                    <td>
+                        <div id="jfgsw" class="circle" style="background: #FC548B;" value="3.45">
+                            <div class="pie_left">
+                                <div class="_left"></div>
+                            </div>
+                            <div class="pie_right">
+                                <div class="_right"></div>
+                            </div>
+                            <div class="theValue"><span class="vauNum" style="color:#FC548B ;"></span></div>
+                        </div>
+
+                    </td>
+
+                </tr>
+                <tr>
+                    <td><span>总数</span></td>
+                    <td><span>有手续</span></td>
+                    <td><span>无手续</span></td>
+                </tr>
+            </table>
+        </div>
+
+    </div>
+    <div class="top-item2">
+        <div class="top-item2-1">
+            <div class="title_div">
+                <span class="strong">占用耕地总面积(亩)</span>
+            </div>
+            <div class="niceScroll">
+                <div style="width: 100%;height: 60px;position: relative;margin-top: 30px;">
+                    <img src="../../images/icon/1.png" style="border-radius:100%;"/>
+                    <span id="zygdmj" class="p"></span>
+                </div>
+            </div>
+        </div>
+        <div class="top-item2-2">
+            <div class="title_div">
+                <span class="strong">有手续面积(亩)</span>
+
+            </div>
+            <div class="niceScroll">
+                <div style="width: 100%;height: 60px;position: relative;margin-top: 30px;">
+                    <img src="../../images/icon/1.png" style="border-radius:100%;"/>
+                    <span id="zygdmj1" class="p"></span>
+                </div>
+            </div>
+        </div>
+        <div class="top-item2-3">
+            <div class="title_div">
+                <span class="strong">无手续面积(亩)</span>
+            </div>
+            <div class="niceScroll">
+                <div style="width: 100%;height: 60px;position: relative;margin-top: 30px;">
+                    <img src="../../images/icon/1.png" style="border-radius:100%;"/>
+                    <span id="zygdmj2" class="p"></span>
+                </div>
+            </div>
+        </div>
+        <div class="top-item2-4">
+            <div class="title_div">
+                <span class="strong">基本农田面积(亩)</span>
+            </div>
+            <div class="niceScroll">
+                <div style="width: 100%;height: 60px;position: relative;margin-top: 30px;">
+                    <img src="../../images/icon/2.png" style="border-radius:100%;"/>
+                    <span id="zygdmj3" class="p"></span>
+                </div>
+            </div>
+        </div>
+        <div class="top-item2-5">
+            <div class="title_div">
+                <span class="strong">一般耕地面积(亩)</span>
+            </div>
+            <div class="niceScroll">
+                <div style="width: 100%;height: 60px;position: relative;margin-top: 30px;">
+                    <img src="../../images/icon/2.png" style="border-radius:100%;"/>
+                    <span id="zygdmj4" class="p"></span>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+</div>
+<div class="top1">
+    <div class="title">
+        <p><span class="XMC"></span>整治农村耕地建房乡镇级数据动态采集情况</p>
+    </div>
+    <div class="top1-item1">
+        <!--<div class="title_div">
+            <span class="strong"><span class="XZQ"></span>各市采集的数据个数以及审批记录个数统计图</span>
+            <span class="f-right">
+
+            </span>
+        </div>-->
+        <div id="charts7" class="niceScroll" style="height: 100%;">
+
+        </div>
+    </div>
+</div>
+<div class="bottom">
+    <div class="title">
+        <p><span class="XMC"></span>整治农村耕地建房乡镇级数据上报情况
+            <span class="f-right">
+    				<span class="tab active" index='1' style="border-right:1px solid #48739B;padding-right: 10px;">建房手续情况</span>
+    				<span class="tab" index='2'
+                          style="padding-right: 10px;border-right:1px solid #48739B;">建房类型情况</span>
+    				<span class="tab" index='3'
+                          style="padding-right: 10px;border-right:1px solid #48739B;">占用耕地情况</span>
+    				<span class="tab" index='4' style="padding-right: 10px;">占用耕地分类</span>
+		        </span>
+        </p>
+    </div>
+    <div class="left">
+        <div class="left-item1">
+
+            <div id="charts1" class="niceScroll" style="height: 100%;">
+
+            </div>
+        </div>
+
+    </div>
+
+</div>
+
+</body>
+<script src="../../js/jquery-2.1.0.js"></script>
+<script src="../../js/config.js"></script>
+<script src="../../js/common.js"></script>
+<script src="../../js/layui/layui.js"></script>
+<script src="../../js/modules/layui-config.js"></script>
+<script src="../../js/openlayers/ol-debug.js"></script>
+<script src="../../js/openlayers/maptool.js"></script>
+<script src="../../js/Highcharts-8.0.0/code/highcharts.js"></script>
+<script src="../../js/Highcharts-8.0.0/code/highcharts-more.js"></script>
+<script>
+    var ljfBase = null;
+    var slider = null;
+    var layuiform = null;
+    var layerManager = null;
+    var Industryresjosn = [];//专题图层数组
+    var sourceClues = null;//采集的面信息
+    var vectorClues = null;//采集的面图层
+    var ztreeObj = null;
+    var vector, source = null;
+    var _mapObject = null;
+    var _mapView = null;
+    var layuitable = null;
+    var _wktParser = null;
+    var CMC = "";
+    layui.use(['form', 'element', 'laydate', 'table', 'slider', 'ljfBase', 'serverCenter', 'LayerManager', 'NULayer', 'bluebird'], function () {
+//      $("body").attr('class', $("body", parent.document).attr('class'));
+//      $(".niceScroll").niceScroll({cursorborder: "", cursorcolor: "#297FBA", boxzoom: false});
+        var layuielement = layui.element;
+        layuiform = layui.form;
+        layuitable = layui.table;
+        slider = layui.slider;
+        ljfBase = layui.ljfBase;
+        initcount();
+        HomeStatisticsfByCounty();
+        HomeBaseInfofByCounty();
+    });
+    var resjosn = [];
+
+    function HomeBaseInfofByCounty() {
+        var XMC = parent.JFZD.XZQ.split(' ')[2];
+        parent.layer.loadIndex = parent.layer.load(0, {shade: 0.1});
+        RurallandStatisticsService("/HomeBaseInfofByCounty", {
+            xzqdm: parent.JFZD.XZQDM,
+            xmc: XMC
+        }, true, function (resjson) {
+            if (resjson.indexOf("false") > -1) {
+                parent.layer.alert("未查询到结果!");
+                parent.layer.close(parent.layer.loadIndex);
+                var resjosn1 = [];
+            } else {
+                var resjosn1 = $.parseJSON(resjson);
+            }
+            parent.layer.close(parent.layer.loadIndex);
+            if (resjosn1.length > 0) {
+                initcharts7(resjosn1, 'charts7', "column");
+            }
+        });
+    }
+
+    var resjosn = [];
+
+    function HomeStatisticsfByCounty() {
+        var XMC = parent.JFZD.XZQ.split(' ')[2];
+        $(".XMC").text(XMC);
+        parent.layer.loadIndex = parent.layer.load(0, {shade: 0.1});
+        RurallandStatisticsService("/HomeStatisticsfByCounty", {
+            xzqdm: parent.JFZD.XZQDM,
+            xmc: XMC
+        }, true, function (resjson) {
+            if (resjson.indexOf("false") > -1) {
+                parent.layer.alert("未查询到结果!");
+                parent.layer.close(parent.layer.loadIndex);
+                resjosn = [];
+            } else {
+                resjosn = $.parseJSON(resjson);
+            }
+            parent.layer.close(parent.layer.loadIndex);
+            if (resjosn.length > 0) {
+                initcharts1(resjosn, 'charts1', "column");
+            }
+        });
+    }
+
+    function initcount() {
+        RurallandStatisticsService("/HomeRealtimeData", {xzqdm: parent.JFZD.XZQDM}, true, function (resjson) {
+            if (resjson.indexOf("false") > -1) {
+                parent.layer.alert("未查询到结果!");
+
+                var resjosn2 = [];
+            } else {
+                var resjosn2 = $.parseJSON(resjson);
+            }
+
+            if (resjosn2.length > 0) {
+                $("#jfgs").html(resjosn2[0].ZGS);
+                $("#jfgsy").attr("value", resjosn2[0].YSXGS / resjosn2[0].ZGS * 100).find('.vauNum').html(resjosn2[0].YSXGS);
+                $("#jfgsw").attr("value", resjosn2[0].WSXGS / resjosn2[0].ZGS * 100).find('.vauNum').html(resjosn2[0].WSXGS);
+                $('.circle').each(function (index, el) {
+                    var num = $(this).attr('value') * 3.6;
+                    if (num <= 180) {
+                        $(this).find('._right').css('transform', "rotate(" + num + "deg)");
+                    } else {
+                        var that = $(this).find('._right');
+                        that.css('transform', "rotate(180deg)");
+                        $(this).find('._left').css('transform', "rotate(" + (num - 180) + "deg)")
+                    }
+                    ;
+                });
+
+                $("#zygdmj").html(resjosn2[0].ZYGDMJ);
+                $("#zygdmj1").html(resjosn2[0].YGDMJ);
+                $("#zygdmj2").html(resjosn2[0].WFZYMJ);
+                $("#zygdmj3").html(resjosn2[0].JBNTMJ);
+                $("#zygdmj4").html(resjosn2[0].YBGDMJ);
+            }
+
+        });
+    }
+
+    $(".tab").click(function () {
+        var index = $(this).attr('index');
+        $(".tab").removeClass('active');
+        $(this).addClass('active')
+        if (index == "1") {
+            initcharts1(resjosn, 'charts1', "column");
+        } else if (index == "2") {
+            initcharts2(resjosn, 'charts1', "column");
+        } else if (index == "3") {
+            initcharts3(resjosn, 'charts1', "column");
+        } else if (index == "4") {
+            initcharts4(resjosn, 'charts1', "column");
+        }
+    })
+
+    function initcharts1(resjosn, chartsid, HighchartsType) {
+        var categories = [];
+        var chartdata1 = [];
+        var chartdata2 = [];
+        var chartdata3 = [];
+        for (var i = 0; i < resjosn.length; i++) {
+            categories.push(resjosn[i].XZQMC);
+            chartdata1.push(resjosn[i].ZTYSXJFGS + resjosn[i].ZTWSXJFGS);
+            chartdata2.push(resjosn[i].ZTYSXJFGS);
+            chartdata3.push(resjosn[i].ZTWSXJFGS)
+        }
+
+        Highcharts.chart(chartsid, {
+            exporting: {
+                enabled: false
+            },
+            credits: {
+                enabled: false
+            },
+            chart: {
+                type: HighchartsType
+            },
+            title: {
+                text: ""
+            },
+            subtitle: {
+                text: ''
+            },
+            xAxis: {
+                categories: categories
+            },
+            yAxis: {
+                title: {
+                    text: "个数"
+                },
+                labels: {
+                    formatter: function () {
+                        return this.value;
+                    }
+                },
+                stackLabels: {  // 堆叠数据标签
+                    enabled: true,
+                    style: {
+                        fontWeight: 'bold',
+                        color: (Highcharts.theme && Highcharts.theme.textColor) || 'gray'
+                    }
+                }
+
+            },
+            tooltip: {
+                headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
+                pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
+                '<td style="padding:0"><b>{point.y}</b></td></tr>',
+                footerFormat: '</table>',
+                shared: true,
+                useHTML: true
+            },
+            plotOptions: {
+                column: {
+                    stacking: 'normal',
+                    dataLabels: {
+                        enabled: false,
+                        color: (Highcharts.theme && Highcharts.theme.dataLabelsColor) || 'white',
+                        style: {
+                            // 如果不需要数据标签阴影，可以将 textOutline 设置为 'none'
+                            textOutline: 'none'
+                        }
+                    }
+                }
+            },
+            series:
+                [
+                    // {
+                    // 	name: "建房个数",
+                    // 	color: '#519EF8',
+                    // 	data: chartdata1
+                    // },
+                    {
+                        name: "有手续",
+                        color: '#19EDAD',
+                        data: chartdata2
+                    },
+                    {
+                        name: "无手续",
+                        color: '#9FADFF',
+                        data: chartdata3
+                    },
+
+                ]
+
+        });
+    }
+
+
+    function initcharts2(resjosn, chartsid, HighchartsType) {
+        var categories = [];
+        var chartdata1 = [], chartdata2 = [];
+        var chartdata3 = [], chartdata4 = [];
+        var chartdata5 = [], chartdata6 = [];
+        var chartdata7 = [], chartdata8 = [];
+        var chartdata9 = [], chartdata10 = [];
+        var chartdata11 = [], chartdata12 = [];
+        var chartdata13 = [], chartdata14 = [];
+        var total1 = 0, total2 = 0, total3 = 0;
+        var total4 = 0, total5 = 0, total6 = 0;
+        var total7 = 0, total8 = 0, total9 = 0, total10 = 0;
+        for (var i = 0; i < resjosn.length; i++) {
+            var ZZYSXJFGS = resjosn[i].ZZYSXJFGS;
+            var ZZWSXJFGS = resjosn[i].ZZWSXJFGS;
+            var XSYSXJFGS = resjosn[i].XSYSXJFGS;
+            var XSWSXJFGS = resjosn[i].XSWSXJFGS;
+
+            var GCYSXJFGS = resjosn[i].GCYSXJFGS;
+            var GCWSXJFGS = resjosn[i].GCWSXJFGS;
+            var JYYSXJFGS = resjosn[i].JYYSXJFGS;
+            var JYWSXJFGS = resjosn[i].JYWSXJFGS;
+            var NYYSXJFGS = resjosn[i].NYYSXJFGS;
+            var NYWSXJFGS = resjosn[i].NYWSXJFGS;
+            categories.push(resjosn[i].XZQMC);
+//      	chartdata1.push(Number(ZZYSXJFGS.toFixed(2)));
+//      	chartdata2.push(Number(ZZWSXJFGS.toFixed(2)));
+//      	chartdata3.push(Number(XSYSXJFGS.toFixed(2)));
+//      	chartdata4.push(Number(XSWSXJFGS.toFixed(2)));
+//      	chartdata5.push(Number(GCYSXJFGS.toFixed(2)));
+//      	chartdata6.push(Number(GCWSXJFGS.toFixed(2)));
+//      	chartdata7.push(Number(JYYSXJFGS.toFixed(2)));
+//      	chartdata8.push(Number(JYWSXJFGS.toFixed(2)));
+//      	chartdata9.push(Number(NYYSXJFGS.toFixed(2)));
+//      	chartdata10.push(Number(NYWSXJFGS.toFixed(2)));
+
+            chartdata11.push(ZZYSXJFGS + ZZWSXJFGS + XSYSXJFGS + XSWSXJFGS);
+            chartdata12.push(GCYSXJFGS + GCWSXJFGS);
+            chartdata13.push(JYYSXJFGS + JYWSXJFGS);
+            chartdata14.push(NYYSXJFGS + NYWSXJFGS);
+        }
+
+        Highcharts.chart(chartsid, {
+            exporting: {
+                enabled: false
+            },
+            credits: {
+                enabled: false
+            },
+            chart: {
+                type: HighchartsType
+            },
+            title: {
+                text: ""
+            },
+            subtitle: {
+                text: ''
+            },
+            xAxis: {
+                categories: categories
+            },
+            yAxis: {
+                title: {
+                    text: "个数"
+                },
+                labels: {
+                    formatter: function () {
+                        return this.value;
+                    }
+                },
+                stackLabels: {  // 堆叠数据标签
+                    enabled: true,
+                    style: {
+                        fontWeight: 'bold',
+                        color: (Highcharts.theme && Highcharts.theme.textColor) || 'gray'
+                    }
+                }
+
+            },
+            tooltip: {
+                headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
+                pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
+                '<td style="padding:0"><b>{point.y}</b></td></tr>',
+                footerFormat: '</table>',
+                shared: true,
+                useHTML: true
+            },
+            plotOptions: {
+                column: {
+                    stacking: 'normal',
+                    dataLabels: {
+                        enabled: false,
+                        color: (Highcharts.theme && Highcharts.theme.dataLabelsColor) || 'white',
+                        style: {
+                            // 如果不需要数据标签阴影，可以将 textOutline 设置为 'none'
+                            textOutline: 'none'
+                        }
+                    }
+                }
+            },
+            series:
+                [
+                    {name: "居住", data: chartdata11, color: '#519EF8'},
+                    {name: "工矿", data: chartdata12, color: '#19EDAD'},
+                    {name: "经营", data: chartdata13, color: '#9FADFF'},
+                    {name: "设施农业", data: chartdata14, color: '#FFB626'},
+
+                ]
+
+        });
+    }
+
+    function initcharts3(resjosn, chartsid, HighchartsType) {
+        var categories = [];
+        var chartdata1 = [];
+        var chartdata2 = [];
+        var chartdata3 = [];
+
+
+        var total1 = 0, total2 = 0, total3 = 0, total4 = 0, total5 = 0;
+        for (var i = 0; i < resjosn.length; i++) {
+            var ZTYSXGDMJ = resjosn[i].ZTYSXGDMJ;
+            var ZTWSXGDMJ = resjosn[i].ZTWSXGDMJ;
+            var ZJBNTMJ = resjosn[i].ZJBNTMJ;
+            var total = ZTYSXGDMJ + ZTWSXGDMJ;
+            total1 += total;
+            total2 += ZTYSXGDMJ;
+            total3 += ZTWSXGDMJ;
+            total4 += ZJBNTMJ;
+            var YBGD = total - ZJBNTMJ;
+            total5 += YBGD;
+            categories.push(resjosn[i].XZQMC);
+            // chartdata1.push(Number(total.toFixed(2)));
+            chartdata1.push(Number(ZTYSXGDMJ.toFixed(2)));
+            chartdata2.push(Number(ZTWSXGDMJ.toFixed(2)));
+            chartdata3.push(Number(YBGD.toFixed(2)));
+
+        }
+
+
+        Highcharts.chart(chartsid, {
+            exporting: {
+                enabled: false
+            },
+            credits: {
+                enabled: false
+            },
+            chart: {
+                type: HighchartsType
+            },
+            title: {
+                text: ""
+            },
+            subtitle: {
+                text: ''
+            },
+            xAxis: {
+                categories: categories
+            },
+            yAxis: {
+                title: {
+                    text: "面积(亩)"
+                },
+                labels: {
+                    formatter: function () {
+                        return this.value;
+                    }
+                },
+                stackLabels: {  // 堆叠数据标签
+                    enabled: true,
+                    style: {
+                        fontWeight: 'bold',
+                        color: (Highcharts.theme && Highcharts.theme.textColor) || 'gray'
+                    }
+                }
+
+            },
+            tooltip: {
+                headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
+                pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
+                '<td style="padding:0"><b>{point.y}</b></td></tr>',
+                footerFormat: '</table>',
+                shared: true,
+                useHTML: true
+            },
+            plotOptions: {
+                column: {
+                    stacking: 'normal',
+                    dataLabels: {
+                        enabled: false,
+                        color: (Highcharts.theme && Highcharts.theme.dataLabelsColor) || 'white',
+                        style: {
+                            // 如果不需要数据标签阴影，可以将 textOutline 设置为 'none'
+                            textOutline: 'none'
+                        }
+                    }
+                }
+            },
+            series:
+                [
+                    {
+                        name: "有手续占用耕地面积",
+                        color: '#519EF8',
+                        data: chartdata1
+                    },
+                    {
+                        name: "无手续占用耕地面积",
+                        color: '#19EDAD',
+                        data: chartdata2
+                    },
+
+
+                ]
+
+        });
+
+
+    }
+
+    function initcharts4(resjosn, chartsid, HighchartsType) {
+        var categories = [];
+        var chartdata1 = [];
+        var chartdata2 = [];
+        var chartdata3 = [];
+
+
+        var total1 = 0, total2 = 0, total3 = 0, total4 = 0, total5 = 0;
+        for (var i = 0; i < resjosn.length; i++) {
+            var ZTYSXGDMJ = resjosn[i].ZTYSXGDMJ;
+            var ZTWSXGDMJ = resjosn[i].ZTWSXGDMJ;
+            var ZJBNTMJ = resjosn[i].ZJBNTMJ;
+            var total = ZTYSXGDMJ + ZTWSXGDMJ;
+            total1 += total;
+            total2 += ZTYSXGDMJ;
+            total3 += ZTWSXGDMJ;
+            total4 += ZJBNTMJ;
+            var YBGD = total - ZJBNTMJ;
+            total5 += YBGD;
+            categories.push(resjosn[i].XZQMC);
+            chartdata1.push(Number(total.toFixed(2)));
+            chartdata2.push(Number(ZJBNTMJ.toFixed(2)));
+            chartdata3.push(Number(YBGD.toFixed(2)));
+
+        }
+
+
+        Highcharts.chart(chartsid, {
+            exporting: {
+                enabled: false
+            },
+            credits: {
+                enabled: false
+            },
+            chart: {
+                type: HighchartsType
+            },
+            title: {
+                text: ""
+            },
+            subtitle: {
+                text: ''
+            },
+            xAxis: {
+                categories: categories
+            },
+            yAxis: {
+                title: {
+                    text: "面积(亩)"
+                },
+                labels: {
+                    formatter: function () {
+                        return this.value;
+                    }
+                },
+                stackLabels: {  // 堆叠数据标签
+                    enabled: true,
+                    style: {
+                        fontWeight: 'bold',
+                        color: (Highcharts.theme && Highcharts.theme.textColor) || 'gray'
+                    }
+                }
+
+            },
+            tooltip: {
+                headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
+                pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
+                '<td style="padding:0"><b>{point.y}</b></td></tr>',
+                footerFormat: '</table>',
+                shared: true,
+                useHTML: true
+            },
+            plotOptions: {
+                column: {
+                    stacking: 'normal',
+                    dataLabels: {
+                        enabled: false,
+                        color: (Highcharts.theme && Highcharts.theme.dataLabelsColor) || 'white',
+                        style: {
+                            // 如果不需要数据标签阴影，可以将 textOutline 设置为 'none'
+                            textOutline: 'none'
+                        }
+                    }
+                }
+            },
+            series:
+                [
+                    {
+                        name: "一般耕地",
+                        color: '#519EF8',
+                        data: chartdata3
+                    },
+                    {
+                        name: "基本农田",
+                        color: '#19EDAD',
+                        data: chartdata2
+                    },
+
+
+                ]
+
+        });
+    }
+
+    function initcharts7(resjosn, chartsid, HighchartsType) {
+        var categories = [];
+        var chartdata1 = [];
+        var chartdata2 = [];
+        var XZGS_ARR = [];
+        //提交到县个数
+        var XGS_ARR = [];
+        //提交到市个数
+        var SGS_ARR = [];
+        //提交到省个数
+        var PGS_ARR = [];
+
+        for (var i = 0; i < resjosn.length; i++) {
+            categories.push(resjosn[i].XZQMC);
+            chartdata1.push(resjosn[i].DCGS);
+            chartdata2.push(resjosn[i].SPGS);
+            XZGS_ARR.push(resjosn[i].XZGS);
+            XGS_ARR.push(resjosn[i].XGS);
+            SGS_ARR.push(resjosn[i].SGS);
+            PGS_ARR.push(resjosn[i].PGS);
+        }
+        Highcharts.chart(chartsid, {
+            exporting: {
+                enabled: false
+            },
+            credits: {
+                enabled: false
+            },
+            chart: {
+                type: HighchartsType
+            },
+            title: {
+                text: ""
+            },
+            subtitle: {
+                text: ''
+            },
+            xAxis: {
+                categories: categories
+            },
+            yAxis: {
+                title: {
+                    text: "个数"
+                },
+                labels: {
+                    formatter: function () {
+                        return this.value;
+                    }
+                },
+                stackLabels: {  // 堆叠数据标签
+                    enabled: true,
+                    style: {
+                        fontWeight: 'bold',
+                        color: (Highcharts.theme && Highcharts.theme.textColor) || 'gray'
+                    }
+                }
+
+            },
+            tooltip: {
+                headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
+                pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
+                '<td style="padding:0"><b>{point.y}</b></td></tr>',
+                footerFormat: '</table>',
+                shared: true,
+                useHTML: true
+            },
+            plotOptions: {
+                column: {
+                    stacking: 'normal',
+                    dataLabels: {
+                        enabled: false,
+                        color: (Highcharts.theme && Highcharts.theme.dataLabelsColor) || 'white',
+                        style: {
+                            // 如果不需要数据标签阴影，可以将 textOutline 设置为 'none'
+                            textOutline: 'none'
+                        }
+                    }
+                }
+            },
+            series:
+                [
+                    {
+                        name: "县内作业中",
+                        color: '#E84746',
+                        data: XZGS_ARR
+                    },
+                    {
+                        name: "提交到县",
+                        color: '#FC548B',
+                        data: XGS_ARR
+                    },
+                    {
+                        name: "提交到市",
+                        color: '#1890FF',
+                        data: SGS_ARR
+                    },
+                    {
+                        name: "提交到省",
+                        color: '#29CB97',
+                        data: PGS_ARR
+                    }
+                ]
+
+        });
+    }
+
+
+</script>
+
+</html>

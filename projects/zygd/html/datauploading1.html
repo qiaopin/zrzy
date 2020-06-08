@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html xmlns:v-bind="http://www.w3.org/1999/xhtml">
+
+<head>
+    <meta charset="UTF-8">
+    <title>首页</title>
+    <link rel="stylesheet" type="text/css" href="../js/layui-v2.4.5/css/layui.css"/>
+    <link rel="stylesheet" type="text/css" href="../js/layer/theme/default/layer.css"/>
+    <link rel="stylesheet" type="text/css" href="../js/openlayers/ol.css"/>
+    <link rel="stylesheet" type="text/css" href="../css/comstyle.css"/>
+    <link rel="stylesheet" type="text/css" href="../css/apicture.css"/>
+    <style>
+    	body{overflow: hidden;}
+        .top{height: 70vh; width: 100%; background:#F8F8F8; position: relative;}
+        .bottom{height: 30vh; width: 100%;  background: #F8F8F8; position: relative;}
+        .top-left{height: calc(100% - 15px); width: calc(100% - 20px); background: #fff; position: absolute; left: 10px; top: 10px;}
+        .top-right{height: calc(100% - 15px); width: calc(100% - 20px); background: #fff; position: absolute; left: 10px; top: 5px;}
+        #map {
+            width: 100%;
+            height: 100%;
+        }
+        .title_div {height: 30px;color: #3A6992;line-height: 30px;padding: 0px 10px;position: relative;}
+        .strong {font-weight: 900;}
+        .year {color: #07323B;}
+        .quarter {color: #07323B;margin-left: 10px;}
+        .f-right {position: absolute;right: 10px;}
+        .f-right select {height: 20px;}
+        .f-right a {cursor: pointer; font-weight: 600;}
+        .f-right a.active {color: #1890FF;}
+        .f-right a:hover {color: #1890FF;}
+
+        .niceScroll {
+            height: calc(100% - 30px);
+            padding: 0px 10px;
+        }
+
+        .layui-table, .layui-table-view {
+            margin: 0px;
+            border: none;
+        }
+
+        .layui-table-view .layui-table td, .layui-table-view .layui-table th {
+            border-left: 1px solid #e6e6e6;
+            padding: 5px 0px;
+        }
+
+        .layui-table-view .layui-table th {
+            text-align: center;
+        }
+
+        .layui-table-page, .layui-table-total {
+            border-width: 1px 1px 0px;
+        }
+
+        .layui-table-body {
+            margin-bottom: 0px;
+            margin-right: 0px;
+        }
+
+        
+
+        .layui-form-radio > i:hover, .layui-form-radioed > i {
+            color: #187fcc;
+        }
+
+        .layui-table tbody tr:hover {
+            background: transparent;
+        }
+
+        .layui-btn-skyblue {
+            background: #1890FF;
+        }
+
+        .layui-laypage .layui-laypage-curr .layui-laypage-em {
+            background: #177BD0;
+        }
+
+        [lay-skin=primary].layui-form-checked i {
+            border-color: #187FCC;
+        }
+
+        [lay-skin=primary].layui-form-checked i {
+            background: #187FCC;
+        }
+
+        .hide {
+            display: none;
+        }
+
+        #charts2 {
+            height: 100%;
+        }
+        
+        .layui-table-view [lay-size=sm].layui-table .layui-table-cell{
+        	height: auto;
+        }
+        /*.layui-table-cell, .layui-table-tool-panel li{
+        	padding: 0px 0px;
+        	overflow: auto;
+        	white-space:normal;
+        }
+        .layui-table-cell {
+           height: auto;
+        }*/
+        .layui-table tr td{text-align: center;}
+        .layui-table-total .layui-table tr:hover{background: #F2F2F2;}
+        .layui-table-view [lay-size=sm].layui-table .layui-table-cell{
+        	height: auto;
+        }
+        .layui-table-cell, .layui-table-tool-panel li{
+        	padding: 0px 0px;
+        	overflow: auto;
+        	white-space:normal;
+        }
+        .layui-table-cell {
+           height: auto;
+        }
+        .layui-table tr td{text-align: center;}
+        .layui-table-total .layui-table tr:hover{background: #F2F2F2;}
+    </style>
+</head>
+
+<body class="white">
+<div class="top">
+	<div class="top-left">
+		<div id="map">
+
+        </div>
+        <div class="maptool">
+            <ul class="tool-bar">
+                <li id="" title="收藏" class="hide"><a href="javascript:" class="tool-case1"></a></li>
+                <!--<li title="全幅" onclick="maptool.allover()"><a href="javascript:" class="tool-case9"></a></li>-->
+                <li title="全屏" class="" id="fullBtn" onclick="fullScreen()"><a href="javascript:" class="tool-case7"></a></li>
+                <li title="测距" onclick="maptool.measure('distance')"><a href="javascript:" class="tool-case3"></a></li>
+                <li title="测面" onclick="maptool.measure('area')"><a href="javascript:" class="tool-case4"></a></li>
+                <li id="query" title="查询"><a href="javascript:" class="tool-case5"></a></li>
+                <li title="清除" onclick="maptool.clear()"><a href="javascript:" class="tool-case6"></a></li>
+                <!--<li title="全屏"><a href="javascript:;" class="tool-case7"></a></li>-->
+            </ul>
+        </div>
+        <div class="maptab">
+            <ul>
+                <li class="active"
+                    style="background:url(../images/maptab/ditu.jpg) no-repeat 2px 2px;background-size: 45px 45px;">
+                    <a type='矢量' href="javascript:">矢量</a></li>
+                <li style="background:url(../images/maptab/yingxiang.jpg) no-repeat 2px 2px;background-size: 45px 45px;">
+                    <a type='影像' href="javascript:">影像</a></li>
+                <li style="background:url(../images/maptab/dixing.jpg) no-repeat 2px 2px;background-size: 45px 45px;"><a
+                        type='地形' href="javascript:">地形</a></li>
+                <li style="background:#fff;"><a type='' href="javascript:">无</a></li>
+            </ul>
+        </div>
+	</div>
+    
+</div>
+<div class="bottom">
+	<div class="top-right">
+		<div class="title_div">
+	        <span class="strong">占用耕地建房列表</span> 
+	        <span class="f-right">
+	        	 <button type="button" class="layui-btn layui-btn-xs layui-btn-normal">导出统计表</button>
+	        	 <!--<i title="新增" id="addplan" class="layui-icon layui-icon-add-circle" style="margin: 0px 5px; color: #4BB2FF;"></i>-->
+	        </span>
+	
+	    </div>
+	    <div class="niceScroll table1_div">
+	        <table id="table1" lay-filter="table1">
+	
+	        </table>
+	    </div>
+	</div>
+    
+</div>	
+
+</body>
+<script type="text/html" id="barDemo">
+    <a class="layui-btn layui-btn-xs layui-btn-skyblue" lay-event="location"></i>定位</a>
+    <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="edit"></i>编辑</a>
+    <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="submit"></i>提交</a>
+    <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="withdraw"></i>撤回</a>
+</script>
+<script src="../js/jquery1.9.0.min.js"></script>
+<script src="../js/config.js"></script>
+<script src="../js/common.js"></script>
+<script src="../js/scrollbar/jquery.nicescroll.min.js"></script>
+<script src="../js/layui/layui.js"></script>
+<script src="../js/modules/layui-config.js"></script>
+<script src="../js/openlayers/ol-debug.js"></script>
+<script src="../js/openlayers/maptool.js"></script>
+<script src="../js/zTreeStyle/jquery.ztree.js"></script>
+<script src="../js/echars4.2.1/echarts.min.js"></script>
+<script src="../js/scrollbar/jquery.nicescroll.min.js"></script>
+<script>
+    var ljfBase = null;
+    var slider = null;
+    var layuiform = null;
+    var layerManager = null;
+    var Industryresjosn = [];//专题图层数组
+    var sourceClues = null;//采集的面信息
+    var vectorClues = null;//采集的面图层
+    var ztreeObj = null;
+    var vector, source = null;
+    var _mapObject = null;
+    var _mapView = null;
+    var layuitable = null;
+    var _wktParser = null;
+    layui.use(['form', 'element', 'laydate', 'table', 'slider', 'ljfBase', 'serverCenter', 'LayerManager', 'NULayer', 'bluebird'], function () {
+//      $("body").attr('class', $("body", parent.document).attr('class'));
+//      $(".niceScroll").niceScroll({cursorborder: "", cursorcolor: "#297FBA", boxzoom: false});
+        var layuielement = layui.element;
+        layuiform = layui.form;
+        layuitable = layui.table;
+        slider = layui.slider;
+        ljfBase = layui.ljfBase;
+        var xml2json = layui.xml2json;
+        var serverCenter = layui.serverCenter;
+        var LayerManager = layui.LayerManager;
+        var NULayer = layui.NULayer;
+        var url = ljfBase.https.BaseMapConfigManagerService + "/GetAllBaseMapConfig";
+	    ljfBase.post(url, {userid: sessionStorage.sprid}, function (res) {
+	        var baseMapConfig = JSON.parse(res)[0];
+	        var center = [];
+	        center.push(baseMapConfig.CENTERX);
+	        center.push(baseMapConfig.CENTERY);
+	        center = [114.48, 38.03];
+	        layerManager = new LayerManager("map", center, 12);
+	        ljfBase.post(ljfBase.https.BaseMapManagerService + "/GetAllBaseMap", {sprid: sessionStorage.sprid}, function (xml) {
+	            var resArr = $.parseJSON(xml);
+	            layerManager.loadBaseMap(resArr, "矢量");
+	            $('.maptab ul li').click(function () {
+                    $('.maptab ul li').removeClass("active");
+                    $(this).addClass("active");
+                    var type = $(this).find('a').attr('type');
+                    layerManager.hideBaseMap();
+                    layerManager.loadBaseMap(resArr, type);
+                });
+	            
+	        });
+	        initMapQuery();
+	        
+	    });
+        GetRurallandnByXzqdm();
+        
+    });
+    
+    
+    
+    
+   
+    
+    
+    
+    
+    
+    function GetRurallandnByXzqdm(){
+    	parent.layer.loadIndex = parent.layer.load(0, {shade: 0.1});
+//  	if(parent.JFZD.USERTYPE=="省厅负责人"||parent.JFZD.USERTYPE=="市局负责人"||parent.JFZD.USERTYPE=="县局负责人"){
+//  		var url = "/GetRurallandnByXzqdm";
+//  		var data = {
+//  			xzqdm:parent.JFZD.XZQDM
+//  		}
+//  	}else 
+    	if(parent.JFZD.USERTYPE=="国土所负责人"){
+    		var url = "/GetRurallandnByXZFZR";
+    		
+    	}else if(parent.JFZD.USERTYPE=="乡镇党政负责人"){
+    		var url = "/GetRurallandnByDZFZR";
+    		
+    	}else if(parent.JFZD.USERTYPE=="村两委负责人"){
+    		var url = "/GetRurallandnByLWFZR";
+    		
+    	}
+   	    RurallandService(url, {userid:parent.JFZD.ID}, true, function (resjson) {
+//          if (resjson.indexOf("false") > -1) {
+//              parent.layer.alert("未查询到结果!");
+//              parent.layer.close(parent.layer.loadIndex);
+//              var resjosn = [];
+//          } else {
+//              var resjosn = $.parseJSON(resjson);
+//             
+//             
+//          }
+            var resjosn = [];
+            var height = $(".table1_div").height();
+            layuitable.render({
+	            elem: '#table1',
+	            height: height - 5,
+	            page: false, //开启分页
+	            limit: resjosn.length,
+	            size:'sm',
+//	            totalRow: true,
+	            cols: [[
+	                {field: 'FWJSZTMC', title: '序号',rowspan:3},
+	                {field: 'JSQYSFZDM', title: '房屋建设主体名称',rowspan:3},
+	                {field: 'JSQYSFZDM', title: '房屋性质',rowspan:3},
+	                {field: 'JSQYSFZDM', title: '房屋位置',rowspan:3},
+	                {field: 'JSQYSFZDM', title: '建筑面积（平方米）',rowspan:3},
+	                {field: 'LXFS', title: '占用耕地总面积（亩）',rowspan:2,colspan:3},
+	                {field: 'JSQYSFZDM', title: '占用基本农田面积（亩）',rowspan:3},
+	                {field: 'JSQYSFZDM', title: '建房时间',rowspan:3},
+	                {field: 'JSQYSFZDM', title: '建设状态',rowspan:3},
+	                {field: 'LXFS', title: '仅限居住用房填写',colspan:4},
+	               ],[
+	                {field: 'FWJSZTMC', title: '自住'},
+	                {field: 'JSQYSFZDM', title: '销售套数',colspan:3},
+	               ],[
+	                {field: 'FWJSZTMC', title: '合计'},
+	                {field: 'JSQYSFZDM', title: '已办理手续面积'},
+	                {field: 'JSQYSFZDM', title: '未办理手续面积'},
+	                {field: 'JSQYSFZDM', title: '本村村民建设是否符合“一户一宅条件”'},
+	                {field: 'JSQYSFZDM', title: '本村村民'},
+	                {field: 'JSQYSFZDM', title: '外村村民'},
+	                {field: 'JSQYSFZDM', title: '城镇居民'},
+	               ]
+	            ],
+	            data: resjosn
+	        });
+	        layuitable.on('tool(table1)', function (obj) {
+                var data = obj.data;
+                if (obj.event === 'location') {//删除
+                	  var NUSource1 = NUSourceLayer1.getSource();  //获取Source
+                	  NUSource1.clear();
+                      var FWZB = data.FWZB;
+                      var lon = FWZB.split(',')[0];
+                      var lat = FWZB.split(',')[1];
+                      lon = Number(lon);
+                      lat = Number(lat);
+                      _mapView.setCenter([lon,lat]);//单点定位
+                      _mapView.setZoom(15);//设置级别
+                      
+                      var feature = new ol.Feature(new ol.geom.Point([lon,lat]));
+                      var Style = new ol.style.Style({
+							image: new ol.style.Icon(({
+						        src: "../images/maplable/blueIcon.png",
+						    })),
+						});
+					  feature.setStyle(Style);
+                      NUSource1.addFeature(feature);
+                } else if (obj.event === 'edit') {//编辑
+                    layer.data = data;
+                    layer.openIndex = layer.open({
+                        type: 2,
+			            title: false,
+			            closeBtn: 0, //不显示关闭按钮
+			            shade: [0],
+			            skin: 'layui-layer-lan',
+			            area: ['100%', '100%'],
+			            anim: 2,//弹出动画
+			            shade: 0.2,//遮盖层
+                        content: ['datauploading/edit.html', 'no'], //这里content是一个普通的String
+                    });
+                } else if (obj.event === 'submit') {//提交
+                    RurallandService("/UpRurallandnByTBR", {userid:sessionStorage.sprid,tbid:data.FWBH}, true, function (resjson) {
+				        if (resjson.indexOf("true") > -1) {
+		                    parent.layer.alert("提交成功!");
+		                    GetRurallandnByXzqdm(sessionStorage.userXZQDM);
+		                } else {
+		                    parent.layer.alert("提交失败!")
+		                }
+			            
+			        });
+                } else if (obj.event === 'withdraw') {//撤回
+                    RurallandService("/UndoUpRurallandnByTBR", {userid:sessionStorage.sprid,tbid:data.FWBH}, true, function (resjson) {
+				        if (resjson.indexOf("true") > -1) {
+		                    parent.layer.alert("撤回成功!");
+		                    GetRurallandnByXzqdm(sessionStorage.userXZQDM);
+		                } else {
+		                    parent.layer.alert("撤回失败!")
+		                }
+			            
+			        });
+                }
+            });
+            parent.layer.close(parent.layer.loadIndex);
+        });
+    }
+
+   
+
+</script>
+
+</html>

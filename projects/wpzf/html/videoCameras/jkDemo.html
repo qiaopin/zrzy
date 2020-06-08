@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="renderer" content="webkit">
+    <title></title>
+    <style>
+        * {
+            padding: 0;
+            margin: 0;
+        }
+
+        body, html {
+            width: 100%;
+            height: 100%;
+        }
+
+        .btnList {
+            width: 270px;
+            height: 100%;
+            float: left;
+        }
+
+        .right {
+            float: left;
+            width: calc(100% - 270px);
+            height: 100%;
+        }
+
+        li {
+            padding: 10px;
+            cursor: pointer;
+        }
+
+        ul, li {
+            list-style: none;
+            text-underline: #00A0E9;
+        }
+
+        li img {
+            width: 20px;
+            margin-right: 5px;
+            vertical-align: middle;
+        }
+    </style>
+</head>
+<body>
+<div class="btnList">
+    <ul>
+        <li data-index="E24285530" data-ezopenUrl="ezopen://open.ys7.com/E24285530/1.live">
+            <!--<li data-index="E24285530" data-url="ezopen://open.ys7.com/E24285530/1.live">-->
+            <img src="../../images/camera.png" alt="">北二环农机街南侧高点
+        </li>
+        <li data-index="E24285555" data-ezopenUrl="ezopen://open.ys7.com/E24285555/1.live">
+            <img src="../../images/camera.png" alt="">鹿泉西龙贵村西高点
+        </li>
+    </ul>
+</div>
+<div class="right">
+    <iframe src="" frameborder="0" width="100%" height="100%"></iframe>
+</div>
+</body>
+<script src="../../js/jquery-2.1.0.js"></script>
+<script>
+    var ezuikitTalkData;
+    $(".btnList li").click(function () {
+        // var ezopenUrl = $(this).attr("data-ezopenUrl");
+        var carameId = $(this).attr("data-index");
+        // var GQ = ".hd";
+        var GQ = "";
+        var accessToken;
+        $.ajax("https://open.ys7.com/api/lapp/token/get", {
+            data: {
+                appKey:"ce50f31fe1aa47d68c65036463c3480d",
+                appSecret:"5ee83b2280e74a6f45229b058fbaf200",
+            },
+            dataType: "json", //返回文本
+            // async: false,
+            type: 'post', //HTTP请求类型
+            timeout: 10000, //超时时间设置为10秒；
+            success: function (res) {
+                accessToken = res.data.accessToken;
+                console.log(accessToken);
+                var url = "ezopen://open.ys7.com/" + carameId + "/1" + GQ + ".live";
+                ezuikitTalkData = {
+                    accessToken: accessToken,
+                    ezopen: url,
+                    decoderPath: 'EZUIKit-JavaScript'
+                };
+                $("iframe").attr("src", "ezopen.html");
+            },
+            error: function (xhr, type, errorThrown) {
+                //异常处理；
+                console.log(type);
+            }
+        });
+    });
+    $(".btnList li").eq(0).click();
+</script>
+</html>

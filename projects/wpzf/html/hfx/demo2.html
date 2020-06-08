@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>详情</title>
+		<link rel="stylesheet" type="text/css" href="../../js/layui/css/layui.css"/>
+        <link rel="stylesheet" type="text/css" href="../../js/layer/theme/default/layer.css"/>
+        <!--<link rel="stylesheet" type="text/css" href="../../css/comstyle.css"/>-->
+        <link rel="stylesheet" type="text/css" href="../../css/style.css"/>
+        <style>
+        	
+        	.left{width: 360px; height: 100vh;  position: relative; padding: 10px 20px;}
+        	
+        	.right{position: absolute; left: 400px; top: 0px; width: calc(100% - 400px);height: 100%;}
+        	.title{color: #52C4F7;font-size: 16px; padding: 10px 0px; text-indent:20px ;}
+        	
+        </style>
+	</head>
+	<body class="white">
+		
+		<div class="left">
+			<div>
+				<button class="layui-btn layui-btn-normal layui-btn-sm"><i class="layui-icon layui-icon-return"></i>返回</button>
+			</div>
+			
+			<p class="title">图斑号：13051551211111111111</p>
+			<table  class="layui-table" lay-size="sm">
+				<tr><td>行政区</td><td>北京</td></tr>
+				<tr><td>图斑类型</td><td>新增建（构）筑物</td></tr>
+				<tr><td>前时相</td><td></td></tr>
+				<tr><td>后时相</td><td>20190714</td></tr>
+				<tr><td>监测面积</td><td>1.7亩</td></tr>
+				<tr><td>行政区</td><td>0亩</td></tr>
+			</table>
+			<p style="line-height: 30px;">影像截图</p>
+			<div>
+				<img style="border-radius:5px ; border: 1px solid silver; padding: 10px;" src="3.jpg"/>
+				<img style="border-radius:5px ; border: 1px solid silver; padding: 10px;" src="3.jpg"/>
+			</div>
+			<p style="line-height: 30px;">前丶后时相截图</p>
+			<div>
+				<img style="border-radius:5px ; border: 1px solid silver; padding: 10px;" src="3.jpg"/>
+				<img style="border-radius:5px ; border: 1px solid silver; padding: 10px;" src="3.jpg"/>
+			</div>
+			
+			<div style="border-bottom: 1px solid silver;">
+				<span style="line-height: 30px; color: #1890FF; border-bottom: 2px solid #1890FF; padding: 5px 20px; display: inline-block;">现场情况</span>
+			</div>
+			<div style="padding: 5px 0px; color: #BFBFBF;margin-top: 20px;">
+				<input type="checkbox" name="" id="" value="" style="margin-right: 10px;" />存在地上构筑物
+			</div>
+			<div style="padding: 0px 0px; color: #BFBFBF;">
+				<input type="checkbox" name="" id="" value="" style="margin-right: 10px;" />联系到当事人
+			</div>
+			<p style="line-height: 30px; margin-top: 10px;">核查任务反馈信息</p>
+			<div style="height: 40px; color: #BFBFBF; padding: 10px; background: #F5F5F5; border-radius:5px ;">
+				鼎星水泥厂储料大棚
+			</div>
+			<div style="margin-top: 10px;">
+				<img style="border-radius:5px ; border: 1px solid silver; padding: 10px;" src="3.jpg"/>
+				<img style="border-radius:5px ; border: 1px solid silver; padding: 10px;" src="3.jpg"/>
+			</div>
+		</div>
+		<div class="right">
+			<div id="map" style="height: calc(100% - 100px); margin-top: 50px; background: #E4EEFF;">
+				
+			</div>
+			
+		</div>
+			
+		
+		
+		
+		
+	</body>
+	<script src="../../js/jquery1.9.0.js"></script>
+	<script src="../../js/config.js"></script>
+	<script src="../../js/common.js"></script>
+	<script src="../../js/layer/layer.js"></script>
+	<script src="../../js/layui/layui.js"></script>
+	<script src="../../js/scrollbar/jquery.nicescroll.min.js"></script>
+	<script>
+	    layui.use(['form', 'element', 'laydate', 'table', 'slider'], function () {
+	  	   $(".niceScroll").niceScroll({cursorborder: "",cursorcolor: "#297FBA",boxzoom: false});
+            var data = parent.layer.data;
+            
+            
+            
+			
+	    });
+	    
+		
+	</script>
+</html>

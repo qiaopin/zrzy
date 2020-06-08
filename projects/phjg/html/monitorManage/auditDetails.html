@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>添加专题</title>
+		<link rel="stylesheet" type="text/css" href="../../js/layui/css/layui.css"/>
+        <link rel="stylesheet" type="text/css" href="../../js/layer/theme/default/layer.css"/>
+        <link rel="stylesheet" type="text/css" href="../../css/comstyle.css"/>
+        <style>
+        	
+        	
+        	
+        </style>
+	</head>
+	<body class="white">
+		
+	   <div  style="width: 1000px; height: 400px; border: 1px solid #F2F2F2;">
+			<table id="table" lay-filter="table">
+
+            </table>
+       </div>
+		
+		
+		
+       
+       
+	</body>
+	<script src="../../js/jquery1.9.0.js"></script>
+	<script src="../../js/config.js"></script>
+	<script src="../../js/common.js"></script>
+	<script src="../../js/layer/layer.js"></script>
+	<script src="../../js/layui/layui.js"></script>
+	<script src="../../js/md5.js"></script>
+	<script>
+	    layui.use(['form', 'element', 'laydate', 'table', 'slider'], function () {
+	    	var layuitable = layui.table;
+	//  	$(".niceScroll").niceScroll({cursorborder: "",cursorcolor: "#297FBA",boxzoom: false});
+	        var data = {
+	        	bh:parent.layer.data.BH,
+	        	nd:parent.layer.data.ND,
+	        	jd:parent.layer.data.JD
+	        }
+	        JCTBManagerService("/GetAudits",data,true,function(resjson){
+				if (resjson.indexOf("false") > -1) {
+		            parent.layer.alert("未查询到结果!");
+		            parent.layer.close(parent.layer.loadIndex);
+		            var resjosn = [];
+		        } else {
+		            var resjosn = $.parseJSON(resjson);
+		            
+		            layuitable.render({
+			            elem: '#table',
+			            limit: resjosn.length,
+			            height: 400,
+			            page: true, //开启分页
+			            cols: [[ //表头
+			                {type: 'numbers', width: 50},
+			                {field: 'BH', title: '行政区代码',width: 230},
+			                {field: 'USERNAME', title: '审核人名称'},
+			                {field: 'SHJG', title: '审核结果'},
+			                {field: 'SHYJ', title: '审核意见'},
+			                {field: 'SHSJ', title: '审核时间'},
+			            ]],
+			            data: resjosn
+			        });
+		        }
+	            
+			});
+	        
+	    	
+	    	
+			
+	    });
+	    
+		
+	</script>
+</html>

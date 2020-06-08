@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>用户详情</title>
+		<link rel="stylesheet" type="text/css" href="../js/layui/css/layui.css"/>
+        <link rel="stylesheet" type="text/css" href="../js/layer/theme/default/layer.css"/>
+        <link rel="stylesheet" type="text/css" href="../css/comstyle.css" />
+        <style>
+        	table{width: 100%;margin: 0px;}
+        	table tr td{padding:0px 15px; height: 50px; text-align: center;}
+        	.field{width: 70px;}
+        	.black table{color: #fff;}
+        	.black table tr td{border: 1px solid #5C5D6D;}
+        	.black .field{background: #3E4351;}
+        	.black .btndiv{border: 1px solid #5C5D6D;}
+        	.white table{color: #000;}
+        	.white table tr td{border: 1px solid #DDDDDD;}
+        	.white .field{background: #F0F0F0;}
+        	.white .btndiv{border: 1px solid #DDDDDD;}
+        	
+        </style>
+	</head>
+	<!--style="background: #2B3B4B;"-->
+	<body class="black">
+		<div class="" style="width: 650px;">
+			<table  border="0" cellpadding="0" cellspacing="0">
+				<tr>
+					<td class="field">资源名称</td>
+					<td id="NAME"></td>
+					<td class="field">创建时间</td>
+					<td id="CREATETIME"></td>
+				</tr>
+				<tr>
+					<td class="field">是否有权限</td>
+					<td id="POWER"></td>
+					<td class="field">行业类型</td>
+					<td id="RESOURCEINDUSTRY"></td>
+				</tr>
+				<tr>
+					<td class="field">资源类型</td>
+					<td id="RESOURCETYPE"></td>
+					<td class="field">是否公开</td>
+					<td id="SECRET"></td>
+				</tr>
+				<tr>
+					<td class="field">服务类型</td>
+					<td colspan="3" id="TYPE"></td>
+				</tr>
+				<tr>
+					<td class="field">说明</td>
+					<td id="" colspan="3" style="height: 94px;text-align: left;">1</td>
+				</tr>
+			
+			</table>
+			<div class="btndiv" style="padding: 10px;text-align: right; border-top:none ;">
+	       	    <!--<i class="layui-icon layui-icon-close"></i>--> 
+				<button class="layui-btn layui-btn-normal" style="margin-right: 27px;" id="close">关闭</button>
+	        </div>
+       </div>
+       
+       
+	</body>
+	<script src="../js/jquery1.9.0.min.js"></script>
+    <!--样式-->
+     <!--layui弹出层-->
+    <!--<script src="../js/layer/layer.js"></script>-->
+    <script src="../js/layui/layui.js"></script>
+    <script src="../js/config.js"></script>
+
+	<script>
+        
+        $(function(){
+//      	$("body").attr('class',$("body",parent.document).attr('class'));
+        	$("#NAME").html(parent.layer.data.NAME);
+        	$("#CREATETIME").html(parent.layer.data.CREATETIME);
+        	$("#POWER").html(parent.layer.data.POWER);
+        	$("#RESOURCEINDUSTRY").html(parent.layer.data.RESOURCEINDUSTRY);
+        	$("#RESOURCETYPE").html(parent.layer.data.RESOURCETYPE);
+        	$("#SECRET").html(parent.layer.data.SECRET);
+        	
+        })
+		$("#close").click(function(){
+			if(parent.layer.openIndex){
+				parent.layer.close(parent.layer.openIndex);
+			}
+		});
+
+		
+		
+		
+		
+	</script>
+</html>

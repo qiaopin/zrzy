@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html xmlns:v-bind="http://www.w3.org/1999/xhtml">
+
+<head>
+    <meta charset="UTF-8">
+    <title>数据管理</title>
+    <link rel="stylesheet" type="text/css" href="../../js/layui-v2.4.5/css/layui.css"/>
+    <link rel="stylesheet" type="text/css" href="../../js/layer/theme/default/layer.css"/>
+    <link rel="stylesheet" type="text/css" href="../../js/openlayers/ol.css"/>
+    <link rel="stylesheet" type="text/css" href="../../css/style.css"/>
+    <style>
+        header {
+            padding: 10px 10px 0px 10px;
+            background: #F4F6F9;
+            height: 50px;
+        }
+
+        .nav {
+            background: white;
+            width: 100%;
+            height: 45px;
+            overflow: hidden;
+        }
+
+        .nav-item {
+            list-style: none;
+        }
+
+        .nav-item li {
+            float: left;
+            padding: 5px 10px;
+
+        }
+
+        .nav-item li a {
+            display: inline-block;
+            padding: 8px 0px;
+            text-decoration: none;
+            font-size: 13px;
+            font-weight: 900;
+            color: #323944;
+            border-bottom: 3px solid white;
+            transition: border-bottom 1s;
+            -webkit-transition: border-bottom 1s;
+        }
+
+        .nav-item li a:hover {
+            color: #1890FF;
+            border-bottom: 3px solid #1890FF;
+
+        }
+
+        .nav-item li .active {
+            color: #1890FF;
+            border-bottom: 3px solid #1890FF;
+        }
+
+        .layui-btn.layui-btn-primary.active{
+            color: #fff;
+            background: #177BD0;
+        }
+    </style>
+</head>
+
+<body>
+<header>
+    <!--<div class="layui-btn-group changeDataType">-->
+        <!--<button type="button" class="layui-btn layui-btn-primary active">违法监察图斑</button>-->
+    <!--</div>-->
+    <div class="nav zxsj">
+        <ul class="nav-item">
+            <li id="xftb"><a href="javascript:;" class="active">下发批地图斑</a></li>
+            <li id="zytb"><a href="javascript:;">未核实图斑</a></li>
+            <li id="jctb"><a href="javascript:;">已核实图斑</a></li>
+            <!--<li id="nyhs"><a href="javascript:;">其他核实图斑</a></li>-->
+        </ul>
+    </div>
+</header>
+<div style="width: 100%;height: calc(100vh - 60px);overflow:hidden;" class="zxsj">
+    <iframe id="iframes" name="iframes" src="" width="100%" height="100%" style="border: 0px;"></iframe>
+</div>
+
+</body>
+<script src="../../js/jquery1.9.0.min.js"></script>
+<script src="../../js/config.js"></script>
+<script src="../../js/common.js"></script>
+<script src="../../js/layer/layer.js"></script>
+<script src="../../js/layui/layui.js"></script>
+
+<script>
+    $(".nav-item li").click(function () {
+        $(".nav-item li a").removeClass('active');
+        $(this).find('a').addClass('active');
+    });
+
+    $("#xftb").click(function () {
+        top.tbType = "xf";//下发图斑
+        $("#iframes").attr('src', 'jcxx.html');
+    });
+
+    $("#jctb").click(function () {
+        top.tbType = "jc";//监测图斑
+        $("#iframes").attr('src', 'jctb.html');
+    });
+
+    $("#nyhs").click(function () {
+        top.tbType = "ny";//内业核实图斑
+        $("#iframes").attr('src', 'nyhs.html');
+    });
+
+    $("#zytb").click(function () {
+        top.tbType = "zytb";//内业核实图斑
+        $("#iframes").attr('src', 'zytb.html');
+    });
+
+    $(".changeDataType").on("click",".layui-btn",function(){
+        $(".layui-btn").removeClass("active");
+        $(this).addClass("active");
+        if($(this).html()=="违法监察图斑"){
+            $(".zxsj").show();
+        }else{
+            $(".zxsj").hide();
+        }
+    });
+
+    $("#xftb").click();
+</script>
+
+</html>

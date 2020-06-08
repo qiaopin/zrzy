@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html xmlns:v-bind="http://www.w3.org/1999/xhtml">
+
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <link rel="stylesheet" type="text/css" href="../js/layui-v2.4.5/css/layui.css"/>
+    <link rel="stylesheet" type="text/css" href="../js/layer/theme/default/layer.css"/>
+    <link rel="stylesheet" type="text/css" href="../css/comstyle.css"/>
+    <link rel="stylesheet" type="text/css" href="../js/openlayers/ol.css"/>
+    <style>
+        .custom-mouse-position {
+            display: none;
+        }
+
+        .ol-attribution {
+            display: none;
+        }
+
+        a {
+            text-decoration: none;
+        }
+
+        * {
+            font-family: "微软雅黑";
+        }
+
+        body {
+            width: 100%;
+            height: 100%;
+        }
+
+        .main {
+            width: 100%;
+            margin: 0 auto;
+            height: calc(100vh);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .left {
+            width: 150px;
+            height: 100%;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .right {
+            width: calc(100% - 170px);
+            height: calc(100% - 20px);
+            border-bottom: 1px solid #E6E6E6;
+            position: absolute;
+            left: 150px;
+            top: 0px;
+            overflow: hidden;
+        }
+
+        .nav {
+            margin-top: 20px;
+            padding: 0px 30px;
+        }
+
+        .nav li {
+            width: 100%;
+            background: #9FBDEE;
+            color: #3566CE;
+            text-align: center;
+            margin-top: 1px;
+            height: 35px;
+            line-height: 35px;
+        }
+
+        .nav li.active1 {
+            height: 80px;
+            background: #2466CF;
+            color: #fff;
+            border-top-left-radius: 3px;
+            border-top-right-radius: 3px;
+        }
+
+        .nav li i {
+            display: block;
+            font-size: 30px;
+            height: 43px;
+            line-height: 60px;
+        }
+
+        .nav li:hover {
+            background: #2466CF;
+            color: #fff;
+            cursor: pointer;
+        }
+
+        .search {
+            height: 75px;
+            width: 100%;
+            overflow: hidden;
+        }
+
+        .search div {
+            height: 40px;
+            margin-top: 20px;
+            padding: 5px;
+        }
+
+        .search div span {
+            color: #5085D6;
+        }
+
+        .search div a {
+            color: #666;
+            display: inline-block;
+            width: 100px;
+            margin-left: 10px;
+            text-align: center;
+            border-radius: 3px;
+            padding: 11px 0px;
+        }
+
+        .search div a.active {
+            background: #2466CF;
+            color: #fff;
+        }
+
+        .search div a:hover {
+            background: #2466CF;
+            color: #fff;
+        }
+
+        .search input {
+            position: absolute;
+            color: #666;
+            right: 0px;
+            top: 0px;
+            width: 400px;
+            border-color: #2466cf !important;
+            padding: 10px 40px 10px 10px;
+            border-radius: 3px;
+        }
+
+        .search .layui-icon-search {
+            position: absolute;
+            right: 10px;
+            top: 7px;
+            color: #2466cf;
+            font-size: 25px;
+            cursor: pointer;
+        }
+
+        .tablediv {
+            height: calc(100% - 75px);
+            width: 500px;
+            float: left;
+        }
+
+        #map {
+            height: calc(100% - 75px);
+            width: calc(100% - 500px);
+            float: left;
+        }
+    </style>
+</head>
+
+<body class="white">
+
+<div class="main">
+    <div class="left">
+        <div class="nav">
+            <ul>
+                <li class="active1">
+                    <i class="layui-icon layui-icon-engine"></i>
+                    线索管理
+                </li>
+                <li>新增线索</li>
+                <li>审核线索</li>
+                <li>生成任务</li>
+                <li>已生成任务</li>
+                <li>无效线索</li>
+                <li class="active1" style="margin-top: 4px;">
+                    <i class="layui-icon layui-icon-survey"></i>
+                    任务管理
+                </li>
+                <li>任务下发</li>
+                <li>执行撤回</li>
+                <li>任务回收</li>
+                <li>已生成任务</li>
+            </ul>
+        </div>
+    </div>
+    <div class="right">
+        <div class="search">
+            <div>
+                <span>线索来源:</span>
+                <a href="javascript:;">全部</a>
+                <a class="active" href="javascript:;">实名举报</a>
+                <a href="javascript:;">匿名举报</a>
+                <a href="javascript:;">巡查发现</a>
+                <a href="javascript:;">影像核查</a>
+            </div>
+        </div>
+        <div class="tablediv">
+            <table id="table" style="width: 100%;" lay-filter="test">
+
+            </table>
+        </div>
+        <div id="map">
+
+        </div>
+    </div>
+</div>
+
+
+</body>
+<script src="../js/jquery1.9.0.min.js"></script>
+<!--<script src="../js/config.js"></script>-->
+<!--<script src="../js/common.js"></script>-->
+<script src="../js/scrollbar/jquery.nicescroll.min.js"></script>
+<script src="../js/layui/layui.js"></script>
+<script src="../js/modules/layui-config.js"></script>
+<script src="../js/openlayers/ol-debug.js"></script>
+<script src="../js/openlayers/maptool.js"></script>
+<script src="../js/analysis/initlayer.js"></script>
+<script src="../js/analysis/analysislayer.js"></script>
+<script src="../js/analysis/analysis.js"></script>
+<script>
+    var ljfBase = null;
+    var slider = null;
+    var layuiform = null;
+    var layerManager = null;
+    var Industryresjosn = [];//专题图层数组
+    var _mapObject = null;
+    layui.use(['form', 'element', 'laydate', 'table', 'slider', 'ljfBase', 'serverCenter', 'LayerManager', 'NULayer', 'bluebird'], function () {
+        $(".niceScroll").niceScroll({cursorborder: "", cursorcolor: "#297FBA", boxzoom: false});
+        var layuitable = layui.table;
+
+        ljfBase = layui.ljfBase;
+        var LayerManager = layui.LayerManager;
+        var center = [114.48, 38.03];
+        layerManager = new LayerManager("map", center, 12);
+        _mapObject = layerManager._mapObject;
+        ljfBase.post(ljfBase.https.BaseMapManagerService + "/GetAllBaseMap", {sprid: sessionStorage.sprid}, function (xml) {
+            var resArr = $.parseJSON(xml);
+            if (resArr.length == 0) {
+                location.reload();
+            }
+            layerManager.loadBaseMap(resArr, "矢量");
+            $('.maptab ul li').click(function () {
+                $('.maptab ul li').removeClass("active");
+                $(this).addClass("active");
+                var type = $(this).find('a').attr('type');
+                layerManager.hideBaseMap();
+                layerManager.loadBaseMap(resArr, type);
+            });
+        });
+
+
+
+        var resjosn = [
+            {
+                'type': '实名举报',
+                'name': '张三',
+                'phone': '18911111111',
+                'desc': '违法圈地'
+            },
+            {
+                'type': '实名举报',
+                'name': '李四',
+                'phone': '18911111112',
+                'desc': '耕地建房'
+            }
+        ];
+        var layuielement = layui.element;
+        var height = $(".tablediv").height();
+        layuitable.render({
+            elem: '#table',
+            height: height,
+            page: true, //开启分页
+            limit: 10,
+            limits: [10, 20, 30],
+            cols: [[ //表头
+                {field: 'type', title: '线索类型', sort: true},
+                {field: 'name', title: '线索发现人'},
+                {field: 'desc', title: '举报内容', sort: true},
+                {
+                    fixed: 'right', title: '操作', align: 'center', width: 160, templet: function (d) {
+                        var str = "";
+                        str += '<a class="layui-btn layui-btn-xs layui-btn-skyblue" lay-event="detail">详情</a>';
+                        str += '<a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="cl">处理</a>';
+                        str += '<a class="layui-btn layui-btn-warm layui-btn-xs" lay-event="sb">上报</a>';
+                        return str;
+                    }
+                }
+            ]],
+            data: resjosn
+        });
+    });
+</script>
+</html>

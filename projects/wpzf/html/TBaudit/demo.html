@@ -1,0 +1,482 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>详情</title>
+		<link rel="stylesheet" type="text/css" href="../../js/layui/css/layui1.css"/>
+        <link rel="stylesheet" type="text/css" href="../../js/layer/theme/default/layer.css"/>
+        <!--<link rel="stylesheet" type="text/css" href="../../css/comstyle.css"/>-->
+        <link rel="stylesheet" type="text/css" href="../../css/style.css"/>
+        <style>
+        	.main{width: 100%;height: calc(100vh - 60px);  position: relative; }
+        	.left{width: 200px; height: 100vh;  position: relative; padding: 0px 5px;}
+        	.middle{ position: absolute; left: 50px; top: 0px; width: 700px;height: 100%; overflow: auto;}
+        	.right{position: absolute; left: 760px; top: 0px; width: 700px;height: 100%; overflow: auto;}
+        	.bottom{height: 59px;text-align: center; border-top:1px solid silver ; line-height: 60px;}
+        	/*.bottom button{margin-top: 10px;}*/
+        	.layui-table, .layui-table-view{margin:0px;border: none;}
+	    	.layui-table-view .layui-table td, .layui-table-view .layui-table th{border-left:1px solid #e6e6e6; padding: 5px 0px;}
+	    	.layui-table-view .layui-table th{text-align: center;}
+	    	.white .layui-table tbody tr:hover{background:transparent !important;}
+	    	.layui-table-page, .layui-table-total{border-width:1px 1px 0px;}
+	    	.layui-table-body{margin-bottom: 0px;margin-right: 0px;}
+        	 table tr td{padding: 5px; position: relative;}
+        	.layui-input,.layui-textarea,.layui-form{width: 170px; line-height: 28px;height: 28px;}
+        	/*p{font-size: 20px; font-weight: bold;padding: 10px;}*/
+        	.content{margin-top: 10px;}
+        	.title{font-size: 20px; border-bottom: 1px solid #309DDB;padding: 10px;}
+        	.download{font-size:16px; margin-left: 10px; color: #309DDB;}
+        	dl{margin-top: 5px;}
+        	dl dd{padding: 10px 0px;width: 100%; text-indent: 10px;}
+        	dl dd:hover{background: #4BA1DA;}
+        	dl dd.active{background: #4BA1DA;}
+        	.red{color: red; position: absolute; left: 3px;}
+        	.xhx{border: none; border-bottom: 1px solid #4BA1DA;}
+        	.xhx150{width: 80px;}
+        	.xhx100{width: 100%;}
+        	.hide{display: none;}
+        	.layui-form-switch{margin-top: 0px;}
+        	.layui-form-onswitch{border-color: #0D7AFF; background-color: #0D7AFF;}
+        </style>
+	</head>
+	<body class="white">
+		<div class="main">
+			
+			<div id="middle" class="middle">
+				<!--1-->
+				<p id="index1" class="title">基本情况</p>
+				<div class="content">
+					<table class="layui-table" lay-size="sm" style="margin-top: 5px;">
+						<tr><td width="150px">地块号</td><td colspan="3">
+							<input class="xhx xhx100" type="text" name="" id="" value="" />
+						</td></tr>
+						
+						<tr><td>地块类型</td><td>
+							<input type="radio" name="radio" id="" value="合法用地"  /><span>合法用地</span>
+							<input type="radio" name="radio" id="" value="违法用地" checked="checked" style="margin-left: 20px;" /><span>违法用地</span>
+						</td><td width="100px">土地坐落</td><td>
+							<input class="xhx" type="text" name="" id="" value="" />省
+						</td></tr>
+						
+						<tr><td>地块分支号</td><td>
+							<input class="xhx" type="text" name="" id="" value="" />
+						</td><td></td><td>
+							<input class="xhx" type="text" name="" id="" value="" />市
+						</td></tr>
+						
+						<tr><td></td><td>
+						</td><td></td><td>
+							<input class="xhx" type="text" name="" id="" value="" />区/县
+						</td></tr>
+						
+						<tr><td>地块面积</td><td>
+							<input class="xhx" type="text" name="" id="" value="" />
+						</td><td></td><td>
+							<input class="xhx" type="text" name="" id="" value="" />乡/镇/街道
+						</td></tr>
+						
+						<tr><td>占用永久基本农田面积</td><td>
+							<input class="xhx" type="text" name="" id="" value="" />
+						</td><td></td><td>
+							<input class="xhx" type="text" name="" id="" value="" />村
+						</td></tr>
+						
+						<tr><td>详情地址</td><td colspan="3">
+							<input class="xhx" type="text" name="" id="" value="" />
+						</td></tr>
+						
+						<tr><td>冬至</td><td>
+							<input class="xhx" type="text" name="" id="" value="" />
+						</td><td>南至</td><td>
+							<input class="xhx" type="text" name="" id="" value="" />
+						</td></tr>
+						
+						<tr><td>西至</td><td>
+							<input class="xhx" type="text" name="" id="" value="" />
+						</td><td>北至</td><td>
+							<input class="xhx" type="text" name="" id="" value="" />
+						</td></tr>
+					</table>
+					<a class="download" href="#">原地类性质</a>
+					<table class="layui-table" lay-size="sm" style="margin-top: 5px;">
+						<tr><td width="150px">农用地面积</td><td>
+							<input class="xhx" type="text" name="" id="" value="" />
+						</td><td width="100px">其中耕地面积</td><td>
+							<input class="xhx" type="text" name="" id="" value="" />
+						</td></tr>
+						
+						<tr><td>克调整地类面积</td><td>
+							<input class="xhx" type="text" name="" id="" value="" />
+						</td><td>其中基本农田面积</td><td>
+							<input class="xhx" type="text" name="" id="" value="" />
+						</td></tr>
+						
+						<tr><td>建设用地面积</td><td>
+							<input class="xhx" type="text" name="" id="" value="" />
+						</td><td>未利用地面积</td><td>
+							<input class="xhx" type="text" name="" id="" value="" />
+						</td></tr>
+						
+						<tr><td>是否在变更调查里变更为新增建设用地</td><td colspan="3">
+							<input class="xhx xhx100" type="text" name="" id="" value="" />
+						</td></tr>
+					</table>
+					
+					<a class="download" href="#">整改结果</a>
+					<table class="layui-table" lay-size="sm" style="margin-top: 5px;">
+						<tr><td width="100px">是否履职到位</td><td>
+							<div class="layui-form">
+								<input type="checkbox" name="close1" id="FXZJSYD" lay-skin="switch" lay-text="是|否">
+							</div>
+						</td><td width="100px">是否整改落实到位</td><td>
+							<div class="layui-form">
+								<input type="checkbox" name="close1" id="FXZJSYD" lay-skin="switch" lay-text="是|否">
+							</div>
+						</td></tr>
+					</table>
+				</div>
+				<!--2-->
+				<p id="index1" class="title">违法行为详情</p>
+				<div class="content">
+					<table class="layui-table" lay-size="sm" style="margin-top: 5px;">
+						<tr><td width="150px"><span class="red">*</span>项目名称</td><td colspan="3">
+							<input class="xhx xhx100" type="text" name="" id="" value="" />
+						</td></tr>
+						
+						<tr><td><span class="red">*</span>省</td><td>
+							<input class="xhx" type="text" name="" id="" value="" />
+						</td><td width="100px">市</td><td>
+							<input class="xhx" type="text" name="" id="" value="" />
+						</td></tr>
+						
+						<tr><td>区/县</td><td>
+							<input class="xhx" type="text" name="" id="" value="" />
+						</td><td><span class="red">*</span>乡/镇/街道</td><td>
+							<input class="xhx" type="text" name="" id="" value="" />
+						</td></tr>
+						
+						<tr><td><span class="red">*</span>村</td><td colspan="3">
+							<input class="xhx" type="text" name="" id="" value="" />
+						</td></tr>
+						
+						<tr><td>案件发生地详细地址</td><td colspan="3">
+							<input class="xhx" type="text" name="" id="" value="" />
+						</td></tr>
+						
+						<tr><td><span class="red">*</span>面积</td><td>
+							<input class="xhx" type="text" name="" id="" value="" />
+						</td><td>其中耕地面积</td><td>
+							<input class="xhx" type="text" name="" id="" value="" />
+						</td></tr>
+						
+						<tr><td>占地永久基本农田面积</td><td>
+							<input class="xhx" type="text" name="" id="" value="" />
+						</td><td><span class="red">*</span>案件来源</td><td>
+							<input class="xhx" type="text" name="" id="" value="" />
+						</td></tr>
+					</table>
+				</div>
+				<!--3-->
+				<p id="index1" class="title">用地情况</p>
+				<div class="content">
+					<a class="download" href="#">权属及地类情况</a>
+					<table class="layui-table" lay-size="sm" style="margin-top: 5px;">
+						<tr><td><span class="red">*</span>违法主体</td><td>
+							<input class="xhx" type="text" name="" id="" value="" />
+						</td><td width="100px"><span class="red">*</span>主体分类</td><td>
+							<input class="xhx" type="text" name="" id="" value="" />
+						</td></tr>
+						<tr><td><span class="red">*</span>实际用途</td><td colspan="3">
+							<input class="xhx" type="text" name="" id="" value="" />
+						</td></tr>
+					</table>
+					<a class="download" href="#">规划情况</a>
+					<table class="layui-table" lay-size="sm" style="margin-top: 5px;">
+						<tr><td>是否符合规划</td><td>
+							<input class="xhx" type="text" name="" id="" value="" />
+						</td><td width="100px">不符合规划面积</td><td>
+							<input class="xhx" type="text" name="" id="" value="" />
+						</td></tr>
+						<tr><td>不符合规划耕地面积</td><td>
+							<input class="xhx" type="text" name="" id="" value="" />
+						</td><td width="100px">不符合规划永久基本农田面积</td><td>
+							<input class="xhx" type="text" name="" id="" value="" />
+						</td></tr>
+						<tr><td><span class="red">*</span>项目类型</td><td colspan="3">
+							<input class="xhx" type="text" name="" id="" value="" />
+						</td></tr>
+						<tr><td>项目批准文号</td><td colspan="3">
+							<input class="xhx" type="text" name="" id="" value="" />
+						</td></tr>
+					</table>
+				</div>
+			</div>
+			<div class="right">
+				<!--1-->
+				<p class="title">违法情况</p>
+				<div class="content">
+					<table class="layui-table" lay-size="sm" style="margin-top: 5px;">
+						<tr><td><span class="red">*</span>非法占地</td><td colspan="3">
+							<input class="xhx" type="text" name="" id="" value="" /><br />
+							<input type="radio" name="radio1" id="" value="未报即用"  /><span>未报即用</span>
+							<input type="radio" name="radio1" id="" value="边报边用" checked="checked" style="margin-left: 20px;" /><span>边报边用</span>
+						</td></tr>
+						
+						<tr><td><span class="red">*</span>违法行为发生时间</td><td>
+							<input class="xhx" type="text" name="" id="" value="" />
+						</td><td width="100px"><span class="red">*</span>行政机关发现时间</td><td>
+							<input class="xhx" type="text" name="" id="" value="" />
+						</td></tr>
+						
+						<tr><td><span class="red">*</span>建设现状</td><td>
+							<input class="xhx" type="text" name="" id="" value="" />
+						</td><td width="100px">制止情况</td><td>
+							<input class="xhx" type="text" name="" id="" value="" />
+						</td></tr>
+						<tr><td>查处情况</td><td colspan="3">
+							<input type="radio" name="radio2" id="" value="已立案"  /><span>已立案</span>
+							<input type="radio" name="radio2" id="" value="非立案处理" checked="checked" style="margin-left: 20px;" /><span>非立案处理</span>
+						</td></tr>
+						
+						<tr><td>恢复土地原貌面积(<span style="color: red;">不含复耕到位面积</span>)</td><td colspan="3">
+							<input class="xhx" type="text" name="" id="" value="" />
+						</td></tr>
+						<tr><td>复耕到位面积</td><td>
+							<input class="xhx" type="text" name="" id="" value="" />
+						</td><td>复耕到位时间</td><td>
+							<input class="xhx" type="text" name="" id="" value="" />
+						</td></tr>
+						
+						
+						<tr><td>复耕认定机构</td><td>
+							<input class="xhx" type="text" name="" id="" value="" />
+						</td><td>省级验收负责人</td><td>
+							<input class="xhx" type="text" name="" id="" value="" />
+						</td></tr>
+						
+						<tr><td>下单责令停止违法行为通知书</td><td>
+							<input type="checkbox" name="close1" id="FXZJSYD" lay-skin="switch" lay-text="是|否">
+						</td><td>下达时间</td><td>
+							<input class="xhx" type="text" name="" id="" value="" />
+						</td></tr>
+						
+						<tr><td>报告文号</td><td>
+							<input type="checkbox" name="close1" id="FXZJSYD" lay-skin="switch" lay-text="是|否">
+						</td><td>报告时间</td><td>
+							<input class="xhx" type="text" name="" id="" value="" />
+						</td></tr>
+						<tr><td>向谁报告</td><td colspan="3">
+							<input class="xhx" type="text" name="" id="" value="" />
+						</td></tr>
+					</table>
+					
+				</div>
+				<!--2-->
+				<p class="title">立案基本情况</p>
+				<div class="content">
+					<table class="layui-table" lay-size="sm" style="margin-top: 5px;">
+						<tr><td><span class="red">*</span>立案时间</td><td>
+							<input class="xhx" type="text" name="" id="" value="" />
+						</td><td width="100px">立案机关</td><td>
+							<input class="xhx" type="text" name="" id="" value="" />
+						</td></tr>
+						<tr><td><span class="red">*</span>立案文号</td><td colspan="3">
+							<input class="xhx" type="text" name="" id="" value="" />
+						</td></tr>
+					</table>
+				</div>
+				<!--3-->
+				<p class="title">立案办理情况</p>
+				<div class="content">
+					<table class="layui-table" lay-size="sm" style="margin-top: 5px;">
+						<tr><td>下达行政处罚决定书</td><td colspan="3">
+							<div class="layui-form">
+								<input type="checkbox" name="close1" id="" lay-skin="switch" lay-text="是|否">
+							</div>
+						</td></tr>
+						<tr><td>下达时间</td><td>
+							<input class="xhx" type="text" name="" id="" value="" />
+						</td><td width="100px">文号</td><td>
+							<input class="xhx" type="text" name="" id="" value="" />
+						</td></tr>
+						<tr><td>责令停止违法行为</td><td colspan="3">
+							<div class="layui-form">
+								<input type="checkbox" name="close1" id="" lay-skin="switch" lay-text="是|否">
+							</div>
+						</td></tr>
+						<tr><td>申请强制执行</td><td colspan="3">
+							<div class="layui-form">
+								<input type="checkbox" name="close1" id="" lay-skin="switch" lay-text="是|否">
+							</div>
+						</td></tr>
+						<tr><td>申请时间</td><td>
+							<input class="xhx" type="text" name="" id="" value="" />
+						</td><td width="100px">文号</td><td>
+							<input class="xhx" type="text" name="" id="" value="" />
+						</td></tr>
+						<tr><td>法院受理</td><td colspan="3">
+							<div class="layui-form">
+								<input type="checkbox" name="close1" id="" lay-skin="switch" lay-text="是|否">
+							</div>
+						</td></tr>
+						<tr><td>时间</td><td>
+							<input class="xhx" type="text" name="" id="" value="" />
+						</td><td width="100px">文号</td><td>
+							<input class="xhx" type="text" name="" id="" value="" />
+						</td></tr>
+						<tr><td>提出处分建议</td><td colspan="3">
+							<div class="layui-form">
+								<input type="checkbox" name="close1" id="" lay-skin="switch" lay-text="是|否">
+							</div>
+						</td></tr>
+						<tr><td>移交时间</td><td>
+							<input class="xhx" type="text" name="" id="" value="" />
+						</td><td width="100px">文号</td><td>
+							<input class="xhx" type="text" name="" id="" value="" />
+						</td></tr>
+						<tr><td>纪检监察机关受理</td><td colspan="3">
+							<div class="layui-form">
+								<input type="checkbox" name="close1" id="" lay-skin="switch" lay-text="是|否">
+							</div>
+						</td></tr>
+						<tr><td>时间</td><td>
+							<input class="xhx" type="text" name="" id="" value="" />
+						</td><td width="100px">文号</td><td>
+							<input class="xhx" type="text" name="" id="" value="" />
+						</td></tr>
+						
+						<tr><td>移送司法机关</td><td colspan="3">
+							<div class="layui-form">
+								<input type="checkbox" name="close1" id="" lay-skin="switch" lay-text="是|否">
+							</div>
+						</td></tr>
+						<tr><td>移送时间</td><td>
+							<input class="xhx" type="text" name="" id="" value="" />
+						</td><td width="100px">文号</td><td>
+							<input class="xhx" type="text" name="" id="" value="" />
+						</td></tr>
+						<tr><td>司法机关受理</td><td colspan="3">
+							<div class="layui-form">
+								<input type="checkbox" name="close1" id="" lay-skin="switch" lay-text="是|否">
+							</div>
+							
+						</td></tr>
+						<tr><td>时间</td><td>
+							<input class="xhx" type="text" name="" id="" value="" />
+						</td><td width="100px">文号</td><td>
+							<input class="xhx" type="text" name="" id="" value="" />
+						</td></tr>
+					</table>
+				</div>
+				<!--4-->
+				<p class="title">查处及落实情况</p>
+				<div class="content">
+					<a class="download">处罚情况</a>
+					<table class="layui-table" lay-size="sm" style="margin-top: 5px;">
+						<tr style="text-align: center;"><td width="150" rowspan="3"></td>
+							<td>处罚</td>
+							<td colspan="3">落实</td>
+						</tr>
+						<tr style="text-align: center;">
+							<td rowspan="2">行政处罚内容</td>
+							<td rowspan="2">自觉（督促）<br/> 履行落实情况</td>
+							<td colspan="2">强制执行</td>
+						</tr>
+						<tr style="text-align: center;">
+							<td>申请强制<br />执行内容 </td>
+							<td>申请强制执<br />行落实情况 </td>
+						</tr>
+						<tr><td width="150">处罚金额(万元)</td>
+							<td><input class="xhx xhx150" type="text" name="" id="" value="" /></td>
+							<td><input class="xhx xhx150" type="text" name="" id="" value="" /></td>
+							<td><input class="xhx xhx150" type="text" name="" id="" value="" /></td>
+							<td><input class="xhx xhx150" type="text" name="" id="" value="" /></td>
+						</tr>
+						<tr><td>没收违法所得金额(万元)</td>
+							<td><input class="xhx xhx150" type="text" name="" id="" value="" /></td>
+							<td><input class="xhx xhx150" type="text" name="" id="" value="" /></td>
+							<td><input class="xhx xhx150" type="text" name="" id="" value="" /></td>
+							<td><input class="xhx xhx150" type="text" name="" id="" value="" /></td>
+						</tr>
+						<tr><td>没收违法建筑面积(万元)</td>
+							<td><input class="xhx xhx150" type="text" name="" id="" value="" /></td>
+							<td><input class="xhx xhx150" type="text" name="" id="" value="" /></td>
+							<td><input class="xhx xhx150" type="text" name="" id="" value="" /></td>
+							<td><input class="xhx xhx150" type="text" name="" id="" value="" /></td>
+						</tr>
+						<tr><td>拆除违法建筑面积(万元)</td>
+							<td><input class="xhx xhx150" type="text" name="" id="" value="" /></td>
+							<td><input class="xhx xhx150" type="text" name="" id="" value="" /></td>
+							<td><input class="xhx xhx150" type="text" name="" id="" value="" /></td>
+							<td><input class="xhx xhx150" type="text" name="" id="" value="" /></td>
+						</tr>
+						<tr><td>收回土地(亩)</td>
+							<td><input class="xhx xhx150" type="text" name="" id="" value="" /></td>
+							<td><input class="xhx xhx150" type="text" name="" id="" value="" /></td>
+							<td><input class="xhx xhx150" type="text" name="" id="" value="" /></td>
+							<td><input class="xhx xhx150" type="text" name="" id="" value="" /></td>
+						</tr>
+						<tr><td>收回耕地(亩)</td>
+							<td><input class="xhx xhx150" type="text" name="" id="" value="" /></td>
+							<td><input class="xhx xhx150" type="text" name="" id="" value="" /></td>
+							<td><input class="xhx xhx150" type="text" name="" id="" value="" /></td>
+							<td><input class="xhx xhx150" type="text" name="" id="" value="" /></td>
+						</tr>
+						<tr><td>其他</td>
+							<td><input class="xhx xhx150" type="text" name="" id="" value="" /></td>
+							<td><input class="xhx xhx150" type="text" name="" id="" value="" /></td>
+							<td><input class="xhx xhx150" type="text" name="" id="" value="" /></td>
+							<td><input class="xhx xhx150" type="text" name="" id="" value="" /></td>
+						</tr>
+					</table>
+					<a class="download">处分情况</a>
+					<table class="layui-table" lay-size="sm" style="margin-top: 5px;">
+						<tr><td>是否结案</td><td colspan="3">
+							<input type="radio" name="radio5" id="" value="已结案"  /><span>已结案</span>
+							<input type="radio" name="radio5" id="" value="未结案" checked="checked" style="margin-left: 20px;" /><span>未结案</span>
+						</td></tr>
+						<tr><td><span class="red">*</span>结案时间</td><td>
+							<input class="xhx" type="text" name="" id="" value="" />
+						</td><td width="100px">结案机关</td><td>
+							<input class="xhx" type="text" name="" id="" value="" />
+						</td></tr>
+						<tr><td>备注</td><td colspan="3">
+							<input class="xhx" type="text" name="" id="" value="" />
+						</td></tr>
+					</table>
+				</div>
+				
+			</div>
+		</div>
+		
+		<div class="bottom">
+			<!--<button class="layui-btn layui-btn-normal layui-btn-sm"><i class="layui-icon layui-icon-download-circle"></i>坐标下载</button>-->
+			<button id="return" class="layui-btn layui-btn-normal layui-btn-sm"><i class="layui-icon layui-icon-return"></i>返回</button>
+			<button id="" class="layui-btn layui-btn-normal layui-btn-sm"><i class="layui-icon layui-icon-app"></i>导出Word</button>
+		</div>
+		
+	</body>
+	<script src="../../js/jquery1.9.0.js"></script>
+	<script src="../../js/config.js"></script>
+	<script src="../../js/common.js"></script>
+	<script src="../../js/layer/layer.js"></script>
+	<script src="../../js/layui/layui.js"></script>
+	<script src="../../js/scrollbar/jquery.nicescroll.min.js"></script>
+	<script>
+		
+		//返回
+		$("#return").click(function(){
+			parent.layer.close(parent.layer.openIndex);
+		});
+		
+		var layuiform = null;
+	    layui.use(['form', 'element', 'laydate', 'table', 'slider'], function () {
+	    	layuiform = layui.form;
+	  	   
+	    });
+	    
+	    
+	    
+		
+	</script>
+</html>

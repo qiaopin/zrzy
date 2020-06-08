@@ -1,0 +1,88 @@
+html,
+body,
+#map {
+    height: 100%;
+}
+
+h1, h2, h3, p, ul, li, dl, dt, dd, div, button, img, span {
+    margin: 0;
+    padding: 0;
+    border: 0;
+    list-style: none;
+}
+
+
+.m-scenario-container {
+    position: absolute;
+    font-size: 12px;
+}
+
+.m-scenario-container dl {
+    position: absolute;
+    right: 0;
+    top: 0;
+    cursor: pointer;
+    padding-right: 6px;
+}
+
+.m-scenario-container dl.selected {
+    z-index: 20000;
+}
+
+.m-scenario-container .scenario-single dt {
+    position: absolute;
+    width: 45px;
+    left: 3px;
+    bottom: 3px;
+    height: 16px;
+    line-height: 16px;
+    text-align: center;
+    color: #fff;
+    white-space: nowrap;
+    z-index: 9999;
+    cursor: pointer;
+    background: url(../images/black_bg.png);
+}
+
+.m-scenario-container .scenario-single:HOVER dt {
+    background-color: #83a1ff;
+}
+
+.m-scenario-container .selected dt {
+    background-color: #83a1ff;
+}
+
+.m-scenario-container .selected dd {
+    border-color: #83a1ff;
+}
+
+.m-scenario-container .scenario-single img {
+    position: absolute;
+    margin: 3px 0 0 3px;
+    width: 45px;
+    height: 45px;
+}
+
+.m-scenario-show {
+    height: 56px;
+}
+
+.m-scenario-container .scenario-single dd {
+    width: 50px;
+    height: 50px;
+    cursor: pointer;
+    border: 1px solid #aaa;
+    padding: 2px;
+    background-color: white;
+}
+
+.hide {
+    display: none;
+}
+
+.mdSenBox {
+    position: absolute;
+    z-index: 3300;
+    right: 20px;
+    top: 20px;
+}

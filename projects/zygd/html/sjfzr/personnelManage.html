@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html xmlns:v-bind="http://www.w3.org/1999/xhtml">
+
+<head>
+    <meta charset="UTF-8">
+    <title>人员管理</title>
+    <link rel="stylesheet" type="text/css" href="../../js/layui-v2.4.5/css/layui.css"/>
+    <link rel="stylesheet" type="text/css" href="../../js/layer/theme/default/layer.css"/>
+    <link rel="stylesheet" type="text/css" href="../../js/openlayers/ol.css"/>
+    <!--<link rel="stylesheet" type="text/css" href="../../css/comstyle.css"/>-->
+    <link rel="stylesheet" type="text/css" href="../../css/style.css"/>
+    <style>
+        header {
+            padding: 10px 10px 0px 10px;
+            background: #F4F6F9;
+            height: 55px;
+        }
+
+        .nav {
+            background: white;
+            width: 100%;
+            height: 45px;
+            overflow: hidden;
+        }
+
+        .layui-form-label {
+            width: 56px;
+        }
+
+        .layui-btn {
+            padding: 0 10px;
+        }
+
+        .main {
+            width: 100%;
+            height: calc(100vh - 65px);
+            overflow: hidden;
+            background: #F2F2F2;
+        }
+
+        .tablediv {
+            height: calc(100% - 10px);
+            width: calc(100% - 20px);
+            background: white;
+            margin-left: 10px;
+        }
+
+        /*.layui-table-view .layui-table td, .layui-table-view .layui-table th{border-left:1px solid #e6e6e6; padding: 5px 0px;}*/
+        .layui-table-view .layui-table th {
+            text-align: center;
+        }
+
+        /*.layui-table-page, .layui-table-total{border-width:1px 1px 0px;}*/
+        /*.layui-table-body{margin-bottom: 0px;margin-right: 0px;}*/
+        .layui-table-cell {
+            padding: 0px 10px;
+        }
+
+        .layui-table tbody tr:hover {
+            background: rgba(0, 0, 0, 0);
+        }
+
+        .layui-btn-skyblue {
+            background: #1890FF;
+        }
+
+        .layui-table-tool-self {
+            display: none;
+        }
+    </style>
+</head>
+
+<body class="white">
+<header>
+    <div class="nav">
+        <div class="layui-form-item" style="margin-top: 3px;">
+            <div class="layui-inline">
+                <label class="layui-form-label">人员姓名</label>
+                <div class="layui-input-inline">
+                    <input type="text" id="rykey" name="name" autocomplete="off" class="layui-input">
+                </div>
+            </div>
+            <div class="layui-inline">
+                <label class="layui-form-label">手机号</label>
+                <div class="layui-input-inline">
+                    <input type="text" id="phonekey" name="name" autocomplete="off" class="layui-input">
+                </div>
+            </div>
+            <div class="layui-inline">
+                <div id="reSearch" class="layui-btn layui-btn-warm" lay-submit lay-filter="reSearch">
+                    <i class="layui-icon">&#xe669;</i>重置
+                </div>
+            </div>
+            <div class="layui-inline">
+                <div id="search" class="layui-btn layui-btn-normal" lay-submit lay-filter="search">
+                    <i class="layui-icon">&#xe615;</i>查询
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+<div class="main">
+    <div class="tablediv">
+        <table id="table1" lay-filter="table1">
+
+        </table>
+    </div>
+</div>
+
+</body>
+<script type="text/html" id="toolbarDemo">
+    <div class="layui-btn-container">
+        <button class="layui-btn layui-btn-sm layui-btn-normal" lay-event="add">新增</button>
+        <!--<button class="layui-btn layui-btn-sm layui-btn-danger" lay-event="del">删除</button>-->
+    </div>
+</script>
+<script type="text/html" id="barDemo">
+    <a class="layui-btn layui-btn-skyblue layui-btn-xs" lay-event="del"></i>删除</a>
+    <!--<a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="edit"></i>编辑</a>-->
+    <!--<a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="editpassword"></i>修改密码</a>-->
+</script>
+<script type="text/html" id="SHbarDemo">
+    {{# if(d.SHZT=="0"){ }}
+    <a class="layui-btn layui-btn-warm layui-btn-xs" lay-event="toChangeSHState"></i>待审核</a>
+    {{# }else if(d.SHZT=="1"){ }}
+    <a class="layui-btn layui-btn-skyblue layui-btn-xs" lay-event="toChangeSHState"></i>已通过</a>
+    {{# }else if(d.SHZT=="2"){ }}
+    <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="toChangeSHState"></i>不通过</a>
+    {{# } }}
+</script>
+<script src="../../js/jquery1.9.0.js"></script>
+<script src="../../js/config.js"></script>
+<script src="../../js/common.js"></script>
+<script src="../../js/layer/layer.js"></script>
+<script src="../../js/layui/layui.js"></script>
+
+
+<script>
+    var layuitable = null;
+    var form;
+
+    layui.use(['form', 'element', 'laydate', 'table', 'slider'], function () {
+//  	$(".niceScroll").niceScroll({cursorborder: "",cursorcolor: "#297FBA",boxzoom: false});
+        layuitable = layui.table;
+        form = layui.form;
+
+
+        GetUserByDw();
+    });
+    $("#search").click(function () {
+            GetUserByDw($("#rykey").val(),$("#phonekey").val());
+    });
+
+    $("#reSearch").click(function () {//重置
+        $("#keyword").val("");
+        $("#rykey").val("");
+        $("#phonekey").val("");
+        GetUserByDw();
+        form.render();
+    });
+
+    function GetUserByDw(ry,phone) {
+        var url,data;
+        url = "/QueryUserList2";
+        var ry = ry || "";
+        var phone = phone || "";
+        data = {
+            xzqdm:parent.JFZD.XZQDM,
+            userName:ry,
+            phone:phone,
+        };
+        parent.layer.loadIndex = parent.layer.load(0, {shade: 0.1});
+        // SurveyUserManagerService2("/SelectUserByDw2", {
+        SurveyUserManagerService3(url, data, true, function (resjson) {
+            if (resjson.indexOf("false") > -1) {
+                parent.layer.alert("未查询到结果!");
+                parent.layer.close(parent.layer.loadIndex);
+                var resjosn1 = [];
+            } else {
+                var resjosn1 = $.parseJSON(resjson);
+            }
+            var resjosn = [];
+            for (var i=0;i<resjosn1.length;i++) {
+                if(resjosn1[i].ID!=parent.JFZD.ID){
+                    resjosn.push(resjosn1[i]);
+                }
+
+            }
+
+
+            var height = $(".tablediv").height();
+            layuitable.render({
+                elem: '#table1',
+                height: height,
+                page: true, //开启分页
+//              toolbar: '#toolbarDemo', //开启头部工具栏，并为其绑定左侧模板
+                limit: 20,
+                limits: [20, 50, 100],
+                cols: [[ //表头
+                    {type: 'numbers'},
+//                  {type: 'checkbox'},
+                    {field: 'XZJB', title: '行政级别'},
+                    // {
+                    //     field: 'SFLLY', title: '用户身份', templet: function (d) {
+                    //         var sf = "";
+                    //         if (d.SFLLY == "是") {
+                    //             sf = "联络员";
+                    //         } else {
+                    //             sf = "外业调查人员";
+                    //         }
+                    //         return sf;
+                    //     }
+                    // },
+                    {field: 'USERTYPE', title: '用户身份'},
+                    {field: 'XZQ', title: '行政区'},
+                    {field: 'XZMC', title: '乡镇名称'},
+                    {field: 'CMC', title: '村名称'},
+                    {field: 'USERNAME', title: '调查人员姓名'},
+
+                    // {field: 'SEX', title: '性别'},
+                    {field: 'PHONE', title: '个人电话'},
+                    {field: 'REGISTERTIME', title: '注册时间'},
+//                  {field: 'BZ', title: '在线状态'},
+                    {title: '审核', toolbar: '#SHbarDemo', align: 'center', width: 80},
+                    {title: '操作', toolbar: '#barDemo', align: 'center', width: 80}
+                ]],
+                data: resjosn
+            });
+            layuitable.on('toolbar(table1)', function (obj) {
+                var checkStatus = layuitable.checkStatus("table1");
+                if (obj.event === 'add') {
+                    parent.layer.window = window;
+                    parent.layer.resjosn = resjosn;
+                    parent.layer.openIndex = parent.layer.open({
+                        type: 2,
+                        title: "新增调查人员",
+                        closeBtn: 1, //不显示关闭按钮
+                        shade: [0],
+                        skin: 'layui-layer-lan',
+                        area: ['360px', '620px'],
+                        anim: 2,//弹出动画
+                        shade: 0.2,//遮盖层
+                        // content: ['personnelManage/adduser.html', 'no'], //这里content是一个普通的String
+                        content: ['personnelManage/reg.html', 'no'], //这里content是一个普通的String
+                    });
+                } else if (obj.event === 'del') {
+                    var data = checkStatus.data;
+                    if (data.length > 0) {
+                        parent.layer.confirm("确定要删除勾选的调查人员？", function (index) {
+                            for (var i = 0; i < data.length; i++) {
+                                SurveyUserManagerService3("/DeleteUserByid", {userid: data[i].ID}, false, function (resjson) {
+                                });
+                            }
+                            parent.layer.alert("删除成功!");
+                            GetUserByDw("");
+                        });
+                    } else {
+                        parent.layer.alert("请勾选调查人员!")
+                    }
+                }
+            });
+
+            layuitable.on('tool(table1)', function (obj) {
+                var data = obj.data;
+                if (obj.event === 'del') {//删除
+                    parent.layer.confirm("确定要删除调查人员'" + data.USERNAME + "'吗？", function (index) {
+                        SurveyUserManagerService3("/DeleteUserByid", {userid: data.ID}, true, function (resjson) {
+                            if (resjson.indexOf("true") > -1) {
+                                parent.layer.alert("删除成功!");
+                                GetUserByDw("");
+                            } else {
+                                parent.layer.alert("删除失败!")
+                            }
+                        });
+                    });
+
+                } else if (obj.event === 'edit') {//编辑
+                    parent.layer.window = window;
+                    parent.layer.data = data;
+                    parent.layer.openIndex = parent.layer.open({
+                        type: 2,
+                        title: "编辑",
+                        closeBtn: 1, //不显示关闭按钮
+                        shade: [0],
+                        skin: 'layui-layer-lan',
+                        area: ['360px', '480px'],
+                        anim: 2,//弹出动画
+                        shade: 0.2,//遮盖层
+                        content: ['personnelManage/edituser.html', 'no'], //这里content是一个普通的String
+                    });
+                } else if (obj.event === 'editpassword') {//修改密码
+                    parent.layer.window = window;
+                    parent.layer.data = data;
+                    parent.layer.openIndex = parent.layer.open({
+                        type: 2,
+                        title: "修改密码",
+                        closeBtn: 1, //不显示关闭按钮
+                        shade: [0],
+                        skin: 'layui-layer-lan',
+                        area: ['360px', '270px'],
+                        anim: 2,//弹出动画
+                        shade: 0.2,//遮盖层
+                        content: ['personnelManage/editpassword.html', 'no'], //这里content是一个普通的String
+                    });
+                } else if (obj.event === 'toChangeSHState') {//修改审核状态
+                    var phone = data.PHONE;
+                    parent.layer.confirm("审核通过", {
+                        btn: ['通过', '不通过'] //按钮
+                    }, function (index) {
+                        parent.layer.close(index);
+                        var type = 1;
+                        changeSHZT(type, phone);
+                    }, function (index) {
+                        var type = 2;
+                        changeSHZT(type, phone);
+                    });
+                }
+            });
+            parent.layer.close(parent.layer.loadIndex);
+        });
+    }
+
+    function changeSHZT(type, phone) {
+        SurveyUserManagerService3("/ModifyUserState", {state: type, phone: phone}, true, function (resjson) {
+            if (resjson.indexOf("ok") > -1) {
+                parent.layer.alert("审核完成");
+                GetUserByDw("");
+            } else {
+                parent.layer.alert("审核失败!")
+            }
+        });
+    }
+</script>
+
+</html>

@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="renderer" content="webkit">
+    <title>EZOPEN播放协议</title>
+    <style>
+        body {
+            margin: 0;
+        }
+
+        .hint {
+            font-size: 14px;
+            line-height: 40px;
+            color: gray;
+        }
+
+        #url {
+            width: 100%;
+            display: none;
+        }
+
+        #myPlayer {
+            width: 100%;
+            height: calc(100vh - 50px);
+        }
+
+        .btnList {
+            position: absolute;
+            top: 5px;
+            left: 330px;
+        }
+
+        button {
+            padding: 3px 10px;
+        }
+    </style>
+</head>
+
+<body>
+<div class="hint">浏览器版本要求：Chrome: 55+ Firefox: V55+。</div>
+<div class="btnList">
+    <button data-index="0">上</button>
+    <button data-index="1">下</button>
+    <button data-index="2">左</button>
+    <button data-index="3">右</button>
+    <button data-index="4">左上</button>
+    <button data-index="5">左下</button>
+    <button data-index="6">右上</button>
+    <button data-index="7">右下</button>
+    <button data-index="8">放大</button>
+    <button data-index="9">缩小</button>
+    <button data-index="10">近焦距</button>
+    <button data-index="11">远焦距</button>
+    <button id="btn3">停止转动</button>
+</div>
+
+<video
+        id="myPlayer"
+        autoplay
+        src=""
+        controls
+        playsInline
+        webkit-playsinline
+>
+</video>
+<script src="EZUIKit-JavaScript/ezuikit.js"></script>
+<script src="../../js/jquery-2.1.0.js"></script>
+<script>
+    var accessToken = "at.83bshhcx2qe25jem16ogl3vp4jg329ys-9nxzf3vhfx-0er7acw-fxym522il";
+    var carameId = parent.carameId;
+    var speed = 0;
+    var direction;
+    var url = parent.url;
+    $('#myPlayer').attr("src", url);
+    var player = new EZUIKit.EZUIPlayer('myPlayer');
+
+    // 0-上，1-下，2-左，3-右，4-左上，5-左下，6-右上，7-右下，8-放大，9-缩小，10-近焦距，11-远焦距
+    $(".btnList button").click(function () {
+        direction = $(this).attr("data-index");
+        if (direction) {
+            changeBlur(direction);
+        } else {
+            stop();
+        }
+    });
+
+    function changeBlur(direction) {
+        var url = "https://open.ys7.com/api/lapp/device/ptz/start";
+        var data = {
+            accessToken: accessToken,
+            deviceSerial: carameId,
+            channelNo: 1,
+            direction: direction,
+            speed: speed
+        };
+        $.ajax(url, {
+            data: data,
+            dataType: "json", //返回文本
+            async: false,
+            type: 'post', //HTTP请求类型
+            timeout: 10000, //超时时间设置为10秒；
+            success: function (res) {
+                console.log(res);
+            },
+            error: function (xhr, type, errorThrown) {
+                //异常处理；
+                console.log(type);
+            }
+        });
+    }
+
+    function stop() {
+        var url = "https://open.ys7.com/api/lapp/device/ptz/stop";
+        var data = {
+            accessToken: accessToken,
+            deviceSerial: carameId,
+            channelNo: 1,
+            direction: direction
+        };
+        $.ajax(url, {
+            data: data,
+            dataType: "json", //返回文本
+            type: 'post', //HTTP请求类型
+            timeout: 10000, //超时时间设置为10秒；
+            success: function (res) {
+                console.log(res);
+            },
+            error: function (xhr, type, errorThrown) {
+                //异常处理；
+                console.log(type);
+            }
+        });
+    }
+</script>
+</body>
+
+</html>

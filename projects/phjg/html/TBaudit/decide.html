@@ -1,0 +1,652 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>详情</title>
+		<link rel="stylesheet" type="text/css" href="../../js/layui/css/layui1.css"/>
+        <link rel="stylesheet" type="text/css" href="../../js/layer/theme/default/layer.css"/>
+        <!--<link rel="stylesheet" type="text/css" href="../../css/comstyle.css"/>-->
+        <link rel="stylesheet" type="text/css" href="../../css/style.css"/>
+        <style>
+        	.main{width: 100%;height: calc(100vh - 60px);  position: relative; }
+        	.left{width: 200px; height: 100vh;  position: relative; padding: 0px 5px;}
+        	.middle{ position: absolute; left: 210px; top: 0px; width: 700px;height: 100%; overflow: auto;}
+        	.right{position: absolute; left: 920px; top: 0px; width: 700px;height: 100%; overflow: auto;}
+        	.bottom{height: 59px;text-align: center; border-top:1px solid silver ; line-height: 60px;}
+        	/*.bottom button{margin-top: 10px;}*/
+        	.layui-table, .layui-table-view{margin:0px;border: none;}
+	    	.layui-table-view .layui-table td, .layui-table-view .layui-table th{border-left:1px solid #e6e6e6; padding: 5px 0px;}
+	    	.layui-table-view .layui-table th{text-align: center;}
+	    	.white .layui-table tbody tr:hover{background:transparent !important;}
+	    	.layui-table-page, .layui-table-total{border-width:1px 1px 0px;}
+	    	.layui-table-body{margin-bottom: 0px;margin-right: 0px;}
+        	 table tr td{padding: 5px; position: relative;}
+        	.layui-input,.layui-textarea,.layui-form{width: 170px; line-height: 28px;height: 28px;}
+        	/*p{font-size: 20px; font-weight: bold;padding: 10px;}*/
+        	.content{margin-top: 10px;}
+        	.title{font-size: 20px; border-bottom: 1px solid #309DDB;padding: 10px;}
+        	.download{font-size:16px; margin-left: 10px; color: #309DDB;}
+        	dl{margin-top: 5px;}
+        	dl dd{padding: 10px 0px;width: 100%; text-indent: 10px;}
+        	dl dd:hover{background: #4BA1DA;}
+        	dl dd.active{background: #4BA1DA;}
+        	.red{color: red; position: absolute; left: 3px;}
+        	.xhx{border: none; border-bottom: 1px solid #4BA1DA; width: 100%;}
+        	.hide{display: none;}
+        	.layui-form-switch{margin-top: 0px;}
+        	.layui-form-onswitch{border-color: #0D7AFF; background-color: #0D7AFF;}
+        </style>
+	</head>
+	<body class="white">
+		<div class="main">
+			<div class="left">
+				<p class="title">导航</p>
+				<dl class="dl">
+					<dd index="1">基本情况</dd>
+					<dd index="2">套合分析结果</dd>
+					<dd index="3">外业调查结果</dd>
+					<dd index="4">监测图斑截图</dd>
+				</dl>
+			</div>
+			<div id="middle" class="middle">
+				<p id="index1" class="title">基本情况</p>
+				<div class="content">
+					<table  class="layui-table" lay-size="sm">
+						<tr>
+							<td width="100px"><span class="red">*</span> 年份</td><td id="year"></td>
+							<td width="100px"><span class="red">*</span>行政区划代码</td><td id="XZQDM"></td>
+						</tr>
+						<tr><td><span class="red">*</span>监测标识码</td><td id="JD"></td><td><span class="red">*</span>监测编号</td><td id="BH"></td></tr>
+						<tr><td><span class="red">*</span>监测图斑类型</td><td id="TBLX"></td><td><span class="red">*</span>省名称</td><td id="">河北省 </td></tr>
+						<tr><td><span class="red">*</span>市名称</td><td id="SMC"></td><td><span class="red">*</span>县名称</td><td id="XMC"></td></tr>
+						<tr><td><span class="red">*</span>前时相</td><td id=""></td><td><span class="red">*</span>后时相</td><td id=""></td></tr>
+						<tr><td>前期影像景号</td><td id=""></td><td>当期影像景号</td><td id=""></td></tr>
+						<tr><td>中心点经度</td><td id=""></td><td>中心点纬度</td><td id=""></td></tr>
+						<tr><td>监测面积</td><td id="JCMJ"></td><td>监测类别</td><td id=""></td></tr>
+						<tr><td>变化信息发现方式</td><td colspan="3" id=""></td></tr>
+						<tr><td>计算器自动提取图斑编号</td><td id=""></td><td>计算器自动提取图斑类型</td><td id=""></td></tr>
+						<tr><td>图形变化</td><td id=""></td><td>变化面积</td><td id=""></td></tr>
+						<tr><td>永久基本农田面积</td><td id="" colspan="3"></td></tr>
+						<tr><td>符合规划面积</td><td id=""></td><td>不符合规划面积</td><td id=""></td></tr>
+						<tr><td>自然保护地名称</td><td id=""></td><td>自然保护地等级</td><td id=""></td></tr>
+						<tr><td>自然保护区套合信息</td><td id="" colspan="3"></td></tr>
+						<tr><td>符合城市总体规划面积</td><td id=""></td><td>不符合城市总体规划面积</td><td id=""></td></tr>
+						<tr><td>审核类型</td><td id=""></td><td>审核时间</td><td id=""></td></tr>
+						<tr><td>审核文号(许可证号)</td><td id=""></td><td>有效期</td><td id=""></td></tr>
+						
+					</table>
+				</div>
+				<p id="index2" class="title">套合分析结果</p>
+				<div class="content">
+					<table class="layui-table" lay-size="sm">
+						<tr><td width="100px">农用地面积</td><td id="NYDMJ"></td><td width="100px">耕地面积</td><td id="GDMJ"></td></tr>
+						<tr><td>可调整面积</td><td id="KTZMJ"></td><td>建设用地面积</td><td id="JSYDMJ"></td></tr>
+						<tr><td>未利用地面积</td><td id="WLYDMJ"></td></tr>
+						<tr><td>允许建设区内面积</td><td id="YXJSQLMJ"></td><td>占图斑面积比例</td><td id="YXJSQTBBL"></td></tr>
+						<tr><td>限制建设区内面积</td><td id="XZJSQNMJ"></td><td>占图斑面积比例</td><td id="XZJSQTBBL"></td></tr>
+						<tr><td>禁止建设区内面积</td><td id="JZJSQNMJ"></td><td>占图斑面积比例</td><td id="JZJSQTBBL"></td></tr>
+						<tr><td>占基本农田面积</td><td id="JBNTMJ"></td><td>占图斑面积比例</td><td id="JBNTTBBL"></td></tr>
+						<tr><td>图斑中已有用地手续所占耕地面积</td><td id="YYYDSXZGDMJ"></td><td>图斑中未办用地手续所占耕地面积</td><td id="WBYDSXZGDMJ"></td></tr>
+						<tr><td>2010-2018年农转用建设用地项目图斑</td><td id="NZJSYDXMTB"></td><td>2011-2017年验收土地整治验收项目</td><td id="TDZZYSXM"></td></tr>
+						<tr><td>增减挂钩项目拆旧区_2018及前</td><td id="ZJGGXMCJQ"></td><td>增减挂钩项目建新区_2018及前</td><td id="ZJGGXMXJQ"></td></tr>
+						<tr><td>2018年验收土地整治验收项目</td><td id="TDZZYSXM2018"></td><td>2018年前工矿废弃地复垦项目图</td><td id=""></td></tr>
+						<tr><td>2018年前未利用地开发项目</td><td id=""></td><td>自然保护地等级</td><td id=""></td></tr>
+						
+					</table>
+				</div>
+				
+				<p id="index3" class="title">外业调查结果</p>
+				<div class="content">
+					<table class="layui-table" lay-size="sm">
+						<tr><td>实地现状</td><td id="SDXZ"></td><td>用地单位</td><td id="YDDW"></td></tr>
+						<tr><td>项目名称</td><td id="XMMC"></td><td>道路用地类型</td><td id="DLLX"></td></tr>
+						<tr><td>道路名称</td><td id="DLMC"></td><td>道路宽度</td><td id="DLKD"></td></tr>
+						<tr><td>一级土地分类</td><td id="TDFL1"></td><td>二级土地分类</td><td id="TDFL2"></td></tr>
+						<tr><td>备注</td><td id="BZ" colspan="3"></td></tr>
+					</table>
+				</div>
+				<p id="index4" class="title">前时相 <a class="download" href="#">下载</a></p>
+				<div class="content">
+					<!--<img style="width: 100%;" src="1.jpg"/>-->
+				</div>
+				
+				<p class="title">后时相 <a class="download" href="#">下载</a></p>
+				<div class="content">
+					<!--<img style="width: 100%;" src="1.jpg"/>-->
+				</div>
+				
+				<p class="title">监测图斑截图</p>
+				<div class="content">
+					<a class="download" href="#">下载</a>
+					<!--<img style="width: 100%;" src="2.jpg"/>-->
+				</div>
+			</div>
+			<div class="right">
+				<p class="title">合法性</p>
+				<div class="content">
+					<a class="download" href="#">判定</a>
+					<table class="layui-table" lay-size="sm" style="margin-top: 5px;">
+						<tr><td width="100px">图斑号</td><td class="TBH"  colspan="3"></td></tr>
+						<tr><td>图斑面积</td><td class="TBMJ"></td><td width="100px">图斑耕地面积</td><td class="GDMJ"></td></tr>
+						<tr><td>图斑类型</td><td  colspan="3">
+							<input type="radio" name="radio" id="" value="合法用地" checked="checked" /><span>合法用地</span>
+							<input type="radio" name="radio" id="" value="违法用地" style="margin-left: 20px;" /><span>违法用地</span>
+							<input type="radio" name="radio" id="" value="其他用地" style="margin-left: 20px;"/><span>其他用地</span>
+							<input type="radio" name="radio" id="" value="拆分图斑" style="margin-left: 20px;"/><span>拆分图斑</span>
+						</td></tr>
+						<tr class="yd" name='合法用地'><td>批准文号</td><td  colspan="3">
+							<input class="xhx" autocomplete="off" type="text" name="" id="PZWH" value="" />
+						</td></tr>
+						
+						<tr class="yd hide" name='违法用地'>
+							<td>非农业建设</td><td>
+								<div class="layui-form">
+									<input type="checkbox" name="close" id="FNYJS" lay-skin="switch" lay-text="是|否">
+								</div>
+							    
+							</td>
+							<td>非新增建设用地</td><td>
+								<div class="layui-form">
+									<input type="checkbox" name="close1" id="FXZJSYD" lay-skin="switch" lay-text="是|否">
+								</div>
+							</td>
+						</tr>
+						<tr class="yd hide" name='违法用地'><td>违法类型</td><td  colspan="3">
+							
+							<select id="WFLX">
+								<optgroup label="违法批地">
+									<option>违法批准占用</option>
+									<option>违法供地</option>
+								</optgroup>
+								<optgroup label="违法占地">
+									<option>未报即用</option>
+									<option>边报边用</option>
+									<option>未供即用</option>
+								</optgroup>
+								<option>其他</option>
+							</select>
+						</td></tr>
+						
+						<tr class="yd hide" name='其他用地'><td>实际用途</td><td  colspan="3">
+							<input class="xhx" type="text" name="" id="SJYT" value="" />
+						</td></tr>
+						
+						<tr><td>判断依据说明</td><td class="PDYFSM" colspan="3"> 
+						    <input class="xhx" type="text" name="" id="PDYJ" value="" />
+						</td></tr>
+						
+						
+					</table>
+				</div>
+				<!--拆分图斑-->
+				<div id="cftbList">
+					<!--添加-->
+					<div style="padding: 10px;">
+						<button id="addcftb" class="layui-btn layui-btn-normal layui-btn-sm"><i class="layui-icon layui-icon-add-circle"></i>添加拆分图斑</button>
+				    </div>
+					
+					<!--<a class="download" href="#">添加</a>-->
+					<!--<div class="content">
+						<table class="layui-table" lay-size="sm" style="margin-top: 5px;">
+							<tr><td width="100px">图斑号</td><td  colspan="3">
+								<input class="xhx" type="text" name="" disabled="disabled" class="_TB" value="" />  
+							</td></tr>
+							<tr><td>图斑面积</td><td>
+								<input class="xhx" type="text" name="" class="_TBMJ" value="" />
+							</td><td width="100px">图斑耕地面积</td><td >
+								<input class="xhx" type="text" name="" class="_GDMJ" value="" />
+							</td></tr>
+							<tr><td>图斑类型</td><td  colspan="3">
+								<input type="radio" name="radio1" id="" value="合法用地" checked="checked" /><span>合法用地</span>
+								<input type="radio" name="radio1" id="" value="违法用地" style="margin-left: 20px;" /><span>违法用地</span>
+								<input type="radio" name="radio1" id="" value="其他用地" style="margin-left: 20px;"/><span>其他用地</span>
+							</td></tr>
+							<tr class="yd1" name='合法用地'><td>批准文号</td><td  colspan="3">
+								<input class="xhx" type="text" name="" class="_PZWH" value="" />
+							</td></tr>
+							<tr class="yd1 hide" name='违法用地'>
+								<td>非农业建设</td><td>
+									<div class="layui-form">
+										<input type="checkbox" name="close" class="_FNYJS"  lay-skin="switch" lay-text="是|否">
+									</div>
+								</td>
+								<td>非新增建设用地</td><td>
+									<div class="layui-form">
+										<input type="checkbox" name="close1" class="_FXZJSYD" id="" lay-skin="switch" lay-text="是|否">
+									</div>
+								</td>
+							</tr>
+							<tr class="yd1 hide" name='违法用地'><td>违法类型</td><td  colspan="3">
+								<select class="_WFLX">
+									<optgroup label="违法批地">
+										<option>违法批准占用</option>
+										<option>违法供地</option>
+									</optgroup>
+									<optgroup label="违法占地">
+										<option>未报即用</option>
+										<option>边报边用</option>
+										<option>未供即用</option>
+									</optgroup>
+									<option>其他</option>
+								</select>
+							</td></tr>
+							<tr class="yd1 hide" name='其他用地'><td>实际用途</td><td  colspan="3">
+								<input class="xhx" type="text" name="" class="_SJYT" />
+							</td></tr>
+							<tr><td>判断依据说明</td><td class="PDYFSM" colspan="3"> 
+							    <input class="xhx" type="text" name="" class="_PDYJ" />
+							</td></tr>
+						</table>
+					</div>-->
+				
+				</div>
+				
+				
+				<div style="text-align: center;padding: 10px;">
+					<button id="save" class="layui-btn layui-btn-normal layui-btn-sm"><i class="layui-icon layui-icon-download-circle"></i>保存</button>
+				</div>
+			</div>
+		</div>
+		
+		<div class="bottom">
+			<!--<button class="layui-btn layui-btn-normal layui-btn-sm"><i class="layui-icon layui-icon-download-circle"></i>坐标下载</button>-->
+			<button id="return" class="layui-btn layui-btn-normal layui-btn-sm"><i class="layui-icon layui-icon-return"></i>返回</button>
+			<button id="" class="layui-btn layui-btn-normal layui-btn-sm"><i class="layui-icon layui-icon-app"></i>导出Word</button>
+		</div>
+		
+	</body>
+	<script src="../../js/jquery1.9.0.js"></script>
+	<script src="../../js/config.js"></script>
+	<script src="../../js/common.js"></script>
+	<script src="../../js/layer/layer.js"></script>
+	<script src="../../js/layui/layui.js"></script>
+	<script src="../../js/scrollbar/jquery.nicescroll.min.js"></script>
+	<script>
+		$("input[name='radio']").change(function(){
+			var TBLX = $("input[name='radio']:checked").val();
+			$(".yd").addClass('hide');
+			$(".yd[name='"+TBLX+"']").removeClass('hide');
+			if(TBLX=="拆分图斑"){
+				$("#cftbList").removeClass('hide');
+				
+			}else{
+				$("#cftbList").addClass('hide')
+			}
+		});
+		
+		
+		var _index = parent.layer.data.SubInfos.length;
+		$("#addcftb").click(function(){
+			_index++
+			var bh = parent.layer.data.Info.BH+"-"+_index;
+			var str = "<div class='content'>";
+			str+='<table class="layui-table" lay-size="sm" style="margin-top: 5px;">';
+			//图斑编号
+			str+='<tr><td width="100px">图斑号</td><td colspan="3"><input class="xhx _TB" type="text" name="" disabled="disabled" value="'+bh+'" /></td></tr>';
+			//图斑面积，图斑耕地面积
+			str+='<tr><td>图斑面积</td><td><input class="xhx _TBMJ" type="text" name="" value="" /></td><td width="100px">图斑耕地面积</td><td ><input class="xhx _GDMJ" type="text" name=""  value="" /></td></tr>';
+			str+='<tr><td>图斑类型</td><td colspan="3">';
+			str+='<input type="radio" name="radio'+_index+'"  value="合法用地" checked="checked" /><span>合法用地</span>';
+			str+='<input type="radio" name="radio'+_index+'"  value="违法用地" style="margin-left: 20px;" /><span>违法用地</span>';
+			str+='<input type="radio" name="radio'+_index+'"  value="其他用地" style="margin-left: 20px;"/><span>其他用地</span></td></tr>';
+			//批准文号
+			str+='<tr class="yd1" name="合法用地"><td>批准文号</td><td  colspan="3"><input class="xhx _PZWH" type="text" name=""  value="" autocomplete="off" /></td></tr>';
+			//非农业建设,非新增建设用地
+			str+='<tr class="yd1 hide" name="违法用地">';
+			str+='<td>非农业建设</td><td><div class="layui-form"><input type="checkbox" name="close" class="_FNYJS"  lay-skin="switch" lay-text="是|否"></div></td>';
+			str+='<td>非新增建设用地</td><td><div class="layui-form"><input type="checkbox" name="close1" class="_FXZJSYD" id="" lay-skin="switch" lay-text="是|否"></div></td>';
+			str+='</tr>'
+			//违法类型
+			str+='<tr class="yd1 hide" name="违法用地"><td>违法类型</td><td  colspan="3"><select class="_WFLX"><optgroup label="违法批地"><option>违法批准占用</option><option>违法供地</option></optgroup><optgroup label="违法占地"><option>未报即用</option><option>边报边用</option><option>未供即用</option></optgroup><option>其他</option></select></td></tr>';
+			//实际用途
+			str+='<tr class="yd1 hide" name="其他用地"><td>实际用途</td><td  colspan="3"><input class="xhx _SJYT" type="text"   /></td></tr>';
+			//判断依据说明
+			str+='<tr><td>判断依据说明</td><td class="PDYFSM" colspan="3"> <input class="xhx _PDYJ" type="text"  /></td></tr>';
+			str+="</table>";
+			str+="</div>";
+			$("#cftbList").append(str);
+			$("#cftbList .content input[type='radio']").change(function(){
+				var TBLX = $(this).val();
+				$(this).parent().parent().parent().find('.yd1').addClass('hide');
+				$(this).parent().parent().parent().find(".yd1[name='"+TBLX+"']").removeClass('hide');
+			})
+			layuiform.render();
+			
+		});
+		//初始化拆分图斑
+		function initcftb(){
+			var SubInfos = parent.layer.data.SubInfos;
+			for (var i=0;i<SubInfos.length;i++) {
+				var BH = SubInfos[i].BH;
+				var JCMJ = SubInfos[i].JCMJ;
+				var GDMJ = SubInfos[i].GDMJ;
+				var TBLX = SubInfos[i].TBLX;
+				var PZWH = SubInfos[i].PZWH;
+				var FNYJS = SubInfos[i].FNYJS;
+				var FXZJSYD = SubInfos[i].FXZJSYD;
+				var WFLX = SubInfos[i].WFLX;
+				var SJYT = SubInfos[i].SJYT;
+				var PDYJ = SubInfos[i].PDYJ;
+				var str = "<div class='content'>";
+				str+='<table class="layui-table" lay-size="sm" style="margin-top: 5px;">';
+				//图斑编号
+				str+='<tr><td width="100px">图斑号</td><td colspan="3"><input class="xhx _TB" type="text" name="" disabled="disabled" value="'+BH+'" /></td></tr>';
+				//图斑面积，图斑耕地面积
+				str+='<tr><td>图斑面积</td><td><input class="xhx _TBMJ" type="text" name="" value="'+JCMJ+'" /></td><td width="100px">图斑耕地面积</td><td ><input class="xhx _GDMJ" type="text" name=""  value="'+GDMJ+'" /></td></tr>';
+				str+='<tr><td>图斑类型</td><td colspan="3">';
+				str+='<input type="radio" name="radio'+(i+1)+'"  value="合法用地" checked="checked" /><span>合法用地</span>';
+				str+='<input type="radio" name="radio'+(i+1)+'"  value="违法用地" style="margin-left: 20px;" /><span>违法用地</span>';
+				str+='<input type="radio" name="radio'+(i+1)+'"  value="其他用地" style="margin-left: 20px;"/><span>其他用地</span></td></tr>';
+				//批准文号
+				str+='<tr class="yd1" name="合法用地"><td>批准文号</td><td  colspan="3"><input class="xhx _PZWH" autocomplete="off" type="text" name=""  value="'+PZWH+'" /></td></tr>';
+				//非农业建设,非新增建设用地
+				str+='<tr class="yd1 hide" name="违法用地">';
+				str+='<td>非农业建设</td><td><div class="layui-form">'
+				if(FNYJS=="是"){
+					str+='<input type="checkbox" name="close" class="_FNYJS" checked lay-skin="switch" lay-text="是|否">'
+				}else{
+					str+='<input type="checkbox" name="close" class="_FNYJS"  lay-skin="switch" lay-text="是|否">'
+				}
+				str+='</div></td>';
+				str+='<td>非新增建设用地</td><td><div class="layui-form">'
+				if(FXZJSYD=="是"){
+					str+='<input type="checkbox" name="close1" class="_FXZJSYD" checked id="" lay-skin="switch" lay-text="是|否">'
+				}else{
+					str+='<input type="checkbox" name="close1" class="_FXZJSYD" id="" lay-skin="switch" lay-text="是|否">'
+				}
+				
+				str+='</div></td>';
+				str+='</tr>'
+				//违法类型
+				str+='<tr class="yd1 hide" name="违法用地"><td>违法类型</td><td  colspan="3"><select class="_WFLX"><optgroup label="违法批地"><option>违法批准占用</option><option>违法供地</option></optgroup><optgroup label="违法占地"><option>未报即用</option><option>边报边用</option><option>未供即用</option></optgroup><option>其他</option></select></td></tr>';
+				//实际用途
+				str+='<tr class="yd1 hide" name="其他用地"><td>实际用途</td><td  colspan="3"><input class="xhx _SJYT" type="text"   /></td></tr>';
+				//判断依据说明
+				str+='<tr><td>判断依据说明</td><td class="PDYFSM" colspan="3"> <input class="xhx _PDYJ" type="text"  /></td></tr>';
+				str+="</table>";
+				str+="</div>";
+				$("#cftbList").append(str);
+				
+				$("#cftbList .content input[name='radio"+(i+1)+"'][value='"+TBLX+"']").attr('checked',true);
+				$("#cftbList .content").eq(i).find("._WFLX").val(WFLX);
+				$("#cftbList .content").eq(i).find("._SJYT").val(SJYT);
+				$("#cftbList .content").eq(i).find("._PDYJ").val(PDYJ);
+				$("#cftbList .content").eq(i).find('.yd1').addClass('hide');
+				
+				$("#cftbList .content").eq(i).find(".yd1[name='"+TBLX+"']").removeClass('hide');
+				$("#cftbList .content").eq(i).find("input[type='radio']").change(function(){
+					var TBLX = $(this).val();
+					$(this).parent().parent().parent().find('.yd1').addClass('hide');
+					$(this).parent().parent().parent().find(".yd1[name='"+TBLX+"']").removeClass('hide');
+				})
+				
+			}
+			layuiform.render();
+		}
+		
+		$("#save").click(function(){
+			var TBLX =  $("input[name='radio']:checked").val();
+			if(TBLX=="合法用地"){
+				var url = "/UpdateLegalInfo";
+				var data = {
+					bh:parent.layer.data.Info.BH,
+					nd:parent.layer.data.Info.ND,
+					jd:parent.layer.data.Info.JD,
+					tbmj:parent.layer.data.Info.JCMJ,//图斑面积
+					gdmj:parent.layer.data.Info.GDMJ,//耕地面积
+					pzwh:$("#PZWH").val(),//批准文号
+					pdyj:$("#PDYJ").val()//判断依据说明
+				}
+			}else if(TBLX=="违法用地"){
+				var FNYJS = $("#FNYJS").prop('checked');
+				var FXZJSYD = $("#FXZJSYD").prop('checked');
+				var data = {
+					bh:parent.layer.data.Info.BH,
+					nd:parent.layer.data.Info.ND,
+					jd:parent.layer.data.Info.JD,
+					tbmj:parent.layer.data.Info.JCMJ,//图斑面积
+					gdmj:parent.layer.data.Info.GDMJ,//耕地面积
+					fnyjs:FNYJS,//非农业建设
+					fxzjsyd:FXZJSYD,//非新增建设用地
+					wflx:$("#WFLX").val(),//违法类型
+					pdyj:$("#PDYJ").val()//判断依据说明
+				}
+				var url = "/UpdateIllegalInfo"
+			}else if(TBLX=="其他用地"){
+				var data = {
+					bh:parent.layer.data.Info.BH,
+					nd:parent.layer.data.Info.ND,
+					jd:parent.layer.data.Info.JD,
+					tbmj:parent.layer.data.Info.JCMJ,//图斑面积
+					gdmj:parent.layer.data.Info.GDMJ,//耕地面积
+					sjyt:$("#SJYT").val(),//实际用途
+					pdyj:$("#PDYJ").val()//判断依据说明
+				}
+				var url = "/UpdateOtherInfo"
+			}else if(TBLX=="拆分图斑"){
+				cftb();
+			}
+			if(TBLX!="拆分图斑"){
+				JudgeManagerService(url, data, true, function (resjson) {
+			        if (resjson.indexOf("true") > -1) {
+		                parent.GetAllJudgeInfos(parent.layer.data.Info.XZQDM);
+		            } 
+			    });
+			}
+			
+			function cftb(){
+				var length =  $("#cftbList .content").length;
+				if(length==0){
+					parent.layer.alert("请添加拆分图斑!")
+					return;
+				}
+				if(length<2){
+					parent.layer.alert("拆分图斑最少二个!")
+					return;
+				}
+				var tbmj = 0;
+				var gdmj = 0;
+				for (var i=0;i<length;i++) {
+					var _TBMJ = $("#cftbList .content").eq(i).find("._TBMJ").val();
+					if(_TBMJ==""){
+						parent.layer.alert("图斑面积不能为空!")
+						return;
+					}
+					var _GDMJ = $("#cftbList .content").eq(i).find("._GDMJ").val();
+					if(_GDMJ==""){
+						parent.layer.alert("耕地面积不能为空!")
+						return;
+					}
+					
+					tbmj+=Number(_TBMJ);
+					gdmj+=Number(_GDMJ);
+				}
+				if(tbmj!=parent.layer.data.Info.JCMJ){
+					parent.layer.alert("拆分的子图斑面积之和必须等于图斑面积!")
+					return;
+				}
+				if(gdmj!=parent.layer.data.Info.GDMJ){
+					parent.layer.alert("拆分的子图斑耕地面积之和必须等于图斑耕地面积!")
+					return;
+				}
+				var data1 = {
+					bh:parent.layer.data.Info.BH,
+					nd:parent.layer.data.Info.ND,
+					jd:parent.layer.data.Info.JD,
+					tbmj:parent.layer.data.Info.JCMJ,//图斑面积
+				}
+				JudgeManagerService("/UpdateSplitInfo",data1, true, function (resjson) {
+			        if (resjson.indexOf("true") > -1) {
+			        	for (var i=0;i<length;i++){
+							var TBLX1 = $("#cftbList .content").eq(i).find("input[type='radio']:checked").val();
+							var _TBMJ = $("#cftbList .content").eq(i).find("._TBMJ").val();
+							var _GDMJ = $("#cftbList .content").eq(i).find("._GDMJ").val();
+							if(TBLX1=="合法用地"){
+							    var url = "/AddSplitLegalInfo";
+							    var _PZWH = $("#cftbList .content").eq(i).find('._PZWH').val();
+							    if(_PZWH==""){
+							    	parent.layer.alert("批准文号不能为空!")
+							    	return;
+							    }
+								var data = {
+									bh:$("#cftbList .content").eq(i).find('._TB').val(),
+									nd:parent.layer.data.Info.ND,
+									jd:parent.layer.data.Info.JD,
+									tbmj:_TBMJ,//图斑面积
+									gdmj:_GDMJ,//耕地面积
+									pzwh:_PZWH,//批准文号
+									pdyj:$("#cftbList .content").eq(i).find('._PDYJ').val(),//判断依据说明
+									parentBH:parent.layer.data.Info.BH,//拆分图斑编号
+								}
+							}else if(TBLX1=="违法用地"){
+								var FNYJS = $("#cftbList .content").eq(i).find('._FNYJS').prop('checked');
+								var FXZJSYD = $("#cftbList .content").eq(i).find('._FXZJSYD').prop('checked');
+								var data = {
+									bh:$("#cftbList .content").eq(i).find('._TB').val(),
+									nd:parent.layer.data.Info.ND,
+									jd:parent.layer.data.Info.JD,
+									tbmj:_TBMJ,//图斑面积
+									gdmj:_GDMJ,//耕地面积
+									fnyjs:FNYJS,//非农业建设
+									fxzjsyd:FXZJSYD,//非新增建设用地
+									wflx:$("#cftbList .content").eq(i).find('._WFLX').val(),//违法类型
+									pdyj:$("#cftbList .content").eq(i).find('._PDYJ').val(),//判断依据说明
+									parentBH:parent.layer.data.Info.BH,//拆分图斑编号
+								}           
+								var url = "/AddSplitIllegalInfo"
+							}else if(TBLX1=="其他用地"){
+								var _SJYT = $("#cftbList .content").eq(i).find('._SJYT').val();
+							    if(_SJYT==""){
+							    	parent.layer.alert("实际用途不能为空!");
+							    	return;
+							    }
+								var data = {
+									bh:$("#cftbList .content").eq(i).find('._TB').val(),
+									nd:parent.layer.data.Info.ND,
+									jd:parent.layer.data.Info.JD,
+									tbmj:_TBMJ,//图斑面积
+									gdmj:_GDMJ,//耕地面积
+									sjyt:$("#cftbList .content").eq(i).find('._SJYT').val(),//实际用途
+									pdyj:$("#cftbList .content").eq(i).find('._PDYJ').val(),//判断依据说明
+									parentBH:parent.layer.data.Info.BH,//拆分图斑编号
+								}
+								var url = "/AddSplitOtherInfo"
+							}
+							JudgeManagerService(url,data, true, function (resjson) {
+						        if (resjson.indexOf("true") > -1) {
+					            } 
+						       
+						    });
+						}
+						parent.GetAllJudgeInfos(parent.layer.data.Info.XZQDM);
+		            } 
+			       
+			    });
+				
+				
+				
+				
+			}
+		})
+		//返回
+		$("#return").click(function(){
+			parent.layer.close(parent.layer.openIndex);
+		});
+		//导航
+		$(".dl dd").click(function(){
+			$(".dl dd").removeClass('active');
+			$(this).addClass('active');
+			var index = $(this).attr('index');
+			document.getElementById('middle').scrollTop = document.getElementById('index'+index).offsetTop;
+		})
+		var layuiform = null;
+	    layui.use(['form', 'element', 'laydate', 'table', 'slider'], function () {
+	    	layuiform = layui.form;
+	  	    $(".niceScroll").niceScroll({cursorborder: "",cursorcolor: "#297FBA",boxzoom: false});
+            $("input[value='"+parent.layer.data.Info.TBLX+"']").attr('checked',true);
+            $("input[name='radio']").change();
+            if(parent.layer.data.Info.TBLX=="拆分图斑"){
+            	initcftb();
+            }
+            
+            
+            $("#PZWH").val(parent.layer.data.Info.PZWH);
+            if(parent.layer.data.Info.FNYJS=="是"){
+            	$("#FNYJS").attr('checked',true);
+            }
+            if(parent.layer.data.Info.FXZJSYD=="是"){
+            	$("#FXZJSYD").attr('checked',true);
+            }
+            layuiform.render();
+            $("#WFLX").val(parent.layer.data.Info.WFLX);
+            $("#SJYT").val(parent.layer.data.Info.SJYT);
+            
+            $("#PDYJ").val(parent.layer.data.Info.PDYJ);
+            var bh = parent.layer.data.Info.BH;
+            var nd = parent.layer.data.Info.ND;
+            var jd = parent.layer.data.Info.JD
+            JCTBManagerService("/GetJCTBSummaryClass", {bh:bh,nd:nd,jd:jd}, true, function (resjson) {
+		        
+		        var resjosn = $.parseJSON(resjson);
+		        if (resjosn.length > 0) {
+		            var data = resjosn[0];
+			        $("#year").html(data.ND)
+			        
+			        $("#JD").html(data.JD)
+			        $("#TBLX").html(data.TBLX)
+					$("#XZQDM").html(data.XZQDM)
+		            $("#SMC").html(data.SMC.substring(2,data.SMC.length))
+		            $("#XMC").html(data.XMC)
+		            $("#BH").html(data.BH)
+		            $("#JCMJ").html(data.JCMJ)
+		            $("#BZ").html(data.BZ)
+		            $("#NYDMJ").html(data.NYDMJ)
+		            $("#GDMJ").html(data.GDMJ)
+		            $("#KTZMJ").html(data.KTZMJ)
+		            $("#JSYDMJ").html(data.JSYDMJ)
+		            $("#WLYDMJ").html(data.WLYDMJ)
+		            $("#YXJSQLMJ").html(data.YXJSQLMJ)
+		            $("#YXJSQTBBL").html(data.YXJSQTBBL)
+		            $("#XZJSQNMJ").html(data.XZJSQNMJ)
+		            $("#XZJSQTBBL").html(data.XZJSQTBBL)
+		            $("#JZJSQNMJ").html(data.JZJSQNMJ)
+		            $("#JZJSQTBBL").html(data.JZJSQTBBL)
+		            $("#JBNTMJ").html(data.JBNTMJ)
+		            $("#JBNTTBBL").html(data.JBNTTBBL)
+		            $("#YYYDSXZGDMJ").html(data.YYYDSXZGDMJ)
+		            $("#WBYDSXZGDMJ").html(data.WBYDSXZGDMJ)
+		            $("#NZJSYDXMTB").html(data.NZJSYDXMTB)
+		            $("#TDZZYSXM").html(data.TDZZYSXM)
+		            $("#ZJGGXMCJQ").html(data.ZJGGXMCJQ)
+		            $("#ZJGGXMXJQ").html(data.ZJGGXMXJQ)
+		            $("#TDZZYSXM2018").html(data.TDZZYSXM2018)
+		            $("#SDXZ").html(data.SDXZ)
+		            $("#YDDW").html(data.YDDW)
+		            $("#XMMC").html(data.XMMC)
+		            $("#DLLX").html(data.DLLX)
+		            $("#DLMC").html(data.DLMC)
+		            $("#DLKD").html(data.DLKD)
+		            
+		            $(".TBH").html(parent.layer.data.Info.BH)
+		            $(".TBMJ").html(parent.layer.data.Info.JCMJ)
+		            $(".GDMJ").html(parent.layer.data.Info.GDMJ)
+		        }
+		        
+		    });
+		    JCTBManagerService("/GetJCTBClass", {bh:bh,nd:nd,jd:jd}, true, function (resjson) {
+		        
+		        var resjosn = $.parseJSON(resjson);
+		        if (resjosn.length > 0) {
+		            var data = resjosn[0];
+			        $("#TDFL1").html(data.TDFL1)
+		            $("#TDFL2").html(data.TDFL2)
+		        }
+		        
+		    });
+	    });
+	    
+	    
+	    
+		
+	</script>
+</html>

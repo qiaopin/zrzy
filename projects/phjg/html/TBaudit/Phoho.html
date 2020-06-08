@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>详情</title>
+		<link rel="stylesheet" type="text/css" href="../../js/layui-v2.4.5/css/layui.css"/>
+	    <link rel="stylesheet" type="text/css" href="../../js/layer/theme/default/layer.css"/>
+	    <!--<link rel="stylesheet" type="text/css" href="../../css/comstyle.css"/>-->
+	    <link rel="stylesheet" type="text/css" href="../../css/comstyle.css"/>
+	    <link rel="stylesheet" type="text/css" href="../../js/openlayers/ol.css"/>
+	    <link rel="stylesheet" type="text/css" href="../../css/monitorAnalysis.css"/>
+	    <link rel="stylesheet" type="text/css" href="../../css/jcxx.css?v=0315"/>
+        <style>
+        	.white .left{background: #fff;}
+        	.left{width: 360px; height: 100vh;  position: relative; padding: 10px 20px;}
+        	
+        	.right{position: absolute; left: 400px; top: 0px; width: calc(100% - 400px);height: 100%;}
+        	.title{color: #52C4F7;font-size: 16px; padding: 10px 0px;}
+        	.imgList img{width: 100px; height: 100px;border-radius:5px ; border: 1px solid silver; padding: 5px;margin-right: 10px; cursor: pointer;}
+        	.imgList img:hover{background: rgba(0,0,0,0.5);}
+			.editBtn{
+				float:right;
+			}
+        </style>
+	</head>
+	<body class="white">
+		
+		<div class="left">
+			<div>
+				<button id="return" class="layui-btn layui-btn-normal layui-btn-sm"><i class="layui-icon layui-icon-return"></i>返回</button>
+			</div>
+			<p class="title">图斑号：
+				<span id="BH"></span>
+				<button class="layui-btn layui-btn-sm editBtn">编辑</button>
+			</p>
+			<table  class="layui-table" lay-size="sm">
+				<tr><td>行政区</td><td id="XMC"></td></tr>
+				<tr><td>图斑类型</td><td id="JCTBLX"></td></tr>
+				<tr><td>监测面积</td><td id="JCMJ"></td></tr>
+				<tr><td>实地现状</td><td id="SDXZ"></td></tr>
+				<tr><td>用地单位</td><td id="YDDW"></td></tr>
+				<tr><td>项目名称</td><td id="XMMC"></td></tr>
+				<tr><td>道路用地类型</td><td id="DLLX"></td></tr>
+				<tr><td>道路名称</td><td id="DLMC"></td></tr>
+				<tr><td>道路宽度</td><td id="DLKD"></td></tr>
+				<tr><td>一级土地分类</td><td id="TDFL1"></td></tr>
+				<tr><td>二级土地分类</td><td id="TDFL2"></td></tr>
+				<tr><td>备注</td><td id="BZ"></td></tr>
+			</table>
+			<p style="line-height: 30px;">图片</p>
+			<div class="imgList">
+				
+			</div>
+		</div>
+		<div class="right">
+			<div id="map"></div>
+	        <div class="maptool">
+	            <ul class="tool-bar">
+	                <li id="collect" class="hide" title="收藏"><a onclick="" href="javascript:" class="tool-case1"></a></li>
+	                <li title="全屏" class="" id="fullBtn" onclick="fullScreen()"><a href="javascript:" class="tool-case7"></a></li>
+	                <li title="测距" onclick="maptool.measure('distance')"><a href="javascript:" class="tool-case3"></a></li>
+	                <li title="测面" onclick="maptool.measure('area')"><a href="javascript:" class="tool-case4"></a></li>
+	                <li id="query" title="查询"><a href="javascript:" class="tool-case5"></a></li>
+	                <li title="清除" onclick="maptool.clear()"><a href="javascript:" class="tool-case6"></a></li>
+	                <li title="导入SHP数据" ><a href="javascript:" class="tool-case10"></a></li>
+	            </ul>
+	        </div>
+	        <div class="maptab">
+	            <ul>
+	                <li class="active"
+	                    style="background:url(../../images/maptab/ditu.jpg) no-repeat 2px 2px;background-size: 45px 45px;">
+	                    <a
+	                            type='矢量' href="javascript:">矢量</a></li>
+	                <li style="background:url(../../images/maptab/yingxiang.jpg) no-repeat 2px 2px;background-size: 45px 45px;">
+	                    <a type='影像' href="javascript:">影像</a></li>
+	                <li style="background:url(../../images/maptab/dixing.jpg) no-repeat 2px 2px;background-size: 45px 45px;">
+	                    <a
+	                            type='地形' href="javascript:">地形</a></li>
+	                <li style="background:#fff;"><a type='' href="javascript:">供地</a></li>
+	                <li style="background:#fff;"><a type='' href="javascript:">批地</a></li>
+	                <li style="background:#fff;"><a type='' href="javascript:">无</a></li>
+	            </ul>
+	        </div>
+			
+		</div>
+			
+		
+		
+		
+		
+	</body>
+	<script src="../../js/jquery1.9.0.js"></script>
+	<script src="../../js/config.js"></script>
+	<script src="../../js/common.js"></script>
+	<script src="../../js/layer/layer.js"></script>
+	<script src="../../js/layui/layui.js"></script>
+	<script src="../../js/scrollbar/jquery.nicescroll.min.js"></script>
+	<script src="../../js/modules/layui-config.js"></script>
+	<script src="../../js/openlayers/ol-debug.js"></script>
+	<script src="../../js/openlayers/maptool.js"></script>
+	<script src="../../js/analysis1.js"></script>
+	<script src="../../js/analysis/analysislayer.js"></script>
+	<script src="../../js/analysis/initlayer.js?v=0315"></script>
+	<script>
+		var data;
+		layui.use(['form', 'element', 'laydate', 'table', 'slider', 'ljfBase', 'serverCenter', 'LayerManager', 'NULayer', 'bluebird'], function () {
+			data = parent.layer.data.Info;
+            top.editData = data;
+	        $("#JCTBLX").html(data.JCTBLX);
+            $("#XMC").html(data.XMC);
+            $("#BH").html(data.BH);
+            $("#JCMJ").html(data.JCMJ);
+			
+		    $("body").attr('class', $("body", parent.document).attr('class'));
+		    $(".niceScroll").niceScroll({cursorborder: "", cursorcolor: "#297FBA", boxzoom: false});
+		    layuiform = layui.form;
+		    layuitable = layui.table;
+		    slider = layui.slider;
+		    ljfBase = layui.ljfBase;
+		    var xml2json = layui.xml2json;
+		    var serverCenter = layui.serverCenter;
+		    var LayerManager = layui.LayerManager;
+		    var NULayer = layui.NULayer;
+		    var url = ljfBase.https.BaseMapConfigManagerService + "/GetAllBaseMapConfig";
+		    ljfBase.post(url, {userid: sessionStorage.sprid}, function (res) {
+		        var baseMapConfig = JSON.parse(res)[0];
+		        var center = [];
+		        // center.push(baseMapConfig.CENTERX);
+		        // center.push(baseMapConfig.CENTERY);
+		        center = [114.48, 38.03];
+		        layerManager = new LayerManager("map", center,12);
+		        ljfBase.post(ljfBase.https.BaseMapManagerService + "/GetAllBaseMap", {sprid: sessionStorage.sprid}, function (xml) {
+		            var resArr = $.parseJSON(xml);
+		            layerManager.loadBaseMap(resArr, "矢量");
+		            $('.maptab ul li a').click(function () {
+		                $('.maptab ul li a').removeClass("active");
+		                $(this).addClass("active");
+		                var type = $(this).attr('type');
+		                layerManager.hideBaseMap();
+		                layerManager.loadBaseMap(resArr, type);
+		            });
+		            initdlfx();
+		            
+		            var feature = maptool._wktParser.readFeature(parent.layer.data.Coordinates);
+		            feature.set("BH", parent.layer.data.Info.BH);
+		            sourceClues.addFeature(feature);
+		            _mapView.fit(sourceClues.getExtent(),_mapObject.getSize());
+		            feature.set("PHOTOS", parent.layer.data.Info.BH);
+		            feature.set("AUDIT", parent.layer.data.AUDIT);
+//		            feature.set("RY", parent.layer.data.Info.BH);
+		        });
+		        initMapQuery();
+		        _mapObject.on('click', function (evt) {
+		            var mapZoom = _mapObject.getView().getZoom();
+		            var mapCenter = _mapObject.getView().getCenter();
+		            var layername = "";
+		            var feature = _mapObject.forEachFeatureAtPixel(evt.pixel,
+		                function (feature) {
+		                    return feature;
+		                }, {
+		                    layerFilter: function (layer) {
+		                        if (layer.get('name') == "采集的面信息") {
+		//		                		layername = "采集的面信息";
+		                            return layer.get('name') === '采集的面信息';
+		                        }
+		                    }
+		                }
+		            );
+		            if (feature) {
+		                showFeatureInfo(feature);
+		                var BH = feature.get('BH');
+		                $("#DLBH").val(BH);
+		                layuiform.render('select');
+		            }
+		        });
+		    });
+		    
+		    init();
+
+		});
+
+        //监听弹窗页面点击了保存后进行数据处理
+        top.layerSubmit = function (type, saveData) {
+            top.layer.closeAll();
+            if (type == "editPoint") {
+                var postData = changePostData(saveData);
+                SurveyWebService("/UpdateMonitor", postData, true, function (res) {
+                    if (res.trim() == "ok") {
+                        parent.layer.data.Info = saveData;
+                        top.editData = saveData;
+                        data = saveData;
+
+                        $("#JCTBLX").html(data.JCTBLX);
+                        $("#XMC").html(data.XMC);
+                        $("#BH").html(data.BH);
+                        $("#JCMJ").html(data.JCMJ);
+                        init();
+                        top.layer.msg("编辑成功");
+
+                    } else {
+                        top.layer.alert(res);
+                    }
+                })
+            }
+        };
+
+	    //返回
+		$("#return").click(function(){
+			parent.layer.close(parent.layer.openIndex);
+		});
+
+		//编辑
+		$(".editBtn").click(function(){
+            ljfBase.layerOpen('html/dcy/addForm.html?type=edit', '编辑', ["737px", '655px']);
+		});
+		
+		function init(){
+			var bh = parent.layer.data.Info.BH;
+            var nd = parent.layer.data.Info.ND;
+            var jd = parent.layer.data.Info.JD;
+            JCTBManagerService("/GetJCTBSummaryClass", {bh:bh,nd:nd,jd:jd}, true, function (resjson) {
+		        var resjosn = $.parseJSON(resjson);
+		        if (resjosn.length > 0) {
+		            var data = resjosn[0];
+		            $("#BZ").html(data.BZ);
+		            $("#SDXZ").html(data.SDXZ);
+		            $("#YDDW").html(data.YDDW);
+		            $("#XMMC").html(data.XMMC);
+		            $("#DLLX").html(data.DLLX);
+		            $("#DLMC").html(data.DLMC);
+		            $("#DLKD").html(data.DLKD);
+		        }
+		        
+		    });
+		    JCTBManagerService("/GetJCTBClass", {bh:bh,nd:nd,jd:jd}, true, function (resjson) {
+		        
+		        var resjosn = $.parseJSON(resjson);
+		        if (resjosn.length > 0) {
+		            var data = resjosn[0];
+			        $("#TDFL1").html(data.TDFL1);
+		            $("#TDFL2").html(data.TDFL2);
+		            
+		            var ZP = $.parseJSON(data.ZP);
+		            var str = "";
+		            for (var i=0;i<ZP.length;i++) {
+		            	str+="<img src='"+ZP[i].replace(',','')+"'>"
+		            }
+		            $(".imgList").html(str);
+		            $(".imgList img").click(function(){
+		            	parent.layer.imgurl = $(this).attr('src');
+		            	parent.layer.open({
+	                        type: 2,
+	                        title: false,
+	                        closeBtn: 1, //不显示关闭按钮
+	                        shade: [0],
+	                        skin: 'layui-layer-lan',
+	                        area: ['80%', '80%'],
+	                        anim: 2,//弹出动画
+	                        shade: 0.2,//遮盖层
+	                        content: ['img.html', 'no'], //这里content是一个普通的String
+	                    });
+		            })
+		        }
+		        
+		    });
+		}
+		
+		
+	</script>
+</html>

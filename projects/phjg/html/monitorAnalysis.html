@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html xmlns:v-bind="http://www.w3.org/1999/xhtml">
+
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <link rel="stylesheet" type="text/css" href="../js/layui-v2.4.5/css/layui.css"/>
+    <link rel="stylesheet" type="text/css" href="../js/layer/theme/default/layer.css"/>
+    <link rel="stylesheet" type="text/css" href="../css/comstyle.css"/>
+    <link rel="stylesheet" type="text/css" href="../js/openlayers/ol.css"/>
+    <link rel="stylesheet" type="text/css" href="../css/style.css"/>
+    <link rel="stylesheet" type="text/css" href="../css/monitorAnalysis.css"/>
+
+    <link rel="stylesheet" type="text/css" href="../js/shapeTool/popup/popup.css"/>
+    <script src="../js/shapeTool/shapefile/js/shapefile.min.js"></script>
+    <script src="../js/shapeTool/popup/popup.js"></script>
+
+    <style>
+        .pageBox {
+            position: absolute;
+            height: 100%;
+            top: 0;
+            left: 60px;
+            width: calc(100% - 60px);
+            overflow: hidden;
+            display: none;
+        }
+
+        .fx {
+            display: block;
+        }
+    </style>
+</head>
+
+<body class="white">
+<div id="alertinfodiv">
+
+</div>
+<div class="nav">
+    <ul>
+        <li name="fx" class="active">
+            <i class="layui-icon layui-icon-survey"></i><a href="javascript:">分析</a>
+        </li>
+        <li name="hz"><i class="layui-icon layui-icon-template"></i><a href="javascript:">汇总</a></li>
+        <li name="znxz"><i class="layui-icon layui-icon-app"></i><a href="javascript:">智能选址</a></li>
+    </ul>
+</div>
+<div class="fx pageBox">
+    <div class="left">
+        <div class="layui-tab layui-tab-brief" lay-filter="docDemoTabBrief">
+            <ul class="layui-tab-title">
+                <li class="layui-this" data-type="tb">专项数据分析</li>
+                <li data-type="shape">shape文件分析</li>
+                <li data-type="txt">txt文件分析</li>
+            </ul>
+            <div class="layui-tab-content" style="background: #fff;">
+                <div class="layui-tab-item layui-show">
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">选择专项</label>
+                        <div class="layui-input-block">
+                            <div class="layui-form">
+                                <select id="zx" lay-search lay-filter="zx">
+                                    <!--<option value=""></option>-->
+                                    <option value="卫片核查">卫片核查</option>
+                                    <option value="耕地建房">耕地建房</option>
+                                    <option value="批后监管">批后监管</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="layui-form-item" style="margin-top:5px;">
+                        <label class="layui-form-label">年度季度</label>
+                        <div class="layui-input-block">
+                            <div style="height:45px;overflow: hidden;">
+                                <input id="topND" type="number" name="title" placeholder="年度" value="2019"
+                                       autocomplete="off"
+                                       class="layui-input" style="width:50%;float:left;">
+                                <input id="topJD" type="number" name="title" placeholder="季度" value="4"
+                                       autocomplete="off"
+                                       class="layui-input" style="width:50%;float:left;">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">行政区</label>
+                        <div class="layui-input-block">
+                            <div id="xzqTool" class="indexCity">选择</div>
+                        </div>
+                    </div>
+
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">选择图斑</label>
+                        <div class="layui-input-block">
+                            <div class="layui-form">
+                                <select id="DLBH" lay-search lay-filter="DLBH">
+
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="layui-tab-item">
+                    <div class="head" style="border:none;">
+                        <!--  PRJ: <input type="file" id="prjFile">  <br> -->
+                        <div class="layui-form-item" style="background: #FFF;">
+                            <label class="layui-form-label" style="width: auto;">.shp文件:</label>
+                            <div class="layui-input-block">
+                                <div class="layui-form">
+                                    <input type="file" id="shpFile">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="layui-form-item" style="background: #FFF;">
+                            <label class="layui-form-label" style="width: auto;">.dbf文件:</label>
+                            <div class="layui-input-block">
+                                <div class="layui-form">
+                                    <input type="file" id="dbfFile">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="layui-form-item" style="background: #FFF;">
+                            <label class="layui-form-label" style="width: auto;">坐标系:</label>
+                            <div class="layui-input-block">
+                                <div class="layui-form">
+                                    <select name="" id="zbxSelectShape" class="zbxSelectTxt">
+                                        <option value="西安80">西安80</option>
+                                        <option value="北京54">北京54</option>
+                                        <option value="北京2000">北京2000</option>
+                                        <option value="北京地方">北京地方</option>
+                                        <option value="WGS84">WGS84</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <input type="button" value="导入" class="layui-btn layui-btn-sm"
+                               style="width:100%;margin-top:10px;"
+                               onclick="doParseShp()">
+                    </div>
+                </div>
+                <div class="layui-tab-item">
+                    <div class="head" style="border:none;">
+                        <div>例：<span style="color:#aaa">113.804 38.759, 113.799 38.760, ...,113.804 38.759</span></div>
+                        <div class="layui-form-item" style="background: #FFF;">
+                            <label class="layui-form-label" style="width: auto;">.txt文件:</label>
+                            <div class="layui-input-block">
+                                <div class="layui-form">
+                                    <input type="file" onchange="inputChange(this)">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="layui-form-item" style="background: #FFF;">
+                            <label class="layui-form-label" style="width: auto;">坐标系:</label>
+                            <div class="layui-input-block">
+                                <div class="layui-form">
+                                    <select name="" id="zbxSelectTxt" class="zbxSelectTxt">
+                                        <option value="西安80">西安80</option>
+                                        <option value="北京54">北京54</option>
+                                        <option value="北京2000">北京2000</option>
+                                        <option value="北京地方">北京地方</option>
+                                        <option value="WGS84">WGS84</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <input type="button" class="layui-btn layui-btn-sm" value="导入"
+                               style="width:100%;margin-top:10px;"
+                               onclick="showTextFeature()">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="nav-content" style="background: #fff;">
+            <div class="tab-container" name="地类分析">
+                <div class="layui-form-item" style="background: #FFF;padding: 5px;margin-bottom: 5px;">
+                    <label class="layui-form-label" style="width: auto; padding: 9px 3px;">对比数据源:</label>
+                    <div class="layui-input-block">
+                        <div class="layui-form">
+                            <select id="dataFrom" lay-search lay-filter="dataFrom">
+                                <option value="SD">三调数据</option>
+                                <option value="ED">二调数据</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="layui-form-item" style="background: #FFF;padding: 5px;margin-bottom: 5px;">
+                    <label class="layui-form-label" style="width: auto; padding: 9px 3px;">对比类型:</label>
+                    <div class="layui-input-block">
+                        <div class="changeTypeBox layui-btn-group">
+                            <button data-type="dl" class="layui-btn layui-btn-noraml">地类</button>
+                            <button data-type="qs" class="layui-btn layui-btn-primary">权属</button>
+                            <button data-type="nt" class="layui-btn layui-btn-primary">农田</button>
+                            <button data-type="gh" class="layui-btn layui-btn-primary">建设</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div>
+                    <button id="analysis" class="layui-btn layui-btn-normal layui-btn-sm" style="width:100%;">分析
+                    </button>
+                    <!--<button id="summarizing" class="layui-btn layui-btn-normal layui-btn-sm">汇总</button>-->
+                </div>
+
+                <div class="table_box">
+                    <table id="table_tb" class="layui-table">
+                        <thead>
+                        <th>分类名称</th>
+                        <th>面积（亩）</th>
+                        </thead>
+                        <tbody id="tbody_tb">
+
+                        </tbody>
+                        <tr>
+                            <td>合计</td>
+                            <td id="totalAreaTd"></td>
+                        </tr>
+                    </table>
+                    <div class="detaileddiv hide">
+                        <p style="padding: 7px 6px; background: #fff;margin-top: 10px;">汇总详情信息:</p>
+                        <div style="overflow: auto; height: calc(100vh - 230px);">
+                            <table class="layui-table">
+                                <thead>
+                                <tr style="background: #fff!important;">
+                                    <th>地类编号</th>
+                                    <th>总面积</th>
+                                    <th>占用比例</th>
+                                </tr>
+                                </thead>
+                                <tbody id="tbody_summarizing"></tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="right">
+        <div class="map-div">
+            <div id="map">
+
+            </div>
+            <div class="maptool">
+                <ul class="tool-bar">
+                    <li title="行政区" class="hide"><a href="javascript:" class="tool-case10">行政区</a></li>
+                    <li title="全屏" class="" id="fullBtn" onclick="fullScreen()"><a href="javascript:"
+                                                                                   class="tool-case7"></a></li>
+                    <li title="测距" onclick="maptool.measure('distance')"><a href="javascript:" class="tool-case3"></a>
+                    </li>
+                    <li title="测面" onclick="maptool.measure('area')"><a href="javascript:" class="tool-case4"></a></li>
+                    <li id="query" title="查询"><a href="javascript:" class="tool-case5"></a></li>
+                    <li title="清除" onclick="maptool.clear()"><a href="javascript:" class="tool-case6"></a></li>
+                </ul>
+                <div class="xzqSearchBox">
+                    <!--<div class="city-inner-title">-->
+                    <!--<span class="current"><a id="indexCity" class="active indexCity"-->
+                    <!--href='javascript:;'></a></span>-->
+                    <!--<span class="f-right" style="display: none;">-->
+                    <!--<span class="year">年度:</span><select id="year"></select>-->
+                    <!--<span class="quarter">季度:</span><select id="quart"></select>-->
+                    <!--</span>-->
+                    <!--</div>-->
+                    <ul id="every-city" class="every-city">
+                        <li><a href='javascript:;'></a></li>
+                    </ul>
+                    <div class='city-list'>
+                        <div class='list-XZ'>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="maptab">
+                <ul>
+                    <li class="active"
+                        style="background:url(../images/maptab/ditu.jpg) no-repeat 2px 2px;background-size: 45px 45px;">
+                        <a
+                                type='矢量' href="javascript:">矢量</a></li>
+                    <li style="background:url(../images/maptab/yingxiang.jpg) no-repeat 2px 2px;background-size: 45px 45px;">
+                        <a type='影像' href="javascript:">影像</a></li>
+                    <li style="background:url(../images/maptab/dixing.jpg) no-repeat 2px 2px;background-size: 45px 45px;">
+                        <a
+                                type='地形' href="javascript:">地形</a></li>
+                    <li style="background:#fff;"><a type='' href="javascript:">无</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="hz pageBox">
+    <iframe src="../../zygd/html/comprehensiveQuery/index.html" style="width:100%;height:100%;" frameborder="0"></iframe>
+</div>
+<div class="znxz pageBox">
+    <iframe src="../../zygd/html/comprehensiveQuery/makePolicy.html" style="width:100%;height:100%;" frameborder="0"></iframe>
+</div>
+</body>
+<script src="../js/jquery1.9.0.min.js"></script>
+<script src="../js/config.js"></script>
+<script src="../js/common.js"></script>
+<script src="../js/scrollbar/jquery.nicescroll.min.js"></script>
+<script src="../js/layui/layui.js"></script>
+<script src="../js/modules/layui-config.js"></script>
+<script src="../js/openlayers/ol-debug.js"></script>
+<script src="../js/openlayers/maptool.js"></script>
+<script src="../js/analysis.js"></script>
+<script src="../js/analysis/analysislayer.js"></script>
+<script src="../js/analysis/initlayer.js"></script>
+<script src="../js/showWFTBTJFX.js"></script>
+<script>
+    $(".nav").on("click", "li", function () {
+        $(".nav li").removeClass("active");
+        $(this).addClass("active");
+        $(".pageBox").hide();
+        var name = $(this).attr("name");
+        $("." + name).show();
+    })
+</script>
+
+</html>

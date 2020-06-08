@@ -1,0 +1,774 @@
+<!DOCTYPE html>
+<html xmlns:v-bind="http://www.w3.org/1999/xhtml">
+
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <link rel="stylesheet" type="text/css" href="../js/layui-v2.4.5/css/layui.css"/>
+    <link rel="stylesheet" type="text/css" href="../js/layer/theme/default/layer.css"/>
+    <link rel="stylesheet" type="text/css" href="../css/comstyle.css"/>
+    <link rel="stylesheet" type="text/css" href="../css/apicture.css"/>
+    <link rel="stylesheet" type="text/css" href="../js/openlayers/ol.css"/>
+    <style>
+        /*#collect {*/
+        /*position: absolute;*/
+        /*bottom: 0;*/
+        /*left: 0;*/
+        /*width: 100%;*/
+        /*display: none;*/
+        /*}*/
+
+        .nav > ul {
+            position: relative;
+            height: 100%;
+        }
+    </style>
+</head>
+
+<body class="white">
+<div id="alertinfodiv">
+
+</div>
+
+<div class="selectBox">
+    <form class="layui-form" action="">
+        <div class="layui-form-item xzqBox">
+            <div class="layui-inline">
+                <select class="shenSelect" name="" lay-verify="required">
+                    <option value="130000">河北省</option>
+                </select>
+            </div>
+            <div class="layui-inline">
+                <select class="shiSelect" name="" lay-filter="shiSelect">
+                    <option value=""></option>
+                </select>
+            </div>
+            <div class="layui-inline hide">
+                <select class="xianSelect" name="" lay-filter="xianSelect">
+                    <option value=""></option>
+                </select>
+            </div>
+        </div>
+    </form>
+</div>
+
+<div class="left">
+    <div class="nav">
+        <ul>
+            <li class="" name="上传数据" id="uploadData"><i class="layui-icon layui-icon-file-b"></i><a href="javascript:">上传数据</a></li>
+            <li class="" name="申请数据" id="applyData"><i class="layui-icon layui-icon-file-b"></i><a href="javascript:">申请数据</a></li>
+            <li id="collect" class="" name="生成专题"><i class="layui-icon layui-icon-file-b"></i><a
+                    href="javascript:">生成专题</a></li>
+        </ul>
+    </div>
+    <div class="nav-content">
+        <div class="layui-tab layui-tab-brief" lay-filter="dataTypeTitle">
+            <ul class="layui-tab-title dataTypeTitle">
+                <li class="layui-this" name="基础数据">基础数据</li>
+                <li name="专业数据">专业数据</li>
+                <li name="专项数据">专项数据</li>
+            </ul>
+            <div class="layui-tab-content">
+                <div class="tab-container" name="基础数据">
+                    <div id="mapServers" class="service-item niceScroll">
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="right">
+    <div class="map-div">
+        <div id="map">
+
+        </div>
+        <div class="maptool">
+            <ul class="tool-bar">
+                <li id="" title="收藏" class="hide"><a href="javascript:" class="tool-case1"></a></li>
+                <!--<li title="全幅" onclick="maptool.allover()"><a href="javascript:" class="tool-case9"></a></li>-->
+                <li title="全屏" class="" id="fullBtn" onclick="fullScreen()"><a href="javascript:"
+                                                                               class="tool-case7"></a></li>
+                <li title="测距" onclick="maptool.measure('distance')"><a href="javascript:" class="tool-case3"></a></li>
+                <li title="测面" onclick="maptool.measure('area')"><a href="javascript:" class="tool-case4"></a></li>
+                <li id="query" title="查询"><a href="javascript:" class="tool-case5"></a></li>
+                <li title="清除" onclick="maptool.clear()"><a href="javascript:" class="tool-case6"></a></li>
+                <!--<li title="全屏"><a href="javascript:;" class="tool-case7"></a></li>-->
+            </ul>
+        </div>
+        <div class="maptab">
+            <ul>
+                <li class="active"
+                    style="background:url(../images/maptab/ditu.jpg) no-repeat 2px 2px;background-size: 45px 45px;">
+                    <a type='矢量' href="javascript:">矢量</a></li>
+                <li style="background:url(../images/maptab/yingxiang.jpg) no-repeat 2px 2px;background-size: 45px 45px;">
+                    <a type='影像' href="javascript:">影像</a></li>
+                <li style="background:url(../images/maptab/dixing.jpg) no-repeat 2px 2px;background-size: 45px 45px;"><a
+                        type='地形' href="javascript:">地形</a></li>
+                <li style="background:#fff;"><a type='' href="javascript:">无</a></li>
+            </ul>
+        </div>
+    </div>
+
+    <iframe id="iframes" name="iframes" class="hide" src="maplayout/layout1.html" style="border: 0px;" width="100%"
+            height="100%"></iframe>
+</div>
+</body>
+<script src="../js/jquery1.9.0.min.js"></script>
+<script src="../js/config.js"></script>
+<script src="../js/common.js"></script>
+<script src="../js/scrollbar/jquery.nicescroll.min.js"></script>
+<script src="../js/layui/layui.js"></script>
+<script src="../js/modules/layui-config.js"></script>
+<script src="../js/openlayers/ol-debug.js"></script>
+<script src="../js/openlayers/maptool.js"></script>
+<script src="../js/city.data-3.js"></script>
+<script>
+    var ljfBase = null;
+    var slider = null;
+    var layuiform = null;
+    var layerManager = null;
+    var Industryresjosn = [];//专题图层数组
+    var sourceClues = null;//采集的面信息
+    var vectorClues = null;//采集的面图层
+    window.fieldArr = [];
+
+    function fullScreen() {//全屏显示地图
+        if ($("#fullBtn").hasClass("active")) {//取消全屏
+            $(".left").show();
+            $(".right").attr("style", "");
+        } else {//全屏
+            $(".left").hide();
+            $(".right").attr("style", "width:100%;left:0;");
+        }
+        _mapObject.updateSize();
+        $("#fullBtn").toggleClass("active");
+    }
+
+    layui.use(['form', 'element', 'laydate', 'table', 'slider', 'ljfBase', 'serverCenter', 'LayerManager', 'NULayer', 'bluebird'], function () {
+        $("body").attr('class', $("body", parent.document).attr('class'));
+        $(".niceScroll").niceScroll({cursorborder: "", cursorcolor: "#297FBA", boxzoom: false});
+        var element = layui.element;
+        layuiform = layui.form;
+        var form = layui.form;
+        slider = layui.slider;
+        ljfBase = layui.ljfBase;
+
+        var shiArr = [];
+        var xianArr = [];
+        /**
+         * 初始化省市区下拉选择框
+         *smc string类型 市名称/number类型 市行政区代码
+         *xmc
+         **/
+        function initCity(smc, xmc) {
+            $.each(cityData3, function (i, v) {
+                if (v.value == 130000) {
+                    shiArr = v.children;
+                    return;
+                }
+            });
+            var defaultStr = '<option value=""></option>';
+            var shiStr = defaultStr;
+            $.each(shiArr, function (i, v) {
+                shiStr += '<option value="' + v.value + '">' + v.text + '</option>';
+            });
+            $('.shiSelect').html(shiStr);
+            $('.xianSelect').html(defaultStr);
+            form.render();
+
+            if (smc) {
+                $.each(shiArr, function (s, k) {
+                    var sValue;
+                    if (typeof smc == "string") {
+                        sValue = k.text;
+                    } else if (typeof smc == "number") {
+                        sValue = k.value;
+                    }
+                    if (sValue == smc) {
+                        $('.shiSelect').val(k.value);
+                        xianArr = k.children;
+
+                        var xianStr = defaultStr;
+                        $.each(xianArr, function (i, v) {
+                            xianStr += '<option value="' + v.value + '">' + v.text + '</option>';
+                        });
+                        $('.xianSelect').html(xianStr);
+                        form.render();
+                        if (xmc) {
+                            $.each(xianArr, function (i, v) {
+                                var xValue;
+                                if (typeof xmc == "string") {
+                                    xValue = v.text;
+                                } else if (typeof xmc == "number") {
+                                    xValue = v.value;
+                                }
+                                if (xValue == xmc) {
+                                    $('.xianSelect').val(v.value);
+                                }
+                            });
+                        }
+                        return;
+                    }
+                });
+            }
+            form.render();
+
+            //监听选择市
+            form.on('select(shiSelect)', function (data) {
+                if (data.value) {
+                    initCity(JSON.parse(data.value));
+                } else {
+                    initCity();
+                }
+                showMapSource();
+                return false;
+            });
+        }
+
+        var xml2json = layui.xml2json;
+        var serverCenter = layui.serverCenter;
+        var LayerManager = layui.LayerManager;
+        var NULayer = layui.NULayer;
+        var url = ljfBase.https.BaseMapConfigManagerService + "/GetAllBaseMapConfig";
+        ljfBase.post(url, {userid: sessionStorage.sprid}, function (res) {
+            var baseMapConfig = JSON.parse(res)[0];
+            var center = [];
+            center.push(baseMapConfig.CENTERX);
+            center.push(baseMapConfig.CENTERY);
+            layerManager = new LayerManager("map", center, 12);
+            ljfBase.post(ljfBase.https.BaseMapManagerService + "/GetAllBaseMap", {sprid: sessionStorage.sprid}, function (xml) {
+                var resArr = $.parseJSON(xml);
+                layerManager.loadBaseMap(resArr, "矢量");
+                $('.maptab ul li').click(function () {
+                    $('.maptab ul li').removeClass("active");
+                    $(this).addClass("active");
+                    var type = $(this).find('a').attr('type');
+                    layerManager.hideBaseMap();
+                    layerManager.loadBaseMap(resArr, type);
+                });
+                $(".maptab ul li:last").click();//默认显示无底图
+            });
+
+            _mapObject = layerManager._mapObject;
+            var isquery = false;
+            $("#query").click(function () {
+                if (isquery) {
+                    $("#map").css('cursor', 'default');
+                    $(this).attr("title", "查询");
+                    isquery = false;
+                } else {
+                    $("#map").css('cursor', 'pointer');
+                    $(this).attr("title", "取消查询");
+                    isquery = true;
+                }
+            });
+            initMapQuery();
+            initCity("衡水市");
+            showMapSource();
+        });
+
+        element.on('tab(dataTypeTitle)', function(data){
+            console.log(this); //当前Tab标题所在的原始DOM元素
+            console.log(data.index); //得到当前Tab的所在下标
+            console.log(data.elem); //得到当前的Tab大容器
+            console.log(this.innerHTML);
+            showMapSource();
+        });
+    });
+
+    //显示地图服务列表
+    function showMapSource() {
+        var name = $(".dataTypeTitle li.layui-this").attr("name");
+        var xzq = $(".shiSelect").find("option:selected").text();
+        GetMapResourceByIndustry("/GetMapResourceByType2", {'sprid': sessionStorage.sprid, 'datatype': name});//地图服务
+    }
+
+    $(".splitscreen .layout").click(function () {
+        $(".splitscreen .layout").removeClass('active');
+        $(this).addClass('active');
+    });
+    //地图服务
+
+    $(".splitscreen .layout").click(function () {
+        var url = $(this).attr('url');
+//      	$(".map-div").addClass('hide');
+        $("#iframes").attr('src', "maplayout/" + url + ".html");
+    });
+
+    //获取地图服务
+    function GetMapResourceByIndustry(serveurl, data) {
+        parent.layer.loadIndex = parent.layer.load(0, {shade: 0.1});
+        var type = data.datatype;
+        ResourceManagerService(serveurl, data, true, function (resjson) {
+            if (resjson.indexOf("false") > -1) {
+                parent.layer.alert("未查询到结果!");
+                parent.layer.close(parent.layer.loadIndex);
+                var resjosn = [];
+            } else {
+                var resjosn = $.parseJSON(resjson);
+            }
+            layerManager.layerArr = [];
+            layerManager.sliderArr = [];
+            var str = "";
+            for (var i = 0; i < resjosn.length; i++) {
+                str += "<div class='item-index'>";
+                // str += "<div class='item-top'><i class='layui-icon spread layui-icon-triangle-d'><span>" + INDUSTRY + "</span></i></div>";
+                str += "<div class='item-list'>";
+                for (var i = 0; i < resjosn.length; i++) {
+                    var INDUSTRY = resjosn[i].INDUSTRY;
+                    var RESOURCES = resjosn[i].RESOURCES;
+                    str += "<div class='item-index'>";
+                    str += "<div class='item-top'><i class='layui-icon spread layui-icon-triangle-d'><span>" + INDUSTRY + "</span></i></div>";
+                    str += "<div class='item-list'>";
+                    for (var j = 0; j < RESOURCES.length; j++) {
+                        var MAPURL = RESOURCES[j].MAPURL;
+                        var MAPNAME = RESOURCES[j].MAPNAME;
+                        var MAPID = RESOURCES[j].MAPID;
+                        var SERVICETYPE = RESOURCES[j].SERVICETYPE;
+                        var SCALE = RESOURCES[j].SCALE;
+                        var MAPLAYERS = RESOURCES[j].MAPLAYERS;
+                        var extent = [RESOURCES[j].XMIN, RESOURCES[j].YMIN, RESOURCES[j].XMAX, RESOURCES[j].YMAX];
+                        str += "<div class='item-row1'>";
+                        str += "<div class='item-top item-top-2'><i class='layui-icon spread layui-icon-triangle-r'><span>" + MAPNAME + "</span></i>";
+                        var isChecked = "";
+                        var checkedMapArr = layerManager.saveThemelayer();
+                        $.each(checkedMapArr, function (s, k) {
+                            if (k.layerId.split("_")[0] == RESOURCES[j].MAPID) {
+                                isChecked = "checked";
+                            }
+                        });
+                        str += "<div class='layui-form switch'><input " + isChecked + " type='checkbox' _extent=" + extent + " _SCALE=" + SCALE + " _MAPURL='" + MAPURL + "'  _TYPE='parent'  _PID='" + MAPID + "' _ID='-1'   name='close' lay-skin='switch' lay-filter='switchTest' lay-text=''></div>";
+                        str += "</div>";
+                        str += "<div class='item-list' style='display: none;'>";
+
+                        for (var k = 0; k < MAPLAYERS.length; k++) {
+                            window.fieldArr.push(MAPLAYERS[k]);
+                            str += "<div class='item-row'>";
+                            str += "<span class='item-top item-top-3'>" + MAPLAYERS[k].LAYERNAME + "</span>";
+                            str += "<div class='layui-form switch'>";
+
+                            var isChildrenChecked = "";
+
+                            if (isChecked) {
+                                $.each(checkedMapArr, function (index, value) {
+                                    if (value.layerId.split("_")[1] == MAPLAYERS[k].LAYERINDEX) {
+                                        isChildrenChecked = "checked";
+                                    }
+                                });
+                            }
+
+                            if (SERVICETYPE == "MapServer") {
+                                if (MAPLAYERS[k].ISTILE == "是") {
+                                    str += "<input type='checkbox' " + isChildrenChecked + " _extent=" + extent + "  name='close' _MAPTYPE='MapServer' _SCALE=" + SCALE + " _MAPURL='" + MAPURL + "'  _TYPE='children'  _PID='" + MAPID + "' _ID='" + MAPLAYERS[k].LAYERINDEX + "' _NAME='" + MAPLAYERS[k].LAYERNAME + "' lay-skin='switch' lay-filter='switchTest' lay-text=''>"
+                                } else {
+                                    str += "<input type='checkbox' " + isChildrenChecked + " _extent=" + extent + "  name='close' _MAPTYPE='ArcGISRest' _SCALE=" + SCALE + "  _MAPURL='" + MAPURL + "' _TYPE='children'  _PID='" + MAPID + "' _ID='" + MAPLAYERS[k].LAYERINDEX + "' _NAME='" + MAPLAYERS[k].LAYERNAME + "'  lay-skin='switch' lay-filter='switchTest' lay-text=''>"
+                                }
+                            } else {
+                                str += "<input type='checkbox' " + isChildrenChecked + "  _extent=" + extent + "   name='close' _MAPTYPE='WMS' _SCALE=" + SCALE + "  _MAPURL='" + MAPURL + "' _TYPE='children'  _PID='" + MAPID + "' _ID='" + MAPLAYERS[k].LAYERINDEX + "' _NAME='" + MAPLAYERS[k].LAYERNAME + "'  lay-skin='switch' lay-filter='switchTest' lay-text=''>"
+                            }
+                            str += "</div>";
+                            var slideid = MAPID + "_" + MAPLAYERS[k].LAYERINDEX;
+                            str += "<div id='" + slideid + "' class='slideTest'></div>";
+                            str += "</div>";
+                            layerManager.sliderArr.push(slideid);
+                        }
+                        str += "</div>";
+                        str += "</div>"
+                    }
+                    str += "</div></div>"
+                }
+                str += "</div></div>"
+            }
+            $("#mapServers").html(str);
+            $(".service-item .spread").click(function () {
+                if ($(this).hasClass('layui-icon-triangle-d')) {
+                    $(this).parent().parent().find('>.item-list').slideUp();
+                    $(this).removeClass('layui-icon-triangle-d').addClass('layui-icon-triangle-r');
+                } else {
+                    $(this).parent().parent().find('>.item-list').slideDown();
+                    $(this).removeClass('layui-icon-triangle-r').addClass('layui-icon-triangle-d');
+                }
+            });
+            layuiform.render();
+            layuiform.on('switch(switchTest)', function (data) {
+                var _PID = data.elem.getAttribute("_PID");
+                var _MAPTYPE = data.elem.getAttribute("_MAPTYPE");
+                var _MAPURL = data.elem.getAttribute("_MAPURL");
+                var _NAME = data.elem.getAttribute("_NAME");
+                var _ID = data.elem.getAttribute("_ID");
+                var _SCALE = data.elem.getAttribute("_SCALE");
+                var _extent = data.elem.getAttribute("_extent").split(",");
+                if (_ID == "-1") {
+                    var children = $("input[_PID='" + _PID + "']").attr('checked', data.elem.checked);
+                    children.each(function (i, v) {
+                        var id = children.eq(i).attr('_ID');
+                        var _NAME = children.eq(i).attr('_NAME');
+                        if (id != "-1") {
+                            if (data.elem.checked) {
+
+                                var opacity = $("#" + _PID + "_" + id + " .layui-slider-tips").html();
+                                layerManager.addLayer({
+                                    layerId: _PID + "_" + id,
+                                    mapUrl: _MAPURL,
+                                    layers: id,
+                                    opacity: Number(opacity) / 100,
+                                    layerName: _NAME,
+                                    mapId: _PID,
+                                    scale: _SCALE
+                                });
+
+                                _mapView.fit(_extent, _mapObject.getSize());
+                                var zoom = _mapObject.getView().getZoom();
+                                var scaleArr = _SCALE.split(',');
+                                if (scaleArr[0] > zoom) {
+                                    zoom = scaleArr[0];
+                                }
+                                if (scaleArr[scaleArr.length - 1] < zoom) {
+                                    zoom = scaleArr[scaleArr.length - 1];
+                                }
+                                layerManager.setZoom(zoom);
+                            } else {
+                                layerManager.removeLayerById(_PID + "_" + id);
+                            }
+                            console.log(layerManager.saveThemelayer())
+                        }
+                    });
+                    if (data.elem.checked) {
+                        VisitMapSource(_PID);
+                    }
+                    layuiform.render();
+                } else {
+                    if (data.elem.checked) {
+                        var opacity = $("#" + _PID + "_" + _ID + " .layui-slider-tips").html();
+                        layerManager.addLayer({
+                            layerId: _PID + "_" + _ID,
+                            mapUrl: _MAPURL,
+                            layers: _ID,
+                            opacity: Number(opacity) / 100,
+                            layerName: _NAME,
+                            mapId: _PID,
+                            scale: _SCALE
+                        });
+                        _mapView.fit(_extent, _mapObject.getSize());
+                        VisitMapSource(_PID);
+                    } else {
+                        layerManager.removeLayerById(_PID + "_" + _ID);
+                    }
+                    var children = $("input[_PID='" + _PID + "'][_TYPE='children']:checked");
+                    if (children.length > 0) {
+                        $("input[_PID='" + _PID + "'][_TYPE='parent']").attr('checked', true);
+                    } else {
+                        $("input[_PID='" + _PID + "'][_TYPE='parent']").attr('checked', false);
+                    }
+                    layuiform.render();
+                }
+            });
+
+            for (var i = 0; i < layerManager.sliderArr.length; i++) {
+                slider.render({
+                    elem: '#' + layerManager.sliderArr[i],
+                    value: 100, //初始值
+                    theme: '#1E9FFF',
+                    id: layerManager.sliderArr[i],
+                    change: function (value) {
+                        sliderchange(value, this.id);
+                    }
+                });
+            }
+
+            parent.layer.close(parent.layer.loadIndex);
+        });
+    }
+
+    function sliderchange(value, e) {
+        var value = value;
+        var _PID = e.split('_')[0];
+        var _ID = e.split('_')[1];
+        var layerObj = layerManager.getLayerById(_PID + "_" + _ID);
+        if (layerObj) {
+            layerObj.setOpacity(value / 100);
+        }
+    }
+
+    //访问量+1
+    function VisitMapSource(MAPID) {
+        MapResourceManagerService("/VisitMapSource", {
+            sourceid: MAPID,
+            userid: sessionStorage.sprid
+        }, true, function (resjson) {
+            var a = [];
+        });
+    }
+
+    //获取专题成果
+    function GetThemeByIndustry(serveurl, data) {
+        ResourceManagerService(serveurl, data, true, function (resjson) {
+            if (resjson.indexOf("false") > -1) {
+                parent.layer.alert("未查询到结果!");
+                parent.layer.close(parent.layer.loadIndex);
+                var resjosn = [];
+            } else {
+                var resjosn = $.parseJSON(resjson);
+            }
+            Industryresjosn = resjosn;
+            var str = "";
+            for (var i = 0; i < resjosn.length; i++) {
+                var INDUSTRY = resjosn[i].INDUSTRY;
+                var RESOURCES = resjosn[i].RESOURCES;
+                str += "<div class='item-index'>";
+                str += "<div class='item-top'><i class='layui-icon spread layui-icon-triangle-d'><span>" + INDUSTRY + "</span></i></div>";
+                str += "<div class='item-list'>";
+                for (var j = 0; j < RESOURCES.length; j++) {
+                    var THEMENAME = RESOURCES[j].THEMENAME;
+                    var _RESOURCES = RESOURCES[j].RESOURCES;
+
+                    if (_RESOURCES.length != 0) {
+                        var str1 = "";
+                        for (var k = 0; k < _RESOURCES.length; k++) {
+                            var INDEX = _RESOURCES[_RESOURCES.length - 1 - k].LAYERINDEX;
+                            var MAPID = _RESOURCES[_RESOURCES.length - 1 - k].MAPID;
+                            var MAPURL = _RESOURCES[_RESOURCES.length - 1 - k].MAPURL;
+                            var LAYERNAME = _RESOURCES[_RESOURCES.length - 1 - k].LAYERNAME;
+                            str1 += "MAPID" + k + "='" + MAPID + "' MAPURL" + k + "='" + MAPURL + "' LAYERNAME" + k + "='" + LAYERNAME + "' INDEX" + k + "='" + INDEX + "'";
+                        }
+                        str += "<div class='item-row'><span>" + THEMENAME + "</span><div class='layui-form switch'>";
+                        str += "<input " + str1 + " length='" + _RESOURCES.length + "' type='checkbox'  name='open' lay-skin='switch' lay-filter='switchTest1' lay-text=''>";
+                        str += "</div></div>"
+                    }
+                }
+                str += "</div></div>"
+            }
+            $("#Industry").html(str);
+            layuiform.render();
+            initSplitScreen(1);
+            layuiform.on('switch(switchTest1)', function (data) {
+                var length = data.elem.getAttribute("length");
+                for (var i = 0; i < Number(length); i++) {
+                    var MAPID = data.elem.getAttribute("MAPID" + i);
+                    var MAPURL = data.elem.getAttribute("MAPURL" + i);
+                    var INDEX = data.elem.getAttribute("INDEX" + i);
+                    var LAYERNAME = data.elem.getAttribute("LAYERNAME" + i);
+                    if (data.elem.checked) {
+
+                        layerManager.addLayer({
+                            layerId: MAPID + "_" + INDEX,
+                            mapUrl: MAPURL,
+                            layers: INDEX,
+                            layerName: LAYERNAME
+                        });
+                    } else {
+                        layerManager.removeLayerById(MAPID + "_" + INDEX);
+                    }
+                }
+
+            });
+        });
+    }
+
+    //初始化分屏专题
+    function initSplitScreen(index) {
+        if (index == 1) {
+            $(".jlxg").show();
+        } else {
+            $(".jlxg").hide();
+        }
+        var str = "<span index='0' class='layui-badge active'>0</span>";
+        for (var i = 0; i < Number(index); i++) {
+            str += "<span index='" + (i + 1) + "' class='layui-badge'>" + (i + 1) + "</span>"
+        }
+        var str2 = "";
+        for (var i = 0; i < Industryresjosn.length; i++) {
+            var INDUSTRY = Industryresjosn[i].INDUSTRY;
+            var RESOURCES = Industryresjosn[i].RESOURCES;
+            for (var j = 0; j < RESOURCES.length; j++) {
+                var THEMENAME = RESOURCES[j].THEMENAME;
+                var _RESOURCES = RESOURCES[j].RESOURCES;
+                if (_RESOURCES.length != 0) {
+                    var str1 = "";
+                    for (var k = 0; k < _RESOURCES.length; k++) {
+                        var INDEX = _RESOURCES[_RESOURCES.length - 1 - k].LAYERINDEX;
+                        var MAPID = _RESOURCES[_RESOURCES.length - 1 - k].MAPID;
+                        var MAPURL = _RESOURCES[_RESOURCES.length - 1 - k].MAPURL;
+                        str1 += "MAPID" + k + "='" + MAPID + "' MAPURL" + k + "='" + MAPURL + "' INDEX" + k + "='" + INDEX + "'";
+                    }
+                    str2 += "<div length='" + _RESOURCES.length + "' " + str1 + " class='special-item'><p><i class='layui-icon layui-icon-spread-left'></i>" + THEMENAME + "</p>";
+                    str2 += "<div>" + str + "</div></div>";
+                }
+            }
+        }
+        $("#speciallist").html(str2);
+
+
+        $("#speciallist .layui-badge").click(function () {
+            $(this).parent().find('.layui-badge').removeClass('active');
+            $(this).addClass('active');
+            var _index = $(this).attr('index');
+            var elem = $(this).parent().parent();
+            var length = elem.attr('length');
+            if (_index == "0") {
+                for (var i = 0; i < Number(length); i++) {
+                    var MAPID = elem.attr('MAPID' + i);
+                    var MAPURL = elem.attr('MAPURL' + i);
+                    var INDEX = elem.attr('INDEX' + i);
+                    iframes.window.removeLayerById(MAPID + "_" + INDEX)
+                }
+            } else {
+                for (var i = 0; i < Number(length); i++) {
+                    var MAPID = elem.attr('MAPID' + i);
+                    var MAPURL = elem.attr('MAPURL' + i);
+                    var INDEX = elem.attr('INDEX' + i);
+                    iframes.window.removeLayerById(MAPID + "_" + INDEX)
+                }
+                for (var i = 0; i < Number(length); i++) {
+                    var MAPID = elem.attr('MAPID' + i);
+                    var MAPURL = elem.attr('MAPURL' + i);
+                    var INDEX = elem.attr('INDEX' + i);
+                    iframes.window.addlayer(_index, {layerId: MAPID + "_" + INDEX, mapUrl: MAPURL, layers: INDEX})
+                }
+            }
+        })
+    }
+
+    //收藏夹
+    function GetMyThemeByIndustry(serveurl, data) {
+        parent.layer.loadIndex = parent.layer.load(0, {shade: 0.1});
+        ResourceManagerService(serveurl, data, true, function (resjson) {
+            if (resjson.indexOf("false") > -1) {
+                parent.layer.alert("未查询到结果!");
+                parent.layer.close(parent.layer.loadIndex);
+                var resjosn = [];
+            } else {
+                var resjosn = $.parseJSON(resjson);
+            }
+            var str = "";
+            for (var i = 0; i < resjosn.length; i++) {
+                var INDUSTRY = resjosn[i].INDUSTRY;
+                var RESOURCES = resjosn[i].RESOURCES;
+                str += "<div class='item-index'>";
+                str += "<div class='item-top'><i class='layui-icon spread layui-icon-triangle-d'><span>" + INDUSTRY + "</span></i></div>";
+                str += "<div class='item-list'>";
+                for (var j = 0; j < RESOURCES.length; j++) {
+                    var THEMENAME = RESOURCES[j].THEMENAME;
+                    var THEMEID = RESOURCES[j].THEMEID;
+                    var _RESOURCES = RESOURCES[j].RESOURCES;
+
+                    if (_RESOURCES.length != 0) {
+                        var str1 = "";
+                        for (var k = 0; k < _RESOURCES.length; k++) {
+                            var INDEX = _RESOURCES[k].LAYERINDEX;
+                            var MAPID = _RESOURCES[k].MAPID;
+                            var MAPURL = _RESOURCES[k].MAPURL;
+                            str1 += "MAPID" + k + "='" + MAPID + "' MAPURL" + k + "='" + MAPURL + "' INDEX" + k + "='" + INDEX + "'";
+                        }
+                        str += "<div class='item-row'><span>" + THEMENAME + "</span><div class='layui-form switch\n'>";
+                        str += "<input " + str1 + " length='" + _RESOURCES.length + "' type='checkbox'  name='open' lay-skin='switch' lay-filter='switchTest2' lay-text=''>";
+                        str += "</div><i " + str1 + " length='" + _RESOURCES.length + "' THEMENAME='" + THEMENAME + "' THEMEID='" + THEMEID + "' onclick=delcollect(this)  class='layui-icon layui-icon-delete'></i></div>"
+                    }
+                }
+                str += "</div></div>"
+            }
+            $("#collectList").html(str);
+            layuiform.render();
+            layuiform.on('switch(switchTest2)', function (data) {
+                var length = data.elem.getAttribute("length");
+                for (var i = 0; i < Number(length); i++) {
+                    var MAPID = data.elem.getAttribute("MAPID" + i);
+                    var MAPURL = data.elem.getAttribute("MAPURL" + i);
+                    var INDEX = data.elem.getAttribute("INDEX" + i);
+                    if (data.elem.checked) {
+                        layerManager.addLayer({layerId: MAPID + "_" + INDEX, mapUrl: MAPURL, layers: INDEX});
+                    } else {
+                        layerManager.removeLayerById(MAPID + "_" + INDEX);
+                    }
+                }
+            });
+            parent.layer.close(parent.layer.loadIndex);
+        });
+    }
+
+    //收藏
+    $("#collect").click(function () {
+        var children = $("input[lay-filter='switchTest']:checked");
+        var checkedMapArr = layerManager.saveThemelayer();
+        if (checkedMapArr.length > 0) {
+            parent.layer.confirm("确定要收藏选中的图层吗？", function (index) {
+                parent.layer.close(index);
+                parent.layer.layerManager = layerManager;
+                parent.layer.openIndex = parent.layer.open({
+                    type: 2,
+                    title: "收藏专题服务",
+                    skin: 'layui-layer-lan',
+                    area: ['546px', '270px'],
+                    anim: 2,//弹出动画
+                    shade: 0.2,//遮盖层
+                    content: ['projects/wpzf/html/addcollect.html', 'no'], //这里content是一个普通的String
+                    end: function () {
+                        // GetMyThemeByIndustry("/GetMyThemeByIndustry", {'sprid': sessionStorage.sprid});
+                    }
+                });
+            });
+        } else {
+            parent.layer.alert('请选择要收藏的图层!');
+        }
+    });
+
+    // 上传数据
+    $("#uploadData").click(function(){
+        parent.layer.openIndex = parent.layer.open({
+            type: 2,
+            title: "上传数据",
+            skin: 'layui-layer-lan',
+            area: ['484px', '445px'],
+            anim: 2,//弹出动画
+            shade: 0.2,//遮盖层
+            content: ['projects/wpzf/html/uploadData.html', 'no'], //这里content是一个普通的String
+            end: function () {
+                // GetMyThemeByIndustry("/GetMyThemeByIndustry", {'sprid': sessionStorage.sprid});
+            }
+        });
+    });
+    // 申请数据
+    $("#applyData").click(function(){
+        parent.layer.openIndex = parent.layer.open({
+            type: 2,
+            title: "申请数据",
+            skin: 'layui-layer-lan',
+            area: ['486px', '300px'],
+            anim: 2,//弹出动画
+            shade: 0.2,//遮盖层
+            content: ['projects/wpzf/html/applyData.html', 'no'], //这里content是一个普通的String
+            end: function () {
+                // GetMyThemeByIndustry("/GetMyThemeByIndustry", {'sprid': sessionStorage.sprid});
+            }
+        });
+    });
+
+    //删除收藏夹
+    function delcollect(elem) {
+        var THEMENAME = elem.getAttribute("THEMENAME");
+        var THEMEID = elem.getAttribute("THEMEID");
+        parent.layer.confirm("确定要删除专题名称'" + THEMENAME + "'吗？", function (index) {
+            ResourceManagerService("/DeleteThemeResource", {
+                'sprid': sessionStorage.sprid,
+                'themeid': THEMEID
+            }, true, function (resjson) {
+                if (resjson.trim() == "true") {
+                    var length = elem.getAttribute("length");
+                    for (var i = 0; i < Number(length); i++) {
+                        var MAPID = elem.getAttribute("MAPID" + i);
+                        var MAPURL = elem.getAttribute("MAPURL" + i);
+                        var INDEX = elem.getAttribute("INDEX" + i);
+                        layerManager.removeLayerById(MAPID + "_" + INDEX);
+                    }
+                    GetMyThemeByIndustry("/GetMyThemeByIndustry", {'sprid': sessionStorage.sprid});
+                    parent.layer.close(index);
+                }
+            });
+        });
+    }
+
+
+</script>
+
+</html>

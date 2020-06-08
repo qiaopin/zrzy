@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html xmlns:v-bind="http://www.w3.org/1999/xhtml">
+
+<head>
+    <meta charset="UTF-8">
+    <title>调查员内页处理页面</title>
+    <link rel="stylesheet" type="text/css" href="../../js/layui-v2.4.5/css/layui.css"/>
+    <link rel="stylesheet" type="text/css" href="../../js/layer/theme/default/layer.css"/>
+    <!--<link rel="stylesheet" type="text/css" href="../../css/comstyle.css"/>-->
+    <!--<link rel="stylesheet" type="text/css" href="../../js/openlayers/ol.css"/>-->
+    <!--<link rel="stylesheet" type="text/css" href="../../css/monitorAnalysis.css"/>-->
+    <!--<link rel="stylesheet" type="text/css" href="../../css/jcxx.css"/>-->
+    <style>
+        /*.left .top {*/
+            /*height: calc(100% - 10px);*/
+        /*}*/
+
+        /*.right .top {*/
+            /*height: 100%;*/
+        /*}*/
+
+        /*.tbMap {*/
+            /*padding-top: 0;*/
+        /*}*/
+
+        /*.maptool {*/
+            /*top: 20px;*/
+        /*}*/
+
+        /*.left {*/
+            /*width: 700px;*/
+        /*}*/
+
+        /*.right {*/
+            /*width: calc(100% - 700px);*/
+            /*left: 700px;*/
+        /*}*/
+
+        /*.layui-table-tool-self {*/
+            /*display: none;*/
+        /*}*/
+
+        /*.layui-table-view .layui-table {width:100%}*/
+    </style>
+</head>
+
+<body class="white">
+<div class="left">
+    <div class="top">
+        <div class="title_div">
+            <span class="strong">任务列表</span>
+        </div>
+        <div class="niceScroll table1_div">
+            <table id="table1" lay-filter="table1">
+
+            </table>
+        </div>
+    </div>
+</div>
+</body>
+<script type="text/html" id="toolbarDemo">
+
+</script>
+<script type="text/html" id="barDemo1">
+    <a class="layui-btn layui-btn-xs layui-btn-skyblue" lay-event="detail"></i>详情</a>
+    <!--<a class="layui-btn layui-btn-xs layui-btn-skyblue" lay-event="edit"></i>编辑</a>-->
+    <!--<a class="layui-btn layui-btn-xs layui-btn-skyblue" lay-event="uploadTBFile"></i>上传</a>-->
+    {{# if(d.AUDIT==(-1 || 1)){ }}
+    <a class="layui-btn layui-btn-xs layui-btn-skyblue" lay-event="tj"></i>提交</a>
+    {{# }else{ }}
+    <a class="layui-btn layui-btn-xs layui-btn-primary" lay-event=""></i>提交</a>
+    {{# } }}
+</script>
+<script src="../../js/jquery1.9.0.js"></script>
+<script src="../../js/layer/layer.js"></script>
+<script src="../../js/layui/layui.js"></script>
+<script src="../../js/modules/layui-config.js"></script>
+<script>
+    /**
+     * 显示底图、违法图斑、县界
+     * @type {null}
+     */
+    var phoneBaseUrl = "http://110.249.159.46:8089/gtkjghTest/";
+    var userInfo = JSON.parse(sessionStorage.userInfo)[0];
+    var editData;
+    var loadIndex;
+    var ljfBase = null;
+    var slider = null;
+    var layuiform = null;
+    var layuitable = null;
+    var layerManager = null;
+    var pointsource = null;//采集的面信息
+    var features;
+    var _mapObject, _mapView, _wktParser = null;
+    var smc = "";//市名称
+    var xmc = "";//县名称
+    var quart = "";
+    var year = "";
+    var selectedXZQDM;//当前选择区县的行政区代码
+
+    // 审核状态 -1，未提交；0表示待审核；1表示县级审核未通过；2表示县审核通过，等待市审核；3表示市审核不通过； 4表示市审核通过，待省审核；5-表示市级审核通过，省级为通过；6-表示省级审核通过
+    function getStateByAudit(audit) {
+        var state = "";
+        switch (audit) {
+            case -1:
+                state = "未提交";
+                break;
+            case 0:
+                state = "已提交，等待县级审核";
+                break;
+            case 1:
+                state = "县级审核不通过";
+                break;
+            case 2:
+                state = "县级审核通过，等待市级审核";
+                break;
+            case 3:
+                state = "市级审核不通过";
+                break;
+            case 4:
+                state = "市级审核通过，等待省级审核";
+                break;
+            case 5:
+                state = "省级审核不通过";
+                break;
+            case 6:
+                state = "省级审核通过";
+                break;
+        }
+        return state;
+    }
+
+    layui.use(['form', 'layer', 'element', 'laydate', 'table', 'slider', 'ljfBase', 'serverCenter', 'LayerManager', 'NULayer', 'bluebird'], function () {
+        $("body").attr('class', $("body", parent.document).attr('class'));
+        layuiform = layui.form;
+        layuitable = layui.table;
+        slider = layui.slider;
+        ljfBase = layui.ljfBase;
+        var layer = layui.layer;
+        var xml2json = layui.xml2json;
+        var serverCenter = layui.serverCenter;
+        var LayerManager = layui.LayerManager;
+        var NULayer = layui.NULayer;
+        var url = ljfBase.https.BaseMapConfigManagerService + "/GetAllBaseMapConfig";
+
+        var resjosn = [{BH:"123"}];
+        var height =500;
+        layuitable.render({
+            elem: '#table1',
+            height: height - 5,
+            page: false, //开启分页
+            // toolbar: '#toolbarDemo', //开启头部工具栏，并为其绑定左侧模板
+            limit: resjosn.length,
+            cols: [
+                [ //表头
+                    {field: 'BH', title: '图斑编号',colspan:4}
+                ],
+                [ //表头
+                    {field: 'BH', title: '图斑编号'},
+                    {field: 'BH', title: '图斑编号'},
+                    {field: 'BH', title: '图斑编号'},
+                    {field: 'BH', title: '图斑编号'},
+                ],
+                    [ //表头
+                    {field: 'BH', title: '图斑编号'},
+                        {field: 'BH', title: '图斑编号',colspan:3}
+                    ],
+                [ //表头
+                    {field: 'BH', title: '图斑编号',colspan:4}
+                ],
+            ],
+            data: resjosn
+        });
+
+
+    });
+</script>
+
+</html>

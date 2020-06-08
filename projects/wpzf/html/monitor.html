@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html xmlns:v-bind="http://www.w3.org/1999/xhtml">
+
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <link rel="stylesheet" type="text/css" href="../js/layui-v2.4.5/css/layui.css"/>
+    <link rel="stylesheet" type="text/css" href="../js/layer/theme/default/layer.css"/>
+    <link rel="stylesheet" type="text/css" href="../css/comstyle.css"/>
+    <link rel="stylesheet" type="text/css" href="../js/openlayers/ol.css"/>
+    <link rel="stylesheet" type="text/css" href="../css/monitorAnalysis.css"/>
+    <link rel="stylesheet" type="text/css" href="../css/style.css"/>
+    <style type="text/css">
+        .left {
+            width: 60px;
+        }
+
+        .right {
+            left: 60px;
+            width: calc(100vw - 61px);
+            border-left: 1px solid #F2F2F2;
+        }
+
+        .layui-form-item {
+            margin-bottom: 0;
+            margin-left: 10px;
+        }
+
+        #iframes {
+            height: calc(100% - 40px);
+        }
+
+        .layui-form-select .layui-input {
+            width: 260px;
+        }
+    </style>
+</head>
+
+<body class="white">
+<div id="alertinfodiv">
+
+</div>
+<div class="left">
+    <div class="nav">
+        <ul>
+            <li name="数据浏览" class="active"><i class="layui-icon layui-icon-app"></i><a href="javascript:">数据浏览</a></li>
+            <li name="实时动态"><i class="layui-icon layui-icon-survey"></i><a href="javascript:">实时动态</a></li>
+            <li name="实时进度"><i class="layui-icon layui-icon-template"></i><a href="javascript:">实时进度</a></li>
+            <li name="历史轨迹"><i class="layui-icon layui-icon-app"></i><a href="javascript:">历史轨迹</a></li>
+            <!--<li name="数据编辑"><i class="layui-icon layui-icon-app"></i><a href="javascript:">数据编辑</a></li>-->
+        </ul>
+    </div>
+</div>
+<div class="right">
+    <!--<div>-->
+        <!--<form class="layui-form" action="">-->
+            <!--<div class="layui-form-item">-->
+                <!--<div class="layui-inline">-->
+                    <!--<select class="themeSelect selectTheme" name="" lay-verify="required" lay-filter="selectTheme">-->
+                        <!--<option value="专题一">专题一</option>-->
+                    <!--</select>-->
+                <!--</div>-->
+            <!--</div>-->
+        <!--</form>-->
+    <!--</div>-->
+    <iframe id="iframes" name="iframes" src="" width="100%" height="100%"
+            style="border: 0px;"></iframe>
+</div>
+</body>
+<script src="../js/jquery1.9.0.min.js"></script>
+<script src="../js/config.js"></script>
+<script src="../js/common.js"></script>
+<script src="../js/layer/layer.js"></script>
+<script src="../js/layui/layui.js"></script>
+<script type="text/html" id="barDemo">
+    <a class="layui-btn layui-btn-xs layui-btn-skyblue" lay-event="detail"><i class="layui-icon layui-icon-edit"></i>详情</a>
+    <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="edit"><i class="layui-icon layui-icon-edit"></i>审核</a>
+</script>
+<script>
+    var Industryresjosn;
+    var layuiform;
+    top.year = "";//年度
+    top.quart = "";//季度
+    top.themtype = "";//专题类型
+    layui.use(['form', 'element', 'laydate', 'table', 'slider', 'jquery'], function () {
+        layuiform = layui.form;
+        var $ = layui.jquery;
+        //收藏夹
+        function GetMyThemeByIndustry() {
+            parent.layer.loadIndex = parent.layer.load(0, {shade: 0.1});
+            ResourceManagerService("/GetMyThemeByIndustry", {'sprid': sessionStorage.sprid}, true, function (resjson) {
+                if (resjson.indexOf("false") > -1) {
+                    parent.layer.alert("未查询到结果!");
+                    parent.layer.close(parent.layer.loadIndex);
+                    var resjosn = [];
+                } else {
+                    var resjosn = $.parseJSON(resjson);
+                }
+                Industryresjosn = resjosn;
+                var str = "";
+                for (var i = 0; i < resjosn.length; i++) {
+                    var INDUSTRY = resjosn[i].INDUSTRY;
+                    var RESOURCES = resjosn[i].RESOURCES;
+                    for (var j = 0; j < RESOURCES.length; j++) {
+                        var THEMENAME = RESOURCES[j].THEMENAME;
+                        var THEMEID = RESOURCES[j].THEMEID;
+                        str += "<option value=\"" + RESOURCES[j].ND + "-" + RESOURCES[j].JD + "-" + RESOURCES[j].THEMETYPE + "\">" + THEMENAME + "</option>"
+                    }
+                }
+                $(".selectTheme").html(str);
+                layuiform.render();
+                if( $(".selectTheme").val()){
+                    var selectThemeVal = $(".selectTheme").val().split("-");
+                    top.year =  selectThemeVal[0];
+                    top.quart = selectThemeVal[1];
+                    top.themtype = selectThemeVal[2];
+                    $("#iframes").attr("src","lookdata/lookdata.html");
+                }
+                parent.layer.close(parent.layer.loadIndex);
+            });
+        }
+        // GetMyThemeByIndustry();
+        //切换专题
+        layuiform.on('select(selectTheme)', function (data) {
+            var data = data.value.split("-");
+            top.year =data[0];
+            top.quart = data[1];
+            top.themtype = data[2];
+            var src = $("#iframes").attr("src");
+            $("#iframes").attr("src", src);//刷新一下子页面
+        });
+
+        $("#iframes").attr("src","lookdata/lookdata.html");
+    });
+
+    $(".nav ul li").click(function () {
+        $(".nav ul li").removeClass('active');
+        $(this).addClass('active');
+        var name = $(this).attr('name');
+        $(".tab-container").addClass('hide');
+        $(".tab-container[name='" + name + "']").removeClass('hide');
+        $("#collect").addClass('hide');
+        if (name == "实时动态") {
+            $("#iframes").attr('src', 'dynamic/dynamic.html');
+        } else if (name == "实时进度") {
+            $("#iframes").attr('src', 'schedule/schedule.html');
+        } else if (name == "历史轨迹") {
+            $("#iframes").attr('src', 'trajectory/trajectory.html');
+        } else if (name == "数据浏览") {
+            $("#iframes").attr('src', 'lookdata/lookdata.html?type=show');
+        } else if (name == "数据编辑") {
+            $("#iframes").attr('src', 'lookdata/lookdata.html?type=edit');
+        }
+
+        if(name=="数据编辑"){
+            top.isShowEditBox = true;//显示编辑按钮
+        }else{
+            top.isShowEditBox = false;
+        }
+    });
+</script>
+
+</html>

@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html xmlns:v-bind="http://www.w3.org/1999/xhtml">
+
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <link rel="stylesheet" type="text/css" href="../js/layui-v2.4.5/css/layui.css"/>
+    <link rel="stylesheet" type="text/css" href="../js/layer/theme/default/layer.css"/>
+    <link rel="stylesheet" type="text/css" href="../css/comstyle.css"/>
+    <link rel="stylesheet" type="text/css" href="../js/openlayers/ol.css"/>
+    <!--<link rel="stylesheet" type="text/css" href="../css/apicture.css"/>-->
+    <style>
+
+        .layui-btn {
+            padding: 0 10px;
+        }
+
+        .alertinfo:before {
+            top: -15px;
+            left: 10px;
+            content: " ";
+            height: 0;
+            width: 0;
+            position: absolute;
+            pointer-events: none;
+            z-index: 9999;
+            border-left: 10px solid transparent;
+            border-right: 10px solid transparent;
+            border-bottom: 15px solid rgba(30, 159, 255, 0.87);
+        }
+
+        .alertinfo {
+            background: rgba(30, 159, 255, 0.87);
+            color: #fff;
+            position: absolute;
+            text-align: center;
+            top: 22px;
+            width: 50px;
+            height: 30px;
+            line-height: 30px;
+            border-radius: 3px;
+        }
+
+        .maptab {
+            position: absolute;
+            right: 5px;
+            top: 150px;
+        }
+
+        .maptab li {
+            width: 49px;
+            text-align: center;
+            height: 49px;
+            border: 1px solid #AAAAAA;
+            margin-bottom: 3px;
+        }
+
+        .maptab li a {
+            display: inline-block;
+            width: 45px;
+            height: 20px;
+            line-height: 20px;
+            font-size: 12px;
+            color: #fff;
+            margin-top: 28px;
+            background: url(../images/maptab/black_bg.png);
+        }
+
+        .maptab li:hover {
+            cursor: pointer;
+        }
+
+        .maptab li:hover a {
+            background: #83a1ff;
+        }
+
+        .maptab li.active a {
+            background: #83a1ff;
+        }
+    </style>
+</head>
+
+<body class="white">
+<div style="padding: 10px 0px;">
+    <div class="layui-inline">
+        <label class="layui-form-label">时间间隔(秒)</label>
+        <div class="layui-input-inline">
+            <input type="text" id="time" name="name" value="5" autocomplete="off" class="layui-input">
+        </div>
+    </div>
+    <div class="layui-inline">
+        <button id="begin" class="layui-btn layui-btn-normal" lay-submit lay-filter="search">
+            <i class="layui-icon">&#xe615;</i>开始
+        </button>
+        <button id="suspend" class="layui-btn layui-btn-normal" lay-submit lay-filter="search">
+            <i class="layui-icon">&#xe615;</i>暂停
+        </button>
+    </div>
+</div>
+<div id="map" style="height: calc(100vh - 60px);">
+
+</div>
+<div class="maptab">
+    <ul>
+        <li class="active"
+            style="background:url(../images/maptab/ditu.jpg) no-repeat 2px 2px;background-size: 45px 45px;">
+            <a type='矢量' href="javascript:">矢量</a></li>
+        <li style="background:url(../images/maptab/yingxiang.jpg) no-repeat 2px 2px;background-size: 45px 45px;">
+            <a type='影像' href="javascript:">影像</a></li>
+        <li style="background:url(../images/maptab/dixing.jpg) no-repeat 2px 2px;background-size: 45px 45px;"><a
+                type='地形' href="javascript:">地形</a></li>
+        <li style="background:#fff;"><a type='' href="javascript:">无</a></li>
+    </ul>
+</div>
+<div style="position: fixed; bottom: 60px; width: 100%;">
+    <div class="layui-progress layui-progress-big" lay-showpercent="true" lay-filter="demo"
+         style="position: absolute;width: calc(100% - 60px); left: 30px;">
+        <div class="layui-progress-bar" style="background: rgba(1, 91, 147, 0.87);" lay-percent="0%"></div>
+    </div>
+
+    <div class="alertinfo" style="left: 10px;">2019-1</div>
+    <div class="alertinfo" style="left: calc(33% + 10px);">2019-2</div>
+    <div class="alertinfo" style="left: calc(66% + 10px);">2019-3</div>
+    <div class="alertinfo" style="left: calc(100% - 50px);">2019-4</div>
+</div>
+
+</body>
+<script src="../js/jquery1.9.0.min.js"></script>
+<script src="../js/config.js"></script>
+<script src="../js/common.js"></script>
+<script src="../js/scrollbar/jquery.nicescroll.min.js"></script>
+<script src="../js/layui/layui.js"></script>
+<script src="../js/modules/layui-config.js"></script>
+<script src="../js/openlayers/ol-debug.js"></script>
+<script src="../js/openlayers/maptool.js"></script>
+<script>
+    var ljfBase = null;
+    var slider = null;
+    var layuiform = null;
+    var layerManager = null;
+    var Industryresjosn = [];//专题图层数组
+    var scjArr = [];//收藏夹图层数组
+    var layers = [];
+    var layuielement = null;
+    layui.use(['form', 'element', 'laydate', 'table', 'slider', 'ljfBase', 'serverCenter', 'LayerManager', 'NULayer', 'bluebird'], function () {
+        $("body").attr('class', $("body", parent.document).attr('class'));
+        $(".niceScroll").niceScroll({cursorborder: "", cursorcolor: "#297FBA", boxzoom: false});
+        layuielement = layui.element;
+        layuiform = layui.form;
+        slider = layui.slider;
+        ljfBase = layui.ljfBase;
+        var xml2json = layui.xml2json;
+        var serverCenter = layui.serverCenter;
+        var LayerManager = layui.LayerManager;
+        var NULayer = layui.NULayer;
+        var center = [114.48, 38.03];
+        layerManager = new LayerManager("map", center, 7);
+        _mapObject = layerManager._mapObject;
+        ljfBase.post(ljfBase.https.BaseMapManagerService + "/GetAllBaseMap", {sprid: sessionStorage.sprid}, function (xml) {
+            var resArr = $.parseJSON(xml);
+            layerManager.loadBaseMap(resArr, "矢量");
+
+            $('.maptab ul li').click(function () {
+                $('.maptab ul li').removeClass("active");
+                $(this).addClass("active");
+                var type = $(this).find('a').attr('type');
+                layerManager.hideBaseMap();
+                layerManager.loadBaseMap(resArr, type);
+            });
+
+            var a = layerManager.addLayer({
+                layerId: "1111", mapUrl: "http://110.249.159.46:6080/arcgis/rest/services/ZXSJ/JCTB201901/MapServer",
+                layers: "0", opacity: 1, layerName: "1111",
+            });
+            layers.push(a);
+            var b = layerManager.addLayer({
+                layerId: "2222", mapUrl: "http://110.249.159.46:6080/arcgis/rest/services/ZXSJ/JKTB201902/MapServer",
+                layers: "0", opacity: 1, layerName: "2222",
+            });
+            layers.push(b);
+            var c = layerManager.addLayer({
+                layerId: "3333", mapUrl: "http://110.249.159.46:6080/arcgis/rest/services/ZXSJ/JKTB201903/MapServer",
+                layers: "0", opacity: 1, layerName: "3333",
+            });
+            layers.push(c);
+            var d = layerManager.addLayer({
+                layerId: "4444", mapUrl: "http://110.249.159.46:6080/arcgis/rest/services/ZXSJ/JKTB201904/MapServer",
+                layers: "0", opacity: 1, layerName: "4444",
+            });
+            layers.push(d);
+        });
+    });
+
+    var play = true;
+    $("#begin").click(function () {
+        layuielement.progress('demo', '0%');
+        for (var i = 1; i < layers.length; i++) {
+            layers[i].setOpacity(1);
+        }
+        var time = $("#time").val();
+        time = Number(time) * 1000;
+        var sc = (layers.length - 1) * time;//总时长
+        var pj = time / 50;
+        var js = 0;
+        var myVar = setInterval(function () {
+            if (play) {
+                js += pj
+                var bfb = parseInt((js / sc) * 100);
+                layuielement.progress('demo', bfb + '%');
+                if (js >= sc) {
+                    clearInterval(myVar);
+                    layers[0].setOpacity(1);
+                }
+                var index = js / time;
+                index = parseInt(index)
+                setOpacity(index);
+            }
+
+        }, pj);
+
+        function setOpacity(index) {
+            var Opacity = layers[layers.length - index - 1].layer.getOpacity();
+            layers[layers.length - index - 1].setOpacity(Opacity - 0.02);
+        }
+
+    })
+
+    $("#suspend").click(function () {
+        if (play) {
+            play = false;
+        } else {
+            play = true;
+        }
+
+    })
+
+
+</script>
+
+</html>

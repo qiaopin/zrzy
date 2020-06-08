@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html xmlns:v-bind="http://www.w3.org/1999/xhtml">
+
+<head>
+    <meta name="viewport" charset="UTF-8" http-equiv="Access-Control-Allow-Origin" content="width=device-width,initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <title></title>
+</head>
+
+<body class="white">
+    test1
+    <div id="map" style="height: calc(100vh - 60px);">
+
+    </div>
+
+</body>
+<script type="text/javascript" src="https://res.wx.qq.com/open/js/jweixin-1.3.2.js"></script>
+
+<script>
+    wx.getLocation({
+        type: 'gcj02', //返回可以用于wx.openLocation的经纬度
+        success: function (res) {
+            var latitude = res.latitude//维度
+            var longitude = res.longitude//经度
+            alert(latitude);
+            console.log(res);
+            // that.loadCity(latitude,longitude);
+        }
+    });
+</script>
+
+</html>

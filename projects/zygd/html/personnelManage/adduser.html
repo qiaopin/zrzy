@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>添加专题</title>
+		<link rel="stylesheet" type="text/css" href="../../js/layui/css/layui.css"/>
+        <link rel="stylesheet" type="text/css" href="../../js/layer/theme/default/layer.css"/>
+        <link rel="stylesheet" type="text/css" href="../../css/comstyle.css"/>
+        <style>
+        	
+        	.white table{color: #000;}
+        	.white .btndiv{border: 1px solid #DDDDDD;}
+        	/*.layui-input, .layui-textarea{display: inline-block;}*/
+        	/*.layui-input{color: #fff;  background: #354658;border: none;padding: 10px;width: 230px;}*/
+        	table{color: #fff; width: 100%;margin: 10px 20px;}
+        	table tr td{padding: 5px;}
+        	.layui-input,.layui-textarea,.layui-form{width: 200px;}
+        	
+        </style>
+	</head>
+	<body class="white">
+		
+		<div  style="width: 340px;">
+			<table  border="0" cellspacing="0" cellpadding="0">
+				<tr>
+					<td><span>调查人员姓名</span></td>
+					<td>
+						<input id="username" type="text"   class="layui-input" placeholder="">
+					</td>
+				</tr>
+				<tr>
+					<td><span>密码</span></td>
+					<td>
+						<input id="password" type="password"   class="layui-input" placeholder="">
+					</td>
+				</tr>
+				<tr>
+					<td><span>确认密码</span></td>
+					<td>
+						<input id="password1" type="password"   class="layui-input" placeholder="">
+					</td>
+				</tr>
+				<tr>
+					<td><span>性别</span></td>
+					<td style="text-align: left;">
+						 <div class="layui-form" >
+					        <select id="sex" lay-search lay-filter="sex">
+					           <option selected="selected">男</option>
+					           <option>女</option>
+					        </select>
+					    </div>
+					</td>
+				</tr>
+				<tr>
+					<td><span>工作单位</span></td>
+					<td>
+						<input id="dwmc" type="text"   class="layui-input" placeholder="">
+					</td>
+				</tr>
+				<tr>
+					<td><span>个人电话</span></td>
+					<td>
+						<input id="grdh" type="text"   class="layui-input" placeholder="">
+					</td>
+				</tr>
+				<tr>
+					<td><span>备注</span></td>
+					<td>
+						<textarea id="bz" class="layui-textarea" ></textarea>
+					</td>
+				</tr>
+			</table>
+			<div style="padding: 10px;text-align: right;">
+	       	    <!--<i class="layui-icon layui-icon-close"></i>--> 
+	       	    <button class="layui-btn layui-btn-normal" id="btnOk">确定</button>
+				<button class="layui-btn layui-btn-normal" id="close" style="margin-right: 1px;" id="close">取消</button>
+	        </div>
+       </div>
+		
+		
+		
+       
+       
+	</body>
+	<script src="../../js/jquery1.9.0.js"></script>
+	<script src="../../js/config.js"></script>
+	<script src="../../js/common.js"></script>
+	<script src="../../js/layer/layer.js"></script>
+	<script src="../../js/layui/layui.js"></script>
+	<script src="../../js/md5.js"></script>
+	<script>
+	    layui.use(['form', 'element', 'laydate', 'table', 'slider'], function () {
+	//  	$(".niceScroll").niceScroll({cursorborder: "",cursorcolor: "#297FBA",boxzoom: false});
+	    	layuitable = layui.table;
+	    	
+			
+	    });
+	    $("#close").click(function(){
+	    	parent.layer.close(parent.layer.openIndex)
+	    });
+		
+		$("#btnOk").click(function(){
+			var username = $('#username').val();
+		    var pwd = $('#password').val();
+		    var pwd1 = $('#password1').val();
+		    var dwmc = $("#dwmc").val();
+		    if(username==""){
+		    	parent.layer.alert("请输入姓名!");
+		        return;
+		    }
+		    for (var i=0;i<parent.layer.resjosn.length;i++) {
+		    	if(parent.layer.resjosn[i].USERNAME==username){
+		    		parent.layer.alert("调查人员已存在!");
+		    		return;
+		    	}
+		    }
+		    if(pwd==""||pwd1==""){
+		    	parent.layer.alert("请输入密码!");
+		        return;
+		    }
+		    if(pwd!=pwd1){
+		    	parent.layer.alert("二次输入的密码不一样!");
+		    	return;
+		    }
+		    if(dwmc==""){
+		    	parent.layer.alert("请输入单位名称!");
+		        return;
+		    }
+		    pwd = $.md5(pwd);
+		    
+		    var data = {
+		    	username:username,
+		    	password:pwd,
+		    	dwmc:$("#dwmc").val(),
+		    	grdh:$("#grdh").val(),
+		    	sex:$("#sex").val(),
+		    	bz:$("#bz").val()
+		    }
+			SurveyUserManagerService("/RegisterUser",data,true,function(resjson){
+				if(resjson.indexOf("true")>-1){
+	            	parent.layer.alert("新增成功!");
+	            	parent.layer.close(parent.layer.openIndex);
+	            	parent.layer.window.GetUserByDw("");
+	            }else{
+	            	parent.layer.alert("新增失败!");
+	            }
+	            
+			});
+		})
+		
+	</script>
+</html>

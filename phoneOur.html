@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html xmlns:v-bind="http://www.w3.org/1999/xhtml">
+
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <link rel="stylesheet" type="text/css" href="js/layui/css/layui.css"/>
+    <link rel="stylesheet" type="text/css" href="js/layer/theme/default/layer.css"/>
+    <link rel="stylesheet" type="text/css" href="css/comstyle.css" />
+    <style>
+         .main{width: 600px; margin: 0 auto; height:calc(100vh - 40px);}
+         p{font-weight:900; font-size: 16px;}
+
+		.lxrTable{
+			border:none;
+		}
+		.lxrTable tr td{
+			 border:none;
+			 padding: 5px;
+		}
+
+    </style>
+</head>
+
+<body class="white">
+    <div class="main">
+	    <div class="layui-collapse">
+	    	<div class="layui-colla-item">
+			    <h2 class="layui-colla-title">联系我们</h2>
+			    <div class="layui-colla-content layui-show" >
+						<table class="lxrTable">
+							<tr>
+								<td>组织实施单位：</td>
+								<td>河北省自然资源厅执法局  &nbsp;&nbsp;&nbsp;&nbsp;联系人：赵飞 13483162786</td>
+							</tr>
+							<tr>
+								<td>技术支持单位：</td>
+								<td>河北省自然资源利用规划院、河北省第一测绘院</td>
+							</tr>
+						</table>
+			    </div>
+			</div>
+	    </div>
+    </div>
+</body>
+<script src="js/jquery1.9.0.min.js"></script>
+<script src="js/config.js"></script>
+<script src="js/common.js"></script>
+<script src="js/layer/layer.js"></script>
+<script src="js/layui/layui.js"></script>
+<script>
+	layui.use(['element', 'layer'], function(){
+	  var element = layui.element;
+	  var layer = layui.layer;
+	  
+//	  //监听折叠
+//	  element.on('collapse(test)', function(data){
+//	    layer.msg('展开状态：'+ data.show);
+//	  });
+	});
+</script>
+
+</html>

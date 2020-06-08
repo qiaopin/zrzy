@@ -1,0 +1,582 @@
+<!DOCTYPE html>
+<html xmlns:v-bind="http://www.w3.org/1999/xhtml">
+
+<head>
+    <meta charset="UTF-8">
+    <title>任务分配</title>
+    <link rel="stylesheet" type="text/css" href="../../js/layui-v2.4.5/css/layui.css"/>
+    <link rel="stylesheet" type="text/css" href="../../js/layer/theme/default/layer.css"/>
+    <!--<link rel="stylesheet" type="text/css" href="../../css/comstyle.css"/>-->
+    <link rel="stylesheet" type="text/css" href="../../css/style.css"/>
+    <link rel="stylesheet" type="text/css" href="../../css/monitorAnalysis.css"/>
+    <link rel="stylesheet" type="text/css" href="../../css/task.css"/>
+    <style>
+
+        .xj .left .top {
+            height: 40px;
+        }
+
+        .xj .left{
+            height: auto;
+            overflow: visible;
+            width:220px;
+        }
+
+        .xj .left>div{
+            float:none;
+            width:100%;
+        }
+
+        .xj .left .top .table1_div {
+            display: none;
+        }
+
+        .xj .left .middle .table2_div {
+            display: none;
+        }
+
+        .xj .layui-form-item .layui-inline{
+            width:100%;
+        }
+
+        .xj #map{
+            width:100%;
+            margin-left:0;
+        }
+
+        .xj .maptool{
+            left:230px;
+        }
+    </style>
+</head>
+
+<body class="white">
+<div id="alertinfodiv">
+
+</div>
+<div class="tsTitle">绿色图斑表示已经分配，红色未分配</div>
+<div class="left">
+    <div class="top">
+        <div>
+            <form class="layui-form" action="">
+                <div class="layui-form-item">
+                    <div class="layui-inline">
+                        <select class="themeSelect selectTheme" name="" lay-verify="required" lay-filter="selectTheme">
+                        </select>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <!--<div class="title_div hide">-->
+        <!--<span class="strong">河北省<span class="_year"></span>年<span class="_quart"></span>违法监测图斑总量情况</span>-->
+        <!--<span class="f-right" style="display: none;">-->
+        <!--<span class="year">年度:</span><select id="year"></select>-->
+        <!--<span class="quarter">季度:</span><select id="quart"></select>-->
+        <!--</span>-->
+        <!--</div>-->
+        <div class="niceScroll table1_div">
+            <table id="table1" lay-filter="table1">
+
+            </table>
+        </div>
+    </div>
+    <div class="middle">
+        <div class="title_div">
+            <span class="strong">河北省<span class="smc"></span><span class="xmc"></span></span>
+            <span class="f-right hide">
+				<button id="task" class="layui-btn layui-btn-sm layui-btn-normal">分配任务</button>
+			</span>
+        </div>
+        <div class="niceScroll table2_div">
+            <table id="table2" lay-filter="table2">
+
+            </table>
+        </div>
+    </div>
+</div>
+<div class="center">
+    <div class="center-top">
+        <button type="button" class="showHideLeftBtn layui-btn hide">
+            <i class="layui-icon hideLeftIcon">&#xe603;</i>
+            <i class="layui-icon showLeftIcon" style="display: none">&#xe602;</i>
+        </button>
+
+        <button type="button" class="showHideRightBtn layui-btn hide">
+            <i class="layui-icon hideRightIcon">&#xe602;</i>
+            <i class="layui-icon showRightIcon" style="display: none">&#xe603;</i>
+        </button>
+
+        <div id="map"></div>
+        <div class="maptool">
+            <ul class="tool-bar">
+                <li id="xzqTool" title="行政区" class="hide"><a href="javascript:" class="tool-case10">行政区</a></li>
+                <li title="全屏" class="" id="fullBtn" onclick="fullScreen()"><a href="javascript:" class="tool-case7"></a>
+                </li>
+                <li title="测距" class="hide" onclick="maptool.measure('distance')"><a href="javascript:"
+                                                                                     class="tool-case3"></a></li>
+                <li title="框选分配" onclick="addInteraction('Polygon')"><a href="javascript:" class="tool-case4"></a></li>
+                <li id="query" title="查询"><a href="javascript:" class="tool-case5"></a></li>
+                <li title="清除" class="hide" onclick="maptool.clear()"><a href="javascript:" class="tool-case6"></a></li>
+            </ul>
+        </div>
+
+        <div class="maptab">
+            <ul>
+                <li class="active"
+                    style="background:url(../../images/maptab/ditu.jpg) no-repeat 2px 2px;background-size: 45px 45px;">
+                    <a
+                            type='矢量' href="javascript:">矢量</a></li>
+                <li style="background:url(../../images/maptab/yingxiang.jpg) no-repeat 2px 2px;background-size: 45px 45px;">
+                    <a type='影像' href="javascript:">影像</a></li>
+                <li style="background:url(../../images/maptab/dixing.jpg) no-repeat 2px 2px;background-size: 45px 45px;">
+                    <a
+                            type='地形' href="javascript:">地形</a></li>
+                <li style="background:#fff;"><a type='' href="javascript:">无</a></li>
+            </ul>
+        </div>
+    </div>
+    <div class="center-bottom">
+        <div class="layui-tab layui-tab-card" lay-filter="tab">
+            <ul class="layui-tab-title">
+                <li class="layui-this">按乡镇分配</li>
+                <li>按图斑分配</li>
+
+            </ul>
+            <div class="layui-tab-content">
+                <div class="layui-tab-item layui-show" style="height: calc(100% - 50px);">
+                    <div class="title_div">
+                        <span class="strong">河北省<span class="smc"></span><span class="_year"></span>年<span
+                                class="_quart"></span>乡镇列表</span>
+
+                        <span class="f-right">
+						<button id="task_xz" class="layui-btn layui-btn-sm layui-btn-normal">乡镇分配</button>
+					</span>
+                    </div>
+                    <div class="niceScroll table6_div">
+                        <div class="xztable">
+                            <table id="table6" lay-filter="table6">
+
+                            </table>
+                        </div>
+                        <div class="xztbtable">
+                            <table id="table7" lay-filter="table7">
+
+                            </table>
+                        </div>
+
+                    </div>
+                </div>
+                <div class="layui-tab-item" style="height: calc(100% - 50px);">
+                    <div class="title_div">
+                        <span class="strong">河北省<span class="smc"></span><span class="_year"></span>年<span
+                                class="_quart"></span>图斑列表</span>
+                        <input type="text" name="" id="tbbh" value="" placeholder="输入图斑编号"/>
+                        <button id="query_tb" class="layui-btn layui-btn-sm layui-btn-normal">查询</button>
+                        <span class="f-right">
+						<button id="task_tb" class="layui-btn layui-btn-sm layui-btn-normal">图斑分配</button>
+					</span>
+                    </div>
+                    <div class="niceScroll table5_div">
+                        <table id="table5" lay-filter="table5">
+
+                        </table>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+</div>
+<div class="right">
+    <div class="top">
+        <div class="title_div">
+            <span class="strong">任务分配人员</span>
+        </div>
+        <div class="niceScroll table3_div">
+            <table id="table3" lay-filter="table3">
+
+            </table>
+        </div>
+    </div>
+    <div class="bottom">
+        <div class="title_div">
+            <span class="strong">任务分配列表</span>
+            <div class="removeTaskBtn layui-btn layui-btn-sm">解除分配</div>
+        </div>
+        <div class="niceScroll table4_div">
+            <table id="table4" lay-filter="table4">
+
+            </table>
+        </div>
+    </div>
+</div>
+</body>
+<script type="text/html" id="barDemo">
+    <a class="layui-btn layui-btn-xs layui-btn-skyblue" lay-event="del"></i>解除分配</a>
+    <!-- <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="edit"></i>审核</a>-->
+</script>
+<script type="text/html" id="barDemo1">
+    <a class="layui-btn layui-btn-xs layui-btn-primary" lay-event="look"></i>查看</a>
+    <a class="layui-btn layui-btn-xs layui-btn-primary" lay-event="qzfp"></i>强制分配</a>
+    {{# if(getSFZYStateByData(d)){ }}
+    <a class="layui-btn layui-btn-xs layui-btn-primary" lay-event="ytjzy"></i>已提交争议</a>
+    {{# }else{ }}
+    <a class="layui-btn layui-btn-xs layui-btn-normal" lay-event="zytb"></i>争议图斑</a>
+    {{# } }}
+    <!-- <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="edit"></i>审核</a>-->
+</script>
+<script type="text/html" id="barDemo2">
+    <a class="layui-btn layui-btn-xs layui-btn-primary" lay-event="look"></i>查看</a>
+</script>
+<script src="../../js/jquery1.9.0.js"></script>
+<script src="../../js/config.js"></script>
+<script src="../../js/common.js"></script>
+<script src="../../js/layer/layer.js"></script>
+<script src="../../js/layui/layui.js"></script>
+<script src="../../js/scrollbar/jquery.nicescroll.min.js"></script>
+<script src="../../js/modules/layui-config.js"></script>
+<script src="../../js/openlayers/ol-debug.js"></script>
+<script src="../../js/openlayers/maptool.js"></script>
+<script src="../../js/analysis1.js"></script>
+<script src="../../js/analysis/analysislayer.js"></script>
+<script src="../../js/analysis/initlayer.js"></script>
+<script src="../../js/task.js"></script>
+
+<script>
+    var userInfo = JSON.parse(sessionStorage.userInfo);
+    layui.use(['form', 'element', 'laydate', 'table', 'slider', 'ljfBase', 'serverCenter', 'LayerManager', 'NULayer', 'bluebird', 'jquery'], function () {
+        layuiform = layui.form;
+        layuitable = layui.table;
+        element = layui.element;
+        slider = layui.slider;
+        ljfBase = layui.ljfBase;
+        var xml2json = layui.xml2json;
+        var serverCenter = layui.serverCenter;
+        var LayerManager = layui.LayerManager;
+        var NULayer = layui.NULayer;
+        var $ = layui.jquery;
+        $("body").attr('class', $("body", parent.document).attr('class'));
+        if (userInfo.XZJB == "县级") {
+            $(".left").parent().addClass("xj");
+        }
+
+        element.on('tab(tab)', function (data) {
+            if (data.index == 1) {
+                showTb();
+            }
+        });
+        var url = ljfBase.https.BaseMapConfigManagerService + "/GetAllBaseMapConfig";
+        ljfBase.post(url, {userid: sessionStorage.sprid}, function (res) {
+            var baseMapConfig = JSON.parse(res)[0];
+            var center = [];
+            center.push(baseMapConfig.CENTERX);
+            center.push(baseMapConfig.CENTERY);
+            layerManager = new LayerManager("map", center, 12);
+            ljfBase.post(ljfBase.https.BaseMapManagerService + "/GetAllBaseMap", {sprid: sessionStorage.sprid}, function (xml) {
+                var resArr = $.parseJSON(xml);
+                layerManager.loadBaseMap(resArr, "矢量");
+                $('.maptab ul li').click(function () {
+                    $('.maptab ul li').removeClass("active");
+                    $(this).addClass("active");
+                    var type = $(this).find('a').attr('type');
+                    layerManager.hideBaseMap();
+                    layerManager.loadBaseMap(resArr, type);
+                });
+                // $(".maptab ul li:last").click();//默认显示无底图
+
+                var xzLayer = {
+                    mapUrl: "http://110.249.159.46:6080/arcgis/rest/services/JCSJ/河北省镇级行政区边界/MapServer",
+                    zIndex: 1,
+                    layerName: "镇级行政区",
+                    layerId: "zxlayer",
+                };
+                layerManager.addLayer(xzLayer);
+                initdlfx();
+                initCheckPolygon();
+            });
+
+            _mapObject = layerManager._mapObject;
+            _mapView = _mapObject.getView();
+            NUSource1 = window.NUSourceLayer1.getSource();
+            _wktParser = new ol.format.WKT();
+
+            var isquery = false;
+            $("#query").click(function () {
+                if (isquery) {
+                    $("#map").css('cursor', 'default');
+                    $(this).attr("title", "查询");
+                    isquery = false;
+                } else {
+                    $("#map").css('cursor', 'pointer');
+                    $(this).attr("title", "取消查询");
+                    isquery = true;
+                }
+            });
+            initMapQuery();
+
+            _mapObject.on('click', function (evt) {
+                var mapZoom = _mapObject.getView().getZoom();
+                var mapCenter = _mapObject.getView().getCenter();
+                var layername = "";
+                var feature = _mapObject.forEachFeatureAtPixel(evt.pixel,
+                    function (feature) {
+                        return feature;
+                    }, {
+                        layerFilter: function (layer) {
+                            if (layer.get('name') == "采集的面信息") {
+//		                		layername = "采集的面信息";
+                                return layer.get('name') === '采集的面信息';
+                            }
+                        }
+                    }
+                );
+                if (feature) {
+                    showFeatureInfo(feature);
+                    var BH = feature.get('BH');
+                    $("#DLBH").val(BH);
+                    layuiform.render('select');
+                }
+            });
+            maptool.init(layerManager);
+            GetMyThemeByIndustry();
+            // GetWorkTime();
+        });
+
+
+        var hideBtnAttr = "display: none";
+        $(".showHideLeftBtn").click(function () {
+            var iconText = $(".showLeftIcon").attr("style");
+            if (iconText == hideBtnAttr) {
+                $(".showLeftIcon").attr("style", "");
+                $(".hideLeftIcon").attr("style", hideBtnAttr);
+                $(".left").hide();
+            } else {
+                $(".showLeftIcon").attr("style", hideBtnAttr);
+                $(".hideLeftIcon").attr("style", "");
+                $(".left").show();
+            }
+            refreshMapWidth();
+        });
+
+        $(".showHideRightBtn").click(function () {
+            var iconText = $(".showRightIcon").attr("style");
+            if (iconText == hideBtnAttr) {
+                $(".showRightIcon").attr("style", "");
+                $(".hideRightIcon").attr("style", hideBtnAttr);
+                $(".right").hide();
+            } else {
+                $(".showRightIcon").attr("style", hideBtnAttr);
+                $(".hideRightIcon").attr("style", "");
+                $(".right").show();
+            }
+            refreshMapWidth();
+        });
+
+        //重新计算中间地图的宽度
+        function refreshMapWidth() {
+            var maxW = $("body").outerWidth();
+            var w = 0;
+            if ($(".hideLeftIcon").attr("style") == hideBtnAttr) {
+                $(".center").css({left: "0px"});
+            } else {
+                w += 400;
+                $(".center").css({left: "400px"});
+            }
+            if ($(".hideRightIcon").attr("style") == hideBtnAttr) {
+                w += 0;
+            } else {
+                w += 480;
+            }
+            var resW = maxW - w;
+            $(".center").width(resW + "px");
+
+            _mapObject.updateSize();
+        }
+
+        //切换专题
+        layuiform.on('select(selectTheme)', function (res) {
+            sessionStorage.dataZTValue = res.value;//记录当前选择的专题
+            var data = res.value.split("-");
+            top.year = data[0];
+            top.quart = data[1];
+            var year = top.year;
+            var month = top.quart;
+            _year = year;
+            _quart = month;
+
+            isNowTime();
+            StatisticTBbyCity();
+            GetUserByDw();
+        });
+    });
+
+    $("#year,#quart").change(function () {
+        StatisticTBbyCity();
+    });
+
+    $("#xzqTool").click(function () {
+        $(".left").toggle();
+        layuitable.render();
+    });
+
+    //任务分配
+    $("#task").click(function () {
+        var checkStatus = layuitable.checkStatus("table2");
+        var data = checkStatus.data;
+        if (data.length > 0) {
+            var checkStatus1 = layuitable.checkStatus("table3");
+            if (checkStatus1.data.length > 0) {
+                for (var i = 0; i < data.length; i++) {
+                    WorkManagerService("/AddWorkUser", {
+                        smc: smc,
+                        xmc: data[i].Name,
+                        gzdw: checkStatus1.data[0].GZDW,
+                        ry: checkStatus1.data[0].USERNAME
+                    }, false, function (resjson) {
+
+                    });
+                }
+                // GetWorkUser(checkStatus1.data[0].GZDW, checkStatus1.data[0].USERNAME);
+                getTasksByUserPhone(checkStatus1.data[0].PHONE);
+                parent.layer.alert("任务分配成功!");
+            } else {
+                parent.layer.alert("请勾选分配人员!");
+            }
+        } else {
+            parent.layer.alert("请勾选任务!")
+        }
+    });
+    //按乡镇分配
+    $("#task_xz").click(function () {
+        var checkStatus = layuitable.checkStatus("table6");
+        var data = checkStatus.data;
+        if (data.length > 0) {
+            var checkStatus1 = layuitable.checkStatus("table3");
+            if (checkStatus1.data.length > 0) {
+                var table7 = layuitable.cache.table7
+                if (table7.length > 0) {
+                    parent.layer.confirm("确定分配 " + table7.length + " 个任务给" + checkStatus1.data[0].USERNAME + "?", {btn: ["确认", "取消"]}, function (index) {
+//	                    checkSource.clear();
+                        var bh = "";
+                        for (var i = 0; i < table7.length; i++) {
+                            if (i != 0) {
+                                bh += ",";
+                            }
+                            bh += table7[i].BH;
+                        }
+                        WorkManagerService("/AddWorkUserByTBs", {
+                            gzdw: checkStatus1.data[0].GZDW,
+                            ry: checkStatus1.data[0].USERNAME,
+                            tbbh: bh
+                        }, false, function (resjson) {
+                            if (resjson.indexOf("false") > -1) {
+                                parent.layer.alert("分配失败");
+                            } else {
+                                getTasksByUserPhone(checkStatus1.data[0].PHONE);//更新人员分配列表
+                                var data = layuitable.checkStatus('table6').data;
+                                GetRecordsByXZMC(data[0].Name)
+                                parent.layer.alert("分配成功!");
+                            }
+                            //刷新地图服务
+                        });
+                    }, function (index) {
+//	                    checkSource.clear();
+                    });
+                }
+
+
+            } else {
+                parent.layer.alert("请勾选分配人员!");
+            }
+        } else {
+            parent.layer.alert("请勾选乡镇!")
+        }
+    });
+
+    //按图斑分配
+    $("#task_tb").click(function () {
+        var checkStatus = layuitable.checkStatus("table5");
+        var data = checkStatus.data;
+        if (data.length > 0) {
+            var checkStatus1 = layuitable.checkStatus("table3");
+            if (checkStatus1.data.length > 0) {
+
+                parent.layer.confirm("确定分配 " + data.length + " 个任务给" + checkStatus1.data[0].USERNAME + "?", {btn: ["确认", "取消"]}, function (index) {
+//	                    checkSource.clear();
+                    var bh = "";
+                    for (var i = 0; i < data.length; i++) {
+                        if (i != 0) {
+                            bh += ",";
+                        }
+                        bh += data[i].BH;
+                    }
+                    WorkManagerService("/AddWorkUserByTBs", {
+                        gzdw: checkStatus1.data[0].GZDW,
+                        ry: checkStatus1.data[0].USERNAME,
+                        tbbh: bh
+                    }, false, function (resjson) {
+                        if (resjson.indexOf("false") > -1) {
+                            parent.layer.alert("分配失败");
+                        } else {
+                            getTasksByUserPhone(checkStatus1.data[0].PHONE);//更新人员分配列表
+                            StatisticTBRecordsMap(smc, xmc);
+                            parent.layer.alert("分配成功!");
+                        }
+                        //刷新地图服务
+                    });
+                }, function (index) {
+//	                    checkSource.clear();
+                });
+
+
+            } else {
+                parent.layer.alert("请勾选分配人员!");
+            }
+        } else {
+            parent.layer.alert("请勾选图斑!")
+        }
+    });
+    $("#query_tb").click(function () {
+        var tbbh = $("#tbbh").val();
+        var features = sourceClues.getFeatures()
+        for (var i = 0; i < features.length; i++) {
+            var bh = features[i].get("BH");
+            if (bh == tbbh) {
+
+                showFeatureInfo(features[i]);
+                break;
+            }
+        }
+        var table5 = layuitable.cache.table5;
+        for (var i = 0; i < table5.length; i++) {
+            if (table5[i].BH == tbbh) {
+                $(".table5_div .layui-table-body tr").removeClass('layui-table-click');
+                $(".table5_div .layui-table-body tr[data-index='" + i + "']").addClass('layui-table-click');
+                break;
+            }
+        }
+    });
+
+    function fullScreen(){//全屏显示地图
+        if($("#fullBtn").hasClass("active")){//取消全屏
+            $(".left").show();
+            $(".right").show();
+            $(".center-bottom").show();
+            $(".center").attr("style","");
+            $("#map").attr("style","");
+            $(".center-top").attr("style","");
+        }else{//全屏
+            $(".left").hide();
+            $(".right").hide();
+            $(".center-bottom").hide();
+            $(".center").attr("style","width:100%");
+            $("#map").attr("style","width:100%;margin-left:0;");
+            $(".center-top").attr("style","height:100%");
+        }
+        _mapObject.updateSize();
+        $("#fullBtn").toggleClass("active");
+    }
+</script>
+
+</html>

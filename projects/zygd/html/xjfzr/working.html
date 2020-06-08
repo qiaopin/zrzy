@@ -1,0 +1,753 @@
+<!DOCTYPE html>
+<html xmlns:v-bind="http://www.w3.org/1999/xhtml">
+
+<head>
+    <meta charset="UTF-8">
+    <title>首页</title>
+    <link rel="stylesheet" type="text/css" href="../../js/layui-v2.4.5/css/layui.css"/>
+    <link rel="stylesheet" type="text/css" href="../../js/layer/theme/default/layer.css"/>
+    <link rel="stylesheet" type="text/css" href="../../js/openlayers/ol.css"/>
+    <link rel="stylesheet" type="text/css" href="../../js/zTreeStyle/zTreeStyle.css"/>
+    <style>
+        body {
+            overflow: hidden;
+        }
+
+        .top {
+            height: 50vh;
+            width: 100%;
+            background: #F8F8F8;
+            position: relative;
+        }
+
+        .bottom {
+            height: 50vh;
+            width: 100%;
+            background: #F8F8F8;
+            position: relative;
+        }
+
+        .top-left {
+            height: calc(100% - 15px);
+            width: calc(100% - 20px);
+            background: #fff;
+            position: absolute;
+            left: 10px;
+            top: 10px;
+        }
+
+        .top-right {
+            height: calc(100% - 15px);
+            width: calc(100% - 20px);
+            background: #fff;
+            position: absolute;
+            left: 10px;
+            top: 5px;
+        }
+
+        #map {
+            width: 100%;
+            height: 100%;
+        }
+
+        .title_div {
+            height: 30px;
+            color: #3A6992;
+            line-height: 30px;
+            padding: 0px 10px;
+            position: relative;
+        }
+
+        .strong {
+            font-weight: 900;
+        }
+
+        .year {
+            color: #07323B;
+        }
+
+        .quarter {
+            color: #07323B;
+            margin-left: 10px;
+        }
+
+        .f-right {
+            position: absolute;
+            right: 10px;
+        }
+
+        .f-right select {
+            height: 20px;
+        }
+
+        .f-right a {
+            cursor: pointer;
+            font-weight: 600;
+        }
+
+        .f-right a.active {
+            color: #1890FF;
+        }
+
+        .f-right a:hover {
+            color: #1890FF;
+        }
+
+        .niceScroll {
+            height: calc(100% - 30px);
+            padding: 0px 10px;
+        }
+
+        .layui-table, .layui-table-view {
+            margin: 0px;
+            border: none;
+        }
+
+        .layui-table-view .layui-table td, .layui-table-view .layui-table th {
+            border-left: 1px solid #e6e6e6;
+            padding: 5px 0px;
+        }
+
+        .layui-table-view .layui-table th {
+            text-align: center;
+        }
+
+        .layui-table-page, .layui-table-total {
+            border-width: 1px 1px 0px;
+        }
+
+        .layui-table-body {
+            margin-bottom: 0px;
+            margin-right: 0px;
+        }
+
+        .layui-form-radio > i:hover, .layui-form-radioed > i {
+            color: #187fcc;
+        }
+
+        .layui-table tbody tr:hover {
+            background: transparent;
+        }
+
+        .layui-btn-skyblue {
+            background: #1890FF;
+        }
+
+        .layui-laypage .layui-laypage-curr .layui-laypage-em {
+            background: #177BD0;
+        }
+
+        [lay-skin=primary].layui-form-checked i {
+            border-color: #187FCC;
+        }
+
+        [lay-skin=primary].layui-form-checked i {
+            background: #187FCC;
+        }
+
+        .hide {
+            display: none;
+        }
+
+        #charts2 {
+            height: 100%;
+        }
+
+        .layui-table-view [lay-size=sm].layui-table .layui-table-cell {
+            height: auto;
+            line-height: 22px;
+        }
+
+        .layui-table-cell, .layui-table-tool-panel li {
+            padding: 0px 0px;
+            overflow: auto;
+            white-space: normal;
+        }
+
+        .layui-table-cell {
+            height: auto;
+        }
+
+        .layui-table tr td {
+            text-align: center;
+        }
+
+        .layui-table-total .layui-table tr:hover {
+            background: #F2F2F2;
+        }
+
+        .layui-table td, .layui-table th {
+            border: 1px solid #949494;
+        }
+
+        .layui-table-view .layui-table td, .layui-table-view .layui-table th {
+            border-top: 1px solid #949494;
+            border-left: 1px solid #949494;
+        }
+
+        tbody > tr[data-index="0"] {
+            color: #1E9FFF;
+        }
+
+        tbody > tr[data-index="0"] > td[data-field="0"] > div {
+            display: none;
+        }
+
+        .noPosition {
+            color: #8d4654 !important;
+        }
+    </style>
+</head>
+
+<body class="white">
+<div class="top">
+    <div class="top-left">
+        <div class="title_div">
+            <span class="strong"><span class="XMC"></span>农村占用耕地建房情况统计</span>
+            <span class="f-right">
+                <div class="layui-btn-group">
+                <button id="checkAll" type="button" class="layui-btn layui-btn-xs layui-btn-warm">批量检查数据</button>
+                </div>
+                <div class="layui-btn-group">
+	        	 <button id="submit" onclick="submit()" type="button"
+                         class="layui-btn layui-btn-xs layui-btn-normal">批量提交市级</button>
+	        	 <button id="submitOne" onclick="submitOne()" type="button"
+                         class="layui-btn layui-btn-xs layui-btn-normal">单个提交市级</button>
+                </div>
+                <div class="layui-btn-group">
+	        	 <button onclick="UndoRurallandnByCounty2()" type="button"
+                         class="layui-btn layui-btn-xs layui-btn-danger">单个退回乡镇</button>
+                    </div>
+                <div class="layui-btn-group">
+                <button onclick="StopApproval()" type="button"
+                        class="layui-btn layui-btn-xs layui-btn-warm">全部禁止提交</button>
+                <button onclick="StopApproval2()" type="button"
+                        class="layui-btn layui-btn-xs layui-btn-warm">单个禁止提交</button>
+                <button onclick="RestoreApproval()" type="button"
+                        class="layui-btn layui-btn-xs layui-btn-warm">全部恢复提交</button>
+                <button onclick="RestroeApproval2()" type="button"
+                        class="layui-btn layui-btn-xs layui-btn-warm">单个恢复提交</button>
+                    </div>
+                <div class="layui-btn-group">
+	        	    <button id="export" type="button" class="layui-btn layui-btn-xs">导出统计表</button>
+                    <button id="export2" type="button" class="layui-btn layui-btn-xs layui-btn-normal">导出登记明细表</button>
+                </div>
+	        </span>
+
+        </div>
+        <div class="niceScroll table1_div">
+            <table id="table1" lay-filter="table1">
+
+            </table>
+        </div>
+    </div>
+
+</div>
+<div class="bottom">
+    <div class="top-right">
+        <div class="title_div">
+            <span class="strong"><span class="XZMC"></span>农村占用耕地建房情况统计</span>
+            <button class="layui-btn layui-btn-xs layui-btn-normal hideBottomBtn">隐藏</button>
+            <span class="f-right">
+	        	 <button id="export1" type="button" class="layui-btn layui-btn-xs layui-btn-normal">导出统计表</button>
+	        </span>
+
+        </div>
+        <div class="niceScroll table2_div">
+            <table id="table2" lay-filter="table2">
+
+            </table>
+        </div>
+    </div>
+
+</div>
+
+</body>
+<script type="text/html" id="barDemo">
+    <a class="layui-btn layui-btn-xs layui-btn-skyblue" lay-event="detail"></i>分配</a>
+    <!-- <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="edit"></i>审核</a>-->
+</script>
+<script src="../../js/jquery-2.1.0.js"></script>
+<script src="../../js/config.js"></script>
+<script src="../../js/common.js"></script>
+<script src="../../js/scrollbar/jquery.nicescroll.min.js"></script>
+<script src="../../js/layui/layui.js"></script>
+<script src="../../js/modules/layui-config.js"></script>
+<script src="../../js/openlayers/ol-debug.js"></script>
+<script src="../../js/openlayers/maptool.js"></script>
+<script src="../../js/zTreeStyle/jquery.ztree.js"></script>
+<script src="../../js/echars4.2.1/echarts.min.js"></script>
+<script src="../../js/scrollbar/jquery.nicescroll.min.js"></script>
+<script src="../../js/SSXstatic.js"></script>
+<script>
+    function statisticInit() {
+        StatisticsfByCounty();
+    }
+
+    $("#export").click(function () {
+        parent.layer.loadIndex = parent.layer.load(0, {shade: 0.1});
+        $(this).attr("disabled", true).addClass("layui-btn-disabled");
+        RurallandOutputExcelService('/OutputTJBByRecord', {
+            xzqdm: parent.JFZD.XZQDM,
+            record: jsonstr
+        }, true, function (resjson) {
+            parent.layer.close(parent.layer.loadIndex);
+            $("#export").attr("disabled", false).removeClass("layui-btn-disabled");
+            if (resjson.indexOf("false") > -1) {
+                return;
+            } else {
+                window.open(resjson.trim());
+            }
+        });
+    });
+
+    $("#checkAll").click(function () {//批量检查数据
+        parent.layer.loadIndex = parent.layer.load(0, {shade: 0.1});
+        var XZQDM = parent.JFZD.XZQDM;
+        RurallandStatisticsService('/CheckRurallandBycity4', {
+            xzqdm: XZQDM,
+        }, true, function (resjson) {
+            parent.layer.close(parent.layer.loadIndex);
+            if (resjson.indexOf("false") > -1) {
+                parent.layer.alert("访问服务器失败!");
+                return;
+            } else {
+                var resjosn = $.parseJSON(resjson);
+                if (resjosn.length > 0) {
+                    parent.layer.openIndex = parent.layer.open({
+                        type: 2,
+                        title: "错误信息",
+                        closeBtn: 1,
+                        shade: [0],
+                        skin: 'layui-layer-lan',
+                        area: ['900px', '500px'],
+                        anim: 2,//弹出动画
+                        shade: 0.2,//遮盖层
+                        content: ['../errorForm/errorForm.html', 'no'], //这里content是一个普通的String
+                    });
+                } else {
+                    parent.layer.alert("没有逻辑错误!");
+                }
+            }
+        });
+    });
+
+    $("#export1").click(function () {
+        parent.layer.loadIndex = parent.layer.load(0, {shade: 0.1});
+        $(this).attr("disabled", true).addClass("layui-btn-disabled");
+        var checkStatus = layuitable.checkStatus("table1");
+        var XZQDM = checkStatus.data[0].XZQDM;
+        XZQDM = XZQDM.substring(0, 6);
+        RurallandOutputExcelService('/OutputTJBByRecord2', {
+            xzqdm: XZQDM,
+            record: jsonstr1,
+            xzmc: checkStatus.data[0].XZQMC
+        }, true, function (resjson) {
+            $("#export1").attr("disabled", false).removeClass("layui-btn-disabled");
+            parent.layer.close(parent.layer.loadIndex);
+            if (resjson.indexOf("false") > -1) {
+                return;
+            } else {
+                window.open(resjson.trim());
+            }
+        });
+    });
+
+    $("#export2").click(function () {
+        parent.layer.loadIndex = parent.layer.load(0, {shade: 0.1});
+        $(this).attr("disabled", true).addClass("layui-btn-disabled");
+        RurallandOutputExcelService('/OutputDJBByXmc', {
+            xzqdm: parent.JFZD.XZQDM
+        }, true, function (resjson) {
+            $("#export2").attr("disabled", false).removeClass("layui-btn-disabled");
+            parent.layer.close(parent.layer.loadIndex);
+            if (resjson.indexOf("false") > -1) {
+                return;
+            } else {
+                window.open(resjson.trim());
+            }
+        });
+    });
+
+    //批量提交
+    function submit() {
+        parent.layer.loadIndex = parent.layer.load(0, {shade: 0.1});
+        RurallandService("/UpRurallandnByCounty3", {
+            userid: parent.JFZD.ID,
+            xzqdm: parent.JFZD.XZQDM
+        }, true, function (resjson) {
+            parent.layer.close(parent.layer.loadIndex);
+            if (resjson.indexOf("true") > -1) {
+                parent.layer.alert("提交成功!");
+            } else {
+                parent.layer.alert(resjson)
+            }
+
+        });
+    }
+
+    //单个提交
+    function submitOne() {
+
+        var checkStatus = layuitable.checkStatus("table1");
+        var XZQDM = parent.JFZD.XZQDM;
+        var XZMC = checkStatus.data[0].XZQMC;
+
+        parent.layer.confirm('确定提交 ' + XZMC + " ?", function (index) {
+            parent.layer.loadIndex = parent.layer.load(0, {shade: 0.1});
+            RurallandService("/UpRurallandnByCounty4", {
+                xzqdm: XZQDM,
+                userid: parent.JFZD.ID,
+                xzmc: XZMC
+            }, true, function (resjson) {
+                parent.layer.close(parent.layer.loadIndex);
+                if (resjson.indexOf("true") > -1) {
+                    parent.layer.alert("提交成功!");
+                    StatisticsfByCounty();
+                } else {
+                    parent.layer.alert(resjson);
+                }
+
+            });
+        });
+    }
+
+    //单个退回
+    function UndoRurallandnByCounty2() {
+        var checkStatus = layuitable.checkStatus("table1");
+        var XZQDM = parent.JFZD.XZQDM;
+        var XZMC = checkStatus.data[0].XZQMC;
+
+        parent.layer.confirm('确定退回 ' + XZMC + " 的数据?", function (index) {
+            parent.layer.close(index);
+            RurallandService("/UndoRurallandnByCounty2", {
+                xzqdm: XZQDM,
+                userid: parent.JFZD.ID,
+                xzmc: XZMC
+            }, true, function (resjson) {
+                if (resjson.indexOf("true") > -1) {
+                    parent.layer.alert("退回成功!");
+                    StatisticsfByCounty();
+                } else {
+                    parent.layer.alert("没有可退回数据!")
+                }
+
+            });
+        });
+    }
+
+    function StatisticsfByCounty() {
+        var XMC = parent.JFZD.XZQ.split(' ')[2];
+        $(".XMC").text(XMC);
+        parent.layer.loadIndex = parent.layer.load(0, {shade: 0.1});
+        RurallandStatisticsService("/StatisticsfByCounty", {
+            xzqdm: parent.JFZD.XZQDM,
+            xmc: XMC
+        }, true, function (resjson) {
+            if (resjson.indexOf("false") > -1) {
+                parent.layer.alert("未查询到结果!");
+                parent.layer.close(parent.layer.loadIndex);
+                var resjosn = [];
+            } else {
+                var resjosn = $.parseJSON(resjson);
+                jsonstr = JSON.stringify(resjosn);
+            }
+            addTotal(resjosn);
+            // if (resjosn.length > 0) {
+            //     resjosn[0].LAY_CHECKED = true;
+            // }
+            var height = $(".table1_div").height();
+            layuitable.render({
+                elem: '#table1',
+                height: height - 5,
+                page: false, //开启分页
+                limit: resjosn.length,
+                size: 'sm',
+//              totalRow: true,
+                cols: [
+                    [
+                        {type: 'radio', width: 60, rowspan: 4},//
+                        {field: 'XZQMC', title: '所属单位', rowspan: 4, width: 60, totalRowText: '合计'},//
+                        {field: '', title: '总体情况', colspan: 5},
+                        {field: '', title: '居住用房', colspan: 12},
+                        {field: '', title: '工矿厂房', colspan: 4},
+                        {field: '', title: '经营用房', colspan: 4},
+                        {field: '', title: '设施农业用房', colspan: 4},
+                    ],
+                    [
+                        {field: '', title: '占用耕地建房个数', rowspan: 2, colspan: 2,},
+                        {field: '', title: '占用耕地总面积(亩)', rowspan: 2, colspan: 2},
+                        {
+                            field: 'ZJBNTMJ', title: '占用基本农田面积(亩)', rowspan: 3, totalRow: true, templet: function (d) {
+                                return d.ZJBNTMJ.toFixed(2);
+                            }
+                        },
+                        {field: '', title: '自住', colspan: 5},
+                        {field: '', title: '销售', colspan: 7},
+                        {field: '', title: '占用耕地建房个数', rowspan: 2, colspan: 2},
+                        {field: '', title: '占用耕地总面积(亩)', rowspan: 2, colspan: 2},
+                        {field: '', title: '占用耕地建房个数', rowspan: 2, colspan: 2},
+                        {field: '', title: '占用耕地总面积(亩)', rowspan: 2, colspan: 2},
+                        {field: '', title: '占用耕地建房个数', rowspan: 2, colspan: 2},
+                        {field: '', title: '占用耕地总面积(亩)', rowspan: 2, colspan: 2},
+                    ],
+                    [
+                        {field: '', title: '占用耕地建房个数', colspan: 2},
+                        {field: '', title: '占用耕地总面积(亩)', colspan: 2},
+                        {field: 'ZZYSXJFGS', title: '本村村民建房符合“一户一宅”条件个数', rowspan: 2, totalRow: true},//ZZFHTJGS3
+                        {field: '', title: '占用耕地建房个数', colspan: 2},
+                        {field: '', title: '占用耕地总面积(亩)', colspan: 2},
+                        {field: '', title: '销售套数', colspan: 3},
+                    ],
+                    [
+                        {field: 'ZTYSXJFGS', title: '有手续', totalRow: true},
+                        {field: 'ZTWSXJFGS', title: '无手续', totalRow: true},
+                        {
+                            field: 'ZTYSXGDMJ', title: '有手续', totalRow: true, templet: function (d) {
+                                return d.ZTYSXGDMJ.toFixed(2);
+                            }
+                        },
+                        {
+                            field: 'ZTWSXGDMJ', title: '无手续', totalRow: true, templet: function (d) {
+                                return d.ZTWSXGDMJ.toFixed(2);
+                            }
+                        },
+
+                        {field: 'ZZWSXJFGS', title: '有手续', totalRow: true},//8
+                        {
+                            field: 'ZZYSXGDMJ', title: '无手续', totalRow: true, templet: function (d) {
+                                return d.ZZYSXGDMJ.toFixed(2);
+                            }
+                        },//9
+                        {
+                            field: 'ZZWSXGDMJ', title: '有手续', totalRow: true, templet: function (d) {
+                                return d.ZZWSXGDMJ.toFixed(2);
+                            }
+                        },//10
+                        {field: 'ZZFHTJGS', title: '无手续', totalRow: true},//11
+
+                        {field: 'XSYSXJFGS', title: '有手续', totalRow: true},
+                        {field: 'XSWSXJFGS', title: '无手续', totalRow: true},
+                        {
+                            field: 'XSYSXGDMJ', title: '有手续', totalRow: true, templet: function (d) {
+                                return d.XSYSXGDMJ.toFixed(2);
+                            }
+                        },
+                        {
+                            field: 'XSWSXGDMJ', title: '无手续', totalRow: true, templet: function (d) {
+                                return d.XSWSXGDMJ.toFixed(2);
+                            }
+                        },
+                        {field: 'XSTSBCCM', title: '本村村民', rowspan: 2, totalRow: true},
+                        {field: 'XSTSWCCM', title: '外村村民', rowspan: 2, totalRow: true},
+                        {field: 'XSTSCZJM', title: '城镇居民', rowspan: 2, totalRow: true},
+                        {field: 'GCYSXJFGS', title: '有手续', totalRow: true},
+                        {field: 'GCWSXJFGS', title: '无手续', totalRow: true},
+                        {
+                            field: 'GCYSXGDMJ', title: '有手续', totalRow: true, templet: function (d) {
+                                return d.GCYSXGDMJ.toFixed(2);
+                            }
+                        },
+                        {
+                            field: 'GCWSXGDMJ', title: '无手续', totalRow: true, templet: function (d) {
+                                return d.GCWSXGDMJ.toFixed(2);
+                            }
+                        },
+                        {field: 'JYYSXJFGS', title: '有手续', totalRow: true},
+                        {field: 'JYWSXJFGS', title: '无手续', totalRow: true},
+                        {
+                            field: 'JYYSXGDMJ', title: '有手续', totalRow: true, templet: function (d) {
+                                return d.JYYSXGDMJ.toFixed(2);
+                            }
+                        },
+                        {
+                            field: 'JYWSXGDMJ', title: '无手续', totalRow: true, templet: function (d) {
+                                return d.JYWSXGDMJ.toFixed(2);
+                            }
+                        },
+                        {field: 'NYYSXJFGS', title: '有手续', totalRow: true},
+                        {field: 'NYWSXJFGS', title: '无手续', totalRow: true},
+                        {
+                            field: 'NYYSXGDMJ', title: '有手续', totalRow: true, templet: function (d) {
+                                return d.NYYSXGDMJ.toFixed(2);
+                            }
+                        },
+                        {
+                            field: 'NYWSXGDMJ', title: '无手续', totalRow: true, templet: function (d) {
+                                return d.NYWSXGDMJ.toFixed(2);
+                            }
+                        },
+                    ]
+                ],
+                data: resjosn,
+                done: function () {
+                    //判断哪儿个禁止提交了
+                    ApprovalStatus2(resjosn);
+                }
+            });
+            layuitable.on('radio(table1)', function (obj) {
+                var data = obj.data;
+                var checkStatus = layuitable.checkStatus("table1");
+                HomeStatisticsfByTown(checkStatus.data[0].XZQDM, checkStatus.data[0].XZQMC);
+                toggleBottom(true);//隐藏bottom
+                resetTableSize();
+            });
+            var table1_div = $(".table1_div").height();
+            var header = $(".table1_div .layui-table-header").height();
+            $(".table1_div .layui-table-body").height(table1_div - header - 5);
+            parent.layer.close(parent.layer.loadIndex);
+        });
+    }
+
+
+    function HomeStatisticsfByTown(XZQDM, XZMC) {
+        $("#export1").attr("disabled", false).removeClass("layui-btn-disabled");
+        XZQDM = XZQDM.substring(0, 6);
+        $(".XZMC").text(XZMC);
+        parent.layer.loadIndex = parent.layer.load(0, {shade: 0.1});
+        RurallandStatisticsService("/HomeStatisticsfByTown2", {xzqdm: XZQDM, xzmc: XZMC}, true, function (resjson) {
+            $("#export1").attr("disabled", false).removeClass("layui-btn-disabled");
+            if (resjson.indexOf("false") > -1) {
+                parent.layer.alert("未查询到结果!");
+                parent.layer.close(parent.layer.loadIndex);
+                var resjosn = [];
+            } else {
+                var resjosn = $.parseJSON(resjson);
+                jsonstr1 = JSON.stringify(resjosn);
+            }
+            addTotal(resjosn);
+            var height = $(".table2_div").height();
+            layuitable.render({
+                elem: '#table2',
+                height: height - 5,
+                page: false, //开启分页
+                limit: resjosn.length,
+                size: 'sm',
+//              totalRow: true,
+                cols: [
+                    [
+                        {field: 'XZQMC', title: '所属单位', rowspan: 4, width: 60, totalRowText: '合计'},//
+                        {field: '', title: '总体情况', colspan: 5},
+                        {field: '', title: '居住用房', colspan: 12},
+                        {field: '', title: '工矿厂房', colspan: 4},
+                        {field: '', title: '经营用房', colspan: 4},
+                        {field: '', title: '设施农业用房', colspan: 4},
+                    ],
+                    [
+                        {field: '', title: '占用耕地建房个数', rowspan: 2, colspan: 2,},
+                        {field: '', title: '占用耕地总面积(亩)', rowspan: 2, colspan: 2},
+                        {
+                            field: 'ZJBNTMJ', title: '占用基本农田面积(亩)', rowspan: 3, totalRow: true, templet: function (d) {
+                                return d.ZJBNTMJ.toFixed(2);
+                            }
+                        },
+                        {field: '', title: '自住', colspan: 5},
+                        {field: '', title: '销售', colspan: 7},
+                        {field: '', title: '占用耕地建房个数', rowspan: 2, colspan: 2},
+                        {field: '', title: '占用耕地总面积(亩)', rowspan: 2, colspan: 2},
+                        {field: '', title: '占用耕地建房个数', rowspan: 2, colspan: 2},
+                        {field: '', title: '占用耕地总面积(亩)', rowspan: 2, colspan: 2},
+                        {field: '', title: '占用耕地建房个数', rowspan: 2, colspan: 2},
+                        {field: '', title: '占用耕地总面积(亩)', rowspan: 2, colspan: 2},
+                    ],
+                    [
+                        {field: '', title: '占用耕地建房个数', colspan: 2},
+                        {field: '', title: '占用耕地总面积(亩)', colspan: 2},
+                        {field: 'ZZYSXJFGS', title: '本村村民建房符合“一户一宅”条件个数', rowspan: 2, totalRow: true},//ZZFHTJGS3
+                        {field: '', title: '占用耕地建房个数', colspan: 2},
+                        {field: '', title: '占用耕地总面积(亩)', colspan: 2},
+                        {field: '', title: '销售套数', colspan: 3},
+                    ],
+                    [
+                        {field: 'ZTYSXJFGS', title: '有手续', totalRow: true},
+                        {field: 'ZTWSXJFGS', title: '无手续', totalRow: true},
+                        {
+                            field: 'ZTYSXGDMJ', title: '有手续', totalRow: true, templet: function (d) {
+                                return d.ZTYSXGDMJ.toFixed(2);
+                            }
+                        },
+                        {
+                            field: 'ZTWSXGDMJ', title: '无手续', totalRow: true, templet: function (d) {
+                                return d.ZTWSXGDMJ.toFixed(2);
+                            }
+                        },
+
+                        {field: 'ZZWSXJFGS', title: '有手续', totalRow: true},//8
+                        {
+                            field: 'ZZYSXGDMJ', title: '无手续', totalRow: true, templet: function (d) {
+                                return d.ZZYSXGDMJ.toFixed(2);
+                            }
+                        },//9
+                        {
+                            field: 'ZZWSXGDMJ', title: '有手续', totalRow: true, templet: function (d) {
+                                return d.ZZWSXGDMJ.toFixed(2);
+                            }
+                        },//10
+                        {field: 'ZZFHTJGS', title: '无手续', totalRow: true},//11
+
+                        {field: 'XSYSXJFGS', title: '有手续', totalRow: true},
+                        {field: 'XSWSXJFGS', title: '无手续', totalRow: true},
+                        {
+                            field: 'XSYSXGDMJ', title: '有手续', totalRow: true, templet: function (d) {
+                                return d.XSYSXGDMJ.toFixed(2);
+                            }
+                        },
+                        {
+                            field: 'XSWSXGDMJ', title: '无手续', totalRow: true, templet: function (d) {
+                                return d.XSWSXGDMJ.toFixed(2);
+                            }
+                        },
+                        {field: 'XSTSBCCM', title: '本村村民', rowspan: 2, totalRow: true},
+                        {field: 'XSTSWCCM', title: '外村村民', rowspan: 2, totalRow: true},
+                        {field: 'XSTSCZJM', title: '城镇居民', rowspan: 2, totalRow: true},
+                        {field: 'GCYSXJFGS', title: '有手续', totalRow: true},
+                        {field: 'GCWSXJFGS', title: '无手续', totalRow: true},
+                        {
+                            field: 'GCYSXGDMJ', title: '有手续', totalRow: true, templet: function (d) {
+                                return d.GCYSXGDMJ.toFixed(2);
+                            }
+                        },
+                        {
+                            field: 'GCWSXGDMJ', title: '无手续', totalRow: true, templet: function (d) {
+                                return d.GCWSXGDMJ.toFixed(2);
+                            }
+                        },
+                        {field: 'JYYSXJFGS', title: '有手续', totalRow: true},
+                        {field: 'JYWSXJFGS', title: '无手续', totalRow: true},
+                        {
+                            field: 'JYYSXGDMJ', title: '有手续', totalRow: true, templet: function (d) {
+                                return d.JYYSXGDMJ.toFixed(2);
+                            }
+                        },
+                        {
+                            field: 'JYWSXGDMJ', title: '无手续', totalRow: true, templet: function (d) {
+                                return d.JYWSXGDMJ.toFixed(2);
+                            }
+                        },
+                        {field: 'NYYSXJFGS', title: '有手续', totalRow: true},
+                        {field: 'NYWSXJFGS', title: '无手续', totalRow: true},
+                        {
+                            field: 'NYYSXGDMJ', title: '有手续', totalRow: true, templet: function (d) {
+                                return d.NYYSXGDMJ.toFixed(2);
+                            }
+                        },
+                        {
+                            field: 'NYWSXGDMJ', title: '无手续', totalRow: true, templet: function (d) {
+                                return d.NYWSXGDMJ.toFixed(2);
+                            }
+                        },
+                    ]
+                ],
+                data: resjosn,
+            });
+
+            var table2_div = $(".table2_div").height();
+            var header = $(".table2_div .layui-table-header").height();
+            $(".table2_div .layui-table-body").height(table2_div - header - 5);
+            parent.layer.close(parent.layer.loadIndex);
+        });
+    }
+
+</script>
+
+</html>

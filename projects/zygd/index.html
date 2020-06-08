@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html xmlns:v-bind="http://www.w3.org/1999/xhtml">
+
+<head>
+    <meta charset="UTF-8">
+    <title>河北省自然资源动态监管平台</title>
+    <link rel="stylesheet" type="text/css" href="js/layui/css/layui.css"/>
+    <link rel="stylesheet" type="text/css" href="js/layer/theme/default/layer.css"/>
+    <style>
+
+    </style>
+</head>
+
+<body style="overflow: hidden;">
+
+</body>
+
+<script src="js/jquery1.9.0.min.js"></script>
+
+<!--<script src="js/config.js"></script>-->
+
+<!--<script src="js/common.js"></script>-->
+<!--&lt;!&ndash;layui弹出层&ndash;&gt;-->
+<script src="js/layer/layer.js"></script>
+<script src="js/layui/layui.js"></script>
+<!--树-->
+<script>
+    var JFZD = null;
+    layui.use(['form', 'element', 'laydate', 'table'], function () {
+
+        JFZD = JSON.parse(sessionStorage.JFZD)[0];
+        sessionStorage.userInfo = sessionStorage.JFZD;
+        sessionStorage.userXZQDM = JFZD.XZQDM;
+        if (JFZD.USERTYPE == "省厅负责人") {
+            window.location.href = 'html/stfzr/index.html'
+
+        } else if (JFZD.USERTYPE == "市局负责人") {
+            window.location.href = 'html/sjfzr/index.html'
+
+        } else if (JFZD.USERTYPE == "县局负责人") {
+            window.location.href = 'html/xjfzr/index.html'
+
+        } else if (JFZD.USERTYPE == "国土所负责人") {
+            window.location.href = 'html/gtsfzr/index.html'
+
+        } else if (JFZD.USERTYPE == "乡镇党政负责人") {
+            window.location.href = 'html/xzdzfzr/index.html'
+
+        } else if (JFZD.USERTYPE == "村两委负责人") {
+            window.location.href = 'html/cewfzr/index.html'
+
+        } else if (JFZD.USERTYPE == "调查员") {
+            window.location.href = 'html/dcy/index.html'
+        }
+    });
+</script>
+</html>

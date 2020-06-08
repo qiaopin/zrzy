@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>查看照片</title>
+    <link rel="stylesheet" type="text/css" href="../../css/style.css"/>
+    <link rel="stylesheet" type="text/css" href="../../js/layui/css/layui.css"/>
+    <link rel="stylesheet" type="text/css" href="../../js/layer/theme/default/layer.css"/>
+    <link rel="stylesheet" type="text/css" href="../../js/openlayers/ol.css"/>
+    <link rel="stylesheet" href="../../css/editAttr.css">
+    <style>
+        .xz_tb {
+            display: none;
+        }
+    </style>
+</head>
+
+<body>
+<div class="content" style="border: 0px solid silver; width: 95%;margin:0 auto;">
+    <form class="layui-form" action="" lay-filter="formTest">
+        <table border="0" cellspacing="0" cellpadding="0">
+            <tr>
+                <td>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">工作单位</label>
+                        <div class="layui-input-block">
+                            <input type="text" name="BM" lay-verify="" placeholder="" autocomplete="off"
+                                   class="layui-input DCDW layui-disabled"
+                                   disabled="disabled">
+                        </div>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">调查人</label>
+                        <div class="layui-input-block">
+                            <input type="text" name="RY" lay-verify="" placeholder="" autocomplete="off"
+                                   class="layui-input DCR layui-disabled"
+                                   disabled="disabled">
+                        </div>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">监测编号</label>
+                        <div class="layui-input-block">
+                            <input type="text" name="BH" lay-verify="" placeholder="" autocomplete="off"
+                                   class="layui-input BH layui-disabled"
+                                   disabled="disabled">
+                        </div>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">图斑类型</label>
+                        <div class="layui-input-block">
+                            <!--<input type="text" name="TBLX" lay-verify="" placeholder="" autocomplete="off" class="layui-input layui-disabled" disabled="disabled">-->
+                            <select name="TBLX" lay-verify="" lay-filter="TBLX">
+                                <option value="新增光伏用地">新增光伏用地</option>
+                                <option value="新增建（构）筑物">新增建（构）筑物</option>
+                                <option value="新增推填土">新增推填土</option>
+                                <option value="新增线形地物">新增线形地物</option>
+                            </select>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+
+            <tr class="kz_tb">
+                <td>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">实地现状</label>
+                        <div class="layui-input-block">
+                            <input type="text" name="SDXZ" lay-verify="" placeholder="填写占地用地的详细情况" autocomplete="off"
+                                   class="layui-input">
+                        </div>
+                    </div>
+                </td>
+            </tr>
+            <tr class="kz_tb">
+                <td>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">用地单位</label>
+                        <div class="layui-input-block">
+                            <input type="text" name="YDDW" placeholder="用地单位（个人）" autocomplete="off"
+                                   class="layui-input">
+                        </div>
+                    </div>
+                </td>
+            </tr>
+            <tr class="kz_tb">
+                <td>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">项目名称</label>
+                        <div class="layui-input-block">
+                            <input type="text" name="XMMC" placeholder="项目名称" autocomplete="off" class="layui-input">
+                        </div>
+                    </div>
+                </td>
+            </tr>
+            <tr class="xz_tb">
+                <td>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">道路类型</label>
+                        <div class="layui-input-block">
+                            <select name="DLLX" lay-verify="">
+                                <option value=""></option>
+                                <option value="普通铁路">普通铁路</option>
+                                <option value="企业铁路">企业铁路</option>
+                                <option value="高速铁路">高速铁路</option>
+                                <option value="城市公路">城市公路</option>
+                                <option value="园区公路">园区公路</option>
+                                <option value="企业公路">企业公路</option>
+                                <option value="高速公路">高速公路</option>
+                                <option value="国道">国道</option>
+                                <option value="省道">省道</option>
+                                <option value="县道">县道</option>
+                                <option value="乡道">乡道</option>
+                                <option value="护坡">护坡</option>
+                            </select>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+            <tr class="xz_tb">
+                <td>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">道路名称</label>
+                        <div class="layui-input-block">
+                            <input type="text" name="DLMC" placeholder="道路用地具体名称" autocomplete="off"
+                                   class="layui-input">
+                        </div>
+                    </div>
+                </td>
+            </tr>
+            <tr class="xz_tb">
+                <td>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">道路宽度</label>
+                        <div class="layui-input-block">
+                            <input type="number" name="DLKD" placeholder="道路宽度（米）" autocomplete="off"
+                                   class="layui-input">
+                        </div>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">备注</label>
+                        <div class="layui-input-block" style="height:auto;">
+                            <textarea name="BZ" placeholder="请输入内容" class="layui-textarea"></textarea>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">
+                            照片
+                        </label>
+                        <div class="layui-input-block mui-content" style="height: 131px;overflow: auto;">
+                            <div class="photoBox mui-content-padded">
+                            </div>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+
+        </table>
+        <div class="submitBox">
+            <button type="button" class="layui-btn layui-btn-primary" id="close">取消</button>
+            <button class="layui-btn layui-btn-normal" id="btnOk" lay-submit lay-filter="btnOk">确定</button>
+        </div>
+    </form>
+</div>
+</body>
+<!--样式-->
+<!--layui弹出层-->
+<script src="../../js/jquery1.9.0.js"></script>
+<script src="../../js/config.js"></script>
+<script src="../../js/common.js"></script>
+<script src="../../js/scrollbar/jquery.nicescroll.min.js"></script>
+<script src="../../js/layui/layui.js"></script>
+<script src="../../js/modules/layui-config.js"></script>
+<script>
+    layui.use(['carousel', 'element', 'form', 'ljfBase'], function () {
+        var ljfBase = layui.ljfBase;
+        var form = layui.form;
+
+        var editData, BH, XZQDM;
+        var type = ljfBase.getParamByUrl("type"); //addPoint：新增点 、edit：编辑 LineString 新增线 Polygon 新增面
+
+        if (type == "show") {
+            $("input").attr("disabled", "disabled");
+            $("select").attr("disabled", "disabled");
+            $("textarea").attr("disabled", "disabled");
+            $("#btnOk").attr("disabled", "disabled");
+            $("#btnOk").addClass("layui-btn-disabled");
+            $("#uploadImg").addClass("layui-btn-disabled");
+        }
+
+        var vm = { //照片数组
+            uploadImgArr: [],
+            uploadImgUrlArr: []
+        };
+
+        var showPhotos = function () {
+            carousel = layui.carousel;
+            var imgUrlArr = editData.PHOTOS;
+            if (imgUrlArr != "") {
+                var imgurl = imgUrlArr.split(',');
+                var imgStr = "";
+                for (var i = 0; i < imgurl.length; i++) {
+                    if (imgurl[i].trim() != "") {
+                        // str += "<div><img src='" + imgurl[i].trim() + "' onerror='imgErr()'></div>";
+                        var url = imgurl[i].trim();
+                        imgStr += '<div class="imgBox">' +
+                            '<img src="' + url + '" data-preview-src="" data-preview-group="1"/>';
+                        if (type != "show") {
+                            imgStr += '<div class="removeImgBtn" onclick="removeImg(\'' + i + '\')">删除</div>';
+                        }
+                        imgStr += '</div>';
+                    }
+                }
+            }
+            $(".photoBox").html(imgStr);
+            carousel.render({
+                elem: '#test'
+                , width: '100%'
+                , height: '100%'
+                , autoplay: false,
+//		    ,interval: 5000
+            });
+
+            window.imgErr = function () {
+                layer.alert("照片未上传");
+            }
+        };
+
+        var dwdw, dcr;
+        if (type == 'show' || type == 'edit') {
+            editData = parent.editData;
+            XZQDM = editData.XZQDM;
+            var TBLX = editData.TBLX;
+            DCDW = editData.BM;
+            DCR = editData.RY;
+
+            if (TBLX == "新增线形地物") {
+                $(".xz_tb").show();
+                $(".kz_tb").hide();
+            } else {
+                $(".xz_tb").hide();
+                $(".kz_tb").show();
+            }
+            BH = editData.BH;
+
+            form.val("formTest", {
+                BH: editData.BH || "",
+                TBLX: editData.TBLX || "",
+                SDXZ: editData.SDXZ || "",
+                XMMC: editData.XMMC || "",
+                YDDW: editData.YDDW || "",
+                DLLX: editData.DLLX || "",
+                DLMC: editData.DLMC || "",
+                DLKD: editData.DLKD || "",
+                BM: DCDW || "",
+                RY: DCR || "",
+                BZ: editData.BZ || ""
+            });
+            if (editData.PHOTOS !== "") {
+                var PHOTOS = editData.PHOTOS.split(",");
+                $.each(PHOTOS, function (i, v) {
+                    var url = sessionStorage.localPath + "/PHOTOS/" + BH + "/" + v;
+                    vm.uploadImgArr.push({
+                        status: 1,
+                        url: url,
+                        name: v
+                    })
+                });
+                showPhotos();
+            }
+        }
+        form.render();
+        //删除照片
+        window.removeImg = function (i) {
+            layer.confirm('确定删除？', {
+                    btn: ['确定', '取消'] //按钮
+                }, function (index) {
+                    layer.close(index);
+                    var name = vm.uploadImgArr[i].name;
+                    var bh = editData.BH;
+                    var xzqdm = editData.XZQDM;
+                    var postData = {
+                        xzqdm: xzqdm,
+                        bh: bh,
+                        photoname: name,
+                    };
+                    $.ajax({
+                        type: "post", //请求方式
+                        url: sessionStorage.baseUrl + "JCTBManagerService.asmx/DeleteCluePhoto",
+                        data: postData, //参数
+                        dataType: "text", //返回文本
+                        jsonp: "jsonp", //传递给请求处理程序或页面的，用以获得jsonp回调函数名的参数名(默认为:callback)
+                        async: true,
+                        cache: false,
+                        global: false,
+                        //请求成功后的回调函数
+                        success: function (xml) {
+                            var res = $(xml).text().trim();
+                            vm.uploadImgArr.splice(i, 1);
+                            showPhotos();
+                            parent.refreshAll();
+                            layer.msg("删除成功");
+                            console.log("删除上传照片结果：" + res);
+                        },
+                        error: function (res) {
+                            layer.alert('访问服务器失败!');
+                        }
+                    });
+                },
+                function () {
+                    //取消
+                });
+        };
+
+        form.on('select(TBLX)', function (data) {
+            console.log(data.value);
+            if (data.value == "新增线形地物") {
+                $(".xz_tb").show();
+                $(".kz_tb").hide();
+            } else {
+                $(".xz_tb").hide();
+                $(".kz_tb").show();
+            }
+        });
+
+        function getNowTime() {
+            function getNow(s) {
+                return s < 10 ? '0' + s : s;
+            }
+
+            var myDate = new Date();
+            var year = myDate.getFullYear(); //获取当前年
+            var month = myDate.getMonth() + 1; //获取当前月
+            var date = myDate.getDate(); //获取当前日
+            var h = myDate.getHours(); //获取当前小时数(0-23)
+            var m = myDate.getMinutes(); //获取当前分钟数(0-59)
+            var s = myDate.getSeconds();
+            var now = year + '-' + getNow(month) + "-" + getNow(date) + " " + getNow(h) + ':' + getNow(m) + ":" + getNow(s);
+            return now;
+        }
+
+        //监听提交
+        form.on('submit(btnOk)', function (data) {
+            var data = data.field;
+            var photosNameArr = [];
+
+            $.each(vm.uploadImgArr, function (i, v) {
+                if (v.status == 1) {
+                    photosNameArr.push(v.name);
+                }
+            });
+            if (type == "edit") { //编辑
+                $.each(data, function (i, v) {
+                    editData[i] = v;
+                });
+                if (photosNameArr.length > 0) {
+                    editData.PHOTOS = photosNameArr.join(",");
+                } else {
+                    editData.PHOTOS = "";
+                }
+                parent.layerSubmit("editPoint", editData);
+            }
+            return false;
+        });
+    });
+
+    $('#close').click(function () {
+        parent.layer.closeAll();
+        return false;
+    });
+</script>
+</html>

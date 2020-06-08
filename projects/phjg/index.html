@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html xmlns:v-bind="http://www.w3.org/1999/xhtml">
+
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <link rel="stylesheet" type="text/css" href="js/layui/css/layui.css"/>
+    <link rel="stylesheet" type="text/css" href="js/layer/theme/default/layer.css"/>
+    <!--<link rel="stylesheet" type="text/css" href="css/style.css"/>-->
+    <!--<link rel="shortcut icon" href="images/logo.png">-->
+    <style>
+        * {
+            font-family: "微软雅黑";
+        }
+
+        header {
+            height: 50px;
+            width: 100%;
+            /*background: #354658;*/
+            /*background:linear-gradient(90deg,rgba(24,144,255,1) 0%,rgba(30,44,199,1) 100%);*/
+            background: linear-gradient(90deg, rgba(47, 64, 86, 1) 0%, rgba(1, 91, 147, 1) 100%);
+            background: url(images/head_bg.jpg) repeat;
+        }
+
+        .logo {
+            float: left;
+            line-height: 50px;
+            color: white;
+            font-size: 25px;
+            font-weight: bold;
+        }
+
+        .logo img {
+            display: inline-block;
+            margin: -10px 15px 0px 15px;
+        }
+
+        header .nav {
+            height: 50px;
+            float: right;
+            margin-right: 10px;
+        }
+
+        header .nav ul {
+            height: 50px;
+        }
+
+        .layui-nav {
+            background: transparent;
+        }
+
+        header .nav ul li {
+            float: left;
+            position: relative;
+        }
+
+        header .nav ul li a {
+            font-weight: bold;
+        }
+
+        .layui-nav .layui-nav-item {
+            line-height: 50px;
+        }
+
+        .main {
+            height: calc(100vh - 50px);
+            width: 100%;
+            position: absolute;
+            top: 50px;
+            left: 0px;
+            overflow: hidden;
+        }
+
+        .user {
+            height: 50px;
+            position: absolute;
+            right: 40px;
+            top: 0px;
+        }
+
+        .user .layui-icon {
+            color: #fff;
+            font-size: 40px;
+            line-height: 54px;
+            position: relative;
+        }
+
+        .user .layui-icon .layui-bg-blue {
+            right: -10px;
+            top: -2px;
+        }
+
+        .tools {
+            margin-right: 3px;
+        }
+
+        .show {
+            display: block !important;
+        }
+
+        .hide {
+            display: none !important;
+        }
+
+        .layui-nav {
+            padding: 0;
+        }
+
+        #movePort {
+            z-index: 9999;
+        }
+    </style>
+</head>
+
+<body style="overflow: hidden;">
+<header>
+			<span class="logo" style="padding-left: 20px;">
+				批后监管</span>
+    <div class="nav">
+        <ul class="layui-nav">
+            <li name="首页" class="lly layui-nav-item layui-this layui-nav-item1" id="homepage">
+                <a class="active" href="javascript:;">总体情况</a>
+            </li>
+            <!--<li name="专题数据" class="lly layui-nav-item layui-nav-item1" id="ThemeByIndustry">-->
+                <!--<a href="javascript:;">专题数据</a>-->
+            <!--</li>-->
+            <li name="任务管理" class="lly layui-nav-item layui-nav-item1" id="monitorManage">
+                <a href="javascript:;">任务管理</a>
+            </li>
+
+            <!--<li name="实时监测" class="lly layui-nav-item layui-nav-item1 hide" id="monitor">-->
+                <!--<a href="javascript:;">实时监测</a>-->
+            <!--</li>-->
+            <!--<li name="统计分析" class="lly layui-nav-item layui-nav-item1 hide" id="monitorAnalysis">-->
+                <!--<a href="javascript:;">统计分析</a>-->
+            <!--</li>-->
+            <!--<li name="实施监管" class="lly layui-nav-item layui-nav-item1 hide" id="supervise">-->
+                <!--<a href="javascript:;">实施监管</a>-->
+            <!--</li>-->
+            <!--<li name="摄像监控" class="lly layui-nav-item layui-nav-item1" id="videoCameras">-->
+                <!--<a href="javascript:;">摄像监控</a>-->
+            <!--</li>-->
+            <!--<li name="技术支持" class="lly layui-nav-item layui-nav-item1 hide" id="support">
+                <a href="javascript:;">技术支持</a>
+            </li>-->
+            <li class="layui-nav-item">
+                <!--<span class="layui-badge-dot layui-bg-white"></span>-->
+                <a href="javascript:;">当前用户：<span id="sprid"></span></a>
+                <dl id="navlist" class="layui-nav-child">
+                    <dd><a id="return" href="javascript:;">返回导航页</a></dd>
+                </dl>
+            </li>
+        </ul>
+    </div>
+</header>
+<div class="main">
+    <iframe id="iframes" name="iframes" src="html/homepage.html" width="100%" height="100%"
+            style="border: 0px;"></iframe>
+</div>
+
+</body>
+
+<script src="js/jquery1.9.0.min.js"></script>
+
+<script src="js/config.js"></script>
+
+<script src="js/common.js"></script>
+<!--layui弹出层-->
+<script src="js/layer/layer.js"></script>
+<script src="js/layui/layui.js"></script>
+<script src="js/scrollbar/jquery.nicescroll.min.js"></script>
+<!--树-->
+<script>
+    var userInfo = null;
+    layui.use(['form', 'element', 'laydate', 'table'], function () {
+        $(".niceScroll").niceScroll({cursorborder: "", cursorcolor: "#297FBA", boxzoom: false});
+        if (!sessionStorage.userInfo) {
+            window.location.href = "../../login.html";
+        } else {
+            userInfo = JSON.parse(sessionStorage.userInfo)[0];
+            sessionStorage.userXZQDM = userInfo.XZQDM;
+            $("#sprid").html(userInfo.USERNAME);
+            getPowerByUser();
+        }
+    });
+
+    $("#return").click(function () {
+        window.location.href = "../../login.html";
+    });
+
+    function getPowerByUser() {
+        RoleManagerService("/GetUserFunctions", {sprid: "sysadmin", appName: "门户网站"}, false, function (resjson) {
+            var resjosn = $.parseJSON(resjson);
+            var MENUS = resjosn[0].MENUS;
+            for (var i = 0; i < MENUS.length; i++) {
+                var MENUNAME = MENUS[i].MENUNAME;
+                var FUNCTIONS = MENUS[i].FUNCTIONS;
+                for (var j = 0; j < FUNCTIONS.length; j++) {
+                    if (FUNCTIONS[j].POWER) {
+                        $(".layui-nav-item1[name='" + MENUNAME + "']").removeClass('hide');
+                        break;
+                    }
+                }
+            }
+        });
+    }
+
+    $("#homepage").click(function () {
+        $("#iframes").attr('src', 'html/homepage.html')
+    });
+    $("#Apicture").click(function () {
+        $("#iframes").attr('src', 'html/Apicture.html')
+    });
+    //专题数据
+    $("#ThemeByIndustry").click(function () {
+        $("#iframes").attr('src', 'html/ThemeByIndustry.html')
+    });
+    //统计分析
+    $("#monitorAnalysis").click(function () {
+        // $("#iframes").attr('src', 'html/monitorAna.html')
+        $("#iframes").attr('src', 'html/monitorAnalysis.html')
+    });
+    $("#monitor").click(function () {
+        top.name = "";
+        $("#iframes").attr('src', 'html/monitor.html')
+    });
+    $("#monitorManage").click(function () {
+        $("#iframes").attr('src', 'html/monitorManage.html')
+    });
+
+    $("#support").click(function () {
+        $("#iframes").attr('src', 'html/support.html')
+    });
+
+    $("#supervise").click(function () {
+        $("#iframes").attr('src', 'html/supervise.html')
+    });
+
+    $("#videoCameras").click(function () {
+        $("#iframes").attr('src', 'html/videoCameras/jkDemo.html')
+    });
+
+    $("#nycl").click(function () {
+        $("#iframes").attr('src', 'html/dcy/dcy.html')
+    });
+
+    function goSSFX(name) {
+        top.name = name;
+        $("#iframes").attr('src', 'html/monitor.html');
+    }
+</script>
+</html>

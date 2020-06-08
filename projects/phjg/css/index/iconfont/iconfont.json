@@ -1,0 +1,72 @@
+{
+  "id": "1583045",
+  "name": "no name",
+  "font_family": "iconfont",
+  "css_prefix_text": "icon",
+  "description": "",
+  "glyphs": [
+    {
+      "icon_id": "1177777",
+      "name": "确认方案",
+      "font_class": "querenfangan",
+      "unicode": "e64a",
+      "unicode_decimal": 58954
+    },
+    {
+      "icon_id": "1986974",
+      "name": "三合一终端",
+      "font_class": "sanheyizhongduan",
+      "unicode": "e61e",
+      "unicode_decimal": 58910
+    },
+    {
+      "icon_id": "3216525",
+      "name": "拆迁",
+      "font_class": "chaiqian",
+      "unicode": "e66a",
+      "unicode_decimal": 58986
+    },
+    {
+      "icon_id": "5252508",
+      "name": "数据",
+      "font_class": "shuju1",
+      "unicode": "e629",
+      "unicode_decimal": 58921
+    },
+    {
+      "icon_id": "8308099",
+      "name": "17-地球",
+      "font_class": "-diqiu",
+      "unicode": "e68f",
+      "unicode_decimal": 59023
+    },
+    {
+      "icon_id": "8402945",
+      "name": "更多",
+      "font_class": "gengduo",
+      "unicode": "e600",
+      "unicode_decimal": 58880
+    },
+    {
+      "icon_id": "8668027",
+      "name": "gis_一张图管理",
+      "font_class": "gis_yizhangtuguanli",
+      "unicode": "e67a",
+      "unicode_decimal": 59002
+    },
+    {
+      "icon_id": "8718269",
+      "name": "规划",
+      "font_class": "guihua",
+      "unicode": "e606",
+      "unicode_decimal": 58886
+    },
+    {
+      "icon_id": "12331689",
+      "name": "指标",
+      "font_class": "zhibiao",
+      "unicode": "e66b",
+      "unicode_decimal": 58987
+    }
+  ]
+}

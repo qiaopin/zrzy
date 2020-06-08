@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <link rel="stylesheet" type="text/css" href="../../js/layui/css/layui.css"/>
+    <link rel="stylesheet" type="text/css" href="../../js/layer/theme/default/layer.css"/>
+    <link rel="stylesheet" type="text/css" href="../../css/comstyle.css"/>
+    <style>
+        /*查看详情时隐藏富文本编辑框*/
+        * {
+            box-sizing: border-box;
+        }
+
+        .layui-layedit-tool {
+            display: none;
+        }
+
+        .wrapper {
+            width: 1280px;
+            margin: 0 auto;
+            min-height: 300px;
+        }
+
+        .content-wrap {
+            padding: 20px;
+            background: #fff;
+            border: 1px solid #ddd;
+            overflow-y: auto;
+            overflow-x: hidden;
+        }
+
+        html, body, .wrapper, .content-wrap {
+            height: 100%;
+        }
+
+        .article h1 {
+            line-height: 30px;
+            font-size: 24px;
+            color: #101010;
+        }
+
+        .article .metabar {
+            margin-bottom: 20px;
+            margin-top: 10px;
+            padding-bottom: 10px;
+            border-bottom: 1px dotted #ddd;
+        }
+
+        .metabar .meta-item {
+            margin-right: 10px;
+        }
+
+        .layui-layedit {
+            border: none;
+        }
+
+        .black {
+            color: #666;
+        }
+    </style>
+</head>
+<body class="black">
+<div class="wrapper">
+    <div class="content-wrap">
+        <div class="article">
+            <h1 class="name"></h1>
+            <div class="metabar">
+            <span class="meta-item">
+                新闻类别：<span class="news-cate"></span>
+            </span>
+                <span class="meta-item">
+                阅读次数：<span class="read-number"></span>
+	        </span>
+                <span class="meta-item">
+                发表于：<span class="news-time"></span>
+	        </span>
+            </div>
+        </div>
+        <div>
+            <textarea id="layedit" style="display: none;"></textarea>
+        </div>
+    </div>
+</div>
+</body>
+<script src="../../js/layui/layui.js"></script>
+<script src="../../js/modules/layui-config.js"></script>
+<script src="../../js/config.js"></script>
+<script>
+    layui.use(['form', 'element', 'table', 'jquery', 'ljfBase', 'layedit'], function () {
+        var form = layui.form;
+        var ljfBase = layui.ljfBase;
+        var $ = layui.$;
+        var layedit = layui.layedit;
+        var minH = $(document).height() - 150;
+        //获取所有行业信息
+        var newsid = ljfBase.getParamByUrl("newsid");
+        console.log(minH);
+        //初始化富文本编辑器
+        var layeditIndex = layedit.build('layedit', {
+            height: minH + 'px'
+        });
+
+        //获取要编辑的案例的信息
+        var url = ljfBase.https.NewsManagerService + "/GetNewsByID";
+        ljfBase.post(url, {
+            newsid: newsid,
+            sprid: sessionStorage.sprid
+        }, function (xml) {
+            var data = JSON.parse(xml)[0];
+            $('.name').html(data.NAME);
+            $('.news-cate').html(data.NEWSTYPE);
+            $('.read-number').html(data.HOT);
+            $('.news-time').html(data.CREATETIME);
+            var html = decodeURI(data.CONTENT);
+            layedit.setContent(layeditIndex, html);
+        });
+    });
+
+</script>
+</html>

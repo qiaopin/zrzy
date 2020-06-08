@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html xmlns:v-bind="http://www.w3.org/1999/xhtml">
+
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <link rel="stylesheet" type="text/css" href="../../js/layui-v2.4.5/css/layui.css"/>
+    <link rel="stylesheet" type="text/css" href="../../js/layer/theme/default/layer.css"/>
+    <link rel="stylesheet" type="text/css" href="../../js/openlayers/ol.css"/>
+    <link rel="stylesheet" type="text/css" href="../../css/comstyle.css"/>
+		<link rel="stylesheet" type="text/css" href="../../css/apicture.css"/>
+    <style>
+        .custom-mouse-position {
+            display: none;
+        }
+
+        .ol-attribution {
+            display: none;
+        }
+
+        * {
+            font-family: "微软雅黑";
+        }
+
+        body {
+            width: 100%;
+            height: calc(100vh);
+        }
+
+        #map1 {
+            width: calc(100%);
+            height: 100%;
+        }
+
+        #swipe {
+            position: absolute;
+            bottom: 25px;
+            width: 100%;
+        }
+        
+        .maptool {
+            position: absolute;
+            right: 130px;
+            top: 20px;
+            border-radius: 5px;
+            box-shadow: 0 4px 5px rgba(0, 0, 0, 0.2);
+        }
+        .tool-bar li {
+            float: left;
+            width: 40px;
+            height: 40px;
+            position: relative;
+        }
+
+        .tool-bar li a {
+            display: block;
+            width: 40px;
+            height: 40px;
+            background: url(../../images/tool_icon.png) no-repeat;
+        }
+
+        .tool-bar li:hover {
+            background: #4384db;
+        }
+
+        .tool-bar li:first-child {
+            border-radius: 5px 0px 0 5px;
+        }
+
+        .tool-bar li:last-child {
+            border-radius: 0 5px 5px 0;
+        }
+
+        .tool-bar li a.tool-case1 {
+            background-position: 0 0;
+        }
+
+        .tool-bar li a.tool-case2 {
+            background-position: 0 -40px;
+        }
+
+        .tool-bar li a.tool-case3 {
+            background-position: 0 -80px;
+        }
+
+        .tool-bar li a.tool-case4 {
+            background-position: 0 -120px;
+        }
+
+        .tool-bar li a.tool-case5 {
+            background-position: 0 -160px;
+        }
+
+        .tool-bar li a.tool-case6 {
+            background-position: 0 -200px;
+        }
+
+        .tool-bar li a.tool-case7 {
+            background-position: 0 -240px;
+        }
+
+        .tool-bar li a.tool-case8 {
+            background-position: 0 -280px;
+        }
+
+        .tool-bar li a.tool-case9 {
+            background-position: 0 -320px;
+        }
+
+        .tool-bar li:hover a.tool-case1 {
+            background-position: -40px 0;
+        }
+
+        .tool-bar li:hover a.tool-case2 {
+            background-position: -40px -40px;
+        }
+
+        .tool-bar li:hover a.tool-case3 {
+            background-position: -40px -80px;
+        }
+
+        .tool-bar li:hover a.tool-case4 {
+            background-position: -40px -120px;
+        }
+
+        .tool-bar li:hover a.tool-case5 {
+            background-position: -40px -160px;
+        }
+
+        .tool-bar li:hover a.tool-case6 {
+            background-position: -40px -200px;
+        }
+
+        .tool-bar li:hover a.tool-case7 {
+            background-position: -40px -240px;
+        }
+
+        .tool-bar li:hover a.tool-case8 {
+            background-position: -40px -280px;
+        }
+
+        .tool-bar li:hover a.tool-case9 {
+            background-position: -40px -320px;
+        }
+    </style>
+</head>
+
+<body>
+<div id="map1">
+
+</div>
+<div class="maptool">
+    <ul class="tool-bar">
+        <li id="jlxg" class="hide" title="开启卷帘"><a onclick="" href="javascript:" class="tool-case1"></a></li>
+        <li title="全幅" onclick="maptool.allover()"><a href="javascript:" class="tool-case9"></a></li>
+        <li title="测距" onclick="maptool.measure('distance')"><a href="javascript:" class="tool-case3"></a></li>
+        <li title="测面" onclick="maptool.measure('area')"><a href="javascript:" class="tool-case4"></a></li>
+        <!--<li id="query" title="查询"><a href="javascript:" class="tool-case5"></a></li>-->
+        <li title="清除" onclick="maptool.clear()"><a href="javascript:" class="tool-case6"></a></li>
+        <!--<li title="全屏"><a href="javascript:;" class="tool-case7"></a></li>-->
+    </ul>
+</div>
+<div class="maptab">
+    <ul>
+        <li class="active"
+            style="background:url(../../images/maptab/ditu.jpg) no-repeat 2px 2px;background-size: 45px 45px;">
+            <a type='矢量' href="javascript:">矢量</a></li>
+        <li style="background:url(../../images/maptab/yingxiang.jpg) no-repeat 2px 2px;background-size: 45px 45px;">
+            <a type='影像' href="javascript:">影像</a></li>
+        <li style="background:url(../../images/maptab/dixing.jpg) no-repeat 2px 2px;background-size: 45px 45px;"><a
+                type='地形' href="javascript:">地形</a></li>
+        <li style="background:#fff;"><a type='' href="javascript:">无</a></li>
+    </ul>
+</div>
+			
+<!-- 用于控制卷帘位置的元素 -->
+<input id="swipe" type="range"/>
+</body>
+<!--<script src="../js/jquery1.9.0.min.js"></script>
+<script src="../js/config.js"></script>
+<script src="../js/common.js"></script>
+<script src="../js/layer/layer.js"></script>
+<script src="../js/layui/layui.js"></script>-->
+
+<script src="../../js/jquery1.9.0.min.js"></script>
+<script src="../../js/config.js"></script>
+<script src="../../js/common.js"></script>
+<script src="../../js/scrollbar/jquery.nicescroll.min.js"></script>
+<script src="../../js/layui/layui.js"></script>
+<script src="../../js/modules/layui-config.js"></script>
+<script src="../../js/openlayers/ol-debug.js"></script>
+<script src="../../js/openlayers/maptool.js"></script>
+<!--<script src="../js/openlayers/map.js"></script>-->
+<script>
+    var ljfBase = null;
+    var slider = null;
+    var layuiform = null;
+    var layerManager1 = null;
+
+    var parLayers = [];
+    var isOpenJL = false;
+    layui.use(['form', 'element', 'laydate', 'table', 'slider', 'ljfBase', 'serverCenter', 'LayerManager', 'NULayer', 'bluebird'], function () {
+        $(".niceScroll").niceScroll({cursorborder: "", cursorcolor: "#297FBA", boxzoom: false});
+        var layuielement = layui.element;
+        layuiform = layui.form;
+        ljfBase = layui.ljfBase;
+        var serverCenter = layui.serverCenter;
+        var LayerManager = layui.LayerManager;
+        var NULayer = layui.NULayer;
+       
+        var url = ljfBase.https.BaseMapConfigManagerService + "/GetAllBaseMapConfig";
+        ljfBase.post(url, {userid: sessionStorage.sprid}, function (res) {
+            var baseMapConfig = JSON.parse(res)[0];
+            var center = [];
+            center.push(baseMapConfig.CENTERX);
+            center.push(baseMapConfig.CENTERY);
+            layerManager1 = new LayerManager("map1", center, 12);
+            
+            ljfBase.post(ljfBase.https.BaseMapManagerService + "/GetAllBaseMap", {sprid: sessionStorage.sprid}, function (xml) {
+                var resArr = $.parseJSON(xml);
+//	                layerManager1.loadBaseMap(resArr, "矢量");
+                $('.maptab ul li').click(function () {
+                    $('.maptab ul li').removeClass("active");
+                    $(this).addClass("active");
+                    var type = $(this).find('a').attr('type');
+                    layerManager1.hideBaseMap();
+                    layerManager1.loadBaseMap(resArr, type);
+                });
+                $(".maptab ul li:last").click();//默认显示无底图
+            });
+            maptool.init(layerManager1);
+        });
+        
+        
+        var swipe = document.getElementById('swipe');   // 用于控制卷帘位置的DOM元素
+        $("#swipe").hide();
+
+
+        window.swipeJL = function (layers) {
+            $("#swipe").show();
+            isOpenJL = true;
+            parLayers = layers;
+            if (layers.length > 0) {
+                for (var i = layers.length - 1; i > -1; i--) {
+                    var swLayer = new NULayer({
+                        mapUrl: layers[i].MAPURL,
+                        layerId: layers[i].MAPID + "i",
+                        layers: layers[i].LAYERINDEX
+                    });
+                    setJLByLayer(layerManager1, swipe, swLayer);
+                }
+            }
+        };
+
+        window.hideJL = function () {
+            $("#swipe").hide();
+            isOpenJL = false;
+            //先清空一下图层
+            for (var i = parLayers.length - 1; i > -1; i--) {
+                var layerId = parLayers[i].MAPID + "i";
+                layerManager1.removeLayerById(layerId);
+            }
+        };
+
+        function setJLByLayer(layerManager, swipe, layer) {
+            layerManager.addNULayer(layer);
+            layer.layer.on('precompose', function (event) {          // 在Bing地图渲染之前触发
+                var ctx = event.context;                 //获得canvas渲染上下文
+                var width = ctx.canvas.width * (swipe.value / 100);  // 用于保存卷帘的位置
+                ctx.save();                 // 保存canvas设置
+                ctx.beginPath();            // 开始绘制路径
+                ctx.rect(width, 0, ctx.canvas.width - width, ctx.canvas.height);    // 绘制矩形
+                ctx.clip();                 // 裁剪Bing地图，以形成卷帘效果
+            });
+
+            layer.layer.on('postcompose', function (event) {     // 在Bing地图渲染之后触发
+                var ctx = event.context;
+                ctx.restore();              // 恢复canvas设置
+            });
+
+            swipe.addEventListener('input', function () {     // 在每次用户改变swipe控件时触发
+                layerManager._mapObject.render();
+            }, false);
+            swipe.addEventListener('change', function () {     // 在每次用户改变swipe控件时触发
+                layerManager._mapObject.render();
+            }, false);
+        }
+
+    });
+
+    function addlayer(index, layerobj) {
+        if (index == "1") {
+            layerManager1.addLayer(layerobj);
+
+            if (isOpenJL) {
+                //如果现在卷帘是开着的 先删除 再重新添加
+                hideJL();
+                swipeJL(parLayers);
+            } else {
+                //如果现在卷帘是关闭的 就只执行删除
+                hideJL();
+            }
+        }
+    }
+
+    function removeLayerById(id) {
+        layerManager1.removeLayerById(id);
+    }
+    
+    var isOpenJL = false;
+    $("#jlxg").click(function(){
+    	 var firstMapLayers = [];
+
+        // 选取第一个存在的图层作为卷帘
+        var Industryresjosn = parent.Industryresjosn;
+        $.each(Industryresjosn, function (i, v) {
+            if (v.RESOURCES.length > 0) {
+                $.each(v.RESOURCES, function (s, t) {
+                    if (t.RESOURCES.length > 0) {
+                        // firstMapLayers = t.RESOURCES;
+                        firstMapLayers = v.RESOURCES[s + 1].RESOURCES;
+                        return false;
+                    }
+                });
+            }
+        });
+
+        // 直接取固定的图层作为卷帘
+        // var showIndex = 0;
+        // firstMapLayers = parent.Industryresjosn[0].RESOURCES[showIndex].RESOURCES;
+
+        //设置卷帘开启/关闭
+        if (isOpenJL) {
+        	$("#jlxg").attr('title','开启卷帘');
+            hideJL();
+            isOpenJL = false;
+        } else {
+        	$("#jlxg").attr('title','关闭卷帘');
+            swipeJL(firstMapLayers);
+            isOpenJL = true;
+        }
+    })
+</script>
+
+</html>

@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>审核</title>
+		<link rel="stylesheet" type="text/css" href="../../js/layui/css/layui.css"/>
+        <link rel="stylesheet" type="text/css" href="../../js/layer/theme/default/layer.css"/>
+        <link rel="stylesheet" type="text/css" href="../../css/comstyle.css"/>
+        <style>
+        	.black table{color: #fff;}
+        	.black .btndiv{border: 1px solid #5C5D6D;}
+        	.white table{color: #000;}
+        	.white .btndiv{border: 1px solid #DDDDDD;}
+        	.layui-input, .layui-textarea{display: inline-block;}
+        	.layui-input{color: #fff;  background: #354658;border: none;padding: 10px;width: 230px;}
+        	table{color: #fff; width: 100%;margin: 10px;}
+        	table tr td{padding: 5px;}
+        	textarea{width: 400px;height: 80px;padding: 10px;overflow: hidden;}
+        	.black textarea{background: #354658;color: #fff;border: none;}
+        	.white textarea{color: #000;border: 1px solid #DDDDDD;;}
+        	.layui-input-inline{padding: 10px;width:400px;}
+        </style>
+	</head>
+	<body>
+		
+		<div  style="width: 520px;">
+			<table  border="0" cellspacing="0" cellpadding="0">
+				<tr>
+					<td><span>使用时间</span></td>
+					<td style="text-align: left;">
+						 <input type="text" id="date" class="layui-input-inline" placeholder="">
+					</td>
+					
+				</tr>
+				
+				
+				<tr>
+					<td><span>申请描述</span></td>
+					<td>
+						<textarea  name="" id="reason" rows="2" cols="20"></textarea>
+					</td>
+					
+				</tr>
+				
+			</table>
+			<div style="padding: 10px;text-align: right;">
+	       	    <!--<i class="layui-icon layui-icon-close"></i>--> 
+	       	    <button class="layui-btn layui-btn-normal" id="btnOk">确定</button>
+				<button class="layui-btn layui-btn-normal" style="margin-right: 27px;" id="close">取消</button>
+	        </div>
+       </div>
+		
+		
+		
+       
+       
+	</body>
+	<script src="../../js/jquery1.9.0.min.js"></script>
+	<script src="../../js/config.js"></script>
+	<script src="../../js/common.js"></script>
+    <!--样式-->
+     <!--layui弹出层-->
+    <!--<script src="../js/layer/layer.js"></script>-->
+    <script src="../../js/layui/layui.js"></script>
+    
+
+	<script>
+        layui.use(['form', 'element', 'laydate','table'], function(){
+		    var layuiform = layui.form;
+		    var layuielement = layui.element;
+		    var laydate = layui.laydate;
+		    var mydate = gettime();
+		    laydate.render({
+			    elem: '#date',
+			    min:mydate,
+			    range: true
+			});
+		    $("body").attr('class',$("body",parent.document).attr('class'));
+		});
+
+        $("#btnOk").click(function(){
+            var datestr = $("#date").val();
+	    	var reason = $("#reason").val();
+	    	if(datestr==""){
+	    		parent.layer.alert('请选择使用时间!')
+	    		return;
+	    	}
+	    	var datemin = datestr.split(' - ')[0];
+	    	var datemax = datestr.split(' - ')[1];
+	    	var data = {
+            	'sprid':sessionStorage.sprid,
+            	'resourceid':parent.layer.RESOURCEID,
+            	'startTime':datemin,
+            	'endTime':datemax,
+            	'reason':reason
+            }
+	    	if(parent.layer.RESOURCETYPE=="地图服务"){
+	    		MapResourceManagerService("/AddMapOrder",data,false,function(resjson){
+	        		if(resjson.trim()=="true"){
+		        		parent.layer.alert('申请成功,请等待管理员审核!');
+		        		parent.layer.close(parent.layer.openIndex);
+		        	}
+	        	});
+	    	}else if(parent.layer.RESOURCETYPE=="数据资源"){
+	    		DataResourceManagerService("/AddDataOrder",data,false,function(resjson){
+	        		if(resjson.trim()=="true"){
+		        		parent.layer.alert('申请成功,请等待管理员审核!');
+		        		parent.layer.close(parent.layer.openIndex);
+		        	}
+	        	});
+	    	}else if(parent.layer.RESOURCETYPE=="成果资料"){
+	    		DocResourceManagerService("/AddDocOrder",data,false,function(resjson){
+	        		if(resjson.trim()=="true"){
+		        		parent.layer.alert('申请成功,请等待管理员审核!');
+		        		parent.layer.close(parent.layer.openIndex);
+		        	}
+	        	});
+	    	}
+	    	
+            
+        	
+        	
+        })
+		$("#close").click(function(){
+			if(parent.layer.openIndex){
+				parent.layer.close(parent.layer.openIndex);
+			}
+		});
+
+		
+		
+		
+		
+	</script>
+</html>

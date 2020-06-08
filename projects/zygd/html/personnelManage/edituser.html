@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>添加专题</title>
+		<link rel="stylesheet" type="text/css" href="../../js/layui/css/layui.css"/>
+        <link rel="stylesheet" type="text/css" href="../../js/layer/theme/default/layer.css"/>
+        <link rel="stylesheet" type="text/css" href="../../css/comstyle.css"/>
+        <style>
+        	
+        	.white table{color: #000;}
+        	.white .btndiv{border: 1px solid #DDDDDD;}
+        	/*.layui-input, .layui-textarea{display: inline-block;}*/
+        	/*.layui-input{color: #fff;  background: #354658;border: none;padding: 10px;width: 230px;}*/
+        	table{color: #fff; width: 100%;margin: 10px 20px;}
+        	table tr td{padding: 5px;}
+        	.layui-input,.layui-textarea,.layui-form{width: 200px;}
+        </style>
+	</head>
+	<body class="white">
+		
+		<div  style="width: 340px;">
+			<table  border="0" cellspacing="0" cellpadding="0">
+				<tr>
+					<td><span>调查人员姓名</span></td>
+					<td>
+						<input id="username" type="text"   class="layui-input layui-disabled" disabled="disabled" placeholder="">
+					</td>
+				</tr>
+				
+				<tr>
+					<td><span>性别</span></td>
+					<td style="text-align: left;">
+						 <div class="layui-form" >
+					        <select id="sex" lay-search lay-filter="sex">
+					           <option selected="selected">男</option>
+					           <option>女</option>
+					        </select>
+					    </div>
+					</td>
+				</tr>
+				<tr>
+					<td><span>工作单位</span></td>
+					<td>
+						<input id="dwmc" type="text"   class="layui-input layui-disabled" disabled="disabled"  placeholder="">
+					</td>
+				</tr>
+				<tr>
+					<td><span>个人电话</span></td>
+					<td>
+						<input id="grdh" type="text"   class="layui-input" placeholder="">
+					</td>
+				</tr>
+				<tr>
+					<td><span>注册时间</span></td>
+					<td>
+						<input id="REGISTERTIME" type="text"   class="layui-input layui-disabled" disabled="disabled" placeholder="">
+					</td>
+				</tr>
+				<tr>
+					<td><span>备注</span></td>
+					<td>
+						<textarea id="bz" class="layui-textarea" ></textarea>
+					</td>
+				</tr>
+			</table>
+			<div style="padding: 10px;text-align: right;">
+	       	    <!--<i class="layui-icon layui-icon-close"></i>--> 
+	       	    <button class="layui-btn layui-btn-normal" id="btnOk">确定</button>
+				<button class="layui-btn layui-btn-normal" id="close" style="margin-right: 1px;" id="close">取消</button>
+	        </div>
+       </div>
+		
+		
+		
+       
+       
+	</body>
+	<script src="../../js/jquery1.9.0.js"></script>
+	<script src="../../js/config.js"></script>
+	<script src="../../js/common.js"></script>
+	<script src="../../js/layer/layer.js"></script>
+	<script src="../../js/layui/layui.js"></script>
+	<script src="../../js/md5.js"></script>
+	<script>
+	    layui.use(['form', 'element', 'laydate', 'table', 'slider'], function () {
+	//  	$(".niceScroll").niceScroll({cursorborder: "",cursorcolor: "#297FBA",boxzoom: false});
+	    	var layuitable = layui.table;
+	    	var form = layui.form;
+	    	$("#username").val(parent.layer.data.USERNAME);
+			$("#sex").val(parent.layer.data.SEX);
+			$("#dwmc").val(parent.layer.data.GZDW);
+			$("#grdh").val(parent.layer.data.PHONE);
+			$("#REGISTERTIME").val(parent.layer.data.REGISTERTIME);
+			$("#bz").val(parent.layer.data.BZ)
+            form.render('select');
+	    });
+	    $("#close").click(function(){
+	    	parent.layer.close(parent.layer.openIndex)
+	    });
+		
+		$("#btnOk").click(function(){
+			
+		    var data = {
+		    	username:parent.layer.data.USERNAME,
+		    	password:parent.layer.data.PASSWORD,
+		    	// dwmc:$("#dwmc").val(),
+		    	// grdh:$("#grdh").val(),
+		    	// sex:$("#sex").val(),
+                phone:$("#grdh").val(),
+		    	bz:$("#bz").val()
+		    };
+			SurveyUserManagerService2("/UpdateUser",data,true,function(resjson){
+				if(resjson.indexOf("true")>-1){
+	            	parent.layer.alert("修改成功!");
+	            	parent.layer.close(parent.layer.openIndex);
+	            	parent.layer.window.GetUserByDw("");
+	            }else{
+	            	parent.layer.alert("修改失败!");
+	            }
+			});
+		})
+		
+	</script>
+</html>

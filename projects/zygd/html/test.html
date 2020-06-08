@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html xmlns:v-bind="http://www.w3.org/1999/xhtml">
+
+<head>
+    <meta charset="UTF-8">
+    <title>首页</title>
+    <link rel="stylesheet" type="text/css" href="../js/layui/css/layui.css"/>
+    <link rel="stylesheet" type="text/css" href="../js/layer/theme/default/layer.css"/>
+    <link rel="stylesheet" type="text/css" href="../css/comstyle.css"/>
+    <link rel="stylesheet" type="text/css" href="../js/openlayers/ol.css"/>
+    <link rel="stylesheet" type="text/css" href="../css/apicture.css"/>
+    <style>
+        body {
+            overflow: hidden;
+        }
+    </style>
+</head>
+
+<body class="white">
+<button id="test1" type="button" class="layui-btn layui-btn-xs layui-btn-normal">上传</button>
+</body>
+<script src="../js/jquery-2.1.0.js"></script>
+<script src="../js/config.js"></script>
+<script src="../js/common.js"></script>
+<script src="../js/layui/layui.js"></script>
+<script src="../js/modules/layui-config.js"></script>
+<script>
+    var slider = null;
+    var layuiform = null;
+
+    layui.use(['form', 'element', 'upload', 'slider', 'bluebird'], function () {
+        layuiform = layui.form;
+        slider = layui.slider;
+
+        var upload = layui.upload;
+
+        //执行实例
+        var uploadInst = upload.render({
+            elem: '#test1' //绑定元素
+            , url: 'https://wpjc.mnr.gov.cn/sysser/attachmentserver/uploadTmpFile' //上传接口
+            , done: function (res) {
+                //上传完毕回调
+                console.log(res);
+            }
+            , error: function () {
+                //请求异常回调
+            }
+        });
+
+    });
+</script>
+
+</html>

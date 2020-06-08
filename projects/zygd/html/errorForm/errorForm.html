@@ -1,0 +1,227 @@
+<!--<!DOCTYPE html>
+<!--<html xmlns:v-bind="http://www.w3.org/1999/xhtml">
+
+<!--<head>-->
+<!--<meta charset="UTF-8">-->
+<!--<title>首页</title>-->
+<!--<link rel="stylesheet" type="text/css" href="../../js/layui-v2.4.5/css/layui.css"/>-->
+<!--&lt;!&ndash;<link rel="stylesheet" type="text/css" href="../../js/layer/theme/default/layer.css"/>&ndash;&gt;-->
+<!--<style>-->
+<!--html, body {-->
+<!--height: 100vh;-->
+<!--/*overflow: hidden;*/-->
+<!--}-->
+
+<!--.top {-->
+<!--height: 100vh;-->
+<!--width: 100%;-->
+<!--background: #F8F8F8;-->
+<!--position: relative;-->
+<!--}-->
+
+<!--.top-left {-->
+<!--height: calc(100% - 15px);-->
+<!--width: calc(100% - 20px);-->
+<!--background: #fff;-->
+<!--position: absolute;-->
+<!--left: 10px;-->
+<!--top: 10px;-->
+<!--}-->
+
+<!--.title_div {-->
+<!--height: 30px;-->
+<!--color: #3A6992;-->
+<!--line-height: 30px;-->
+<!--padding: 0px 10px;-->
+<!--position: relative;-->
+<!--}-->
+
+<!--.strong {-->
+<!--font-weight: 900;-->
+<!--}-->
+
+<!--.f-right {-->
+<!--position: absolute;-->
+<!--right: 10px;-->
+<!--}-->
+
+<!--.f-right select {-->
+<!--height: 20px;-->
+<!--}-->
+
+<!--.f-right a {-->
+<!--cursor: pointer;-->
+<!--font-weight: 600;-->
+<!--}-->
+
+<!--.f-right a.active {-->
+<!--color: #1890FF;-->
+<!--}-->
+
+<!--.f-right a:hover {-->
+<!--color: #1890FF;-->
+<!--}-->
+
+<!--.table1_div {-->
+<!--height: 400px;-->
+<!--/*padding: 0px 10px;*/-->
+<!--}-->
+<!--</style>-->
+<!--</head>-->
+
+<!--<body class="white">-->
+<!--<div class="top">-->
+<!--<div class="top-left">-->
+<!--<div class="title_div">-->
+<!--<span class="strong"><span class="SMC"></span>错误信息统计</span>-->
+<!--<span class="f-right">-->
+<!--<div class="layui-btn-group">-->
+<!--<button id="export" type="button" class="layui-btn layui-btn-xs">导出</button>-->
+<!--</div>-->
+<!--</span>-->
+<!--</div>-->
+<!--<div class="table1_div">-->
+<!--<table id="table1" lay-filter="table1"></table>-->
+<!--</div>-->
+<!--</div>-->
+
+<!--</div>-->
+<!--</body>-->
+<!--<script src="../../js/jquery-2.1.0.js"></script>-->
+<!--<script src="../../js/config.js"></script>-->
+<!--<script src="../../js/common.js"></script>-->
+<!--<script src="../../js/layui/layui.js"></script>-->
+<!--<script src="../../js/modules/layui-config.js"></script>-->
+<!--<script>-->
+<!--var table1;-->
+<!--var layuitable;-->
+<!--layui.use(['form', 'element', 'table'], function () {-->
+<!--layuitable = layui.table;-->
+<!--showList();-->
+<!--});-->
+
+<!--function showList() {-->
+<!--var height = $(".table1_div").height();-->
+<!--table1 = layuitable.render({-->
+<!--elem: '#table1',-->
+<!--height: 400,-->
+<!--id: "table1",-->
+<!--cols: [-->
+<!--[-->
+<!--{field: 'SMC', title: '市名称', width: 60},-->
+<!--{field: 'XMC', title: '县名称'},-->
+<!--{field: 'XZMC', title: '乡镇名称'},-->
+<!--{field: 'CSQMC', title: '村名称'},-->
+<!--{field: 'FWJSZTMC', title: '房屋建设主体名称'},-->
+<!--{field: 'ErrorStr', title: '错误信息'}-->
+<!--]-->
+<!--],-->
+<!--data: parent.layer.errorList,-->
+<!--});-->
+
+<!--$("#export").click(function () {-->
+<!--layuitable.exportFile(table1.config.id, parent.layer.errorList); //data 为该实例中的任意数量的数据-->
+<!--});-->
+
+<!--// var table1_div = $(".table1_div").height();-->
+<!--// var header = $(".table1_div .layui-table-header").height();-->
+<!--// $(".table1_div .layui-table-body").height(table1_div - header - 5);-->
+<!--// parent.layer.close(parent.layer.loadIndex);-->
+<!--}-->
+<!--</script>-->
+
+<!--</html>-->
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title></title>
+    <link rel="stylesheet" href="../../js/layui/css/layui.css" media="all">
+    <style>
+        .title_div {
+            height: 30px;
+            color: #3A6992;
+            line-height: 30px;
+            padding: 0px 10px;
+            position: relative;
+        }
+
+        .strong {
+            font-weight: 900;
+        }
+
+        .f-right {
+            position: absolute;
+            right: 10px;
+        }
+    </style>
+</head>
+<body>
+<div class="title_div">
+    <span class="strong"><span class="SMC"></span>错误信息统计</span>
+    <span class="f-right">
+    <div class="layui-btn-group">
+    <button id="export" type="button" class="layui-btn layui-btn-xs">导出</button>
+    </div>
+    </span>
+</div>
+<table id="demo" lay-filter="test"></table>
+<script src="../../js/jquery-2.1.0.js"></script>
+<script src="../../js/config.js"></script>
+<script src="../../js/common.js"></script>
+<!--<script src="../../js/layui/layui.js"></script>-->
+<!--<script src="../../js/modules/layui-config.js"></script>-->
+<script src="../../js/layui/layui.js"></script>
+<script>
+    var table1;
+    var table;
+    var resjosn;
+    var height = $(window).height();
+    layui.use('table', function () {
+        table = layui.table;
+
+        parent.layer.loadIndex = parent.layer.load(0, {shade: 0.1});
+        var XZQDM = parent.JFZD.XZQDM;
+        RurallandStatisticsService('/CheckRurallandBycity4', {
+            xzqdm: XZQDM,
+        }, true, function (resjson) {
+            parent.layer.close(parent.layer.loadIndex);
+            if (resjson.indexOf("false") > -1) {
+                parent.layer.alert("访问服务器失败!");
+                return;
+            } else {
+                resjosn = $.parseJSON(resjson);
+                if (resjosn.length > 0) {
+                    //第一个实例
+                    table1 = table.render({
+                        elem: '#demo'
+                        , height: height - 50
+                        , id: "table1"
+                        , data: resjosn //数据接口
+                        , page: {
+                            layout: ['count'] //自定义分页布局
+                        } //开启分页
+                        , limit: resjosn.length
+                        , cols: [[ //表头
+                            {field: 'SMC', title: '市名称', width: 100},
+                            {field: 'XMC', title: '县名称', width: 100},
+                            {field: 'XZMC', title: '乡镇名称', width: 100},
+                            {field: 'CSQMC', title: '村名称', width: 100},
+                            {field: 'FWJSZTMC', title: '主体名称', width: 120},
+                            {field: 'ErrorStr', title: '错误信息'}
+                        ]]
+                    });
+                } else {
+                    parent.layer.alert("没有逻辑错误!");
+                }
+            }
+        });
+    });
+
+    $("#export").click(function () {
+        table.exportFile(table1.config.id, resjosn); //data 为该实例中的任意数量的数据
+    });
+</script>
+</body>
+</html>

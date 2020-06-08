@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>建房占用耕地调查</title>
+    <link rel="stylesheet" href="js/layui/css/layui.css">
+    <link rel="stylesheet" href="css/iconfont/iconfont.css">
+    <link rel="stylesheet" href="css/login.css">
+</head>
+<body>
+<div class="indexHeader">
+    <!--<div class="logoImg"></div>-->
+    <div class="title">
+        建房占用耕地调查
+    </div>
+</div>
+<div class="indexBottom">
+    <div class="loginBox">
+        <div class="usernameBox">
+            <span><i></i>用户名</span><input class="username" type="text" placeholder="请输入用户名">
+        </div>
+        <div class="passwordBox">
+            <span><i></i>密 码</span><input class="password" type="password" placeholder="请输入密码">
+        </div>
+        <div class="keepPassword">
+            <i class="iconfont icon-iconfontcheckboxunchecked"></i>
+            <div>记住密码</div>
+        </div>
+        <div class="btn loginBtn layui-btn layui-btn-normal">登录</div>
+        <!--<div class="registerBtn layui-btn layui-btn-normal">注册</div>-->
+    </div>
+</div>
+<!--<div class="bottom">-->
+<!--    中测新宇 技术支持-->
+<!--</div>-->
+</body>
+<script src="js/jquery1.9.0.min.js"></script>
+<script src="js/md5.js"></script>
+
+<script src="js/config.js"></script>
+
+<script src="js/common.js"></script>
+<!--layui弹出层-->
+<script src="js/layer/layer.js"></script>
+<script src="js/layui/layui.js"></script>
+<script src="js/login.js"></script>
+<script>
+    function isOkExplorer() {
+        //判断浏览器类型
+        function myexplorer() {
+            var explorer = window.navigator.userAgent;
+            if (explorer.indexOf("QQBrowser") >= 0 || explorer.indexOf("QQ") >= 0) {
+                return myexplorer = "腾讯QQ";
+            } else if (explorer.indexOf("Safari") >= 0 && explorer.indexOf("MetaSr") >= 0) {
+                return myexplorer = "搜狗";
+            } else if (!!window.ActiveXObject || "ActiveXObject" in window) {//IE
+                if (!window.XMLHttpRequest) {
+                    return myexplorer = "IE6";
+                } else if (window.XMLHttpRequest && !document.documentMode) {
+                    return myexplorer = "IE7";
+                } else if (!-[1,] && document.documentMode && !("msDoNotTrack" in window.navigator)) {
+                    return myexplorer = "IE8";
+                } else {//IE9 10 11
+                    var hasStrictMode = (function () {
+                        "use strict";
+                        return this === undefined;
+                    }());
+                    if (hasStrictMode) {
+                        if (!!window.attachEvent) {
+                            return myexplorer = "IE10";
+                        } else {
+                            return myexplorer = "IE11";
+                        }
+                    } else {
+                        return myexplorer = "IE9";
+                    }
+                }
+            } else {//非IE
+
+                if (explorer.indexOf("LBBROWSER") >= 0) {
+                    return myexplorer = "猎豹";
+                } else if (explorer.indexOf("360ee") >= 0) {
+                    return myexplorer = "360极速浏览器";
+                } else if (explorer.indexOf("360se") >= 0) {
+                    return myexplorer = "360安全浏览器";
+                } else if (explorer.indexOf("se") >= 0) {
+                    return myexplorer = "搜狗浏览器";
+                } else if (explorer.indexOf("aoyou") >= 0) {
+                    return myexplorer = "遨游浏览器";
+                } else if (explorer.indexOf("qqbrowser") >= 0) {
+                    return myexplorer = "QQ浏览器";
+                } else if (explorer.indexOf("baidu") >= 0) {
+                    return myexplorer = "百度浏览器";
+                } else if (explorer.indexOf("Firefox") >= 0) {
+                    return myexplorer = "火狐";
+                } else if (explorer.indexOf("Maxthon") >= 0) {
+                    return myexplorer = "遨游";
+                } else if (explorer.indexOf("Chrome") >= 0) {
+                    return myexplorer = "谷歌（或360伪装）";
+                } else if (explorer.indexOf("Opera") >= 0) {
+                    return myexplorer = "欧朋";
+                } else if (explorer.indexOf("TheWorld") >= 0) {
+                    return myexplorer = "世界之窗";
+                } else if (explorer.indexOf("Safari") >= 0) {
+                    return myexplorer = "苹果";
+                } else {
+                    return myexplorer = "其他";
+                }
+            }
+        }
+        var explorer = myexplorer();
+        if (explorer.indexOf("IE") > -1) {
+            var IEVersion = explorer.split("IE")[1];
+            if (Number(IEVersion) < 11) {
+                layer.alert("检测到您当前浏览器的版本较低，请选择360浏览器急速模式后重新登录" +
+                    "（<a href='https://jingyan.baidu.com/article/6c67b1d6c46f066787bb1efb.html' style='text-decoration: underline;" +
+                    "color: #1E9FFF;'>如何切换360浏览器急速模式</a>）");
+            }
+        }
+    }
+
+    isOkExplorer();
+</script>
+</html>

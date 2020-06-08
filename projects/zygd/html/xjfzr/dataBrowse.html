@@ -1,0 +1,833 @@
+<!DOCTYPE html>
+<html xmlns:v-bind="http://www.w3.org/1999/xhtml">
+
+<head>
+    <meta charset="UTF-8">
+    <title>首页</title>
+    <link rel="stylesheet" type="text/css" href="../../js/layui/css/layui.css"/>
+    <link rel="stylesheet" type="text/css" href="../../js/layer/theme/default/layer.css"/>
+    <link rel="stylesheet" type="text/css" href="../../css/comstyle.css"/>
+    <link rel="stylesheet" type="text/css" href="../../js/openlayers/ol.css"/>
+    <link rel="stylesheet" type="text/css" href="../../css/apicture.css"/>
+    <style>
+        body {
+            overflow: hidden;
+        }
+
+        .left {
+            width: 30%;
+            background: #F8F8F8;
+            height: 100vh;
+            position: relative;
+            padding: 10px 0px;
+        }
+
+        /*.left-top{height: calc(100% - 20px); width: calc(100% - 10px); background: #fff; position: absolute; left: 10px; top: 10px;}*/
+        .left-top1 {
+            height: calc(50% - 15px);
+            width: calc(100% - 10px);
+            background: #fff;
+            margin-left: 10px;
+        }
+
+        .left-top2 {
+            height: calc(50% - 15px);
+            width: calc(100% - 10px);
+            background: #fff;
+            margin-left: 10px;
+            margin-top: 10px;
+        }
+
+        .right {
+            width: 70%;
+            height: 100vh;
+            position: absolute;
+            left: 30%;
+            top: 0px;
+        }
+
+        .top {
+            height: 60vh;
+            width: 100%;
+            background: #F8F8F8;
+            position: relative;
+        }
+
+        .bottom {
+            height: 40vh;
+            width: 100%;
+            background: #F8F8F8;
+            position: relative;
+        }
+
+        .top-left {
+            height: calc(100% - 15px);
+            width: calc(100% - 20px);
+            background: #fff;
+            position: absolute;
+            left: 10px;
+            top: 10px;
+        }
+
+        .top-right {
+            height: calc(100% - 15px);
+            width: calc(100% - 20px);
+            background: #fff;
+            position: absolute;
+            left: 10px;
+            top: 5px;
+        }
+
+        #map {
+            width: 100%;
+            height: 100%;
+        }
+
+        .title_div {
+            height: 30px;
+            color: #3A6992;
+            line-height: 30px;
+            padding: 0px 10px;
+            position: relative;
+        }
+
+        .strong {
+            font-weight: 900;
+        }
+
+        .year {
+            color: #07323B;
+        }
+
+        .quarter {
+            color: #07323B;
+            margin-left: 10px;
+        }
+
+        .f-right {
+            position: absolute;
+            right: 10px;
+        }
+
+        .f-right select {
+            height: 20px;
+        }
+
+        .f-right a {
+            cursor: pointer;
+            font-weight: 600;
+        }
+
+        .f-right a.active {
+            color: #1890FF;
+        }
+
+        .f-right a:hover {
+            color: #1890FF;
+        }
+
+        .niceScroll {
+            height: calc(100% - 30px);
+            padding: 0px 10px;
+        }
+
+        .layui-table, .layui-table-view {
+            margin: 0px;
+            border: none;
+        }
+
+        .layui-table-view .layui-table td, .layui-table-view .layui-table th {
+            border-left: 1px solid #e6e6e6;
+            padding: 5px 0px;
+        }
+
+        .layui-table-view .layui-table th {
+            text-align: center;
+        }
+
+        .layui-table-page, .layui-table-total {
+            border-width: 1px 1px 0px;
+        }
+
+        .layui-table-body {
+            margin-bottom: 0px;
+            margin-right: 0px;
+        }
+
+        .layui-form-radio > i:hover, .layui-form-radioed > i {
+            color: #187fcc;
+        }
+
+        .layui-table tbody tr:hover {
+            background: transparent;
+        }
+
+        .layui-btn-skyblue {
+            background: #1890FF;
+        }
+
+        .layui-laypage .layui-laypage-curr .layui-laypage-em {
+            background: #177BD0;
+        }
+
+        [lay-skin=primary].layui-form-checked i {
+            border-color: #187FCC;
+        }
+
+        [lay-skin=primary].layui-form-checked i {
+            background: #187FCC;
+        }
+
+        .hide {
+            display: none;
+        }
+
+        #charts2 {
+            height: 100%;
+        }
+
+        .layui-table-view [lay-size=sm].layui-table .layui-table-cell {
+            height: auto;
+        }
+
+        .layui-table tr td {
+            text-align: center;
+        }
+
+        .layui-table-total .layui-table tr:hover {
+            background: #F2F2F2;
+        }
+
+        .layui-table-view [lay-size=sm].layui-table .layui-table-cell {
+            height: auto;
+        }
+
+        thead .layui-table-cell, thead .layui-table-tool-panel li {
+            padding: 0px 0px;
+            overflow: auto;
+            white-space: normal;
+        }
+
+        .layui-table-cell {
+            height: auto;
+        }
+
+        .layui-table tr td {
+            text-align: center;
+        }
+
+        .layui-table-total .layui-table tr:hover {
+            background: #F2F2F2;
+        }
+    </style>
+</head>
+
+<body class="white">
+<div class="left">
+    <div class="left-top1">
+        <div class="title_div">
+            <span id="xzq" class="strong"></span>
+            <span class="f-right">
+	        	 <!--<button type="button" class="layui-btn layui-btn-xs layui-btn-normal" id="UndoRurallandnByCounty">退回</button>-->
+                <!--<button type="button" class="layui-btn layui-btn-xs layui-btn-normal">导出excel</button>-->
+                <!--<i title="新增" id="addplan" class="layui-icon layui-icon-add-circle" style="margin: 0px 5px; color: #4BB2FF;"></i>-->
+	        </span>
+
+        </div>
+        <div class="niceScroll table2_div">
+            <table id="table2" lay-filter="table2">
+
+            </table>
+        </div>
+    </div>
+    <div class="left-top2">
+        <div class="title_div">
+            <span id="XZMC" class="strong">22</span>
+            <span class="f-right">
+	        	 <!--<button type="button" class="layui-btn layui-btn-xs layui-btn-normal">导出excel</button>-->
+                <!--<i title="新增" id="addplan" class="layui-icon layui-icon-add-circle" style="margin: 0px 5px; color: #4BB2FF;"></i>-->
+	        </span>
+
+        </div>
+        <div class="niceScroll table3_div">
+            <table id="table3" lay-filter="table3">
+
+            </table>
+        </div>
+    </div>
+</div>
+<div class="right">
+    <div class="top">
+        <div class="top-left">
+            <div id="map">
+
+            </div>
+            <div class="maptool">
+                <ul class="tool-bar">
+                    <li id="" title="收藏" class="hide"><a href="javascript:" class="tool-case1"></a></li>
+                    <!--<li title="全幅" onclick="maptool.allover()"><a href="javascript:" class="tool-case9"></a></li>-->
+                    <li title="全屏" class="" id="fullBtn" onclick="fullScreen()"><a href="javascript:"
+                                                                                   class="tool-case7"></a></li>
+                    <li title="测距" onclick="maptool.measure('distance')"><a href="javascript:" class="tool-case3"></a>
+                    </li>
+                    <li title="测面" onclick="maptool.measure('area')"><a href="javascript:" class="tool-case4"></a></li>
+                    <li id="query" title="查询"><a href="javascript:" class="tool-case5"></a></li>
+                    <li title="清除" onclick="maptool.clear()"><a href="javascript:" class="tool-case6"></a></li>
+                    <!--<li title="全屏"><a href="javascript:;" class="tool-case7"></a></li>-->
+                </ul>
+            </div>
+            <div class="maptab">
+                <ul>
+                    <li class="active"
+                        style="background:url(../../images/maptab/ditu.jpg) no-repeat 2px 2px;background-size: 45px 45px;">
+                        <a type='矢量' href="javascript:">矢量</a></li>
+                    <li style="background:url(../../images/maptab/yingxiang.jpg) no-repeat 2px 2px;background-size: 45px 45px;">
+                        <a type='影像' href="javascript:">影像</a></li>
+                    <li style="background:url(../../images/maptab/dixing.jpg) no-repeat 2px 2px;background-size: 45px 45px;">
+                        <a
+                                type='地形' href="javascript:">地形</a></li>
+                    <li style="background:#fff;"><a type='' href="javascript:">无</a></li>
+                </ul>
+            </div>
+        </div>
+
+    </div>
+    <div class="bottom">
+        <div class="top-right">
+            <div class="title_div">
+                <span id="CMC" class="strong"></span>
+                <span class="f-right">
+		        	 <button id="check" type="button" class="layui-btn layui-btn-xs layui-btn-normal">按村检查数据</button>
+		        	 <button id="export" type="button" class="layui-btn layui-btn-xs layui-btn-normal">按乡镇导出花名册</button>
+		        	 <button id="export1" type="button" class="layui-btn layui-btn-xs layui-btn-normal">按村导出花名册</button>
+                    <!--<i title="新增" id="addplan" class="layui-icon layui-icon-add-circle" style="margin: 0px 5px; color: #4BB2FF;"></i>-->
+		        </span>
+
+            </div>
+            <div class="niceScroll table1_div">
+                <table id="table1" lay-filter="table1">
+
+                </table>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+
+</body>
+<script type="text/html" id="barDemo">
+    <a class="layui-btn layui-btn-xs layui-btn-skyblue" lay-event="location"></i>定位</a>
+    <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="edit"></i>编辑</a>
+    <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="submit"></i>提交</a>
+    <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="withdraw"></i>撤回</a>
+</script>
+<script src="../../js/jquery-2.1.0.js"></script>
+<script src="../../js/config.js"></script>
+<script src="../../js/common.js"></script>
+<script src="../../js/layui/layui.js"></script>
+<script src="../../js/modules/layui-config.js"></script>
+<script src="../../js/openlayers/ol-debug.js"></script>
+<script src="../../js/openlayers/maptool.js"></script>
+<script>
+    var ljfBase = null;
+    var slider = null;
+    var layuiform = null;
+    var layerManager = null;
+    var Industryresjosn = [];//专题图层数组
+    var sourceClues = null;//采集的面信息
+    var vectorClues = null;//采集的面图层
+    var ztreeObj = null;
+    var vector, source = null;
+    // var _mapObject = null;
+    // var _mapView = null;
+    var layuitable = null;
+    var _wktParser = null;
+    var XMC = "";
+    var CMC = "";
+    var XZMC = "";
+
+    function fullScreen() {//全屏显示地图
+        if ($("#fullBtn").hasClass("active")) {//取消全屏
+            $(".top,.left,.right").attr("style", "");
+        } else {//全屏
+            $(".top").attr("style", "height:100vh");
+            $(".left").attr("style", "width:0;overflow:hidden;");
+            $(".right").attr("style", "width:100%;left:0;");
+        }
+        layerManager._mapObject.updateSize();
+        $("#fullBtn").toggleClass("active");
+    }
+
+    layui.use(['form', 'element', 'laydate', 'table', 'slider', 'ljfBase', 'serverCenter', 'LayerManager', 'NULayer', 'bluebird'], function () {
+//      $("body").attr('class', $("body", parent.document).attr('class'));
+//      $(".niceScroll").niceScroll({cursorborder: "", cursorcolor: "#297FBA", boxzoom: false});
+        var layuielement = layui.element;
+        layuiform = layui.form;
+        layuitable = layui.table;
+        slider = layui.slider;
+        ljfBase = layui.ljfBase;
+        var xml2json = layui.xml2json;
+        var serverCenter = layui.serverCenter;
+        var LayerManager = layui.LayerManager;
+        var NULayer = layui.NULayer;
+        var url = ljfBase.https.BaseMapConfigManagerService + "/GetAllBaseMapConfig";
+        ljfBase.post(url, {userid: sessionStorage.sprid}, function (res) {
+            var baseMapConfig = JSON.parse(res)[0];
+            var center = [];
+            center.push(baseMapConfig.CENTERX);
+            center.push(baseMapConfig.CENTERY);
+            center = [114.48, 38.03];
+            layerManager = new LayerManager("map", center, 12);
+            ljfBase.post(ljfBase.https.BaseMapManagerService + "/GetAllBaseMap", {sprid: sessionStorage.sprid}, function (xml) {
+                var resArr = $.parseJSON(xml);
+                layerManager.loadBaseMap(resArr, "矢量");
+                _mapObject = layerManager._mapObject;
+                showBJByUserXZQ(_mapObject);
+                $('.maptab ul li').click(function () {
+                    $('.maptab ul li').removeClass("active");
+                    $(this).addClass("active");
+                    var type = $(this).find('a').attr('type');
+                    layerManager.hideBaseMap();
+                    layerManager.loadBaseMap(resArr, type);
+                });
+
+            });
+//	        initMapQuery();
+
+        });
+
+        QueryRurallandCountByCounty();
+
+    });
+
+    $("#check").click(function () {
+        var checkStatus = layuitable.checkStatus("table2");
+        var XZQDM = checkStatus.data[0].XZQDM;
+        XZQDM = XZQDM.substring(0, 6);
+        var XZMC = checkStatus.data[0].XZQMC;
+        var checkStatus1 = layuitable.checkStatus("table3");
+        var CMC = checkStatus1.data[0].XZQMC;
+        RurallandStatisticsService('/CheckRurallandStatistics', {
+            xzqdm: XZQDM,
+            xzmc: XZMC,
+            cmc: CMC
+        }, true, function (resjson) {
+            if (resjson.indexOf("false") > -1) {
+                parent.layer.alert("访问服务器失败!");
+                return;
+            } else {
+                var resjosn = $.parseJSON(resjson);
+                if (resjosn.length > 0) {
+                    parent.layer.alert(resjosn.length + "条记录存在逻辑错误!");
+                    var table1 = layuitable.cache.table1;
+                    for (var i = 0; i < table1.length; i++) {
+                        for (var j = 0; j < resjosn.length; j++) {
+                            if (table1[i].FWBH == resjosn[j]) {
+                                $(".table1_div .layui-table-body tr").eq(i).addClass('warn');
+                            }
+                        }
+
+                    }
+                } else {
+                    parent.layer.alert("没有逻辑错误!");
+                }
+            }
+
+        });
+
+    });
+
+    $("#export").click(function () {//按乡镇导出花名册
+        parent.layer.loadIndex = parent.layer.load(0, {shade: 0.1});
+        $(this).attr("disabled", true).addClass("layui-btn-disabled");
+        var that = $(this);
+        var checkStatus = layuitable.checkStatus("table2");
+        var XZQDM = checkStatus.data[0].XZQDM;
+        XZQDM = XZQDM.substring(0, 6);
+        var XZMC = checkStatus.data[0].XZQMC;
+        var checkStatus1 = layuitable.checkStatus("table3");
+        var CMC = checkStatus1.data[0].XZQMC;
+        // RurallandOutputExcelService('/OutputRuralRosterToXZMC', {
+        RurallandOutputExcelService('/OutputRuralRosterByXmcToCmc', {
+            xzqdm: XZQDM,
+            // xzmc: XZMC,
+            // cmc: CMC
+        }, true, function (resjson) {
+            parent.layer.close(parent.layer.loadIndex);
+            that.attr("disabled", false).removeClass("layui-btn-disabled");
+            if (resjson.indexOf("false") > -1) {
+                return;
+            } else {
+                window.open(resjson.trim());
+            }
+        });
+    });
+    $("#export1").click(function () {//按村导出花名册
+        parent.layer.loadIndex = parent.layer.load(0, {shade: 0.1});
+        $(this).attr("disabled", true).addClass("layui-btn-disabled");
+        var that = $(this);
+        var checkStatus = layuitable.checkStatus("table2");
+        var XZQDM = checkStatus.data[0].XZQDM;
+        XZQDM = XZQDM.substring(0, 6);
+        var XZMC = checkStatus.data[0].XZQMC;
+        var checkStatus1 = layuitable.checkStatus("table3");
+        var CMC = checkStatus1.data[0].XZQMC;
+        RurallandOutputExcelService('/OutputRuralRosterToXZMC', {
+            // RurallandOutputExcelService('/OutputRuralRosterByXmcToCmc', {
+            xzqdm: XZQDM,
+            xzmc: XZMC,
+            // cmc: CMC
+        }, true, function (resjson) {
+            parent.layer.close(parent.layer.loadIndex);
+            that.attr("disabled", false).removeClass("layui-btn-disabled");
+            if (resjson.indexOf("false") > -1) {
+                return;
+            } else {
+                window.open(resjson.trim());
+            }
+        });
+    });
+
+    function QueryRurallandCountByCounty() {
+        var str = parent.JFZD.XZQ.trim() + parent.JFZD.XZMC + "各镇耕地建房情况表";
+        XMC = parent.JFZD.XZQ.split(' ')[2];
+        $("#xzq").text(str);
+        parent.layer.loadIndex = parent.layer.load(0, {shade: 0.1});
+        QueryRurallandService("/QueryRurallandCountByCounty", {
+            xzqdm: parent.JFZD.XZQDM,
+            xmc: XMC
+        }, true, function (resjson) {
+            if (resjson.indexOf("false") > -1) {
+//              parent.layer.alert("未查询到结果!");
+                parent.layer.close(parent.layer.loadIndex);
+                var resjosn = [];
+            } else {
+                var resjosn = $.parseJSON(resjson);
+            }
+            if (resjosn.length > 0) {
+                resjosn[0].LAY_CHECKED = true;
+            }
+            var height = $(".table2_div").height();
+            layuitable.render({
+                elem: '#table2',
+                height: height - 5,
+                page: false, //开启分页
+                limit: resjosn.length,
+                size: 'sm',
+                cols: [[
+//	                {type: 'numbers'},
+                    {type: 'radio', width: 55},
+                    {field: 'XZQMC', title: '乡镇名称'},
+                    {field: 'COUNT', title: '建房个数'},
+                    {
+                        field: 'ZYGDMJ', title: '占用耕地总面积', templet: function (d) {
+                            return d.ZYGDMJ.toFixed(2);
+                        }
+                    },
+                    // {
+                    //     field: 'WBLZYGDMJ', title: '违法耕地面积', templet: function (d) {
+                    //         return d.WBLZYGDMJ.toFixed(2);
+                    //     }
+                    // },
+                    // {
+                    //     field: 'JBNT', title: '占用基本农田', templet: function (d) {
+                    //         return d.JBNT.toFixed(2);
+                    //     }
+                    // },
+                    // {
+                    //     field: 'YBGD', title: '占用一般耕地', templet: function (d) {
+                    //         return d.YBGD.toFixed(2);
+                    //     }
+                    // },
+                ]],
+                data: resjosn,
+            });
+            layuitable.on('radio(table2)', function (obj) {
+                var data = obj.data;
+                var checkStatus = layuitable.checkStatus("table2");
+                XZMC = checkStatus.data[0].XZQMC;
+                QueryVillageRurallandCountByCounty();
+            });
+
+            if (resjosn.length > 0) {
+                var checkStatus = layuitable.checkStatus("table2");
+                XZMC = checkStatus.data[0].XZQMC;
+                QueryVillageRurallandCountByCounty();
+            } else {
+                QueryVillageRurallandCountByCounty();
+            }
+            parent.layer.close(parent.layer.loadIndex);
+        });
+    }
+
+
+    function QueryVillageRurallandCountByCounty() {
+        $("#XZMC").html(XZMC + "各村耕地建房情况表");
+        parent.layer.loadIndex = parent.layer.load(0, {shade: 0.1});
+        QueryRurallandService("/QueryVillageRurallandCountByCounty", {
+            xzqdm: parent.JFZD.XZQDM,
+            xzmc: XZMC
+        }, true, function (resjson) {
+            if (resjson.indexOf("false") > -1) {
+//              parent.layer.alert("未查询到结果!");
+                parent.layer.close(parent.layer.loadIndex);
+                var resjosn = [];
+            } else {
+                var resjosn = $.parseJSON(resjson);
+
+
+            }
+            if (resjosn.length > 0) {
+                resjosn[0].LAY_CHECKED = true;
+            }
+            var height = $(".table3_div").height();
+            layuitable.render({
+                elem: '#table3',
+                height: height - 5,
+                page: false, //开启分页
+                limit: resjosn.length,
+                size: 'sm',
+                cols: [[
+//	                {type: 'numbers'},
+                    {type: 'radio', width: 55},
+                    {field: 'XZQMC', title: '村名称'},
+                    {field: 'COUNT', title: '建房个数'},
+                    {
+                        field: 'ZYGDMJ', title: '占用耕地总面积', templet: function (d) {
+                            return d.ZYGDMJ.toFixed(2);
+                        }
+                    },
+                    // {
+                    //     field: 'WBLZYGDMJ', title: '违法耕地面积', templet: function (d) {
+                    //         return d.WBLZYGDMJ.toFixed(2);
+                    //     }
+                    // },
+                    // {
+                    //     field: 'JBNT', title: '占用基本农田', templet: function (d) {
+                    //         return d.JBNT.toFixed(2);
+                    //     }
+                    // },
+                    // {
+                    //     field: 'YBGD', title: '占用一般耕地', templet: function (d) {
+                    //         return d.YBGD.toFixed(2);
+                    //     }
+                    // },
+                ]],
+                data: resjosn,
+            });
+            layuitable.on('radio(table3)', function (obj) {
+                var data = obj.data;
+                var checkStatus = layuitable.checkStatus("table3");
+                CMC = checkStatus.data[0].XZQMC;
+                GetRurallandnByXzqdm();
+            });
+
+            if (resjosn.length > 0) {
+                var checkStatus = layuitable.checkStatus("table3");
+                CMC = checkStatus.data[0].XZQMC;
+                GetRurallandnByXzqdm();
+            } else {
+                GetRurallandnByXzqdm();
+            }
+            parent.layer.close(parent.layer.loadIndex);
+        });
+    }
+
+    function GetRurallandnByXzqdm() {
+        $("#CMC").html(CMC + "耕地建房花名册");
+        parent.layer.loadIndex = parent.layer.load(0, {shade: 0.1});
+        QueryRurallandService("/QueryVillageRurallandHMCByCounty", {
+            xzqdm: parent.JFZD.XZQDM,
+            xzmc: XZMC,
+            cmc: CMC
+        }, true, function (resjson) {
+            if (resjson.indexOf("false") > -1) {
+//              parent.layer.alert("未查询到结果!");
+                parent.layer.close(parent.layer.loadIndex);
+                var resjosn = [];
+            } else {
+                var resjosn = $.parseJSON(resjson);
+            }
+            showFWFeature(resjosn);
+            var height = $(".table1_div").height();
+            layuitable.render({
+                elem: '#table1',
+                height: height - 5,
+                page: false, //开启分页
+                limit: resjosn.length,
+                size: 'sm',
+//	            totalRow: true,
+                cols: [
+                    [
+                        {type: 'numbers', rowspan: 3},
+                        {field: 'FWJSZTMC', title: '房屋建设主体名称', rowspan: 3, width: 130},
+                        {field: 'FWXZ', title: '房屋性质', rowspan: 3, width: 80},
+                        {field: 'FWWZ', title: '房屋位置', rowspan: 3, width: 80},
+                        {field: 'JZMJ', title: '建筑面积（平方米）', rowspan: 3},
+                        {field: '', title: '占用耕地总面积（亩）', rowspan: 1, colspan: 3},
+                        {field: 'JBNT', title: '占用基本农田面积（亩）', rowspan: 3},
+                        {
+                            field: 'JFSJ', title: '建房时间', rowspan: 3, templet: function (d) {
+                                var str = d.JFSJ;
+                                if (str == "1980-01-01") {
+                                    str = "";
+                                }
+                                return str;
+                            }
+                        },
+                        {field: 'JFZT', title: '建设状态', rowspan: 3},
+                        {field: '', title: '仅限居住用房填写', colspan: 4},
+                        {
+                            title: '操作', align: 'center', rowspan: 3, width: 240, templet: function (d) {
+                                var str = '<a class="layui-btn layui-btn-xs layui-btn-skyblue" lay-event="location"></i>定位</a>';
+                                var shztName = getNameBySHZT(d.SHZT);
+                                if (d.SHZT < 4) {
+                                    str += '<a class="layui-btn layui-btn-skyblue layui-btn-xs"  lay-event="look">查看</a>';
+                                } else if (d.SHZT == 4) {
+                                    str += '<a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="edit"></i>编辑</a>';
+                                    str += '<a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>';
+                                } else {
+                                    str += '<a class="layui-btn layui-btn-skyblue layui-btn-xs"  lay-event="look">查看</a>';
+                                }
+                                str += '<a class="layui-btn layui-btn-xs layui-btn-disabled" disabled="true" lay-event="">' + shztName + '</a>';//状态名称
+                                return str
+                            }
+                        }
+                    ],
+                    [
+                        {field: 'ZYGDMJ', title: '合计', rowspan: 2},
+                        {field: 'YGDMJ', title: '已办理手续面积', rowspan: 2},
+                        {field: 'WBLZYGDMJ', title: '未办理手续面积', rowspan: 2},
+                        {field: '', title: '自住', colGroup: true},
+                        {field: '', title: '销售套数', colspan: 3},
+                    ],
+                    [
+                        {field: 'SFFHTJ', title: '本村村名建房是否符条件'},
+                        {field: 'XSBCMS', title: '本村村民'},
+                        {field: 'XSWCMS', title: '外村村民'},
+                        {field: 'XSCZJMS', title: '城镇居民'},
+                    ],
+                ],
+                data: resjosn,
+                done: function () {
+                    $.each(resjosn, function (i, v) {
+                        if (v.ZB == "0,0" || v.ZB.length < 10) {
+                            $(".table1_div .layui-table-body tr").eq(i).addClass('noPosition');
+                        }
+                    })
+                }
+            });
+            layuitable.on('tool(table1)', function (obj) {
+                var data = obj.data;
+                var el = $(obj.tr).find("a[lay-event='" + obj.event + "']").attr('disabled');
+                if (el) {
+                    return;
+                }
+                if (obj.event === 'location') {//删除
+                    var NUSource1 = NUSourceLayer1.getSource();  //获取Source
+                    NUSource1.clear();
+                    var ZB = data.ZB;
+                    var lon = ZB.split(',')[0];
+                    var lat = ZB.split(',')[1];
+                    lon = Number(lon);
+                    lat = Number(lat);
+                    _mapView.setCenter([lon, lat]);//单点定位
+                    _mapView.setZoom(15);//设置级别
+
+                    var feature = new ol.Feature(new ol.geom.Point([lon, lat]));
+                    var Style = new ol.style.Style({
+                        image: new ol.style.Icon(({
+                            src: "../../images/maplable/blueIcon.png",
+                        })),
+                    });
+                    feature.setStyle(Style);
+                    NUSource1.addFeature(feature);
+                } else if (obj.event === 'edit') {//编辑
+                    layer.look = false;
+                    layer.data = data;
+                    layer.openIndex = layer.open({
+                        type: 2,
+                        title: false,
+                        closeBtn: 0, //不显示关闭按钮
+                        shade: [0],
+                        skin: 'layui-layer-lan',
+                        area: ['100%', '100%'],
+                        anim: 2,//弹出动画
+                        shade: 0.2,//遮盖层
+                        content: ['edit.html', 'no'], //这里content是一个普通的String
+                    });
+                } else if (obj.event === 'submit') {//提交
+//                  RurallandService("/UpRurallandnByXZFZR", {userid:parent.JFZD.ID,tbid:data.FWBH}, true, function (resjson) {
+//				        if (resjson.indexOf("true") > -1) {
+//		                    parent.layer.alert("提交成功!");
+//		                    GetRurallandnByXzqdm();
+//		                } else {
+//		                    parent.layer.alert("提交失败!")
+//		                }
+//			            
+//			        });
+                } else if (obj.event === 'withdraw') {//撤回
+//                  RurallandService("/UndoUpRurallandnByXZFZR", {userid:parent.JFZD.ID,tbid:data.FWBH}, true, function (resjson) {
+//				        if (resjson.indexOf("true") > -1) {
+//		                    parent.layer.alert("撤回成功!");
+//		                    GetRurallandnByXzqdm();
+//		                } else {
+//		                    parent.layer.alert("撤回失败!")
+//		                }
+//			            
+//			        });
+
+                } else if (obj.event === 'return') {
+//              	RurallandService("/BackUpRurallandnByXZFZR", {userid:parent.JFZD.ID,tbid:data.FWBH}, true, function (resjson) {
+//				        if (resjson.indexOf("true") > -1) {
+//		                    parent.layer.alert("退回成功!");
+//		                    GetRurallandnByXzqdm();
+//		                } else {
+//		                    parent.layer.alert("退回失败!")
+//		                }
+//			            
+//			        });
+                } else if (obj.event === 'del') {//撤回
+                    parent.layer.confirm('您确定要进行删除操作吗？删除后数据会清除，不可恢复。', function (index) {
+                        parent.layer.close(index);
+                        RurallandService("/DeleteRuralland2", {
+                            id: data.FWBH,
+                            userid: parent.JFZD.ID
+                        }, true, function (resjson) {
+                            if (resjson.indexOf("true") > -1) {
+                                parent.layer.alert("删除成功!");
+                                GetRurallandnByXzqdm();
+                            } else {
+                                parent.layer.alert("删除失败!")
+                            }
+
+                        });
+                    });
+                } else if (obj.event === 'look') {
+                    layer.look = true;
+                    layer.data = data;
+                    layer.openIndex = layer.open({
+                        type: 2,
+                        title: false,
+                        closeBtn: 0, //不显示关闭按钮
+                        shade: [0],
+                        skin: 'layui-layer-lan',
+                        area: ['100%', '100%'],
+                        anim: 2,//弹出动画
+                        shade: 0.2,//遮盖层
+                        content: ['edit.html', 'no'], //这里content是一个普通的String
+                    });
+                }
+            });
+            var table1_div = $(".table1_div").height();
+            var header = $(".table1_div .layui-table-header").height();
+            $(".table1_div .layui-table-body").height(table1_div - header - 5);
+            parent.layer.close(parent.layer.loadIndex);
+        });
+    }
+
+
+</script>
+
+</html>

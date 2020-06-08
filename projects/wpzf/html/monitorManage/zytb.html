@@ -1,0 +1,833 @@
+<!DOCTYPE html>
+<html xmlns:v-bind="http://www.w3.org/1999/xhtml">
+
+<head>
+    <meta charset="UTF-8">
+    <title>争议图斑</title>
+    <link rel="stylesheet" type="text/css" href="../../js/layui-v2.4.5/css/layui.css"/>
+    <link rel="stylesheet" type="text/css" href="../../js/layer/theme/default/layer.css"/>
+    <!--<link rel="stylesheet" type="text/css" href="../../css/comstyle.css"/>-->
+    <link rel="stylesheet" type="text/css" href="../../css/comstyle.css"/>
+    <link rel="stylesheet" type="text/css" href="../../js/openlayers/ol.css"/>
+    <link rel="stylesheet" type="text/css" href="../../css/monitorAnalysis.css"/>
+    <link rel="stylesheet" type="text/css" href="../../css/jcxx.css"/>
+    <style>
+        .editBox {
+            position: absolute;
+            top: 1px;
+            left: 80px;
+        }
+
+        .right .top.tbMap {
+            padding-top: 0;
+            height: 100%;
+        }
+
+        .left .top {
+            height: calc(100% - 10px);
+        }
+
+        .maptool {
+            top: 5px;
+        }
+
+        .left {
+            width: 50%;
+        }
+
+        .right {
+            width: 50%;
+            left: 50%;
+        }
+
+        .xzqSearchBox {
+            position: absolute;
+            width: 800px;
+            left: calc(50% - 400px);
+            border: 2px solid #aaa;
+            top: 50px;
+            max-height: 500px;
+            overflow-y: auto;
+            background: #fff;
+            padding: 10px;
+            overflow-x: hidden;
+            padding-bottom: 50px;
+            z-index: 1111;
+            display: none;
+        }
+
+        .xzqSearchBox .boxBottom {
+            position: absolute;
+            width: 95%;
+            bottom: 5px;
+            text-align: right;
+        }
+
+        .every-city {
+            width: 100%;
+            border-bottom: 5px solid #EFEFF4;
+            overflow: hidden;
+        }
+
+        .every-city li {
+            float: left;
+            margin-left: 18px;
+        }
+
+        .every-city li.active a {
+            color: #1890FF;
+        }
+
+        .every-city li a:hover {
+            color: #1890FF;
+        }
+
+        .every-city li a {
+            display: block;
+            height: 30px;
+        }
+
+        .city-list {
+            margin-bottom: 10px;
+            clear: both;
+        }
+
+        .list-XZ {
+            padding: 5px 13px;
+            text-align: left;
+        }
+
+        .list-XZ p {
+            padding: 5px;
+            cursor: pointer;
+            float: left;
+        }
+
+        .list-XZ p:hover {
+            color: #4285f4;
+        }
+
+        .list-XZ p.active {
+            color: #4285f4;
+        }
+    </style>
+</head>
+
+<body class="white">
+<div id="alertinfodiv">
+
+</div>
+<div class="left">
+    <div>
+        <form class="layui-form" action="">
+            <div class="layui-form-item">
+                <div class="layui-inline">
+                    <select class="themeSelect selectTheme" name="" lay-verify="required" lay-filter="selectTheme">
+                    </select>
+                </div>
+            </div>
+        </form>
+    </div>
+
+    <div class="top">
+        <div class="title_div">
+            <span class="strong">争议图斑列表</span>
+        </div>
+        <div class="niceScroll table1_div">
+            <table id="table1" lay-filter="table1">
+
+            </table>
+        </div>
+    </div>
+</div>
+<div class="right">
+    <div class="top tbMap">
+        <div id="map"></div>
+        <div class="maptool">
+            <ul class="tool-bar">
+                <li id="collect" class="hide" title="收藏"><a onclick="" href="javascript:" class="tool-case1"></a></li>
+                <li title="全屏" class="" id="fullBtn" onclick="fullScreen()"><a href="javascript:" class="tool-case7"></a></li>
+                <li title="测距" onclick="maptool.measure('distance')"><a href="javascript:" class="tool-case3"></a></li>
+                <li title="测面" onclick="maptool.measure('area')"><a href="javascript:" class="tool-case4"></a></li>
+                <li id="query" title="查询"><a href="javascript:" class="tool-case5"></a></li>
+                <li title="清除" onclick="maptool.clear()"><a href="javascript:" class="tool-case6"></a></li>
+            </ul>
+        </div>
+        <div class="maptab">
+            <ul>
+                <li class="active"
+                    style="background:url(../../images/maptab/ditu.jpg) no-repeat 2px 2px;background-size: 45px 45px;">
+                    <a type='矢量' href="javascript:">矢量</a></li>
+                <li style="background:url(../../images/maptab/yingxiang.jpg) no-repeat 2px 2px;background-size: 45px 45px;">
+                    <a type='影像' href="javascript:">影像</a></li>
+                <li style="background:url(../../images/maptab/dixing.jpg) no-repeat 2px 2px;background-size: 45px 45px;">
+                    <a type='地形' href="javascript:">地形</a></li>
+                <li style="background:#fff;"><a type='' href="javascript:">无</a></li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+<div class="xzqSearchBox">
+    <div class="city-inner-title" style="padding:0px 0px 5px 17px;">
+        <span class="current">选择要放往的城市：<span id="indexCity" class="active indexCity"></span></span>
+        <div class="boxBottom">
+            <button class="layui-btn layui-btn-primary cancleFW">取消</button>
+            <button class="layui-btn sureFW">确定</button>
+        </div>
+    </div>
+    <ul id="every-city" class="every-city">
+        <li><a href='javascript:;'></a></li>
+    </ul>
+    <div class='city-list'>
+        <div class='list-XZ'>
+
+        </div>
+    </div>
+</div>
+</body>
+<script type="text/html" id="barDemo">
+    <a class="layui-btn layui-btn-xs layui-btn-skyblue" lay-event="show"></i>查看</a>
+    {{# if(isPowerByCTYPE(d.CTYPE,d.TSMC)){ }}
+    <a class="layui-btn layui-btn-xs layui-btn-skyblue" lay-event="thcl"></i>退回处理</a>
+    <a class="layui-btn layui-btn-xs layui-btn-skyblue" lay-event="fwbc"></i>分往别区</a>
+    {{# if(userInfo.XZJB=="市级"){ }}
+    <a class="layui-btn layui-btn-xs layui-btn-skyblue" lay-event="stj"></i>提交</a>
+    {{# } }}
+    {{# } }}
+</script>
+<script src="../../js/jquery1.9.0.js"></script>
+<script src="../../js/config.js"></script>
+<script src="../../js/common.js"></script>
+<script src="../../js/layer/layer.js"></script>
+<script src="../../js/layui/layui.js"></script>
+<script src="../../js/scrollbar/jquery.nicescroll.min.js"></script>
+<script src="../../js/modules/layui-config.js"></script>
+<script src="../../js/openlayers/ol-debug.js"></script>
+<script src="../../js/openlayers/maptool.js"></script>
+<script src="../../js/analysis1.js"></script>
+<script src="../../js/analysis/analysislayer.js"></script>
+<script src="../../js/analysis/initlayer.js"></script>
+<script>
+
+    /**
+     * 显示底图、违法图斑、县界
+     * @type {null}
+     */
+    var ljfBase = null;
+    var slider = null;
+    var layuiform = null;
+    var layuitable = null;
+    var layerManager = null;
+    var Industryresjosn = [];//专题图层数组
+    var sourceClues = null;//采集的面信息
+    var vectorClues = null;//采集的面图层
+    var _mapObject, _mapView, _wktParser = null;
+    var smc = "";//市名称
+    var xmc = "";//县名称
+    var _quart = "";
+    var _year = "";
+    var selectedXZQDM;//当前选择区县的行政区代码
+    var editData;//当前正在编辑的数据
+    var userInfo = JSON.parse(sessionStorage.userInfo);
+
+    var tsmc,txmc,txzqdm;//要发往的市区名称和代码
+
+    function fullScreen(){//全屏显示地图
+        if($("#fullBtn").hasClass("active")){//取消全屏
+            $(".left").show();
+            $(".right").attr("style","");
+        }else{//全屏
+            $(".left").hide();
+            $(".right").attr("style","width:100%;left:0;");
+        }
+        _mapObject.updateSize();
+        $("#fullBtn").toggleClass("active");
+    }
+
+    //获取市列表
+    function StatisticTBbyCity() {
+        var year = top.year;
+        var quart = top.quart;
+        parent.layer.loadIndex = parent.layer.load(0, {shade: 0.1});
+        // JCTBStatisticsManagerService("/StatisticTBbyCity3", {
+        JCTBStatisticsManagerService("/RealtimeStatisticTBbyCountybyTime", {
+            nd: year,
+            jd: quart,
+            xzqdm: sessionStorage.userXZQDM
+        }, true, function (resjson) {
+            if (resjson.indexOf("false") > -1) {
+                parent.layer.alert("未查询到结果!");
+                parent.layer.close(parent.layer.loadIndex);
+                var resjosn = [];
+            } else {
+                var resjosn = $.parseJSON(resjson);
+            }
+            var str = "";
+            for (var i = 0; i < resjosn.length; i++) {
+                var smc = resjosn[i].Name;
+                var Count = resjosn[i].Count;
+                var SurveyCount = resjosn[i].SurveyCount;
+                str += "<li  onclick=StatisticTBbyCounty('" + smc + "')  ><a href='javascript:;'  >" + smc + "</a></li>"
+            }
+            $("#every-city").html(str);
+            $("#every-city li").click(function () {
+                $("#every-city li").removeClass('active');
+                $(this).addClass('active');
+            });
+            $("#every-city li").eq(0).click();
+            parent.layer.close(parent.layer.loadIndex);
+        });
+    }
+
+    function StatisticTBbyCounty(smc) {
+        // $("#indexCity").html(smc);
+        var year = top.year;
+        var quart = top.quart;
+        parent.layer.loadIndex = parent.layer.load(0, {shade: 0.1});
+        JCTBStatisticsManagerService("/RealtimeStatisticTBbyCounty2byTime", {
+            smc: smc,
+            nd: year,
+            jd: quart,
+            xzqdm: sessionStorage.userXZQDM
+        }, true, function (resjson) {
+            if (resjson.indexOf("false") > -1) {
+                parent.layer.alert("未查询到结果!");
+                parent.layer.close(parent.layer.loadIndex);
+                var resjosn = [];
+            } else {
+                var resjosn = $.parseJSON(resjson);
+            }
+            var str = "";
+            for (var i = 0; i < resjosn.length; i++) {
+                var xmc = resjosn[i].Name;
+                // var Count = resjosn[i].Count;
+                // var SurveyCount = resjosn[i].SurveyCount;
+                var xzqdm = resjosn[i].XZQDM;
+                str += "<p class='cityXZ' onclick=ToSX('" + smc + "','" + xmc + "','" + xzqdm + "')  >" + xmc + "</p>";
+            }
+            $(".list-XZ").html(str);
+            $(".list-XZ p").click(function () {
+                $(".list-XZ p").removeClass('active');
+                $(this).addClass('active');
+            });
+            $(".list-XZ p").eq(0).click();
+            parent.layer.close(parent.layer.loadIndex);
+        });
+    }
+
+    function ToSX(smc, xmc, xzqdm) {
+        tsmc = smc;
+        txmc = xmc;
+        txzqdm = xzqdm;
+        $(".indexCity").html(smc + "-" + xmc);
+    }
+
+    $(".cancleFW").click(function () {
+        $(".xzqSearchBox").hide();
+    });
+
+    $(".sureFW").click(function () {//确定发往别区
+        $(".xzqSearchBox").hide();
+        var bh = editData.BH;
+        layer.confirm("确定 " + bh + "发往" + tsmc + txmc, {btn: ["确认", "取消"]}, function (index) {
+            layer.close(index);
+            layer.prompt({
+                formType: 2,
+                value: '',
+                title: '请输入处理描述',
+                area: ['500px', '350px'] //自定义文本域宽高
+            }, function (value, index, elem) {
+                // alert(value); //得到value
+                layer.close(index);
+                var ms = value;
+                JCTBManagerService("/ProcessControversialTB2", {
+                    bh: bh,
+                    bm: userInfo.USERNAME,
+                    ry: userInfo.GZDW,
+                    nd: top.year,
+                    jd: top.quart,
+                    smc: tsmc,
+                    xmc: txmc,
+                    xzqdm:txzqdm,
+                    ms: ms,
+                }, true, function (resjson) {
+                    parent.layer.close(parent.layer.loadIndex);
+                    if (resjson.indexOf("false") > -1) {
+                        parent.layer.alert("处理失败");
+                    } else if (resjson.indexOf("true") > -1) {
+                        GetAllControversialTBs();
+                        parent.layer.alert("处理成功!");
+                    } else {
+                        parent.layer.alert(resjson);
+                    }
+                    _mapObject.removeOverlay(marker);
+                });
+            });
+        });
+    });
+
+    function isPowerByCTYPE(CTYPE, TSMC) {//根据当前图斑状态判断当前登录人员是否有权限处理争议图斑
+        if (userInfo.XZJB == "县级") {//县级没有权限
+            return false;
+        } else if (userInfo.XZJB == "市级") {
+            if (CTYPE == "2" && !TSMC) {//县级提交 而且不是打回去的可以处理
+                return true;
+            } else {
+                return false;
+            }
+        } else {
+            return true;
+        }
+    }
+
+    function GetAllControversialTBs() {//获取行政区下的所有争议图斑
+        var year = top.year;
+        var quart = top.quart;
+        $("._year").html(year);
+        if (quart == "0") {
+            $("._quart").html("");
+        } else {
+            $("._quart").html("第" + quart + "季度");
+        }
+        parent.layer.loadIndex = parent.layer.load(0, {shade: 0.1});
+        var staticData = {
+            nd: year,
+            jd: quart,
+            xzqdm: sessionStorage.userXZQDM
+        };
+        var url = "/GetAllControversialTBs";
+        JCTBManagerService(url, staticData, true, function (resjson) {
+            if (resjson.indexOf("false") > -1) {
+                parent.layer.close(parent.layer.loadIndex);
+                var resjosn = [];
+            } else {
+                var resjosn = $.parseJSON(resjson);
+            }
+            GetPolygonClues(resjosn);
+            var height = $(".table1_div").height();
+            var width = 80;
+            if (userInfo.XZJB == "县级") {
+                width = 80;
+            } else if (userInfo.XZJB == "市级") {
+                width = 260;
+            } else {
+                width = 220;
+            }
+            layuitable.render({
+                elem: '#table1',
+                height: height - 5,
+                page: false, //开启分页
+                limit: resjosn.length,
+                cols: [[ //表头
+                    {field: 'BH', title: '编号', width: 220},
+                    {field: 'TJBM', title: '提交部门'},
+                    {field: 'TJRY', title: '提交人员', width: 80},
+                    {
+                        title: '处理状态', width: 240, templet: function (d) {
+                            return getZYStateByData(d);
+                        }
+                    },
+                    {fixed: 'right', title: '操作', toolbar: '#barDemo', align: 'center', width: width}
+                ]],
+                data: resjosn
+            });
+
+            layuitable.on('tool(table1)', function (obj) {
+                var data = obj.data;
+                editData = data;
+                var bh = data.BH;
+                if (obj.event === 'show') {//查看
+                    var features = sourceClues.getFeatures();
+                    for (var i = 0; i < features.length; i++) {
+                        var bh = features[i].get("BH");
+                        if (bh == data.BH) {
+                            showFeatureInfo(features[i]);
+                            return;
+                        }
+                    }
+                } else if (obj.event == "stj") {//市级提交
+                    var url = "/AddCityControversialTB";
+                    layer.confirm("确定 " + bh + "为争议图斑?", {btn: ["确认", "取消"]}, function (index) {
+                        layer.close(index);
+                        layer.prompt({
+                            formType: 2,
+                            value: '',
+                            title: '请输入争议描述',
+                            area: ['500px', '350px'] //自定义文本域宽高
+                        }, function (value, index, elem) {
+                            // alert(value); //得到value
+                            layer.close(index);
+                            var ms = value;
+                            JCTBManagerService(url, {
+                                bh: bh,
+                                bm: userInfo.USERNAME,
+                                ry: userInfo.GZDW,
+                                nd: top.year,
+                                jd: top.quart,
+                                ms: ms,
+                            }, true, function (resjson) {
+                                parent.layer.close(parent.layer.loadIndex);
+                                if (resjson.indexOf("false") > -1) {
+                                    parent.layer.alert("提交争议失败");
+                                } else if (resjson.indexOf("true") > -1) {
+                                    GetAllControversialTBs();
+                                    parent.layer.alert("提交争议成功!等待上级部门处理");
+                                } else {
+                                    parent.layer.alert(resjson);
+                                }
+                            });
+                        });
+                    });
+                } else if (obj.event == "thcl") {//退回处理
+                    thclFun();
+                } else if (obj.event == "fwbc") {//发往别处
+                    fwbcFun();
+                }
+            });
+            GetPolygonClues(resjosn);
+            parent.layer.close(parent.layer.loadIndex);
+        });
+    }
+
+    function thclFun() {//退回处理
+        var bh = editData.BH;
+        layer.confirm("确定 " + bh + "退回原行政区处理", {btn: ["确认", "取消"]}, function (index) {
+            layer.close(index);
+            layer.prompt({
+                formType: 2,
+                value: '',
+                title: '请输入处理描述',
+                area: ['500px', '350px'] //自定义文本域宽高
+            }, function (value, index, elem) {
+                // alert(value); //得到value
+                layer.close(index);
+                var ms = value;
+                JCTBManagerService("/ProcessControversialTB", {
+                    bh: bh,
+                    bm: userInfo.USERNAME,
+                    ry: userInfo.GZDW,
+                    nd: top.year,
+                    jd: top.quart,
+                    ms: ms,
+                }, true, function (resjson) {
+                    parent.layer.close(parent.layer.loadIndex);
+                    if (resjson.indexOf("false") > -1) {
+                        parent.layer.alert("处理争议失败");
+                    } else if (resjson.indexOf("true") > -1) {
+                        GetAllControversialTBs();
+                        parent.layer.alert("处理争议成功!");
+                    } else {
+                        parent.layer.alert(resjson);
+                    }
+                    _mapObject.removeOverlay(marker);
+                });
+            });
+        });
+    }
+
+    function fwbcFun() {//发往别处
+        $(".xzqSearchBox").show();
+    }
+
+    function getZYStateByData(data) {//查询当前争议处理的状态
+        var state = "";
+        var ctype = data.CTYPE;
+        var tosmc = data.TSMC;
+        var toxmc = data.TXMC;
+        if (ctype == "2") {
+            if (tosmc) {
+                state = "已处理，判定到" + tosmc + toxmc;
+            } else {
+                state = "县级提交，待处理";
+            }
+        } else if (ctype == "4") {
+            if (tosmc) {
+                state = "已处理，判定到" + tosmc;
+            } else {
+                state = "市级提交，待处理";
+            }
+        } else if (ctype == "1") {
+            if (tosmc) {
+                state = "市级处理，判定到" + tosmc + toxmc;
+            } else {
+                state = "已处理，市级退回，按原图斑处理";
+            }
+        } else if (ctype == "3") {
+            if (tosmc) {
+                state = "省级处理，判定到" + tosmc + toxmc;
+            } else {
+                state = "已处理，省级退回，按原图斑处理";
+            }
+        }
+        return state;
+    }
+
+    layui.use(['form', 'element', 'laydate', 'table', 'slider', 'ljfBase', 'serverCenter', 'LayerManager', 'NULayer', 'bluebird'], function () {
+        $("body").attr('class', $("body", parent.document).attr('class'));
+        $(".niceScroll").niceScroll({cursorborder: "", cursorcolor: "#297FBA", boxzoom: false});
+        layuiform = layui.form;
+        layuitable = layui.table;
+        slider = layui.slider;
+        ljfBase = layui.ljfBase;
+        var xml2json = layui.xml2json;
+        var serverCenter = layui.serverCenter;
+        var LayerManager = layui.LayerManager;
+        var NULayer = layui.NULayer;
+        var url = ljfBase.https.BaseMapConfigManagerService + "/GetAllBaseMapConfig";
+        ljfBase.post(url, {userid: sessionStorage.sprid}, function (res) {
+            var baseMapConfig = JSON.parse(res)[0];
+            var center = [];
+            center.push(baseMapConfig.CENTERX);
+            center.push(baseMapConfig.CENTERY);
+            center = [114.48, 38.03];
+            layerManager = new LayerManager("map", center, 12);
+            ljfBase.post(ljfBase.https.BaseMapManagerService + "/GetAllBaseMap", {sprid: sessionStorage.sprid}, function (xml) {
+                var resArr = $.parseJSON(xml);
+                layerManager.loadBaseMap(resArr, "矢量");
+                $('.maptab ul li').click(function () {
+                    $('.maptab ul li').removeClass("active");
+                    $(this).addClass("active");
+                    var type = $(this).find('a').attr('type');
+                    layerManager.hideBaseMap();
+                    layerManager.loadBaseMap(resArr, type);
+                });
+                initdlfx();
+            });
+            initMapQuery();
+            _mapObject.on('click', function (evt) {
+                var mapZoom = _mapObject.getView().getZoom();
+                var mapCenter = _mapObject.getView().getCenter();
+                var layername = "";
+                var feature = _mapObject.forEachFeatureAtPixel(evt.pixel,
+                    function (feature) {
+                        return feature;
+                    }, {
+                        layerFilter: function (layer) {
+                            if (layer.get('name') == "采集的面信息") {
+//		                		layername = "采集的面信息";
+                                return layer.get('name') === '采集的面信息';
+                            }
+                        }
+                    }
+                );
+                if (feature) {
+                    showFeatureInfo(feature);
+                    var BH = feature.get('BH');
+                    $("#DLBH").val(BH);
+                    layuiform.render('select');
+                }
+            });
+
+            initdlfx();
+        });
+
+        GetMyThemeByIndustry();//获取专题数据
+
+        //切换专题
+        layuiform.on('select(selectTheme)', function (res) {
+            sessionStorage.dataZTValue = res.value;//记录当前选择的专题
+            var data = res.value.split("-");
+            top.year = data[0];
+            top.quart = data[1];
+            var year = top.year;
+            var month = top.quart;
+            _year = year;
+            _quart = month;
+            GetAllControversialTBs();
+        });
+    });
+
+    function GetMyThemeByIndustry() {//获取专题数据
+        parent.layer.loadIndex = parent.layer.load(0, {shade: 0.1});
+        ResourceManagerService("/GetMyThemeByIndustry2", {'sprid': "sysadmin"}, true, function (resjson) {
+            if (resjson.indexOf("false") > -1) {
+                parent.layer.alert("未查询到结果!");
+                parent.layer.close(parent.layer.loadIndex);
+                var resjosn = [];
+            } else {
+                var resjosn = $.parseJSON(resjson);
+            }
+            if(resjson.length==0){
+                GetMyThemeByIndustry();
+            }
+            Industryresjosn = resjosn;
+            var str = "";
+            var showZTArr = [];
+            if (sessionStorage.showZTStr) {
+                showZTArr = sessionStorage.showZTStr.split(",");
+            }
+            for (var i = 0; i < resjosn.length; i++) {
+                var INDUSTRY = resjosn[i].INDUSTRY;
+                var RESOURCES = resjosn[i].RESOURCES;
+                if (INDUSTRY == "专项数据") {
+                    for (var j = 0; j < RESOURCES.length; j++) {
+                        var THEMENAME = RESOURCES[j].THEMENAME;
+                        var THEMEID = RESOURCES[j].THEMEID;
+                        if ($.inArray(THEMEID, showZTArr) > -1) {
+                            str += "<option value=\"" + RESOURCES[j].ND + "-" + RESOURCES[j].JD + "\">" + THEMENAME + "</option>"
+                        }
+                    }
+                }
+            }
+            $(".selectTheme").html(str);
+            layuiform.render();
+            if ($(".selectTheme").val()) {
+                if (sessionStorage.dataZTValue) {
+                    $(".selectTheme").val(sessionStorage.dataZTValue);
+                    layuiform.render();
+                }
+                var selectThemeVal = $(".selectTheme").val().split("-");
+                top.year = selectThemeVal[0];
+                top.quart = selectThemeVal[1];
+
+                var year = top.year;
+                var month = top.quart;
+                _year = year;
+                _quart = month;
+                // StatisticTBInfobyCity();
+                GetAllControversialTBs();
+                $("#export,#export1,#export2,#export3").removeClass('layui-btn-disabled');
+                $("#export,#export1,#export2,#export3").attr('disabled', false);
+            }
+            parent.layer.close(parent.layer.loadIndex);
+        });
+
+        StatisticTBbyCity();//获取城市
+    }
+
+    function initdlfx() {
+        sourceClues = new ol.source.Vector();
+        vectorClues = new ol.layer.Vector({
+            source: sourceClues,
+            style: function (feature, resolution) {
+                var fillColor;
+                var strokeColor;
+                var data = {};
+                $.each(feature.values_, function (i, v) {
+                    data[i] = v;
+                });
+
+                var state = getZYStateByData(data);
+                if (state.indexOf("已处理") > -1) {//已处理
+                    fillColor = "rgba(26,250,41,0.5)";
+                    strokeColor = "#1afa29";
+                } else {//未处理
+                    fillColor = "rgba(226, 25, 24,0.5)";
+                    strokeColor = "#E21918";
+                }
+                return new ol.style.Style({
+                    fill: new ol.style.Fill({
+                        color: fillColor
+                    }),
+                    stroke: new ol.style.Stroke({
+                        color: strokeColor,
+                        width: 2
+                    }),
+                    image: new ol.style.Circle({
+                        radius: 7,
+                        fill: new ol.style.Fill({
+                            color: "#E21918"
+                        })
+                    })
+                });
+            },
+            zIndex: 3,
+            name: "采集的面信息"
+        });
+        _mapObject.addLayer(vectorClues);
+    }
+
+    function GetPolygonClues(resjosn) {
+        if (resjosn.length == 0) {
+            return;
+        }
+        sourceClues.clear();
+        var features = [];
+        for (var i = 0; i < resjosn.length; i++) {
+            var BH = resjosn[i].BH;
+            var ZB = resjosn[i].ZB;
+            if (ZB) {
+                var feature = maptool._wktParser.readFeature(ZB);
+                $.each(resjosn[i], function (s, k) {
+                    feature.set(s, k);
+                });
+                features.push(feature);
+            }
+        }
+        sourceClues.addFeatures(features);
+        _mapView.fit(sourceClues.getExtent(), _mapObject.getSize());
+        var zoom = _mapObject.getView().getZoom();
+        if (zoom > 17) {
+            layerManager.setZoom(17);
+        }
+        layuiform.render('select');
+    }
+
+    function showFeatureInfo(feature) {
+        var polygon = feature.getGeometry();
+        var flatCoordinates = polygon.flatCoordinates;
+        var Extent = polygon.getExtent();
+        var centerlon = (Extent[0] + Extent[2]) / 2;
+        var centerlat = (Extent[1] + Extent[3]) / 2;
+        var str = "<div id='alertinfo'>";
+
+        var data = {};
+        $.each(feature.getKeys(), function (i, v) {
+            data[v] = feature.get(v);
+        });
+        editFeature = feature;
+        editData = data;
+        str += "<div class='san'></div><div class='layui-layer-title'>详细信息</div>";
+        str += "<div class='layui-layer-content niceScroll'>";
+        str += "<table class='table table-bordered'>";
+        str += "<tr><td>监测编号:</td><td>" + data.BH + "</td></tr>";
+        str += "<tr><td>市名称:</td><td>" + data.SMC + "</td></tr>";
+        str += "<tr><td>县名称:</td><td>" + data.XMC + "</td></tr>";
+        str += "<tr><td>提交人员:</td><td>" + data.TJRY + "</td></tr>";
+        str += "<tr><td>提交单位:</td><td>" + data.TJBM + "</td></tr>";
+        str += "<tr><td>争议描述:</td><td>" + data.ZYMS + "</td></tr>";
+        str += "<tr><td>提交时间:</td><td>" + data.TJSJ + "</td></tr>";
+        str += "<tr><td>处理时间:</td><td>" + data.CLSJ + "</td></tr>";
+        str += "<tr><td>处理部门:</td><td>" + data.CLBM + "</td></tr>";
+        str += "<tr><td>处理人员:</td><td>" + data.CLRY + "</td></tr>";
+        str += "<tr><td>处理描述:</td><td>" + data.ZYCL + "</td></tr>";
+        str += "<tr><td>处理状态:</td><td>" + getZYStateByData(data) + "</td></tr>";
+        str += "</table>";
+        str += "</div>";
+        str += "<i id='closeAlertInfo' class='layui-icon layui-icon-close'></i>";
+
+        //判断是否有权限操作
+        if (isPowerByCTYPE(data.CTYPE, data.TSMC)) {
+            str += "<div class=\"editBox\">\n" +
+                "        <div onclick='thclFun()' class=\"layui-btn layui-btn-sm layui-btn-warm editAttrBtn\">退回处理</div>\n" +
+                "        <div onclick='fwbcFun()' class=\"layui-btn layui-btn-sm saveNodeBtn\">分往别处</div>\n" +
+                "    </div>";
+        }
+        str += "</div>";
+
+        document.getElementById("alertinfodiv").innerHTML = str;
+        if (marker) {
+            _mapObject.removeOverlay(marker);
+        }
+
+        var posi = getFeatureCenter(feature);
+        // layerManager.setCenter(posi);
+        _mapObject.getView().animate({center: posi});
+        // layerManager.setZoom(16);
+
+        marker = new ol.Overlay({
+            element: document.getElementById('alertinfo'),
+            position: [centerlon, centerlat],
+            positioning: 'left-left',
+            offset: [-35, 35]
+        });
+        _mapObject.addOverlay(marker);
+        $("#closeAlertInfo").click(function () {
+            _mapObject.removeOverlay(marker);
+        });
+//	    $(".niceScroll").niceScroll({cursorborder: "", cursorcolor: "#214868", boxzoom: false});
+    }
+</script>
+
+</html>

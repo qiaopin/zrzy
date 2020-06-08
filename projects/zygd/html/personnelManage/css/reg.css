@@ -1,0 +1,84 @@
+.area {
+	margin: 20px auto 0px auto;
+}
+
+.mui-input-group:first-child {
+	margin-top: 20px;
+}
+
+.mui-input-group label {
+	width: 40%;
+}
+
+* {
+	font-size: 0.95rem;
+}
+
+.mui-input-row label~input,
+.mui-input-row label~select,
+.mui-input-row label~textarea {
+	width: 60%;
+}
+
+.mui-checkbox input[type=checkbox],
+.mui-radio input[type=radio] {
+	top: 6px;
+}
+
+.mui-content-padded {
+	margin-top: 25px;
+}
+
+.mui-btn {
+	padding: 10px;
+}
+
+.notEmpty>label::after {
+	content: '*';
+	color: red;
+}
+
+#showCityPicker3,
+#xzmcPicker,
+#cmcPicker,
+#getPhoneCodeBtn {
+	position: absolute;
+	right: 0;
+	width: 70%;
+	opacity: 0;
+}
+
+.mui-bar {
+	height: auto;
+	padding-top: 25px;
+}
+
+body {
+	padding-top: 25px;
+}
+
+#xzjb,
+#userType,
+#sflly {
+	position: absolute;
+	left: calc(40% - 0.1025rem);
+	color: #999;
+}
+
+.gzdwList {
+	position: fixed;
+	right: 7px;
+	width: 60%;
+	top: 244px;
+	background: #fff;
+	border: 1px solid #eee;
+	max-height: 200px;
+	overflow-y: scroll;
+	z-index: 11;
+	display: none;
+}
+
+.gzdwList .gzdwParam {
+	padding: 5px;
+	border-bottom: 1px solid #eee;
+}

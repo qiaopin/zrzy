@@ -1,0 +1,601 @@
+<!DOCTYPE html>
+<html xmlns:v-bind="http://www.w3.org/1999/xhtml">
+
+<head>
+    <meta charset="UTF-8">
+    <title>基础信息</title>
+    <link rel="stylesheet" type="text/css" href="../../js/layui-v2.4.5/css/layui.css"/>
+    <link rel="stylesheet" type="text/css" href="../../js/layer/theme/default/layer.css"/>
+    <!--<link rel="stylesheet" type="text/css" href="../../css/comstyle.css"/>-->
+    <link rel="stylesheet" type="text/css" href="../../css/comstyle.css"/>
+    <link rel="stylesheet" type="text/css" href="../../js/openlayers/ol.css"/>
+    <link rel="stylesheet" type="text/css" href="../../css/monitorAnalysis.css"/>
+    <link rel="stylesheet" type="text/css" href="../../css/jcxx.css"/>
+    <style>
+        .right .top {
+            height: calc(100% - 40px);
+            margin-top: 30px;
+        }
+
+        .title_div {
+            height: 30px;
+            line-height: 30px;
+        }
+    </style>
+</head>
+
+<body class="white">
+<div id="alertinfodiv">
+
+</div>
+<div class="left">
+    <div>
+        <form class="layui-form" action="">
+            <div class="layui-form-item">
+                <div class="layui-inline">
+                    <select class="themeSelect selectTheme" name="" lay-verify="required" lay-filter="selectTheme">
+                    </select>
+                </div>
+            </div>
+        </form>
+    </div>
+
+    <div class="top">
+        <div class="title_div">
+            <span class="strong">河北省各市下发监测图斑调查情况</span>
+        </div>
+        <div class="niceScroll table1_div">
+            <table id="table1" lay-filter="table1">
+
+            </table>
+        </div>
+    </div>
+    <div class="middle">
+        <div class="title_div">
+            <span class="strong"><span class="smc"></span>各县下发监测图斑调查情况</span>
+        </div>
+        <div class="niceScroll table2_div">
+            <table id="table2" lay-filter="table2">
+
+            </table>
+        </div>
+    </div>
+</div>
+<div class="right">
+    <div class="changeMapTable">
+        <div class="showMap active">图斑列表</div>
+        <div class="showTable">数据上报</div>
+    </div>
+    <div class="top tbMap">
+        <div class="niceScroll table3_div" style="padding: 10px; height: calc(100% - 10px);">
+            <table id="table3" lay-filter="table3">
+
+            </table>
+        </div>
+    </div>
+    <div class="top tbTable">
+        <div class="title_div" style="clear:both">
+        	
+        	<span class="f-right">
+        		<i id="add" style="color: #0D7AFF; cursor: pointer;" class="layui-icon layui-icon-add-circle"></i>
+        	</span>
+        </div>
+        <div class="niceScroll table3_div">
+            <table id="table4" lay-filter="table4">
+
+            </table>
+        </div>
+    </div>
+
+</div>
+</body>
+<script type="text/html" id="barDemo">
+    <a class="layui-btn layui-btn-xs layui-btn-skyblue" lay-event="detail"></i>上传</a>
+</script>
+<script type="text/html" id="barDemo1">
+    <a class="layui-btn layui-btn-xs layui-btn-skyblue" lay-event="details"></i>详情</a>
+    <a class="layui-btn layui-btn-xs layui-btn-danger" lay-event="audit"></i>审核</a>
+    <a class="layui-btn layui-btn-xs layui-btn-skyblue" lay-event="auditDetails"></i>审核详情</a>
+</script>
+<script src="../../js/jquery1.9.0.js"></script>
+<script src="../../js/config.js"></script>
+<script src="../../js/common.js"></script>
+<script src="../../js/layer/layer.js"></script>
+<script src="../../js/layui/layui.js"></script>
+<script src="../../js/scrollbar/jquery.nicescroll.min.js"></script>
+<script src="../../js/modules/layui-config.js"></script>
+<script src="../../js/openlayers/ol-debug.js"></script>
+<script src="../../js/openlayers/maptool.js"></script>
+<script src="../../js/analysis1.js"></script>
+<script src="../../js/analysis/analysislayer.js"></script>
+<script src="../../js/analysis/initlayer.js"></script>
+<script>
+    $(".changeMapTable").on('click', 'div', function () {
+        $('.changeMapTable div').removeClass('active');
+        $(this).addClass('active');
+        if ($(this).hasClass('showMap')) {
+            $('.tbMap').show();
+        } else {
+            $('.tbMap').hide();
+        }
+        layuitable.render();
+    });
+
+
+    $(function () {
+        var userInfo = JSON.parse(sessionStorage.userInfo);
+        if (userInfo.XZJB != "省级") {
+
+        }
+    });
+
+    /**
+     * 显示底图、违法图斑、县界
+     * @type {null}
+     */
+
+    var ljfBase = null;
+    var slider = null;
+    var layuiform = null;
+    var layuitable = null;
+    var layerManager = null;
+    var Industryresjosn = [];//专题图层数组
+    var sourceClues = null;//采集的面信息
+    var vectorClues = null;//采集的面图层
+    var _mapObject, _mapView, _wktParser = null;
+    var smc = "";//市名称
+    var xmc = "";//县名称
+    var _quart = "";
+    var _year = "";
+    var selectedXZQDM;//当前选择区县的行政区代码
+
+    var userInfo = JSON.parse(sessionStorage.userInfo)[0];
+
+    layui.use(['form', 'element', 'laydate', 'table', 'slider', 'ljfBase', 'serverCenter', 'LayerManager', 'NULayer', 'bluebird'], function () {
+        $("body").attr('class', $("body", parent.document).attr('class'));
+        $(".niceScroll").niceScroll({cursorborder: "", cursorcolor: "#297FBA", boxzoom: false});
+        layuiform = layui.form;
+        layuitable = layui.table;
+        slider = layui.slider;
+        ljfBase = layui.ljfBase;
+        var xml2json = layui.xml2json;
+        var serverCenter = layui.serverCenter;
+
+
+        GetMyThemeByIndustry();//获取专题数据
+
+        //切换专题
+        layuiform.on('select(selectTheme)', function (res) {
+            sessionStorage.dataZTValue = res.value;//记录当前选择的专题
+            var data = res.value.split("-");
+            top.year = data[0];
+            top.quart = data[1];
+            var year = top.year;
+            var month = top.quart;
+            _year = year;
+            _quart = month;
+            StatisticJudgeInfobyCity();
+//	        GetAllJudgeInfos();
+        });
+    });
+
+    function GetMyThemeByIndustry() {
+        parent.layer.loadIndex = parent.layer.load(0, {shade: 0.1});
+        ResourceManagerService("/GetMyThemeByIndustry2", {'sprid': "sysadmin"}, true, function (resjson) {
+            if (resjson.indexOf("false") > -1) {
+                parent.layer.alert("未查询到结果!");
+                parent.layer.close(parent.layer.loadIndex);
+                var resjosn = [];
+            } else {
+                var resjosn = $.parseJSON(resjson);
+            }
+            if (resjson.length == 0) {
+                GetMyThemeByIndustry();
+            }
+            Industryresjosn = resjosn;
+            var str = "";
+            var showZTArr = [];
+            if (sessionStorage.showZTStr) {
+                showZTArr = sessionStorage.showZTStr.split(",");
+            }
+            for (var i = 0; i < resjosn.length; i++) {
+                var INDUSTRY = resjosn[i].INDUSTRY;
+                var RESOURCES = resjosn[i].RESOURCES;
+                if (INDUSTRY == "专项数据") {
+                    for (var j = 0; j < RESOURCES.length; j++) {
+                        var THEMENAME = RESOURCES[j].THEMENAME;
+                        var THEMEID = RESOURCES[j].THEMEID;
+                        if ($.inArray(THEMEID, showZTArr) > -1) {
+                            str += "<option value=\"" + RESOURCES[j].ND + "-" + RESOURCES[j].JD + "\">" + THEMENAME + "</option>"
+                        }
+                    }
+                }
+            }
+            $(".selectTheme").html(str);
+            layuiform.render();
+            if ($(".selectTheme").val()) {
+                if (sessionStorage.dataZTValue) {
+                    $(".selectTheme").val(sessionStorage.dataZTValue);
+                    layuiform.render();
+                }
+                var selectThemeVal = $(".selectTheme").val().split("-");
+                top.year = selectThemeVal[0];
+                top.quart = selectThemeVal[1];
+                StatisticJudgeInfobyCity();
+//	            GetAllJudgeInfos();
+            }
+            parent.layer.close(parent.layer.loadIndex);
+        });
+    }
+
+
+    //按年度季度统计所有城市违法监测审核情况
+    function StatisticJudgeInfobyCity() {
+        parent.layer.loadIndex = parent.layer.load(0, {shade: 0.1});
+        JudgeManagerService("/StatisticJudgeInfobyCity", {
+            xzqdm: sessionStorage.userXZQDM,
+            nd: top.year,
+            jd: top.quart
+        }, true, function (resjson) {
+            if (resjson.indexOf("false") > -1) {
+                parent.layer.alert("未查询到结果!");
+                parent.layer.close(parent.layer.loadIndex);
+                var resjosn = [];
+            } else {
+                var resjosn = $.parseJSON(resjson);
+            }
+            if (resjosn.length > 0) {
+                resjosn[0].LAY_CHECKED = true;
+
+            }
+            var height = $(".table1_div").height();
+            layuitable.render({
+                elem: '#table1',
+                height: height - 5,
+                page: false, //开启分页
+                limit: resjosn.length,
+                cols: [[ //表头
+                    {type: 'radio', rowspan: 2},
+                    {field: 'Name', title: '行政区名称', rowspan: 2, width: 100},
+                    {field: 'Count', title: '图斑总数', rowspan: 2},
+                    {field: 'Count', title: '其中', colspan: 3},
+                ], [
+                    {field: 'SURVEYCOUNT', title: '已调查'},
+                    {field: 'UPCOUNT', title: '已提交'},
+                    {field: 'JUDGECOUNT', title: '已审核'},
+                ]],
+                data: resjosn
+            });
+            layuitable.on('radio(table1)', function (obj) {
+                var data = obj.data;
+                var checkStatus = layuitable.checkStatus("table1");
+                smc = checkStatus.data[0].Name;
+                StatisticJudgeInfobyCounty(checkStatus.data[0].Name);
+            });
+            parent.layer.close(parent.layer.loadIndex);
+            var checkStatus = layuitable.checkStatus("table1");
+            if (resjosn.length > 0) {
+                smc = checkStatus.data[0].Name;
+                StatisticJudgeInfobyCounty(checkStatus.data[0].Name);
+            } else {
+                StatisticJudgeInfobyCounty("");
+            }
+        });
+    }
+
+
+    function StatisticJudgeInfobyCounty(smc) {
+        $(".smc").html(smc);
+        parent.layer.loadIndex = parent.layer.load(0, {shade: 0.1});
+        JudgeManagerService("/StatisticJudgeInfobyCounty", {
+            xzqdm: sessionStorage.userXZQDM,
+            smc: smc,
+            nd: top.year,
+            jd: top.quart
+        }, true, function (resjson) {
+            if (resjson.indexOf("false") > -1) {
+                parent.layer.alert("未查询到结果!");
+                parent.layer.close(parent.layer.loadIndex);
+                var resjosn = [];
+            } else {
+                var resjosn = $.parseJSON(resjson);
+            }
+            if (resjosn.length > 0) {
+                resjosn[0].LAY_CHECKED = true;
+
+            }
+            var height = $(".table2_div").height();
+            layuitable.render({
+                elem: '#table2',
+                height: height - 5,
+                page: false, //开启分页
+                limit: resjosn.length,
+                cols: [[ //表头
+                    {type: 'radio', rowspan: 2},
+                    {field: 'Name', title: '行政区名称', rowspan: 2, width: 100},
+                    {field: 'Count', title: '图斑总数', rowspan: 2},
+                    {field: 'Count', title: '其中', colspan: 3},
+                ], [
+                    {field: 'SURVEYCOUNT', title: '已调查'},
+                    {field: 'UPCOUNT', title: '已提交'},
+                    {field: 'JUDGECOUNT', title: '已审核'},
+                ]],
+                data: resjosn
+            });
+            layuitable.on('radio(table2)', function (obj) {
+                var data = obj.data;
+                var checkStatus = layuitable.checkStatus("table2");
+                xmc = checkStatus.data[0].Name;
+                GetAllJudgeInfos(checkStatus.data[0].XZQDM);
+            });
+            parent.layer.close(parent.layer.loadIndex);
+            var checkStatus = layuitable.checkStatus("table2");
+            if (resjosn.length > 0) {
+                xmc = checkStatus.data[0].Name;
+                GetAllJudgeInfos(checkStatus.data[0].XZQDM);
+            } else {
+                GetAllJudgeInfos("");
+            }
+        });
+    }
+
+
+    //获取审核图斑
+    function GetAllJudgeInfos(xzqdm) {
+        parent.layer.loadIndex = parent.layer.load(0, {shade: 0.1});
+        JudgeManagerService("/GetAllJudgeInfos", {xzqdm: xzqdm, nd: top.year, jd: top.quart}, true, function (resjson) {
+            var resjosn = $.parseJSON(resjson);
+            var resjosn1 = [];
+            for (var i = 0; i < resjosn.length; i++) {
+                var SubInfos = resjosn[i].SubInfos;
+                resjosn1.push(resjosn[i]);
+                for (var j = 0; j < SubInfos.length; j++) {
+                    SubInfos[j].issub = true;
+                    resjosn1.push(SubInfos[j]);
+                }
+            }
+
+
+            var height = $(".table3_div").height();
+            layuitable.render({
+                elem: '#table3',
+                height: height - 5,
+                page: false, //开启分页
+                limit: resjosn1.length,
+                cols: [[ //表头
+//	                {type: 'numbers'},
+                    {
+                        field: 'Name', title: '行政区代码', width: 100, align: 'center', templet: function (d) {
+                            if (d.issub) {
+                                return "";
+                            } else {
+                                return d.Info.XZQDM;
+                            }
+
+                        }
+                    },
+//	                {field: 'Name', title: '市名称',width:80,align:'center',templet:function(d){
+//	                	if(d.issub){
+//	                		return "";
+//	                	}else{
+//	                		return d.Info.SMC;
+//	                	}
+//	                	
+//	                }},
+//	                {field: 'Name', title: '县名称',width:80,align:'center',templet:function(d){
+//	                	if(d.issub){
+//	                		return "";
+//	                	}else{
+//	                		return d.Info.XMC;
+//	                	}
+//	                	
+//	                }},
+                    {
+                        field: 'Name', title: '监测编号', width: 230, templet: function (d) {
+                            if (d.issub) {
+                                return d.BH;
+                            } else {
+                                return d.Info.BH;
+                            }
+
+                        }
+                    },
+                    {
+                        field: 'Name', title: '监测图斑类型', templet: function (d) {
+                            if (d.issub) {
+                                return "";
+                            } else {
+                                return d.Info.JCTBLX;
+                            }
+
+                        }
+                    },
+                    {
+                        field: 'Name', title: '监测面积', templet: function (d) {
+                            if (d.issub) {
+                                return d.JCMJ;
+                            } else {
+                                return d.Info.JCMJ;
+                            }
+
+                        }
+                    },
+                    {
+                        field: 'Name', title: '耕地面积', templet: function (d) {
+                            if (d.issub) {
+                                return d.GDMJ;
+                            } else {
+                                return d.Info.GDMJ;
+                            }
+                        }
+                    },
+                    {
+                        field: 'Name', title: '合法性判定结果', templet: function (d) {
+                            if (d.issub) {
+                                return d.TBLX;
+                            } else {
+                                return d.Info.TBLX;
+                            }
+
+                        }
+                    },
+//	                {field: 'Name', title: '年份',templet:function(d){
+//	                	return d.Info.ND;
+//	                }},
+                    {
+                        field: 'Name', title: '拍照情况', align: 'center', width: 90, templet: function (d) {
+                            if (d.issub) {
+                                return "";
+                            } else {
+                                if (d.Photo) {
+                                    return '已拍照';
+                                } else {
+                                    return '未拍照';
+                                }
+                            }
+
+
+                        }
+                    },
+                    {
+                        field: 'Name', title: '审核情况', templet: function (d) {
+                            if (d.Audit == 0) {
+                                return "未审核";
+                            } else if (d.Audit == 2) {
+                                return "通过县审核";
+                            } else if (d.Audit == 4) {
+                                return "县、市审核通过";
+                            } else if (d.Audit == 6) {
+                                return "县、市、省审核通过";
+                            } else if (d.Audit == 5) {
+                                return "省未通过审核，县、市审核通过";
+                            } else if (d.Audit == 3) {
+                                return "县审核通过，市审核未通过";
+                            } else if (d.Audit == 1) {
+                                return "县审核未通过";
+                            }
+                        }
+                    },
+                    {
+                        field: 'UPCOUNT', title: '操作', align: 'center', width: 170, templet: function (d) {
+                            if (d.issub) {
+                                return "";
+                            } else {
+                                if (d.OnlyRead) {
+                                    return '<a class="layui-btn layui-btn-xs layui-btn-skyblue" lay-event="look"></i>查看</a><a class="layui-btn layui-btn-xs layui-btn-skyblue" lay-event="Phoho"></i>图斑分析</a>';
+                                } else {
+                                    // return '<a class="layui-btn layui-btn-xs layui-btn-danger" lay-event="decide"></i>判定</a><a class="layui-btn layui-btn-xs layui-btn-skyblue" lay-event="Phoho"></i>图斑分析</a>';
+                                    return '<a class="layui-btn layui-btn-xs layui-btn-danger" lay-event="decide"></i>判定</a>' +
+                                        '<a class="layui-btn layui-btn-xs layui-btn-skyblue" lay-event="Phoho"></i>图斑分析</a>' +
+                                        '<a class="layui-btn layui-btn-xs layui-btn-skyblue" lay-event="sh"></i>审核</a>';
+                                }
+                            }
+
+                        }
+                    },
+                ]],
+                data: resjosn1
+            });
+            layuitable.on('tool(table3)', function (obj) {
+                if (obj.event === 'Phoho') {
+                    layer.data = obj.data;
+                    layer.openIndex = layer.open({
+                        type: 2,
+                        title: false,
+                        closeBtn: 0, //不显示关闭按钮
+                        shade: [0],
+                        skin: 'layui-layer-lan',
+                        area: ['100%', '100%'],
+                        anim: 2,//弹出动画
+                        shade: 0.2,//遮盖层
+                        content: ['Phoho.html', 'no'], //这里content是一个普通的String
+                    });
+
+                } else if (obj.event === 'decide') {
+                    layer.data = obj.data;
+                    layer.openIndex = layer.open({
+                        type: 2,
+                        title: false,
+                        closeBtn: 0, //不显示关闭按钮
+                        shade: [0],
+                        skin: 'layui-layer-lan',
+                        area: ['100%', '100%'],
+                        anim: 2,//弹出动画
+                        shade: 0.2,//遮盖层
+                        content: ['decide.html', 'no'], //这里content是一个普通的String
+                    });
+                } else if (obj.event === 'sh') {//审核
+                    var data = obj.data.Info;
+                    layer.confirm("确认审核结果", {btn: ["通过(提交）", "不通过(退回)"]}, function (index) {
+                        layer.close(index);//审核
+                        managerSH(data, true);//审核通过
+                    }, function (index) {
+                        layer.close(index);//退回
+                        managerSH(data, false);//审核不通过
+                    });
+                }
+            });
+            parent.layer.close(parent.layer.loadIndex);
+
+        });
+    }
+
+    function managerSH(data, type) {//审核
+        var shjg;
+        var msg = "提交";
+        if (type) {
+            msg = "提交";
+            shjg = "通过";
+        } else {
+            msg = "退回";
+            shjg = "不通过";
+        }
+        var url = "/JCTBAudit";
+        $.ajax({
+            type: 'post',
+            url: "http://110.249.159.46:8089/gtkjghTest/JCTBManagerService.asmx" + url,
+            dataType: "text", //返回文本
+            jsonp: "jsonp", //传递给请求处理程序或页面的，用以获得jsonp回调函数名的参数名(默认为:callback)
+            data: {
+                xzqdm: userInfo.XZQDM,
+                ry: userInfo.USERNAME,
+                shjg: shjg,
+                shyj: msg,
+                bh: data.BH,
+                nd: data.ND,
+                jd: data.JD
+            },
+            success: function (xml) {
+                var resjson = $(xml).text();
+                if (resjson.indexOf("false") > -1) {
+                    parent.layer.alert("提交失败!");
+                } else {
+                    parent.layer.msg("成功" + msg);
+                    StatisticJudgeInfobyCity();
+                }
+            },
+            error: function () {
+                layer.close(loadIndex);
+                alert('提交失败');
+            }
+        })
+    }
+
+    $("#add").click(function () {
+
+        layer.openIndex = layer.open({
+            type: 2,
+            title: false,
+            closeBtn: 0, //不显示关闭按钮
+            shade: [0],
+            skin: 'layui-layer-lan',
+            area: ['100%', '100%'],
+            anim: 2,//弹出动画
+            shade: 0.2,//遮盖层
+            content: ['demo.html', 'no'], //这里content是一个普通的String
+        });
+    })
+
+</script>
+
+</html>

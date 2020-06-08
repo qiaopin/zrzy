@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>演示视频</title>
+</head>
+<body>
+<ul>
+    <li><a href="javascript:">调查表填报说明.pdf</a></li>
+    <li><a href="javascript:">关于“按村批量提交”功能的操作说明.pdf</a></li>
+    <li><a href="javascript:">报表输出说明.pdf</a></li>
+    <li><a href="javascript:">“国土所”、“乡镇”用户数据操作说明.pdf</a></li>
+    <li><a href="javascript:">关于“县级”用户【统计输出】功能的说明.pdf</a></li>
+    <li>手机端：</li>
+    <li><a href="javascript:">手机-注册和补充账户.mp4</a></li>
+    <li><a href="javascript:">手机-调查员删除图斑.mp4</a></li>
+    <li><a href="javascript:">手机-调查员新增图斑.mp4</a></li>
+    <li><a href="javascript:">手机--村两委用户管理端.mp4</a></li>
+    <li><a href="javascript:">手机--村两委用户调查端.mp4</a></li>
+    <li><a href="javascript:">手机--国土所县市省用户.mp4</a></li>
+    <li>电脑桌面端：</li>
+    <li><a href="javascript:">登记信息填写规则.mp4</a></li>
+    <li><a href="javascript:">桌面-调查员操作.mp4</a></li>
+    <li><a href="javascript:">桌面-村两委用户操作.mp4</a></li>
+    <li><a href="javascript:">桌面-乡镇用户.mp4</a></li>
+    <li><a href="javascript:">桌面-国土所用户.mp4</a></li>
+    <li><a href="javascript:">桌面端--县用户操作.mp4</a></li>
+    <li><a href="javascript:">桌面端-市省用户操作.mp4</a></li>
+</ul>
+</body>
+<script src="../js/jquery-2.1.0.js"></script>
+<script>
+    $("a").click(function () {
+        var url = sessionStorage.baseUrl + "video/" + $(this).html();
+        window.open(url);
+    })
+</script>
+</html>

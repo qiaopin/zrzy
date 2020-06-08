@@ -1,0 +1,1130 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" readonly="true" id="2cb8e9b8-84c6-4506-b79e-e8c58cb0ad54" name="Default" comment="">
+      <change beforePath="$PROJECT_DIR$/html/homepage.html" beforeDir="false" afterPath="$PROJECT_DIR$/html/homepage.html" afterDir="false" />
+    </list>
+    <ignored path="$PROJECT_DIR$/.tmp/" />
+    <ignored path="$PROJECT_DIR$/temp/" />
+    <ignored path="$PROJECT_DIR$/tmp/" />
+    <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
+    <option name="TRACKING_ENABLED" value="true" />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileEditorManager">
+    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
+      <file leaf-file-name="homepage.html" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/html/homepage.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="308">
+              <caret line="14" column="32" lean-forward="true" selection-start-line="14" selection-start-column="32" selection-end-line="14" selection-end-column="32" />
+              <folding>
+                <element signature="n#style#0;n#div#1;n#div#1;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="lookdata.css" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/css/lookdata.css">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="3586">
+              <caret line="163" column="1" lean-forward="true" selection-start-line="149" selection-end-line="163" selection-end-column="1" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="personnelManage.html" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/html/cewfzr/personnelManage.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="-2838" />
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="dataExamine.html" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/html/cewfzr/dataExamine.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="220">
+              <caret line="10" column="63" lean-forward="true" selection-start-line="10" selection-start-column="59" selection-end-line="10" selection-end-column="67" />
+              <folding>
+                <element signature="n#style#0;n#li#2;n#ul#0;n#div#2;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="apicture.css" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/css/apicture.css">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="293">
+              <caret line="727" column="1" lean-forward="true" selection-start-line="698" selection-end-line="727" selection-end-column="1" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="tool_icon.png" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/images/tool_icon.png">
+          <provider selected="true" editor-type-id="images" />
+        </entry>
+      </file>
+      <file leaf-file-name="comstyle.css" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/css/comstyle.css">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="169">
+              <caret line="9" column="61" selection-start-line="9" selection-start-column="61" selection-end-line="9" selection-end-column="61" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="maptool.js" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/js/openlayers/maptool.js">
+          <provider selected="true" editor-type-id="text-editor" />
+        </entry>
+      </file>
+      <file leaf-file-name="head_bg.jpg" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/images/head_bg.jpg">
+          <provider selected="true" editor-type-id="images" />
+        </entry>
+      </file>
+    </leaf>
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="CSS File" />
+        <option value="JavaScript File" />
+        <option value="HTML File" />
+      </list>
+    </option>
+  </component>
+  <component name="FindInProjectRecents">
+    <findStrings>
+      <find>showAllAreaByCity</find>
+      <find>editNode</find>
+      <find>export6</find>
+      <find>GetCountyCityZb</find>
+      <find>缺少县界</find>
+      <find>GetCityZbByCityName</find>
+      <find>getXianFeature</find>
+      <find>zbIsInXianArea</find>
+      <find>选择位置</find>
+      <find>editZB</find>
+      <find>obj.event === 'editZB'</find>
+      <find>myexplorer()</find>
+      <find>NewsPictureUpload</find>
+      <find>导出</find>
+      <find>export</find>
+      <find>&quot;#export&quot;</find>
+      <find>export1</find>
+      <find>Polygon</find>
+      <find>http://110.249.159.46:8089/jcfxTest/nav.html</find>
+      <find>http://110.249.159.46:8089/jcfxTest</find>
+      <find>gtkjghTest</find>
+      <find>GTKJGH/</find>
+      <find>按乡镇导出花名册</find>
+      <find>mapTool</find>
+      <find>maptab</find>
+      <find>.maptool</find>
+      <find>.tool-bar</find>
+      <find>.maptab</find>
+      <find>maptool</find>
+      <find>_vector</find>
+    </findStrings>
+    <replaceStrings>
+      <replace>top.quart</replace>
+      <replace>mui.toast</replace>
+      <replace>layerManager = new LayerManager(&quot;map&quot;, center, 12);</replace>
+      <replace>mui.alert</replace>
+      <replace>导出统计表</replace>
+      <replace>data.</replace>
+      <replace>hecked: &quot;&quot;,</replace>
+      <replace />
+      <replace>layer.load</replace>
+      <replace>localstorage</replace>
+      <replace>localStorage.navUrl</replace>
+      <replace>gtkjghTest</replace>
+      <replace>gtkjghTest/</replace>
+    </replaceStrings>
+  </component>
+  <component name="IdeDocumentHistory">
+    <option name="CHANGED_PATHS">
+      <list>
+        <option value="$PROJECT_DIR$/html/xzdzfzr/复制 dataExamine统计保留.html" />
+        <option value="$PROJECT_DIR$/html/cewfzr/index.html" />
+        <option value="$PROJECT_DIR$/html/dcy/index.html" />
+        <option value="$PROJECT_DIR$/html/gtsfzr/index.html" />
+        <option value="$PROJECT_DIR$/html/xzdzfzr/index.html" />
+        <option value="$PROJECT_DIR$/html/sjfzr/index.html" />
+        <option value="$PROJECT_DIR$/html/cewfzr/edit.html" />
+        <option value="$PROJECT_DIR$/html/videoShow.html" />
+        <option value="$PROJECT_DIR$/html/dcy/inputData.html" />
+        <option value="$PROJECT_DIR$/html/cewfzr/inputData.html" />
+        <option value="$PROJECT_DIR$/html/gtsfzr/inputData.html" />
+        <option value="$PROJECT_DIR$/html/xzdzfzr/inputData.html" />
+        <option value="$PROJECT_DIR$/html/stfzr/index.html" />
+        <option value="$PROJECT_DIR$/html/xjfzr/index.html" />
+        <option value="$PROJECT_DIR$/html/xzdzfzr/dataBrowse.html" />
+        <option value="$PROJECT_DIR$/html/dataReview/exportCols.html" />
+        <option value="$PROJECT_DIR$/html/dataReview/startReview.html" />
+        <option value="$PROJECT_DIR$/html/dataReview/changeTab.html" />
+        <option value="$PROJECT_DIR$/html/stfzr/condition.html" />
+        <option value="$PROJECT_DIR$/html/dataReview/myReview.html" />
+        <option value="$PROJECT_DIR$/html/gtsfzr/changeTab.html" />
+        <option value="$PROJECT_DIR$/html/gtsfzr/exported.html" />
+        <option value="$PROJECT_DIR$/html/xzdzfzr/working.html" />
+        <option value="$PROJECT_DIR$/html/xzdzfzr/submited.html" />
+        <option value="$PROJECT_DIR$/html/xzdzfzr/dataExamine.html" />
+        <option value="$PROJECT_DIR$/html/gtsfzr/dataExamine.html" />
+        <option value="$PROJECT_DIR$/js/editBase.js" />
+        <option value="$PROJECT_DIR$/js/editAddInput.js" />
+        <option value="$PROJECT_DIR$/html/xjfzr/dataExamine.html" />
+        <option value="$PROJECT_DIR$/js/SSXstatic.js" />
+        <option value="$PROJECT_DIR$/html/xjfzr/submited.html" />
+        <option value="$PROJECT_DIR$/html/sjfzr/dataBrowse.html" />
+        <option value="$PROJECT_DIR$/html/gtsfzr/submited.html" />
+        <option value="$PROJECT_DIR$/html/gtsfzr/working.html" />
+        <option value="$PROJECT_DIR$/html/sjfzr/dataExamine.html" />
+        <option value="$PROJECT_DIR$/html/sjfzr/submited.html" />
+        <option value="$PROJECT_DIR$/html/xjfzr/working.html" />
+        <option value="$PROJECT_DIR$/html/sjfzr/working.html" />
+        <option value="$PROJECT_DIR$/html/comprehensiveQuery/index.html" />
+        <option value="$PROJECT_DIR$/html/comprehensiveQuery/exportCols.html" />
+        <option value="$PROJECT_DIR$/html/stfzr/dataExamine.html" />
+        <option value="$PROJECT_DIR$/js/common.js" />
+        <option value="$PROJECT_DIR$/html/dcy/datauploading.html" />
+        <option value="$PROJECT_DIR$/html/test.html" />
+        <option value="$PROJECT_DIR$/login.html" />
+        <option value="$PROJECT_DIR$/html/gtsfzr/dataBrowse.html" />
+        <option value="$PROJECT_DIR$/html/test1.html" />
+        <option value="$PROJECT_DIR$/js/config.js" />
+        <option value="$PROJECT_DIR$/html/xjfzr/dataBrowse.html" />
+        <option value="$PROJECT_DIR$/html/homepage.html" />
+        <option value="$PROJECT_DIR$/html/cewfzr/dataExamine.html" />
+      </list>
+    </option>
+  </component>
+  <component name="JsBuildToolGruntFileManager" detection-done="true" sorting="DEFINITION_ORDER" />
+  <component name="JsBuildToolPackageJson" detection-done="true" sorting="DEFINITION_ORDER" />
+  <component name="JsGulpfileManager">
+    <detection-done>true</detection-done>
+    <sorting>DEFINITION_ORDER</sorting>
+  </component>
+  <component name="NodePackageJsonFileManager">
+    <packageJsonPaths />
+  </component>
+  <component name="ProjectFrameBounds" extendedState="6">
+    <option name="x" value="535" />
+    <option name="y" value="10" />
+    <option name="width" value="1545" />
+    <option name="height" value="1250" />
+  </component>
+  <component name="ProjectView">
+    <navigator proportions="" version="1">
+      <autoscrollToSource ProjectPane="true" />
+      <autoscrollFromSource ProjectPane="true" />
+      <foldersAlwaysOnTop value="true" />
+    </navigator>
+    <panes>
+      <pane id="ProjectPane">
+        <subPane>
+          <expand>
+            <path>
+              <item name="sjzTest" type="b2602c69:ProjectViewProjectNode" />
+              <item name="sjzTest" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="sjzTest" type="b2602c69:ProjectViewProjectNode" />
+              <item name="sjzTest" type="462c0819:PsiDirectoryNode" />
+              <item name="css" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="sjzTest" type="b2602c69:ProjectViewProjectNode" />
+              <item name="sjzTest" type="462c0819:PsiDirectoryNode" />
+              <item name="html" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="sjzTest" type="b2602c69:ProjectViewProjectNode" />
+              <item name="sjzTest" type="462c0819:PsiDirectoryNode" />
+              <item name="html" type="462c0819:PsiDirectoryNode" />
+              <item name="cewfzr" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="sjzTest" type="b2602c69:ProjectViewProjectNode" />
+              <item name="sjzTest" type="462c0819:PsiDirectoryNode" />
+              <item name="images" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="sjzTest" type="b2602c69:ProjectViewProjectNode" />
+              <item name="sjzTest" type="462c0819:PsiDirectoryNode" />
+              <item name="js" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="sjzTest" type="b2602c69:ProjectViewProjectNode" />
+              <item name="sjzTest" type="462c0819:PsiDirectoryNode" />
+              <item name="js" type="462c0819:PsiDirectoryNode" />
+              <item name="openlayers" type="462c0819:PsiDirectoryNode" />
+            </path>
+          </expand>
+          <select />
+        </subPane>
+      </pane>
+      <pane id="Scope" />
+    </panes>
+  </component>
+  <component name="PropertiesComponent">
+    <property name="DefaultHtmlFileTemplate" value="HTML File" />
+    <property name="FileHistory.org.jetbrains.idea.svn.history.SvnHistoryProvider_flatOrder0" value="0" />
+    <property name="FileHistory.org.jetbrains.idea.svn.history.SvnHistoryProvider_flatOrder1" value="1" />
+    <property name="FileHistory.org.jetbrains.idea.svn.history.SvnHistoryProvider_flatOrder2" value="2" />
+    <property name="FileHistory.org.jetbrains.idea.svn.history.SvnHistoryProvider_flatOrder3" value="3" />
+    <property name="FileHistory.org.jetbrains.idea.svn.history.SvnHistoryProvider_flatOrder4" value="4" />
+    <property name="FileHistory.org.jetbrains.idea.svn.history.SvnHistoryProvider_flatOrder5" value="5" />
+    <property name="FileHistory.org.jetbrains.idea.svn.history.SvnHistoryProvider_flatWidth0" value="313" />
+    <property name="FileHistory.org.jetbrains.idea.svn.history.SvnHistoryProvider_flatWidth1" value="313" />
+    <property name="FileHistory.org.jetbrains.idea.svn.history.SvnHistoryProvider_flatWidth2" value="313" />
+    <property name="FileHistory.org.jetbrains.idea.svn.history.SvnHistoryProvider_flatWidth3" value="313" />
+    <property name="FileHistory.org.jetbrains.idea.svn.history.SvnHistoryProvider_flatWidth4" value="313" />
+    <property name="FileHistory.org.jetbrains.idea.svn.history.SvnHistoryProvider_flatWidth5" value="313" />
+    <property name="FileHistory.org.jetbrains.idea.svn.history.SvnHistoryProvider_treeOrder0" value="0" />
+    <property name="FileHistory.org.jetbrains.idea.svn.history.SvnHistoryProvider_treeOrder1" value="1" />
+    <property name="FileHistory.org.jetbrains.idea.svn.history.SvnHistoryProvider_treeOrder2" value="2" />
+    <property name="FileHistory.org.jetbrains.idea.svn.history.SvnHistoryProvider_treeOrder3" value="3" />
+    <property name="FileHistory.org.jetbrains.idea.svn.history.SvnHistoryProvider_treeOrder4" value="4" />
+    <property name="FileHistory.org.jetbrains.idea.svn.history.SvnHistoryProvider_treeOrder5" value="5" />
+    <property name="FileHistory.org.jetbrains.idea.svn.history.SvnHistoryProvider_treeWidth0" value="313" />
+    <property name="FileHistory.org.jetbrains.idea.svn.history.SvnHistoryProvider_treeWidth1" value="313" />
+    <property name="FileHistory.org.jetbrains.idea.svn.history.SvnHistoryProvider_treeWidth2" value="313" />
+    <property name="FileHistory.org.jetbrains.idea.svn.history.SvnHistoryProvider_treeWidth3" value="313" />
+    <property name="FileHistory.org.jetbrains.idea.svn.history.SvnHistoryProvider_treeWidth4" value="313" />
+    <property name="FileHistory.org.jetbrains.idea.svn.history.SvnHistoryProvider_treeWidth5" value="313" />
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../GYC" />
+    <property name="list.type.of.created.stylesheet" value="CSS" />
+    <property name="settings.editor.selected.configurable" value="vcs.Subversion" />
+  </component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="E:\IdeaProjects\sjzTest\html" />
+      <recent name="E:\IdeaProjects\sjzTest\html\sjfzr" />
+      <recent name="E:\IdeaProjects\sjzTest\html\xjfzr" />
+      <recent name="E:\IdeaProjects\sjzTest\html\xzdzfzr" />
+      <recent name="E:\IdeaProjects\sjzTest\html\gtsfzr" />
+    </key>
+  </component>
+  <component name="RunDashboard">
+    <option name="ruleStates">
+      <list>
+        <RuleState>
+          <option name="name" value="ConfigurationTypeDashboardGroupingRule" />
+        </RuleState>
+        <RuleState>
+          <option name="name" value="StatusDashboardGroupingRule" />
+        </RuleState>
+      </list>
+    </option>
+  </component>
+  <component name="SvnConfiguration" cleanupOnStartRun="true">
+    <configuration>C:\Users\lenovo\AppData\Roaming\Subversion</configuration>
+    <supportedVersion>125</supportedVersion>
+    <option name="FORCE_UPDATE" value="true" />
+  </component>
+  <component name="SvnFileUrlMappingImpl">
+    <option name="myMappingRoots">
+      <list>
+        <SvnCopyRootSimple>
+          <option name="myVcsRoot" value="E:\0projects\IdeaProjects\sjzTest" />
+          <option name="myCopyRoot" value="E:\0projects\IdeaProjects\sjzTest" />
+        </SvnCopyRootSimple>
+      </list>
+    </option>
+    <option name="myMoreRealMappingRoots">
+      <list>
+        <SvnCopyRootSimple>
+          <option name="myVcsRoot" value="E:\0projects\IdeaProjects\sjzTest" />
+          <option name="myCopyRoot" value="E:\0projects\IdeaProjects\sjzTest" />
+        </SvnCopyRootSimple>
+      </list>
+    </option>
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="2cb8e9b8-84c6-4506-b79e-e8c58cb0ad54" name="Default" comment="" />
+      <created>1578553526942</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1578553526942</updated>
+      <workItem from="1578553528060" duration="6721000" />
+      <workItem from="1578618602786" duration="15902000" />
+      <workItem from="1578795547553" duration="21260000" />
+      <workItem from="1578874837908" duration="13636000" />
+      <workItem from="1578902407093" duration="5247000" />
+      <workItem from="1578907744499" duration="59000" />
+      <workItem from="1578907818982" duration="7796000" />
+      <workItem from="1578961463165" duration="15841000" />
+      <workItem from="1578989249340" duration="5116000" />
+      <workItem from="1579048589962" duration="4092000" />
+      <workItem from="1579135241314" duration="6680000" />
+      <workItem from="1579242365306" duration="75000" />
+      <workItem from="1579246424705" duration="3074000" />
+      <workItem from="1579314760207" duration="1331000" />
+      <workItem from="1579413444257" duration="2078000" />
+      <workItem from="1579483909045" duration="1479000" />
+      <workItem from="1580696945197" duration="647000" />
+      <workItem from="1580719055555" duration="45000" />
+      <workItem from="1580782868890" duration="746000" />
+      <workItem from="1581128592690" duration="3125000" />
+      <workItem from="1581666960225" duration="7516000" />
+      <workItem from="1581917379247" duration="4995000" />
+      <workItem from="1582453741552" duration="43966000" />
+      <workItem from="1583046329252" duration="7291000" />
+      <workItem from="1583129123039" duration="17431000" />
+      <workItem from="1583194756352" duration="3192000" />
+      <workItem from="1583215293443" duration="445000" />
+      <workItem from="1583217459447" duration="302000" />
+      <workItem from="1583217938858" duration="12499000" />
+      <workItem from="1583284700704" duration="10532000" />
+      <workItem from="1583408157565" duration="5823000" />
+      <workItem from="1583458630470" duration="4087000" />
+      <workItem from="1583664354168" duration="912000" />
+      <workItem from="1583668783883" duration="2751000" />
+      <workItem from="1583823965086" duration="4516000" />
+      <workItem from="1583895984552" duration="1748000" />
+      <workItem from="1583914081073" duration="2546000" />
+      <workItem from="1583980614424" duration="4788000" />
+      <workItem from="1584013471589" duration="7160000" />
+      <workItem from="1584063712074" duration="6965000" />
+      <workItem from="1584154950287" duration="20011000" />
+      <workItem from="1584234101050" duration="36541000" />
+      <workItem from="1584322270168" duration="8910000" />
+      <workItem from="1584405934761" duration="15526000" />
+      <workItem from="1584440825856" duration="729000" />
+      <workItem from="1584899874843" duration="941000" />
+      <workItem from="1585011177721" duration="8192000" />
+      <workItem from="1585040804634" duration="134000" />
+      <workItem from="1585189538139" duration="5050000" />
+      <workItem from="1585272817548" duration="659000" />
+      <workItem from="1585310138974" duration="1332000" />
+      <workItem from="1585438851285" duration="787000" />
+      <workItem from="1585475314690" duration="17139000" />
+      <workItem from="1585529986768" duration="24025000" />
+      <workItem from="1585582709892" duration="7737000" />
+      <workItem from="1585615528812" duration="18321000" />
+      <workItem from="1585701571808" duration="13031000" />
+      <workItem from="1585814559281" duration="902000" />
+      <workItem from="1585839206051" duration="3759000" />
+      <workItem from="1585879623143" duration="2523000" />
+      <workItem from="1585960713006" duration="2318000" />
+      <workItem from="1585964743988" duration="4032000" />
+      <workItem from="1585987558597" duration="3481000" />
+      <workItem from="1585992842621" duration="2193000" />
+      <workItem from="1588124153408" duration="4551000" />
+      <workItem from="1588132160823" duration="405000" />
+      <workItem from="1588154387199" duration="6217000" />
+      <workItem from="1588207722802" duration="18564000" />
+      <workItem from="1588254964461" duration="627000" />
+      <workItem from="1588296954577" duration="28665000" />
+      <workItem from="1588426960308" duration="1138000" />
+      <workItem from="1588472464372" duration="1349000" />
+      <workItem from="1588733143727" duration="7578000" />
+      <workItem from="1588814991615" duration="3668000" />
+      <workItem from="1588901199519" duration="5979000" />
+      <workItem from="1588985855929" duration="7319000" />
+      <workItem from="1589254238119" duration="2954000" />
+      <workItem from="1589266294686" duration="83000" />
+      <workItem from="1589354469294" duration="18000" />
+      <workItem from="1589446397368" duration="426000" />
+      <workItem from="1589795732011" duration="1437000" />
+      <workItem from="1589797186472" duration="261000" />
+      <workItem from="1589872841170" duration="1587000" />
+      <workItem from="1589887692739" duration="29000" />
+      <workItem from="1589956754470" duration="1778000" />
+      <workItem from="1590111771524" duration="1243000" />
+      <workItem from="1590113427393" duration="5027000" />
+    </task>
+    <task id="LOCAL-00219">
+      <created>1588334992390</created>
+      <option name="number" value="00219" />
+      <option name="presentableId" value="LOCAL-00219" />
+      <option name="project" value="LOCAL" />
+      <updated>1588334992390</updated>
+    </task>
+    <task id="LOCAL-00220">
+      <created>1588336234948</created>
+      <option name="number" value="00220" />
+      <option name="presentableId" value="LOCAL-00220" />
+      <option name="project" value="LOCAL" />
+      <updated>1588336234948</updated>
+    </task>
+    <task id="LOCAL-00221">
+      <created>1588336492461</created>
+      <option name="number" value="00221" />
+      <option name="presentableId" value="LOCAL-00221" />
+      <option name="project" value="LOCAL" />
+      <updated>1588336492461</updated>
+    </task>
+    <task id="LOCAL-00222">
+      <created>1588336669522</created>
+      <option name="number" value="00222" />
+      <option name="presentableId" value="LOCAL-00222" />
+      <option name="project" value="LOCAL" />
+      <updated>1588336669522</updated>
+    </task>
+    <task id="LOCAL-00223">
+      <created>1588337255435</created>
+      <option name="number" value="00223" />
+      <option name="presentableId" value="LOCAL-00223" />
+      <option name="project" value="LOCAL" />
+      <updated>1588337255435</updated>
+    </task>
+    <task id="LOCAL-00224">
+      <created>1588337556560</created>
+      <option name="number" value="00224" />
+      <option name="presentableId" value="LOCAL-00224" />
+      <option name="project" value="LOCAL" />
+      <updated>1588337556560</updated>
+    </task>
+    <task id="LOCAL-00225">
+      <created>1588337862109</created>
+      <option name="number" value="00225" />
+      <option name="presentableId" value="LOCAL-00225" />
+      <option name="project" value="LOCAL" />
+      <updated>1588337862109</updated>
+    </task>
+    <task id="LOCAL-00226">
+      <created>1588338315948</created>
+      <option name="number" value="00226" />
+      <option name="presentableId" value="LOCAL-00226" />
+      <option name="project" value="LOCAL" />
+      <updated>1588338315948</updated>
+    </task>
+    <task id="LOCAL-00227">
+      <created>1588338378665</created>
+      <option name="number" value="00227" />
+      <option name="presentableId" value="LOCAL-00227" />
+      <option name="project" value="LOCAL" />
+      <updated>1588338378665</updated>
+    </task>
+    <task id="LOCAL-00228">
+      <created>1588338469353</created>
+      <option name="number" value="00228" />
+      <option name="presentableId" value="LOCAL-00228" />
+      <option name="project" value="LOCAL" />
+      <updated>1588338469353</updated>
+    </task>
+    <task id="LOCAL-00229">
+      <created>1588341225672</created>
+      <option name="number" value="00229" />
+      <option name="presentableId" value="LOCAL-00229" />
+      <option name="project" value="LOCAL" />
+      <updated>1588341225672</updated>
+    </task>
+    <task id="LOCAL-00230">
+      <created>1588341507221</created>
+      <option name="number" value="00230" />
+      <option name="presentableId" value="LOCAL-00230" />
+      <option name="project" value="LOCAL" />
+      <updated>1588341507221</updated>
+    </task>
+    <task id="LOCAL-00231">
+      <created>1588341644440</created>
+      <option name="number" value="00231" />
+      <option name="presentableId" value="LOCAL-00231" />
+      <option name="project" value="LOCAL" />
+      <updated>1588341644440</updated>
+    </task>
+    <task id="LOCAL-00232">
+      <created>1588341919600</created>
+      <option name="number" value="00232" />
+      <option name="presentableId" value="LOCAL-00232" />
+      <option name="project" value="LOCAL" />
+      <updated>1588341919600</updated>
+    </task>
+    <task id="LOCAL-00233">
+      <created>1588342407866</created>
+      <option name="number" value="00233" />
+      <option name="presentableId" value="LOCAL-00233" />
+      <option name="project" value="LOCAL" />
+      <updated>1588342407866</updated>
+    </task>
+    <task id="LOCAL-00234">
+      <created>1588342869363</created>
+      <option name="number" value="00234" />
+      <option name="presentableId" value="LOCAL-00234" />
+      <option name="project" value="LOCAL" />
+      <updated>1588342869363</updated>
+    </task>
+    <task id="LOCAL-00235">
+      <created>1588342966992</created>
+      <option name="number" value="00235" />
+      <option name="presentableId" value="LOCAL-00235" />
+      <option name="project" value="LOCAL" />
+      <updated>1588342966992</updated>
+    </task>
+    <task id="LOCAL-00236">
+      <created>1588343106180</created>
+      <option name="number" value="00236" />
+      <option name="presentableId" value="LOCAL-00236" />
+      <option name="project" value="LOCAL" />
+      <updated>1588343106180</updated>
+    </task>
+    <task id="LOCAL-00237">
+      <created>1588343282350</created>
+      <option name="number" value="00237" />
+      <option name="presentableId" value="LOCAL-00237" />
+      <option name="project" value="LOCAL" />
+      <updated>1588343282350</updated>
+    </task>
+    <task id="LOCAL-00238">
+      <created>1588343922853</created>
+      <option name="number" value="00238" />
+      <option name="presentableId" value="LOCAL-00238" />
+      <option name="project" value="LOCAL" />
+      <updated>1588343922853</updated>
+    </task>
+    <task id="LOCAL-00239">
+      <created>1588343970725</created>
+      <option name="number" value="00239" />
+      <option name="presentableId" value="LOCAL-00239" />
+      <option name="project" value="LOCAL" />
+      <updated>1588343970725</updated>
+    </task>
+    <task id="LOCAL-00240">
+      <created>1588427365100</created>
+      <option name="number" value="00240" />
+      <option name="presentableId" value="LOCAL-00240" />
+      <option name="project" value="LOCAL" />
+      <updated>1588427365102</updated>
+    </task>
+    <task id="LOCAL-00241">
+      <created>1588427550539</created>
+      <option name="number" value="00241" />
+      <option name="presentableId" value="LOCAL-00241" />
+      <option name="project" value="LOCAL" />
+      <updated>1588427550539</updated>
+    </task>
+    <task id="LOCAL-00242">
+      <created>1588427876822</created>
+      <option name="number" value="00242" />
+      <option name="presentableId" value="LOCAL-00242" />
+      <option name="project" value="LOCAL" />
+      <updated>1588427876823</updated>
+    </task>
+    <task id="LOCAL-00243">
+      <created>1588427990797</created>
+      <option name="number" value="00243" />
+      <option name="presentableId" value="LOCAL-00243" />
+      <option name="project" value="LOCAL" />
+      <updated>1588427990798</updated>
+    </task>
+    <task id="LOCAL-00244">
+      <created>1588746713043</created>
+      <option name="number" value="00244" />
+      <option name="presentableId" value="LOCAL-00244" />
+      <option name="project" value="LOCAL" />
+      <updated>1588746713043</updated>
+    </task>
+    <task id="LOCAL-00245">
+      <created>1588748574183</created>
+      <option name="number" value="00245" />
+      <option name="presentableId" value="LOCAL-00245" />
+      <option name="project" value="LOCAL" />
+      <updated>1588748574183</updated>
+    </task>
+    <task id="LOCAL-00246">
+      <created>1588748718279</created>
+      <option name="number" value="00246" />
+      <option name="presentableId" value="LOCAL-00246" />
+      <option name="project" value="LOCAL" />
+      <updated>1588748718279</updated>
+    </task>
+    <task id="LOCAL-00247">
+      <created>1588748879109</created>
+      <option name="number" value="00247" />
+      <option name="presentableId" value="LOCAL-00247" />
+      <option name="project" value="LOCAL" />
+      <updated>1588748879109</updated>
+    </task>
+    <task id="LOCAL-00248">
+      <created>1588749040027</created>
+      <option name="number" value="00248" />
+      <option name="presentableId" value="LOCAL-00248" />
+      <option name="project" value="LOCAL" />
+      <updated>1588749040027</updated>
+    </task>
+    <task id="LOCAL-00249">
+      <created>1588749633036</created>
+      <option name="number" value="00249" />
+      <option name="presentableId" value="LOCAL-00249" />
+      <option name="project" value="LOCAL" />
+      <updated>1588749633036</updated>
+    </task>
+    <task id="LOCAL-00250">
+      <created>1588765146194</created>
+      <option name="number" value="00250" />
+      <option name="presentableId" value="LOCAL-00250" />
+      <option name="project" value="LOCAL" />
+      <updated>1588765146194</updated>
+    </task>
+    <task id="LOCAL-00251">
+      <created>1588765851167</created>
+      <option name="number" value="00251" />
+      <option name="presentableId" value="LOCAL-00251" />
+      <option name="project" value="LOCAL" />
+      <updated>1588765851167</updated>
+    </task>
+    <task id="LOCAL-00252">
+      <created>1588765998384</created>
+      <option name="number" value="00252" />
+      <option name="presentableId" value="LOCAL-00252" />
+      <option name="project" value="LOCAL" />
+      <updated>1588765998384</updated>
+    </task>
+    <task id="LOCAL-00253">
+      <created>1588766265143</created>
+      <option name="number" value="00253" />
+      <option name="presentableId" value="LOCAL-00253" />
+      <option name="project" value="LOCAL" />
+      <updated>1588766265143</updated>
+    </task>
+    <task id="LOCAL-00254">
+      <created>1588766820208</created>
+      <option name="number" value="00254" />
+      <option name="presentableId" value="LOCAL-00254" />
+      <option name="project" value="LOCAL" />
+      <updated>1588766820208</updated>
+    </task>
+    <task id="LOCAL-00255">
+      <created>1588831886725</created>
+      <option name="number" value="00255" />
+      <option name="presentableId" value="LOCAL-00255" />
+      <option name="project" value="LOCAL" />
+      <updated>1588831886725</updated>
+    </task>
+    <task id="LOCAL-00256">
+      <created>1588902336873</created>
+      <option name="number" value="00256" />
+      <option name="presentableId" value="LOCAL-00256" />
+      <option name="project" value="LOCAL" />
+      <updated>1588902336874</updated>
+    </task>
+    <task id="LOCAL-00257">
+      <created>1588905158387</created>
+      <option name="number" value="00257" />
+      <option name="presentableId" value="LOCAL-00257" />
+      <option name="project" value="LOCAL" />
+      <updated>1588905158387</updated>
+    </task>
+    <task id="LOCAL-00258">
+      <created>1588905280581</created>
+      <option name="number" value="00258" />
+      <option name="presentableId" value="LOCAL-00258" />
+      <option name="project" value="LOCAL" />
+      <updated>1588905280581</updated>
+    </task>
+    <task id="LOCAL-00259">
+      <created>1588912741966</created>
+      <option name="number" value="00259" />
+      <option name="presentableId" value="LOCAL-00259" />
+      <option name="project" value="LOCAL" />
+      <updated>1588912741966</updated>
+    </task>
+    <task id="LOCAL-00260">
+      <created>1588920198158</created>
+      <option name="number" value="00260" />
+      <option name="presentableId" value="LOCAL-00260" />
+      <option name="project" value="LOCAL" />
+      <updated>1588920198158</updated>
+    </task>
+    <task id="LOCAL-00261">
+      <created>1589001909884</created>
+      <option name="number" value="00261" />
+      <option name="presentableId" value="LOCAL-00261" />
+      <option name="project" value="LOCAL" />
+      <updated>1589001909885</updated>
+    </task>
+    <task id="LOCAL-00262">
+      <created>1589002486369</created>
+      <option name="number" value="00262" />
+      <option name="presentableId" value="LOCAL-00262" />
+      <option name="project" value="LOCAL" />
+      <updated>1589002486369</updated>
+    </task>
+    <task id="LOCAL-00263">
+      <created>1589015127898</created>
+      <option name="number" value="00263" />
+      <option name="presentableId" value="LOCAL-00263" />
+      <option name="project" value="LOCAL" />
+      <updated>1589015127898</updated>
+    </task>
+    <task id="LOCAL-00264">
+      <created>1589255108730</created>
+      <option name="number" value="00264" />
+      <option name="presentableId" value="LOCAL-00264" />
+      <option name="project" value="LOCAL" />
+      <updated>1589255108731</updated>
+    </task>
+    <task id="LOCAL-00265">
+      <created>1589263533727</created>
+      <option name="number" value="00265" />
+      <option name="presentableId" value="LOCAL-00265" />
+      <option name="project" value="LOCAL" />
+      <updated>1589263533727</updated>
+    </task>
+    <task id="LOCAL-00266">
+      <created>1589266344032</created>
+      <option name="number" value="00266" />
+      <option name="presentableId" value="LOCAL-00266" />
+      <option name="project" value="LOCAL" />
+      <updated>1589266344032</updated>
+    </task>
+    <task id="LOCAL-00267">
+      <created>1589873242185</created>
+      <option name="number" value="00267" />
+      <option name="presentableId" value="LOCAL-00267" />
+      <option name="project" value="LOCAL" />
+      <updated>1589873242185</updated>
+    </task>
+    <option name="localTasksCounter" value="268" />
+    <servers />
+  </component>
+  <component name="TimeTrackingManager">
+    <option name="totallyTimeSpent" value="563591000" />
+  </component>
+  <component name="ToolWindowManager">
+    <frame x="-7" y="-7" width="1550" height="838" extended-state="6" />
+    <editor active="true" />
+    <layout>
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.16116248" />
+      <window_info anchor="bottom" id="TODO" order="6" />
+      <window_info anchor="bottom" id="Docker" order="7" show_stripe_button="false" />
+      <window_info anchor="bottom" id="Event Log" order="7" side_tool="true" />
+      <window_info anchor="bottom" id="Find" order="1" />
+      <window_info anchor="bottom" id="Version Control" order="7" weight="0.27635327" />
+      <window_info anchor="bottom" id="Run" order="2" />
+      <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
+      <window_info anchor="bottom" id="Terminal" order="7" />
+      <window_info id="Favorites" order="2" side_tool="true" />
+      <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
+      <window_info anchor="bottom" id="SVN Repositories" order="7" weight="0.25718194" />
+      <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
+      <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
+      <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
+      <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
+      <window_info active="true" anchor="bottom" id="Messages" order="7" visible="true" weight="0.23172414" />
+      <window_info anchor="bottom" id="Message" order="0" />
+      <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
+    </layout>
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="1" />
+  </component>
+  <component name="VcsContentAnnotationSettings">
+    <option name="myLimit" value="2678400000" />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <option name="LAST_COMMIT_MESSAGE" value="" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <option name="time" value="1" />
+    </breakpoint-manager>
+  </component>
+  <component name="editorHistoryManager">
+    <entry file="file://$PROJECT_DIR$/html/xjfzr/img.html">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/html/xjfzr/index.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="229">
+          <caret line="247" column="40" lean-forward="true" selection-start-line="247" selection-start-column="40" selection-end-line="247" selection-end-column="40" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/html/xjfzr/personnelManage.html">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/html/sjfzr/condition.html">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/html/xzdzfzr/submited.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="256">
+          <caret line="217" lean-forward="true" selection-start-line="217" selection-end-line="217" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/js/SSXstatic.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="188">
+          <caret line="14" column="12" selection-start-line="14" selection-start-column="4" selection-end-line="14" selection-end-column="12" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/html/xjfzr/submited.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="207">
+          <caret line="306" column="28" selection-start-line="306" selection-start-column="20" selection-end-line="306" selection-end-column="28" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/html/gtsfzr/personnelManage.html">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/html/gtsfzr/submited.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="427">
+          <caret line="213" column="37" lean-forward="true" selection-start-line="213" selection-start-column="37" selection-end-line="213" selection-end-column="37" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/html/sjfzr/dataBrowse.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="141">
+          <caret line="465" column="25" lean-forward="true" selection-start-line="465" selection-start-column="25" selection-end-line="465" selection-end-column="25" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/html/gtsfzr/working.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="73">
+          <caret line="188" column="21" lean-forward="true" selection-start-line="188" selection-start-column="21" selection-end-line="188" selection-end-column="21" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/html/sjfzr/dataExamine.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="168">
+          <caret line="84" column="39" lean-forward="true" selection-start-line="84" selection-start-column="39" selection-end-line="84" selection-end-column="39" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/html/stfzr/condition.html">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/html/sjfzr/submited.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="12166">
+          <caret line="553" column="59" selection-start-line="553" selection-start-column="59" selection-end-line="553" selection-end-column="59" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/html/xjfzr/working.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="7172">
+          <caret line="326" column="24" selection-start-line="326" selection-start-column="24" selection-end-line="326" selection-end-column="24" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/html/sjfzr/working.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="6996">
+          <caret line="318" column="20" selection-start-line="318" selection-start-column="20" selection-end-line="318" selection-end-column="20" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/html/xzdzfzr/dataBrowse.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="608">
+          <caret line="786" column="28" selection-start-line="786" selection-start-column="24" selection-end-line="786" selection-end-column="32" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/html/comprehensiveQuery/exportCols.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="198">
+          <caret line="87" column="68" lean-forward="true" selection-start-line="87" selection-start-column="68" selection-end-line="87" selection-end-column="68" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/html/comprehensiveQuery/edit.html">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/html/stfzr/dataBrowse.html">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/html/stfzr/dataExamine.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="9944">
+          <caret line="452" column="20" selection-start-line="452" selection-start-column="20" selection-end-line="452" selection-end-column="20" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/html/dcy/inputData.html">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/html/dcy/index.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="124">
+          <caret line="112" column="25" lean-forward="true" selection-start-line="112" selection-start-column="25" selection-end-line="112" selection-end-column="25" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/html/dcy/img.html">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/html/dcy/edit.html">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/html/dcy/datauploading.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="9988">
+          <caret line="455" column="122" selection-start-line="455" selection-start-column="122" selection-end-line="455" selection-end-column="122" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/js/editBase.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1144">
+          <caret line="52" column="43" selection-start-line="52" selection-start-column="23" selection-end-line="52" selection-end-column="43" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/js/modules/commonJS/ljfBase.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="506">
+          <caret line="23" column="29" selection-start-line="23" selection-start-column="12" selection-end-line="23" selection-end-column="29" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/html/gtsfzr/dataBrowse.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="13002">
+          <caret line="591" column="20" selection-start-line="591" selection-start-column="20" selection-end-line="591" selection-end-column="20" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/html/test1.html" />
+    <entry file="file://$PROJECT_DIR$/html/test.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="264">
+          <caret line="28" column="25" lean-forward="true" selection-start-line="28" selection-start-column="25" selection-end-line="28" selection-end-column="25" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/js/editAddInput.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="608">
+          <caret line="313" column="38" selection-start-line="313" selection-start-column="38" selection-end-line="313" selection-end-column="38" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/js/inputDataBase.js">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/js/common.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="22770">
+          <caret line="1035" column="21" selection-start-line="1035" selection-start-column="21" selection-end-line="1035" selection-end-column="21" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/login.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="902">
+          <caret line="41" column="16" selection-start-line="41" selection-start-column="16" selection-end-line="41" selection-end-column="16" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/js/config.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="198">
+          <caret line="9" column="70" selection-start-line="9" selection-start-column="70" selection-end-line="9" selection-end-column="70" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/html/videoShow.html">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/html/xjfzr/dataExamine.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1848">
+          <caret line="84" column="7" selection-start-line="84" selection-start-column="7" selection-end-line="84" selection-end-column="7" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/html/xjfzr/dataBrowse.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="10098">
+          <caret line="459" column="23" selection-start-line="459" selection-start-column="23" selection-end-line="459" selection-end-column="23" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/html/comprehensiveQuery/index.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="15664">
+          <caret line="712" column="41" lean-forward="true" selection-start-line="712" selection-start-column="26" selection-end-line="712" selection-end-column="41" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/js/openlayers/ol.css">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/js/openlayers/ol.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state>
+          <folding>
+            <element signature="n#!!doc" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/css/lookdata.css">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="3586">
+          <caret line="163" column="1" lean-forward="true" selection-start-line="149" selection-end-line="163" selection-end-column="1" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/html/cewfzr/personnelManage.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-2838" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/html/cewfzr/dataExamine.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="220">
+          <caret line="10" column="63" lean-forward="true" selection-start-line="10" selection-start-column="59" selection-end-line="10" selection-end-column="67" />
+          <folding>
+            <element signature="n#style#0;n#li#2;n#ul#0;n#div#2;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/css/apicture.css">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="293">
+          <caret line="727" column="1" lean-forward="true" selection-start-line="698" selection-end-line="727" selection-end-column="1" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/images/tool_icon.png">
+      <provider selected="true" editor-type-id="images" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/css/comstyle.css">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="169">
+          <caret line="9" column="61" selection-start-line="9" selection-start-column="61" selection-end-line="9" selection-end-column="61" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/images/head_bg.jpg">
+      <provider selected="true" editor-type-id="images" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/js/openlayers/maptool.js">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/html/homepage.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="308">
+          <caret line="14" column="32" lean-forward="true" selection-start-line="14" selection-start-column="32" selection-end-line="14" selection-end-column="32" />
+          <folding>
+            <element signature="n#style#0;n#div#1;n#div#1;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+  </component>
+</project>

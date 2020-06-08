@@ -1,0 +1,149 @@
+.custom-mouse-position {
+    display: none;
+}
+
+.ol-attribution {
+    display: none;
+}
+
+a {
+    text-decoration: none;
+}
+
+* {
+    font-family: "微软雅黑";
+}
+
+body {
+    width: 100%;
+    height: 100%;
+}
+
+.main {
+    width: 100%;
+    margin: 0 auto;
+    height: calc(100vh);
+    position: relative;
+    overflow: hidden;
+}
+
+.left {
+    width: 150px;
+    height: 100%;
+    position: relative;
+    overflow: hidden;
+}
+
+.right {
+    width: calc(100% - 170px);
+    height: calc(100% - 20px);
+    border-bottom: 1px solid #E6E6E6;
+    position: absolute;
+    left: 150px;
+    top: 0px;
+    overflow: hidden;
+}
+
+.nav {
+    margin-top: 20px;
+    padding: 0px 30px;
+}
+
+.nav li {
+    width: 100%;
+    background: #9FBDEE;
+    color: #3566CE;
+    text-align: center;
+    margin-top: 1px;
+    height: 35px;
+    line-height: 35px;
+}
+
+.nav li.active1 {
+    height: 80px;
+    background: #2466CF;
+    color: #fff;
+    border-top-left-radius: 3px;
+    border-top-right-radius: 3px;
+}
+
+.nav li i {
+    display: block;
+    font-size: 30px;
+    height: 43px;
+    line-height: 60px;
+}
+
+.nav li:hover {
+    background: #2466CF;
+    color: #fff;
+    cursor: pointer;
+}
+
+.search {
+    height: 75px;
+    width: 100%;
+    overflow: hidden;
+}
+
+.search div {
+    height: 40px;
+    margin-top: 20px;
+    padding: 5px;
+}
+
+.search div span {
+    color: #5085D6;
+}
+
+.search div a {
+    color: #666;
+    display: inline-block;
+    width: 100px;
+    margin-left: 10px;
+    text-align: center;
+    border-radius: 3px;
+    padding: 11px 0px;
+}
+
+.search div a.active {
+    background: #2466CF;
+    color: #fff;
+}
+
+.search div a:hover {
+    background: #2466CF;
+    color: #fff;
+}
+
+.search input {
+    position: absolute;
+    color: #666;
+    right: 0px;
+    top: 0px;
+    width: 400px;
+    border-color: #2466cf !important;
+    padding: 10px 40px 10px 10px;
+    border-radius: 3px;
+}
+
+.search .layui-icon-search {
+    position: absolute;
+    right: 10px;
+    top: 7px;
+    color: #2466cf;
+    font-size: 25px;
+    cursor: pointer;
+}
+
+.tablediv {
+    height: calc(100% - 75px);
+    width: 500px;
+    float: left;
+}
+
+#map {
+    height: calc(100% - 75px);
+    width: calc(100% - 500px);
+    float: left;
+}
